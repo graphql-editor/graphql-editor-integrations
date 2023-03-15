@@ -1,0 +1,24 @@
+{
+  "name": "sandbox",
+  "private": true,
+  "version": "0.1.1",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "gecli dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gei-rest": "^0.0.10",
+    "gei-s3": "^0.0.3",
+    "gei-users": "^0.4.57",
+    "stucco-js": "^0.10.17"
+  },
+  "peerDependencies": {
+    "graphql-editor-cli": "^0.7.2"
+  }
+}

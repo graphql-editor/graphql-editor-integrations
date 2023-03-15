@@ -1,0 +1,28 @@
+
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query{
+    getFile(
+        fileKey: String!
+    ): String
+}
+
+type Mutation{
+    uploadFile(
+        fileInput: FileInput!
+    ): FileUploadResponse!
+}
+
+input FileInput{
+    filename: String!
+    contentType: String!
+}
+
+type FileUploadResponse{
+    putUrl: String!
+    fileKey: String!
+}

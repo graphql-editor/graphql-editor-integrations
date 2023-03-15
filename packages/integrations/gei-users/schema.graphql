@@ -1,0 +1,451 @@
+
+
+type Query{
+	login: LoginQuery!
+	"""
+	Check if the user is logged in from headers and return it
+	"""
+	isUser: User
+	mustBeUser: User
+	mustBeTeamMember(
+		teamId: String!
+	): UserMember!
+	team(
+		teamId: String!
+	): Team
+	showTeamInvitations(
+		status: InvitationTeamStatus!
+	): [InvitationTeamToken!]!
+	getGoogleOAuthLink(
+		setup: GetOAuthInput!
+	): String!
+	getMicrosoftOAuthLink(
+		setup: GetOAuthInput!
+	): String!
+	getGithubOAuthLink(
+		setup: GetOAuthInput!
+	): String!
+	getAppleOAuthLink(
+		setup: GetOAuthInput!
+	): String!
+	requestForForgotPassword(
+		username: String!
+	): Boolean!
+}
+
+enum MustBeTeamMemberError{
+	USER_IS_NOT_A_TEAM_MEMBER
+	TEAM_DOES_NOT_EXIST
+}
+
+type UserMember{
+	user: UserAuthType!
+	team: TeamAuthType!
+}
+
+input GetOAuthInput{
+	scopes: [String!]
+	state: String
+	redirectUri: String
+}
+
+type Mutation{
+	"""
+	user
+	"""
+	register(
+		user: RegisterInput!
+	): RegisterResponse!
+	verifyEmail(
+		verifyData: VerifyEmailInput!
+	): VerifyEmailResponse!
+	changePasswordWhenLogged(
+		changePasswordData: ChangePasswordWhenLoggedInput!
+	): ChangePasswordWhenLoggedResponse!
+	changePasswordWithToken(
+		token: ChangePasswordWithTokenInput!
+	): ChangePasswordWithTokenResponse!
+	generateInviteToken(
+		"""
+		string format mm/dd/rrrr
+		"""
+		tokenOptions: InviteTokenInput!
+	): GenerateInviteTokenResponse!
+	removeUserFromTeam(
+		data: RemoveUserFromTeamInput!
+	): RemoveUserFromTeamResponse!
+	sendInvitationToTeam(
+		invitation: SendTeamInvitationInput!
+	): SendInvitationToTeamResponse!
+	joinToTeam(
+		teamId: String!
+	): JoinToTeamResponse!
+	joinToTeamWithInvitationToken(
+		token: String!
+	): JoinToTeamWithInvitationTokenResponse!
+	createTeam(
+		teamName: String!
+	): CreateTeamResponse!
+	squashAccounts(
+		pasword: String
+	): SquashAccountsResponse!
+	integrateSocialAccount(
+		userData: SimpleUserInput!
+	): IntegrateSocialAccountResponse!
+	generateOAuthToken(
+		tokenData: GenerateOAuthTokenInput!
+	): GenerateOAuthTokenResponse!
+	editUser(
+		updatedUser: UpdateUserInput!
+	): Boolean!
+}
+
+enum VerifyEmailError{
+	TOKEN_CANNOT_BE_FOUND
+}
+
+type VerifyEmailResponse{
+	result: Boolean
+	hasError: VerifyEmailError
+}
+
+enum ChangePasswordWhenLoggedError{
+	CANNOT_CHANGE_PASSWORD_FOR_USER_REGISTERED_VIA_SOCIAL
+	OLD_PASSWORD_IS_INVALID
+	PASSWORD_WEAK
+}
+
+type ChangePasswordWhenLoggedResponse{
+	result: Boolean
+	hasError: ChangePasswordWhenLoggedError
+}
+
+enum ChangePasswordWithTokenError{
+	CANNOT_CHANGE_PASSWORD_FOR_USER_REGISTERED_VIA_SOCIAL
+	TOKEN_IS_INVALID
+	PASSWORD_IS_TOO_WEAK
+}
+
+type ChangePasswordWithTokenResponse{
+	result: Boolean
+	hasError: ChangePasswordWithTokenError
+}
+
+enum GenerateInviteTokenError{
+	YOU_ARE_NOT_THE_OWNER_OF_A_TEAM_OR_TEAM_DOES_NOT_EXIST
+}
+
+type GenerateInviteTokenResponse{
+	result: String
+	hasError: GenerateInviteTokenError
+}
+
+enum RemoveUserFromTeamError{
+	YOU_ARE_NOT_THE_OWNER_OF_A_TEAM_OR_TEAM_DOES_NOT_EXIST
+	YOU_CANNOT_KICK_YOURSELF_FROM_THE_TEAM
+	USER_NOT_FOUND
+}
+
+type RemoveUserFromTeamResponse{
+	result: Boolean
+	hasError: GenerateInviteTokenError
+}
+
+enum SendInvitationToTeamError{
+	USER_ALREADY_HAS_YOUR_INVITATION
+	YOU_CANNOT_SEND_INVITATION_TO_YOURSELF
+	USER_IS_NOT_OWNER_OF_THE_TEAM
+	CANNOT_FIND_USER
+	USERNAME_IS_TOO_AMBIGUOUS
+}
+
+type SendInvitationToTeamResponse{
+	result: Boolean
+	hasError: SendInvitationToTeamError
+}
+
+enum JoinToTeamError{
+	TEAM_INVITATION_DOES_NOT_EXIST_OR_CAPTURED
+	MEMBER_ALREADY_EXISTS_IN_THE_TEAM
+}
+
+type JoinToTeamResponse{
+	result: Boolean
+	hasError: JoinToTeamError
+}
+
+enum CreateTeamError{
+	TEAM_NOT_CREATED
+}
+
+type CreateTeamResponse{
+	result: String
+	hasError: CreateTeamError
+}
+
+enum SquashAccountsError{
+	YOU_HAVE_ONLY_ONE_ACCOUNT
+	YOUR_ACCOUNTS_DO_NOT_HAVE_CONFIRMED_EMAIL
+}
+
+type SquashAccountsResponse{
+	result: Boolean
+	hasError: SquashAccountsError
+}
+
+enum JoinToTeamWithInvitationTokenError{
+	INVITATION_TOKEN_NOT_FOUND
+	TEAM_IN_INVITATION_TOKEN_NOT_SPECIFIED
+	MEMBER_ALREADY_EXISTS_IN_THE_TEAM
+	INVITATION_TOKEN_EXPIRED
+}
+
+type JoinToTeamWithInvitationTokenResponse{
+	result: Boolean
+	hasError: JoinToTeamWithInvitationTokenError
+}
+
+enum IntegrateSocialAccountError{
+	YOU_HAVE_ONLY_ONE_ACCOUNT
+	YOUR_ACCOUNT_DOES_NOT_HANDLE_CHANGE_PASSWORD_MODE
+	INCORRECT_PASSWORD
+	CANNOT_FIND_USER
+	YOUR_ACCOUNT_DOES_NOT_HAVE_CONFIRMED_EMAIL
+}
+
+type IntegrateSocialAccountResponse{
+	result: Boolean
+	hasError: IntegrateSocialAccountError
+}
+
+enum GenerateOAuthTokenError{
+	TOKEN_NOT_GENERATED
+	CANNOT_RETRIEVE_USER_INFORMATION_FROM_APPLE
+}
+
+type GenerateOAuthTokenResponse{
+	result: String
+	hasError: GenerateOAuthTokenError
+}
+
+input RemoveUserFromTeamInput{
+	userId: String!
+	teamId: String!
+}
+
+input UpdateUserInput{
+	username: String!
+}
+
+input GenerateOAuthTokenInput{
+	social: SocialKind!
+	code: String!
+}
+
+input SimpleUserInput{
+	username: String!
+	password: String!
+}
+
+input LoginInput{
+	username: String!
+	password: String!
+}
+
+input SendTeamInvitationInput{
+	username: String!
+	teamId: String!
+}
+
+input VerifyEmailInput{
+	token: String!
+}
+
+input InviteTokenInput{
+	expires: String
+	domain: String
+	teamId: String
+}
+
+input ChangePasswordWithTokenInput{
+	username: String!
+	forgotToken: String!
+	newPassword: String!
+}
+
+input ChangePasswordWhenLoggedInput{
+	username: String!
+	oldPassword: String!
+	newPassword: String!
+}
+
+input RegisterInput{
+	username: String!
+	password: String!
+	invitationToken: String
+}
+
+type InvitationTeamToken implements Node{
+	teamId: String!
+	recipient: String!
+	status: InvitationTeamStatus!
+	_id: String!
+	teamName: String!
+}
+
+type InviteToken implements Node{
+	token: String!
+	expires: String!
+	domain: String!
+	owner: String!
+	teamId: String
+	_id: String!
+}
+
+type Team implements Node{
+	_id: String!
+	name: String!
+	owner: String
+	members: [TeamMember!]!
+}
+
+type TeamAuthType implements Node{
+	_id: String!
+	name: String!
+	owner: String
+	members: [String!]!
+}
+
+type User implements Node{
+	_id: String!
+	username: String!
+	teams: [Team!]!
+	emailConfirmed: Boolean!
+}
+
+type UserAuthType{
+	_id: String!
+	username: String!
+	teams: [String!]!
+	emailConfirmed: Boolean!
+}
+
+type Social implements Node{
+	_id: String!
+	socialId: String!
+	userId: String!
+}
+
+enum InvitationTeamStatus{
+	Waiting
+	Taken
+}
+
+type UserAuth implements Node{
+	_id: String!
+	username: String!
+	password: String
+}
+
+enum SocialKind{
+	Google
+	Github
+	Apple
+	Microsoft
+}
+
+type TeamMember implements Node{
+	_id: String!
+	username: String!
+}
+
+interface Node{
+	_id: String!
+}
+
+type LoginQuery{
+	password(
+		user: LoginInput!
+	): LoginResponse!
+	provider(
+		params: ProviderLoginInput!
+	): ProviderLoginQuery!
+	"""
+	endpoint for refreshing accessToken based on refreshToken
+	"""
+	refreshToken(
+		refreshToken: String!
+	): String!
+}
+
+input ProviderLoginInput{
+	code: String!
+}
+
+type ProviderLoginQuery{
+	apple: ProviderResponse
+	google: ProviderResponse
+	github: ProviderResponse
+	microsoft: ProviderResponse
+}
+
+enum RegisterErrors{
+	USERNAME_EXISTS
+	PASSWORD_WEAK
+	INVITE_DOMAIN_INCORRECT
+	LINK_EXPIRED
+	USERNAME_INVALID
+}
+
+enum LoginErrors{
+	CONFIRM_EMAIL_BEFOR_LOGIN
+	INVALID_LOGIN_OR_PASSWORD
+	CANNOT_FIND_CONNECTED_USER
+	YOU_PROVIDED_OTHER_METHOD_OF_LOGIN_ON_THIS_EMAIL
+	UNEXPECTED_ERROR
+}
+
+enum ProviderErrors{
+	CANNOT_RETRIVE_PROFILE_FROM_GOOGLE_TRY_REFRESH_TOKEN
+	CANNOT_FIND_EMAIL_FOR_THIS_PROFIL
+	CANNOT_RETRIVE_USER_INFORMATION_FROM_APPLE
+	CODE_IS_NOT_EXIST_IN_ARGS
+	CANNOT_RETRIVE_SUB_FIELD_FROM_JWT_TOKEN
+	CANNOT_RETRIVE_TOKEN_FROM_MICROSOFT
+}
+
+type RegisterResponse{
+	registered: Boolean
+	hasError: RegisterErrors
+}
+
+type LoginResponse{
+	"""
+	same value as accessToken, for delete in future, 
+	improvise, adapt, overcome, frontend!
+	"""
+	login: String
+	accessToken: String
+	refreshToken: String
+	hasError: LoginErrors
+}
+
+type ProviderResponse{
+	"""
+	same value as accessToken, for delete in future, 
+	improvise, adapt, overcome, frontend!
+	"""
+	jwt: String
+	accessToken: String
+	refreshToken: String
+	providerAccessToken: String
+	"""
+	field describes whether this is first login attempt for this username
+	"""
+	register: Boolean
+	hasError: ProviderErrors
+}
+schema{
+	query: Query,
+	mutation: Mutation
+}

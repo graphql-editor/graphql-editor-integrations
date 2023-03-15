@@ -1,0 +1,39 @@
+{
+  "name": "graphql-editor-integrations",
+  "version": "1.0.0",
+  "description": "monorepo for graphql-editor integrations",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run -ws build --if-present",
+    "integrate": "npm run -ws integrate --if-present",
+    "lint": "npm run -ws lint --if-present",
+    "lint:fix": "npm run lint -- -- --fix",
+    "test": "npm run -ws test --if-present"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/graphql-editor/graphql-editor-integrations.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "packages/integrations/gei-rest",
+    "packages/integrations/gei-users",
+    "packages/integrations/gei-s3"
+  ],
+  "bugs": {
+    "url": "https://github.com/graphql-editor/graphql-editor-integrations/issues"
+  },
+  "homepage": "https://github.com/graphql-editor/graphql-editor-integrations#readme",
+  "dependencies": {
+    "@types/jest": "^27.4.1",
+    "@types/node": "^18.15.3",
+    "@types/uuid": "^8.3.4",
+    "dotenv-cli": "^6.0.0",
+    "graphql-editor-cli": "^0.7.2",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.9.5"
+  }
+}

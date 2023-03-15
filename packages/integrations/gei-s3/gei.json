@@ -1,0 +1,7 @@
+{
+  "ENV": {
+    "required": ["SPACES_KEY", "SPACES_SECRET", "SPACES_BUCKET", "SPACES_REGION", "JWT_SECRET"],
+    "optional": ["SPACES_ENDPOINT"]
+  },
+  "data": {}
+}

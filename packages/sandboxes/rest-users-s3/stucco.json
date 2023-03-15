@@ -1,0 +1,444 @@
+{
+  "resolvers": {
+    "Query.gpt2": {
+      "data": {
+        "headers": {
+          "value": ["Content-Type:application/json"]
+        },
+        "passedHeaders": {
+          "value": ["Content-Type"]
+        },
+        "body": {
+          "value": "{\n \"inputs\": $input.inputs,\n \"parameters\":{\n     \"top_k\": $input.top_k,\n     \"top_p\": $input.top_p,\n     \"temperature\": $input.temperature,\n     \"repetition_penalty\": $input.repetition_penalty,\n     \"max_time\": $input.max_time,\n     \"max_new_tokens\": $input.max_new_tokens,\n     \"use_cache\": $input.use_cache,\n     \"return_full_text\": $input.return_full_text,\n     \"wait_for_model\": $input.wait_for_model\n }\n}"
+        },
+        "url": {
+          "value": "https://api-inference.huggingface.co/models/gpt2"
+        },
+        "method": {
+          "value": "POST"
+        }
+      },
+      "resolve": {
+        "name": "gei-rest@Query.restProxy"
+      },
+      "noCode": {
+        "package": "gei-rest",
+        "version": "0.0.10",
+        "resolver": "gei-rest",
+        "data": {
+          "passedHeaders": {
+            "name": "Passed headers",
+            "description": "Names of headers to pass from `/graphql` request to rest proxy",
+            "value": []
+          },
+          "headers": {
+            "name": "Request headers",
+            "description": "Insert request headers for REST in format Key:Value",
+            "value": []
+          },
+          "body": {
+            "name": "REST endpoint body",
+            "description": "REST endpoint body serialized as JSON.",
+            "value": ""
+          },
+          "url": {
+            "name": "REST endpoint",
+            "description": "REST endpoint to map to. Accepts values with $ at the beginning from the GraphQL Query.",
+            "value": "https://jsonplaceholder.typicode.com/todos/1",
+            "required": true
+          },
+          "method": {
+            "name": "method",
+            "description": "GET, POST, PUT etc.",
+            "value": "GET"
+          }
+        }
+      }
+    },
+    "Query.response": {
+      "data": {
+        "headers": {
+          "value": ["Authorization:Bearer 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", "Content-Type:application/json"]
+        },
+        "passedHeaders": {
+          "value": ["Authorization", "Content-Type"]
+        },
+        "body": {
+          "value": "\"Hello I am making Graphs,\""
+        },
+        "url": {
+          "value": "https://api-inference.huggingface.co/models/$model"
+        },
+        "method": {
+          "value": "POST"
+        }
+      },
+      "resolve": {
+        "name": "gei-rest@Query.restProxy"
+      },
+      "noCode": {
+        "package": "gei-rest",
+        "version": "0.0.10",
+        "resolver": "gei-rest",
+        "data": {
+          "passedHeaders": {
+            "name": "Passed headers",
+            "description": "Names of headers to pass from `/graphql` request to rest proxy",
+            "value": []
+          },
+          "headers": {
+            "name": "Request headers",
+            "description": "Insert request headers for REST in format Key:Value",
+            "value": []
+          },
+          "body": {
+            "name": "REST endpoint body",
+            "description": "REST endpoint body serialized as JSON.",
+            "value": ""
+          },
+          "url": {
+            "name": "REST endpoint",
+            "description": "REST endpoint to map to. Accepts values with $ at the beginning from the GraphQL Query.",
+            "value": "",
+            "required": true
+          },
+          "method": {
+            "name": "method",
+            "description": "GET, POST, PUT etc.",
+            "value": "GET"
+          }
+        }
+      }
+    },
+    "Query.bloom": {
+      "data": {
+        "headers": {
+          "value": ["Content-Type:application/json"]
+        },
+        "passedHeaders": {
+          "value": ["Content-Type"]
+        },
+        "body": {
+          "value": "{\n \"inputs\":$input.inputs\n}"
+        },
+        "url": {
+          "value": "https://api-inference.huggingface.co/models/bigscience/bloom"
+        },
+        "method": {
+          "value": "POST"
+        }
+      },
+      "resolve": {
+        "name": "gei-rest@Query.restProxy"
+      },
+      "noCode": {
+        "package": "gei-rest",
+        "version": "0.0.10",
+        "resolver": "gei-rest",
+        "data": {
+          "passedHeaders": {
+            "name": "Passed headers",
+            "description": "Names of headers to pass from `/graphql` request to rest proxy",
+            "value": []
+          },
+          "headers": {
+            "name": "Request headers",
+            "description": "Insert request headers for REST in format Key:Value",
+            "value": []
+          },
+          "body": {
+            "name": "REST endpoint body",
+            "description": "REST endpoint body serialized as JSON.",
+            "value": ""
+          },
+          "url": {
+            "name": "REST endpoint",
+            "description": "REST endpoint to map to. Accepts values with $ at the beginning from the GraphQL Query.",
+            "value": "",
+            "required": true
+          },
+          "method": {
+            "name": "method",
+            "description": "GET, POST, PUT etc.",
+            "value": "GET"
+          }
+        }
+      }
+    },
+    "Query.stableDiffusion21": {
+      "data": {
+        "headers": {
+          "value": ["Content-Type:application/json"]
+        },
+        "passedHeaders": {
+          "value": ["Content-Type"]
+        },
+        "body": {
+          "value": "{\n \"inputs\":$input.inputs\n}"
+        },
+        "url": {
+          "value": "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1"
+        },
+        "method": {
+          "value": "POST"
+        }
+      },
+      "resolve": {
+        "name": "gei-rest@Query.restProxy"
+      },
+      "noCode": {
+        "package": "gei-rest",
+        "version": "0.0.10",
+        "resolver": "gei-rest",
+        "data": {
+          "passedHeaders": {
+            "name": "Passed headers",
+            "description": "Names of headers to pass from `/graphql` request to rest proxy",
+            "value": []
+          },
+          "headers": {
+            "name": "Request headers",
+            "description": "Insert request headers for REST in format Key:Value",
+            "value": []
+          },
+          "body": {
+            "name": "REST endpoint body",
+            "description": "REST endpoint body serialized as JSON.",
+            "value": ""
+          },
+          "url": {
+            "name": "REST endpoint",
+            "description": "REST endpoint to map to. Accepts values with $ at the beginning from the GraphQL Query.",
+            "value": "",
+            "required": true
+          },
+          "method": {
+            "name": "method",
+            "description": "GET, POST, PUT etc.",
+            "value": "GET"
+          }
+        }
+      }
+    },
+    "Query.anythingv4dot0": {
+      "data": {
+        "headers": {
+          "value": ["Content-Type:application/json"]
+        },
+        "passedHeaders": {
+          "value": ["Content-Type"]
+        },
+        "body": {
+          "value": "{\n \"inputs\":$input.inputs\n}"
+        },
+        "url": {
+          "value": "https://api-inference.huggingface.co/models/andite/anything-v4.0"
+        },
+        "method": {
+          "value": "POST"
+        }
+      },
+      "resolve": {
+        "name": "gei-rest@Query.restProxy"
+      },
+      "noCode": {
+        "package": "gei-rest",
+        "version": "0.0.10",
+        "resolver": "gei-rest",
+        "data": {
+          "passedHeaders": {
+            "name": "Passed headers",
+            "description": "Names of headers to pass from `/graphql` request to rest proxy",
+            "value": []
+          },
+          "headers": {
+            "name": "Request headers",
+            "description": "Insert request headers for REST in format Key:Value",
+            "value": []
+          },
+          "body": {
+            "name": "REST endpoint body",
+            "description": "REST endpoint body serialized as JSON.",
+            "value": ""
+          },
+          "url": {
+            "name": "REST endpoint",
+            "description": "REST endpoint to map to. Accepts values with $ at the beginning from the GraphQL Query.",
+            "value": "",
+            "required": true
+          },
+          "method": {
+            "name": "method",
+            "description": "GET, POST, PUT etc.",
+            "value": "GET"
+          }
+        }
+      }
+    },
+    "Query.dialoGPTlarge": {
+      "data": {
+        "headers": {
+          "value": ["Content-Type:application/json"]
+        },
+        "passedHeaders": {
+          "value": ["Content-Type"]
+        },
+        "body": {
+          "value": "{\n \"inputs\": $input.text,\n \"parameters\":{\n     \"max_length\": $input.max_length,\n     \"min_length\": $input.min_length,\n     \"generated_responses\": $input.generated_responses,\n     \"past_user_inputs\": $input.past_user_inputs,\n     \"top_k\": $input.top_k,\n     \"top_p\": $input.top_p,\n     \"temperature\": $input.temperature,\n     \"repetition_penalty\": $input.repetition_penalty,\n     \"max_time\": $input.max_time,\n     \"use_cache\": $input.use_cache,\n     \"wait_for_model\": $input.wait_for_model\n }\n}"
+        },
+        "url": {
+          "value": "https://api-inference.huggingface.co/models/microsoft/DialoGPT-large"
+        },
+        "method": {
+          "value": "POST"
+        }
+      },
+      "resolve": {
+        "name": "gei-rest@Query.restProxy"
+      },
+      "noCode": {
+        "package": "gei-rest",
+        "version": "0.0.10",
+        "resolver": "gei-rest",
+        "data": {
+          "passedHeaders": {
+            "name": "Passed headers",
+            "description": "Names of headers to pass from `/graphql` request to rest proxy",
+            "value": []
+          },
+          "headers": {
+            "name": "Request headers",
+            "description": "Insert request headers for REST in format Key:Value",
+            "value": []
+          },
+          "body": {
+            "name": "REST endpoint body",
+            "description": "REST endpoint body serialized as JSON.",
+            "value": ""
+          },
+          "url": {
+            "name": "REST endpoint",
+            "description": "REST endpoint to map to. Accepts values with $ at the beginning from the GraphQL Query.",
+            "value": "",
+            "required": true
+          },
+          "method": {
+            "name": "method",
+            "description": "GET, POST, PUT etc.",
+            "value": "GET"
+          }
+        }
+      }
+    },
+    "Query.openJourney": {
+      "data": {
+        "headers": {
+          "value": ["Content-Type:application/json"]
+        },
+        "passedHeaders": {
+          "value": ["Content-Type"]
+        },
+        "body": {
+          "value": "{\n \"inputs\":$input.inputs,\n}"
+        },
+        "url": {
+          "value": "https://api-inference.huggingface.co/models/prompthero/openjourney"
+        },
+        "method": {
+          "value": "POST"
+        }
+      },
+      "resolve": {
+        "name": "gei-rest@Query.restProxy"
+      },
+      "noCode": {
+        "package": "gei-rest",
+        "version": "0.0.10",
+        "resolver": "gei-rest",
+        "data": {
+          "passedHeaders": {
+            "name": "Passed headers",
+            "description": "Names of headers to pass from `/graphql` request to rest proxy",
+            "value": []
+          },
+          "headers": {
+            "name": "Request headers",
+            "description": "Insert request headers for REST in format Key:Value",
+            "value": []
+          },
+          "body": {
+            "name": "REST endpoint body",
+            "description": "REST endpoint body serialized as JSON.",
+            "value": ""
+          },
+          "url": {
+            "name": "REST endpoint",
+            "description": "REST endpoint to map to. Accepts values with $ at the beginning from the GraphQL Query.",
+            "value": "",
+            "required": true
+          },
+          "method": {
+            "name": "method",
+            "description": "GET, POST, PUT etc.",
+            "value": "GET"
+          }
+        }
+      }
+    },
+    "Query.orangeMixes1": {
+      "data": {
+        "headers": {
+          "value": ["Content-Type:application/json"]
+        },
+        "passedHeaders": {
+          "value": ["Content-Type"]
+        },
+        "body": {
+          "value": "{\n \"inputs\":$input.inputs\n}"
+        },
+        "url": {
+          "value": "https://api-inference.huggingface.co/models/WarriorMama777/OrangeMixs"
+        },
+        "method": {
+          "value": "POST"
+        }
+      },
+      "resolve": {
+        "name": "gei-rest@Query.restProxy"
+      },
+      "noCode": {
+        "package": "gei-rest",
+        "version": "0.0.10",
+        "resolver": "gei-rest",
+        "data": {
+          "passedHeaders": {
+            "name": "Passed headers",
+            "description": "Names of headers to pass from `/graphql` request to rest proxy",
+            "value": []
+          },
+          "headers": {
+            "name": "Request headers",
+            "description": "Insert request headers for REST in format Key:Value",
+            "value": []
+          },
+          "body": {
+            "name": "REST endpoint body",
+            "description": "REST endpoint body serialized as JSON.",
+            "value": ""
+          },
+          "url": {
+            "name": "REST endpoint",
+            "description": "REST endpoint to map to. Accepts values with $ at the beginning from the GraphQL Query.",
+            "value": "",
+            "required": true
+          },
+          "method": {
+            "name": "method",
+            "description": "GET, POST, PUT etc.",
+            "value": "GET"
+          }
+        }
+      }
+    }
+  }
+}

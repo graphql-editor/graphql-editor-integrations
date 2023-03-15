@@ -1,0 +1,259 @@
+
+
+type Query{
+	"""
+	Query to test all the hugging face models
+	"""
+	response(
+		"""
+		Hugging face model ID
+		"""
+		model: String!
+		input: Anything!
+	): Anything
+	"""
+	Model Description
+	
+	GPT-2 is a transformers model pretrained on a very large corpus of English data in a self-supervised fashion. 
+	This means it was pretrained on the raw texts only, with no humans labelling them in any way 
+	(which is why it can use lots of publicly available data) with an automatic process to generate inputs and labels 
+	from those texts. More precisely, it was trained to guess the next word in sentences.	
+	
+	More precisely, inputs are sequences of continuous text of a certain length and the targets are the same sequence, 
+	shifted one token (word or piece of word) to the right. 
+	The model uses internally a mask-mechanism to make sure the predictions for the token i only uses the inputs 
+	from 1 to i but not the future tokens.
+	
+	This way, the model learns an inner representation of the English language that can then be used to extract 
+	features useful for downstream tasks. The model is best at what it was pretrained for however, 
+	which is generating texts from a prompt.
+	
+	This is the smallest version of GPT-2, with 124M parameters.
+	"""
+	gpt2(
+		input: TextGenerationTask_Input!
+	): [TextGeneration_Response!]!
+	"""
+	Model Description
+	
+	Welcome to Anything V4 - a latent diffusion model for weebs. 
+	The newest version of Anything. This model is intended to produce high-quality, highly detailed anime style 
+	with just a few prompts. Like other anime-style Stable Diffusion models, 
+	it also supports danbooru tags to generate images.
+	
+	e.g. 1girl, white hair, golden eyes, beautiful eyes, detail, flower meadow, cumulonimbus clouds, lighting, 
+	detailed sky, garden
+	"""
+	anythingv4dot0(
+		input: Text_Input!
+	): Image!
+	"""
+	Model Description
+	
+	This is a model that can be used to generate and modify images based on text prompts. 
+	It is a Latent Diffusion Model that uses a fixed, pretrained text encoder (OpenCLIP-ViT/H).
+	"""
+	stableDiffusion21(
+		input: Text_Input!
+	): Image!
+	"""
+	Model Description
+	
+	BLOOM is an autoregressive Large Language Model (LLM), trained to continue text from a prompt on vast amounts 
+	of text data using industrial-scale computational resources. As such, it is able to output coherent text in 
+	46 languages and 13 programming languages that is hardly distinguishable from text written by humans. 
+	
+	BLOOM can also be instructed to perform text tasks it hasn't been explicitly trained for, 
+	by casting them as text generation tasks.
+	"""
+	bloom(
+		input: Text_Input!
+	): [TextGeneration_Response!]!
+	"""
+	Model Description
+	
+	Openjourney is an open source Stable Diffusion fine tuned model on Midjourney images, by PromptHero
+	"""
+	openJourney(
+		input: Text_Input!
+	): Image!
+	"""
+	Model Description
+	
+	A State-of-the-Art Large-scale Pretrained Response generation model (DialoGPT)
+	DialoGPT is a SOTA large-scale pretrained dialogue response generation model for multiturn conversations. 
+	The human evaluation results indicate that the response generated from DialoGPT is comparable to human 
+	response quality under a single-turn conversation Turing test. The model is trained on 147M multi-turn dialogue 
+	from Reddit discussion thread.
+	"""
+	dialoGPTlarge(
+		input: ConversationalTask_Input!
+	): ConversationalTask_Response!
+	"""
+	Model Description
+	
+	AbyssOrangeMix2 (AOM2) is an AI model capable of generating high-quality, highly realistic illustrations. 
+	It can generate elaborate and detailed illustrations that cannot be drawn by hand. It can also be used for a 
+	variety of purposes, making it extremely useful for design and artwork. Furthermore, 
+	it provides an unparalleled new means of expression. It can generate illustrations in a variety of genres 
+	to meet a wide range of needs. I encourage you to use "Abyss" to make your designs and artwork richer and 
+	of higher quality.
+	"""
+	orangeMixes1(
+		input: Text_Input!
+	): Image!
+}
+
+"""
+Text Generation Task:
+Use to continue text from a prompt. This is a very generic task.
+"""
+input TextGenerationTask_Input{
+	"""
+	a string to be generated from
+	"""
+	inputs: String!
+	"""
+	Integer to define the top tokens considered within the sample operation to create new text.
+	"""
+	top_k: Int = None
+	"""
+	Float to define the tokens that are within the sample operation of text generation. Add tokens in the sample for more probable to least probable until the sum of the probabilities is greater than top_p.
+	"""
+	top_p: Float = None
+	"""
+	The temperature of the sampling operation. 1 means regular sampling, 0 means always take the highest score, 100.0 is getting closer to uniform probability. (0.0-100.0).
+	"""
+	temperature: Float = 1.0
+	"""
+	The more a token is used within generation the more it is penalized to not be picked in successive generation passes. (0.0-100.0)
+	"""
+	repetition_penalty: Float = None
+	"""
+	The amount of new tokens to be generated, this does not include the input length it is an estimate of the size of generated text you want. Each new tokens slows down the request, so look for balance between response times and length of text generated .(0-250)
+	"""
+	max_new_tokens: Int = None
+	"""
+	The amount of time in seconds that the query should take maximum. Network can cause some overhead so it will be a soft limit. Use that in combination with max_new_tokens for best results. (0-120.0)
+	"""
+	max_time: Float = None
+	"""
+	If set to False, the return results will not contain the original query making it easier for prompting.
+	"""
+	return_full_text: Boolean = true
+	"""
+	The number of proposition you want to be returned.
+	"""
+	num_return_sequences: Int = 1
+	"""
+	Whether or not to use sampling, use greedy decoding otherwise.
+	"""
+	do_sample: Boolean = false
+	"""
+	There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.
+	"""
+	use_cache: Boolean = true
+	"""
+	If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.
+	"""
+	wait_for_model: Boolean = false
+}
+
+type TextGeneration_Response{
+	generated_text: String!
+	warnings: [String!]
+}
+
+"""
+This task corresponds to any chatbot like structure. Models tend to have shorter max_length, so please check with caution when using a given model if you need long range dependency or not.
+"""
+input ConversationalTask_Input{
+	"""
+	The last input from the user in the conversation.
+	"""
+	text: String!
+	"""
+	A list of strings corresponding to the earlier replies from the model.
+	"""
+	generated_responses: [String]
+	"""
+	A list of strings corresponding to the earlier replies from the user. Should be of the same length of generated_responses.
+	"""
+	past_user_inputs: [String]
+	"""
+	Integer to define the minimum length in tokens of the output summary.
+	"""
+	min_length: Int = None
+	"""
+	Integer to define the maximum length in tokens of the output summary.
+	"""
+	max_length: Int = None
+	"""
+	Integer to define the top tokens considered within the sample operation to create new text.
+	"""
+	top_k: Int = None
+	"""
+	Float to define the tokens that are within the sample operation of text generation. Add tokens in the sample for more probable to least probable until the sum of the probabilities is greater than top_p.
+	"""
+	top_p: Float = None
+	"""
+	The temperature of the sampling operation. 1 means regular sampling, 0 means always take the highest score, 100.0 is getting closer to uniform probability. (0.0-100.0).
+	"""
+	temperature: Float = 1.0
+	"""
+	The more a token is used within generation the more it is penalized to not be picked in successive generation passes. (0.0-100.0)
+	"""
+	repetition_penalty: Float = None
+	"""
+	The amount of time in seconds that the query should take maximum. Network can cause some overhead so it will be a soft limit. Use that in combination with max_new_tokens for best results. (0-120.0)
+	"""
+	max_time: Float = None
+	"""
+	There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.
+	"""
+	use_cache: Boolean = true
+	"""
+	If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.
+	"""
+	wait_for_model: Boolean = false
+}
+
+"""
+Return value is either a dict or a list of dicts if you sent a list of inputs
+"""
+type ConversationalTask_Response{
+	"""
+	The answer of the bot
+	"""
+	generated_text: String!
+	"""
+	A facility dictionary to send back for the next input (with the new user input addition).
+	"""
+	conversation: Conversation!
+	warnings: [String!]
+}
+
+type Conversation{
+	"""
+	List of strings. The last inputs from the user in the conversation, <em>after the model has run.
+	"""
+	past_user_inputs: [String]!
+	"""
+	List of strings. The last outputs from the model in the conversation, <em>after the model has run.
+	"""
+	generated_responses: [String]!
+}
+
+input Text_Input{
+	"""
+	a string to be generated from
+	"""
+	inputs: String!
+}
+
+scalar Image
+
+scalar Anything
+schema{
+	query: Query
+}

@@ -1,0 +1,18 @@
+{
+    "resolvers": {
+        "Query.getFile": {
+            "name": "getFile",
+            "description": "Get file cloud link by key",
+            "resolve": {
+                "name": "Query.getFile.handler"
+            }
+        },
+        "Mutation.uploadFile": {
+            "name": "uploadFile",
+            "description": "Uploading a file to the cloud, and return key",
+            "resolve": {
+                "name": "Mutation.uploadFile.handler"
+            }
+        }
+    }
+}

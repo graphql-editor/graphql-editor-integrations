@@ -1,0 +1,16 @@
+{
+    "namespace": "editor-integrations",
+    "project": "s3",
+    "version": "0.0.1",
+    "typingsEnv": "node",
+    "typingsHost": "http://localhost:8080/",
+    "typingsDir": "./src",
+    "backendSrc": "./src",
+    "backendLib": "./lib",
+    "schemaDir": "./",
+    "integrationPath": "src/index.ts",
+    "registry": "https://registry.npmjs.org/",
+    "npmPackage": "gei-s3",
+    "integrationName": "gei-s3",
+    "projectVersion": "latest"
+}

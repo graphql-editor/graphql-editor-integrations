@@ -1,0 +1,16 @@
+{
+    "namespace": "editor-integrations",
+    "project": "rest",
+    "version": "latest",
+    "typingsEnv": "node",
+    "typingsHost": "http://localhost:8080/",
+    "typingsDir": "./src",
+    "backendSrc": "./src",
+    "backendLib": "./lib",
+    "schemaDir": "./",
+    "integrationPath": "./src/index.ts",
+    "registry": "https://registry.npmjs.org/",
+    "npmPackage": "gei-rest",
+    "integrationName": "gei-rest",
+    "projectVersion": "latest"
+}

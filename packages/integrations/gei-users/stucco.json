@@ -1,0 +1,228 @@
+{
+    "resolvers": {
+        "Query.login": {
+            "name": "Login",
+            "description": "Login from password or social account",
+            "resolve": {
+                "name": "Query.login.handler"
+            }
+        },
+        "Query.isUser": {
+            "name": "Is logged in",
+            "description": "Provide token via headers to check if user is logged in. Returns User object",
+            "resolve": {
+                "name": "Query.isUser.handler"
+            }
+        },
+        "Query.mustBeUser": {
+            "name": "Must be logged in",
+            "description": "Provide token via headers to check if user is logged in. Returns User object. If user is not logged in throws an error",
+            "resolve": {
+                "name": "Query.mustBeUser.handler"
+            }
+        },
+        "Query.team": {
+            "name": "team",
+            "description": "Get your teamId",
+            "resolve": {
+                "name": "Query.team.handler"
+            }
+        },
+        "Query.getGoogleOAuthLink": {
+            "name": "GetGoogleOAuthLink",
+            "description": "GetGoogleOAuthLink",
+            "resolve": {
+                "name": "Query.getGoogleOAuthLink.handler"
+            }
+        },
+        "Query.getGithubOAuthLink": {
+            "name": "GetGithubOAuthLink",
+            "description": "getGithubOAuthLink",
+            "resolve": {
+                "name": "Query.getGithubOAuthLink.handler"
+            }
+        },
+        "Query.getAppleOAuthLink": {
+            "name": "GetAppleOAuthLink",
+            "description": "getAppleOAuthLink",
+            "resolve": {
+                "name": "Query.getAppleOAuthLink.handler"
+            }
+        },
+        "Query.showTeamInvitations": {
+            "name": "ShowTeamInvitations",
+            "description": "showTeamInvitations",
+            "resolve": {
+                "name": "Query.showTeamInvitations.handler"
+            }
+        },
+        "Query.requestForForgotPassword": {
+            "name": "RequestForForgotPassword",
+            "description": "requestForForgotPassword",
+            "resolve": {
+                "name": "Query.requestForForgotPassword.handler"
+            }
+        },
+        "Query.getMicrosoftOAuthLink": {
+            "name": "GetMicrosoftOAuthLink",
+            "description": "getMicrosoftOAuthLink",
+            "resolve": {
+                "name": "Query.getMicrosoftOAuthLink.handler"
+            }
+        },
+        "Query.mustBeTeamMember": {
+            "name": "MustBeTeamMember",
+            "description": "mustBeTeamMember",
+            "resolve": {
+                "name": "Query.mustBeTeamMember.handler"
+            }
+        },
+        "Mutation.createTeam": {
+            "name": "CreateTeam",
+            "description": "createTeam",
+            "resolve": {
+                "name": "Mutation.createTeam.handler"
+            }
+        },
+        "Mutation.verifyEmail": {
+            "name": "VerifyEmail",
+            "description": "verifyEmail",
+            "resolve": {
+                "name": "Mutation.verifyEmail.handler"
+            }
+        },
+        "Mutation.changePasswordWhenLogged": {
+            "name": "ChangePasswordWhenLogged",
+            "description": "changePasswordWhenLogged",
+            "resolve": {
+                "name": "Mutation.changePasswordWhenLogged.handler"
+            }
+        },
+        "Mutation.changePasswordWithToken": {
+            "name": "changePasswordWithToken",
+            "description": "changePasswordWithToken",
+            "resolve": {
+                "name": "Mutation.changePasswordWithToken.handler"
+            }
+        },
+        "Mutation.generateInviteToken": {
+            "name": "GenerateInviteToken",
+            "description": "generateInviteToken",
+            "resolve": {
+                "name": "Mutation.generateInviteToken.handler"
+            }
+        },
+        "Mutation.sendInvitationToTeam": {
+            "name": "sendInvitationToTeam",
+            "description": "sendInvitationToTeam",
+            "resolve": {
+                "name": "Mutation.sendInvitationToTeam.handler"
+            }
+        },
+        "Mutation.joinToTeam": {
+            "name": "JoinToTeam",
+            "description": "joinToTeam",
+            "resolve": {
+                "name": "Mutation.joinToTeam.handler"
+            }
+        },
+        "Mutation.removeUserFromTeam": {
+            "name": "RemoveUserFromTeam",
+            "description": "removeUserFromTeam",
+            "resolve": {
+                "name": "Mutation.removeUserFromTeam.handler"
+            }
+        },
+        "Mutation.squashAccounts": {
+            "name": "SquashAccounts",
+            "description": "squashAccounts",
+            "resolve": {
+                "name": "Mutation.squashAccounts.handler"
+            }
+        },
+        "Mutation.integrateSocialAccount": {
+            "name": "integrateSocialAccount",
+            "description": "integrateSocialAccount",
+            "resolve": {
+                "name": "Mutation.integrateSocialAccount.handler"
+            }
+        },
+        "Mutation.joinToTeamWithInvitationToken": {
+            "name": "JoinToTeamWithInvitationToken",
+            "description": "joinToTeamWithInvitationToken",
+            "resolve": {
+                "name": "Mutation.joinToTeamWithInvitationToken.handler"
+            }
+        },
+        "Mutation.generateOAuthToken": {
+            "name": "GenerateOAuthToken",
+            "description": "generateOAuthToken",
+            "resolve": {
+                "name": "Mutation.generateOAuthToken.handler"
+            }
+        },
+        "Mutation.register": {
+            "name": "Register",
+            "description": "Username and password registration resolver",
+            "resolve": {
+                "name": "Mutation.register.handler"
+            }
+        },
+        "User.teams": {
+            "name": "Teams",
+            "description": "Show your teams with members",
+            "resolve": {
+                "name": "User.teams.handler"
+            }
+        },
+        "LoginQuery.password": {
+            "name": "Password",
+            "description": "Login with password",
+            "resolve": {
+                "name": "LoginQuery.password.handler"
+            }
+        },
+        "LoginQuery.provider": {
+            "name": "Provider",
+            "description": "Login with provider",
+            "resolve": {
+                "name": "LoginQuery.provider.handler"
+            }
+        },
+        "ProviderLoginQuery.apple": {
+            "name": "Apple",
+            "description": "Login with apple",
+            "resolve": {
+                "name": "ProviderLoginQuery.apple.handler"
+            }
+        },
+        "ProviderLoginQuery.github": {
+            "name": "Github",
+            "description": "Login with github",
+            "resolve": {
+                "name": "ProviderLoginQuery.github.handler"
+            }
+        },
+        "ProviderLoginQuery.microsoft": {
+            "name": "Microsoft",
+            "description": "Login with microsoft",
+            "resolve": {
+                "name": "ProviderLoginQuery.microsoft.handler"
+            }
+        },
+        "ProviderLoginQuery.google": {
+            "name": "Google",
+            "description": "Login with google",
+            "resolve": {
+                "name": "ProviderLoginQuery.google.handler"
+            }
+        },
+        "LoginQuery.refreshToken": {
+            "name": "RefreshToken",
+            "description": "get new accessToken by refreshToken",
+            "resolve": {
+                "name": "LoginQuery.refreshToken.handler"
+            }
+        }
+    }
+}
