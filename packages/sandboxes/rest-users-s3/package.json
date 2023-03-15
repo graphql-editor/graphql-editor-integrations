@@ -7,15 +7,18 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "dev": "gecli dev"
+    "dev": "gecli dev",
+    "schema": "gecli schema",
+    "get-integration": "gecli cloud install",
+    "update": "npm run schema && npm run get-integration"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "gei-rest": "^0.0.10",
-    "gei-s3": "^0.0.3",
-    "gei-users": "^0.4.57",
+    "gei-rest": "^0.1.1",
+    "gei-s3": "^0.0.2",
+    "gei-users": "^0.4.62",
     "stucco-js": "^0.10.17"
   },
   "peerDependencies": {

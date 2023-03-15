@@ -1,0 +1,10 @@
+{
+    "namespace": "a-team",
+    "project": "beerpub-graphql-integrations",
+    "projectVersion": "latest",
+    "backendSrc": "",
+    "schemaDir": "",
+    "typingsDir": "",
+    "typingsEnv": "node",
+    "typingsHost": ""
+}
