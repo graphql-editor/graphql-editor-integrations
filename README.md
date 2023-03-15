@@ -1,5 +1,7 @@
 # Tips for Developers
   
+To build all the integrations just use `npm run build` in root folder.
+
 ## Create and update integrations
 Integrations are workspaces in root package.json.  
 
