@@ -47,6 +47,9 @@ export const AllTypesProps: Record<string,any> = {
 		generateInviteToken:{
 			tokenOptions:"InviteTokenInput"
 		},
+		deleteInvitation:{
+
+		},
 		removeUserFromTeam:{
 			data:"RemoveUserFromTeamInput"
 		},
@@ -149,6 +152,7 @@ export const ReturnTypes: Record<string,any> = {
 		mustBeTeamMember:"UserMember",
 		team:"Team",
 		showTeamInvitations:"InvitationTeamToken",
+		showInviteTokens:"InviteToken",
 		getGoogleOAuthLink:"String",
 		getMicrosoftOAuthLink:"String",
 		getGithubOAuthLink:"String",
@@ -165,6 +169,7 @@ export const ReturnTypes: Record<string,any> = {
 		changePasswordWhenLogged:"ChangePasswordWhenLoggedResponse",
 		changePasswordWithToken:"ChangePasswordWithTokenResponse",
 		generateInviteToken:"GenerateInviteTokenResponse",
+		deleteInvitation:"Boolean",
 		removeUserFromTeam:"RemoveUserFromTeamResponse",
 		sendInvitationToTeam:"SendInvitationToTeamResponse",
 		joinToTeam:"JoinToTeamResponse",
@@ -254,7 +259,8 @@ export const ReturnTypes: Record<string,any> = {
 		_id:"String",
 		username:"String",
 		teams:"Team",
-		emailConfirmed:"Boolean"
+		emailConfirmed:"Boolean",
+		createdAt:"String"
 	},
 	UserAuthType:{
 		_id:"String",
@@ -265,7 +271,8 @@ export const ReturnTypes: Record<string,any> = {
 	Social:{
 		_id:"String",
 		socialId:"String",
-		userId:"String"
+		userId:"String",
+		createdAt:"String"
 	},
 	UserAuth:{
 		_id:"String",

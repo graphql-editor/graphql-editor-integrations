@@ -1,8 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "es2020",
-    "moduleResolution": "node",
-  },
+  "references": [
+    {
+      "path": "./packages/integrations/gei-rest"
+    },
+    {
+      "path": "./packages/integrations/gei-s3"
+    },
+    {
+      "path": "./packages/integrations/gei-users"
+    },
+    {
+      "path": "./packages/sandboxes/rest-users-s3"
+    }
+  ],
   "files": []
 }

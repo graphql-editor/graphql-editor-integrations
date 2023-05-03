@@ -58,7 +58,10 @@ export const handler = async (input: FieldResolveInput) =>
       }
     }
     const authorizationToken = crypto.pseudoRandomBytes(8).toString('hex');
-    const insertedUser = await o(UserCollection).createWithAutoFields('_id')({
+    const insertedUser = await o(UserCollection).createWithAutoFields(
+      '_id',
+      'createdAt',
+    )({
       ...rest,
       username,
       emailConfirmed: false,
@@ -71,7 +74,10 @@ export const handler = async (input: FieldResolveInput) =>
           { $push: { members: insertedUser.insertedId } },
         );
 
-      const res = await o(UserAuthorizationCollection).createWithAutoFields('_id')({
+      const res = await o(UserAuthorizationCollection).createWithAutoFields(
+        '_id',
+        'createdAt',
+      )({
         username,
         salt,
         passwordHash,

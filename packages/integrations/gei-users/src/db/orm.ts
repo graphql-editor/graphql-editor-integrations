@@ -16,8 +16,12 @@ export const orm = async () => {
     },
     {
       _id: () => string;
+      createdAt: () => string;
     }
   >({
     _id: () => new ObjectId().toHexString(),
+    createdAt: () => new Date().toISOString(),
   });
 };
+
+export const MongoOrb = await orm();

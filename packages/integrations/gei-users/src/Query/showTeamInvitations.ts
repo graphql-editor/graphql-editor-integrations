@@ -1,12 +1,45 @@
+import { UserModel } from './../models/UserModel';
+import { UserMemberModel } from './../models/UserMemberModel.js';
 import { FieldResolveInput } from 'stucco-js';
 import { resolverForUser } from '../UserMiddleware.js';
-import { TeamInvitationsCollection } from '../db/collections.js';
-import { orm } from '../db/orm.js';
+import { MongoOrb } from '../db/orm.js';
+import { TeamModel } from '../models/TeamModel';
 
 export const handler = async (input: FieldResolveInput) =>
-  resolverForUser('Query', 'showTeamInvitations', async ({ user, status }) => {
-    const invitations = await orm().then(
-      async (o) => await o(TeamInvitationsCollection).collection.find({ recipient: user.username, status }).toArray(),
-    );
-    return invitations || [];
+  resolverForUser('Query', 'showTeamInvitations', async ({ status, sentFromMyTeam }, input) => {
+    const possibleSource = input.source as UserMemberModel | UserModel | TeamModel;
+    if ('user' in possibleSource && 'team' in possibleSource) {
+      // User membea
+      if (sentFromMyTeam) {
+        return MongoOrb('TeamInvitationsCollection')
+          .collection.find({
+            teamId: possibleSource.team._id,
+            status: status || undefined,
+          })
+          .toArray();
+      }
+      return MongoOrb('TeamInvitationsCollection')
+        .collection.find({
+          recipient: possibleSource.user.username,
+          status: status || undefined,
+        })
+        .toArray();
+    }
+    if ('username' in possibleSource && possibleSource.username) {
+      return MongoOrb('TeamInvitationsCollection')
+        .collection.find({
+          recipient: possibleSource.username,
+          status: status || undefined,
+        })
+        .toArray();
+    }
+    if ('name' in possibleSource) {
+      return MongoOrb('TeamInvitationsCollection')
+        .collection.find({
+          teamId: possibleSource._id,
+          status: status || undefined,
+        })
+        .toArray();
+    }
+    return [];
   })(input.arguments, input);

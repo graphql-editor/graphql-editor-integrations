@@ -1,3 +1,4 @@
+import { TeamAuthTypeModel } from './models/TeamAuthTypeModel';
 import { FieldResolveInput } from 'stucco-js';
 import pkg from 'jsonwebtoken';
 import crypto from 'crypto';
@@ -68,19 +69,21 @@ export const getUserFromHandlerInputOrThrow = async (input: FieldResolveInput): 
   return user;
 };
 
-export const getUserMemberFromHandlerInputOrThrow = async (input: FieldResolveInput, teamId: string): Promise<UserMemberModel> => {
+export const getUserMemberFromHandlerInputOrThrow = async (
+  input: FieldResolveInput,
+  teamId: string,
+): Promise<UserMemberModel> => {
   const user = await getUserFromHandlerInputOrThrow(input);
   if (!user) {
     throw new Error('You are not logged in');
   }
-  console.log(user)
   if (!user.teams.includes(teamId)) {
-    throw new Error(MustBeTeamMemberError.USER_IS_NOT_A_TEAM_MEMBER)
+    throw new Error(MustBeTeamMemberError.USER_IS_NOT_A_TEAM_MEMBER);
   }
   const o = await orm();
   const team = await o(TeamCollection).collection.findOne({ _id: teamId });
-  if (!team) throw new Error(MustBeTeamMemberError.TEAM_DOES_NOT_EXIST)
-  return {user, team};
+  if (!team) throw new Error(MustBeTeamMemberError.TEAM_DOES_NOT_EXIST);
+  return { user, team };
 };
 
 const isUserSource = (u: unknown): u is UserModel => isNotNullObject(u) && typeof u._id === 'string';
@@ -92,6 +95,7 @@ type Args<T extends keyof ResolverInputTypes, Z extends keyof ResolverInputTypes
   : never;
 type UserArgs<T extends keyof ResolverInputTypes, Z extends keyof ResolverInputTypes[T]> = Args<T, Z> & {
   user: UserModel;
+  team?: TeamAuthTypeModel;
 };
 
 export const isNotNullObject = (v: unknown): v is Record<string | number | symbol, unknown> =>

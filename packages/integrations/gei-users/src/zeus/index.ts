@@ -840,7 +840,8 @@ export type ValueTypes = {
 	mustBeUser?:ValueTypes["User"],
 mustBeTeamMember?: [{	teamId: string | Variable<any, string>},ValueTypes["UserMember"]],
 team?: [{	teamId: string | Variable<any, string>},ValueTypes["Team"]],
-showTeamInvitations?: [{	status: ValueTypes["InvitationTeamStatus"] | Variable<any, string>},ValueTypes["InvitationTeamToken"]],
+showTeamInvitations?: [{	sentFromMyTeam?: boolean | undefined | null | Variable<any, string>,	status?: ValueTypes["InvitationTeamStatus"] | undefined | null | Variable<any, string>},ValueTypes["InvitationTeamToken"]],
+	showInviteTokens?:ValueTypes["InviteToken"],
 getGoogleOAuthLink?: [{	setup: ValueTypes["GetOAuthInput"] | Variable<any, string>},boolean | `@${string}`],
 getMicrosoftOAuthLink?: [{	setup: ValueTypes["GetOAuthInput"] | Variable<any, string>},boolean | `@${string}`],
 getGithubOAuthLink?: [{	setup: ValueTypes["GetOAuthInput"] | Variable<any, string>},boolean | `@${string}`],
@@ -866,12 +867,13 @@ changePasswordWhenLogged?: [{	changePasswordData: ValueTypes["ChangePasswordWhen
 changePasswordWithToken?: [{	token: ValueTypes["ChangePasswordWithTokenInput"] | Variable<any, string>},ValueTypes["ChangePasswordWithTokenResponse"]],
 generateInviteToken?: [{	/** string format mm/dd/rrrr */
 	tokenOptions: ValueTypes["InviteTokenInput"] | Variable<any, string>},ValueTypes["GenerateInviteTokenResponse"]],
+deleteInvitation?: [{	id: string | Variable<any, string>},boolean | `@${string}`],
 removeUserFromTeam?: [{	data: ValueTypes["RemoveUserFromTeamInput"] | Variable<any, string>},ValueTypes["RemoveUserFromTeamResponse"]],
 sendInvitationToTeam?: [{	invitation: ValueTypes["SendTeamInvitationInput"] | Variable<any, string>},ValueTypes["SendInvitationToTeamResponse"]],
 joinToTeam?: [{	teamId: string | Variable<any, string>},ValueTypes["JoinToTeamResponse"]],
 joinToTeamWithInvitationToken?: [{	token: string | Variable<any, string>},ValueTypes["JoinToTeamWithInvitationTokenResponse"]],
 createTeam?: [{	teamName: string | Variable<any, string>},ValueTypes["CreateTeamResponse"]],
-squashAccounts?: [{	pasword?: string | undefined | null | Variable<any, string>},ValueTypes["SquashAccountsResponse"]],
+squashAccounts?: [{	password?: string | undefined | null | Variable<any, string>},ValueTypes["SquashAccountsResponse"]],
 integrateSocialAccount?: [{	userData: ValueTypes["SimpleUserInput"] | Variable<any, string>},ValueTypes["IntegrateSocialAccountResponse"]],
 generateOAuthToken?: [{	tokenData: ValueTypes["GenerateOAuthTokenInput"] | Variable<any, string>},ValueTypes["GenerateOAuthTokenResponse"]],
 editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>},boolean | `@${string}`],
@@ -1031,6 +1033,7 @@ editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>
 	username?:boolean | `@${string}`,
 	teams?:ValueTypes["Team"],
 	emailConfirmed?:boolean | `@${string}`,
+	createdAt?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["UserAuthType"]: AliasType<{
@@ -1044,6 +1047,7 @@ editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>
 	_id?:boolean | `@${string}`,
 	socialId?:boolean | `@${string}`,
 	userId?:boolean | `@${string}`,
+	createdAt?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["InvitationTeamStatus"]:InvitationTeamStatus;
@@ -1126,7 +1130,8 @@ export type ResolverInputTypes = {
 	mustBeUser?:ResolverInputTypes["User"],
 mustBeTeamMember?: [{	teamId: string},ResolverInputTypes["UserMember"]],
 team?: [{	teamId: string},ResolverInputTypes["Team"]],
-showTeamInvitations?: [{	status: ResolverInputTypes["InvitationTeamStatus"]},ResolverInputTypes["InvitationTeamToken"]],
+showTeamInvitations?: [{	sentFromMyTeam?: boolean | undefined | null,	status?: ResolverInputTypes["InvitationTeamStatus"] | undefined | null},ResolverInputTypes["InvitationTeamToken"]],
+	showInviteTokens?:ResolverInputTypes["InviteToken"],
 getGoogleOAuthLink?: [{	setup: ResolverInputTypes["GetOAuthInput"]},boolean | `@${string}`],
 getMicrosoftOAuthLink?: [{	setup: ResolverInputTypes["GetOAuthInput"]},boolean | `@${string}`],
 getGithubOAuthLink?: [{	setup: ResolverInputTypes["GetOAuthInput"]},boolean | `@${string}`],
@@ -1152,12 +1157,13 @@ changePasswordWhenLogged?: [{	changePasswordData: ResolverInputTypes["ChangePass
 changePasswordWithToken?: [{	token: ResolverInputTypes["ChangePasswordWithTokenInput"]},ResolverInputTypes["ChangePasswordWithTokenResponse"]],
 generateInviteToken?: [{	/** string format mm/dd/rrrr */
 	tokenOptions: ResolverInputTypes["InviteTokenInput"]},ResolverInputTypes["GenerateInviteTokenResponse"]],
+deleteInvitation?: [{	id: string},boolean | `@${string}`],
 removeUserFromTeam?: [{	data: ResolverInputTypes["RemoveUserFromTeamInput"]},ResolverInputTypes["RemoveUserFromTeamResponse"]],
 sendInvitationToTeam?: [{	invitation: ResolverInputTypes["SendTeamInvitationInput"]},ResolverInputTypes["SendInvitationToTeamResponse"]],
 joinToTeam?: [{	teamId: string},ResolverInputTypes["JoinToTeamResponse"]],
 joinToTeamWithInvitationToken?: [{	token: string},ResolverInputTypes["JoinToTeamWithInvitationTokenResponse"]],
 createTeam?: [{	teamName: string},ResolverInputTypes["CreateTeamResponse"]],
-squashAccounts?: [{	pasword?: string | undefined | null},ResolverInputTypes["SquashAccountsResponse"]],
+squashAccounts?: [{	password?: string | undefined | null},ResolverInputTypes["SquashAccountsResponse"]],
 integrateSocialAccount?: [{	userData: ResolverInputTypes["SimpleUserInput"]},ResolverInputTypes["IntegrateSocialAccountResponse"]],
 generateOAuthToken?: [{	tokenData: ResolverInputTypes["GenerateOAuthTokenInput"]},ResolverInputTypes["GenerateOAuthTokenResponse"]],
 editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},boolean | `@${string}`],
@@ -1317,6 +1323,7 @@ editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},boolean | `@${
 	username?:boolean | `@${string}`,
 	teams?:ResolverInputTypes["Team"],
 	emailConfirmed?:boolean | `@${string}`,
+	createdAt?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["UserAuthType"]: AliasType<{
@@ -1330,6 +1337,7 @@ editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},boolean | `@${
 	_id?:boolean | `@${string}`,
 	socialId?:boolean | `@${string}`,
 	userId?:boolean | `@${string}`,
+	createdAt?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["InvitationTeamStatus"]:InvitationTeamStatus;
@@ -1413,6 +1421,7 @@ export type ModelTypes = {
 	mustBeTeamMember: ModelTypes["UserMember"],
 	team?: ModelTypes["Team"] | undefined,
 	showTeamInvitations: Array<ModelTypes["InvitationTeamToken"]>,
+	showInviteTokens: Array<ModelTypes["InviteToken"]>,
 	getGoogleOAuthLink: string,
 	getMicrosoftOAuthLink: string,
 	getGithubOAuthLink: string,
@@ -1436,6 +1445,7 @@ export type ModelTypes = {
 	changePasswordWhenLogged: ModelTypes["ChangePasswordWhenLoggedResponse"],
 	changePasswordWithToken: ModelTypes["ChangePasswordWithTokenResponse"],
 	generateInviteToken: ModelTypes["GenerateInviteTokenResponse"],
+	deleteInvitation: boolean,
 	removeUserFromTeam: ModelTypes["RemoveUserFromTeamResponse"],
 	sendInvitationToTeam: ModelTypes["SendInvitationToTeamResponse"],
 	joinToTeam: ModelTypes["JoinToTeamResponse"],
@@ -1583,7 +1593,8 @@ export type ModelTypes = {
 		_id: string,
 	username: string,
 	teams: Array<ModelTypes["Team"]>,
-	emailConfirmed: boolean
+	emailConfirmed: boolean,
+	createdAt?: string | undefined
 };
 	["UserAuthType"]: {
 		_id: string,
@@ -1594,7 +1605,8 @@ export type ModelTypes = {
 	["Social"]: {
 		_id: string,
 	socialId: string,
-	userId: string
+	userId: string,
+	createdAt?: string | undefined
 };
 	["InvitationTeamStatus"]:InvitationTeamStatus;
 	["UserAuth"]: {
@@ -1661,6 +1673,7 @@ export type GraphQLTypes = {
 	mustBeTeamMember: GraphQLTypes["UserMember"],
 	team?: GraphQLTypes["Team"] | undefined,
 	showTeamInvitations: Array<GraphQLTypes["InvitationTeamToken"]>,
+	showInviteTokens: Array<GraphQLTypes["InviteToken"]>,
 	getGoogleOAuthLink: string,
 	getMicrosoftOAuthLink: string,
 	getGithubOAuthLink: string,
@@ -1686,6 +1699,7 @@ export type GraphQLTypes = {
 	changePasswordWhenLogged: GraphQLTypes["ChangePasswordWhenLoggedResponse"],
 	changePasswordWithToken: GraphQLTypes["ChangePasswordWithTokenResponse"],
 	generateInviteToken: GraphQLTypes["GenerateInviteTokenResponse"],
+	deleteInvitation: boolean,
 	removeUserFromTeam: GraphQLTypes["RemoveUserFromTeamResponse"],
 	sendInvitationToTeam: GraphQLTypes["SendInvitationToTeamResponse"],
 	joinToTeam: GraphQLTypes["JoinToTeamResponse"],
@@ -1850,7 +1864,8 @@ export type GraphQLTypes = {
 	_id: string,
 	username: string,
 	teams: Array<GraphQLTypes["Team"]>,
-	emailConfirmed: boolean
+	emailConfirmed: boolean,
+	createdAt?: string | undefined
 };
 	["UserAuthType"]: {
 	__typename: "UserAuthType",
@@ -1863,7 +1878,8 @@ export type GraphQLTypes = {
 	__typename: "Social",
 	_id: string,
 	socialId: string,
-	userId: string
+	userId: string,
+	createdAt?: string | undefined
 };
 	["InvitationTeamStatus"]: InvitationTeamStatus;
 	["UserAuth"]: {
@@ -1978,7 +1994,8 @@ export const enum CreateTeamError {
 }
 export const enum SquashAccountsError {
 	YOU_HAVE_ONLY_ONE_ACCOUNT = "YOU_HAVE_ONLY_ONE_ACCOUNT",
-	YOUR_ACCOUNTS_DO_NOT_HAVE_CONFIRMED_EMAIL = "YOUR_ACCOUNTS_DO_NOT_HAVE_CONFIRMED_EMAIL"
+	YOUR_ACCOUNTS_DO_NOT_HAVE_CONFIRMED_EMAIL = "YOUR_ACCOUNTS_DO_NOT_HAVE_CONFIRMED_EMAIL",
+	INCORRECT_PASSWORD = "INCORRECT_PASSWORD"
 }
 export const enum JoinToTeamWithInvitationTokenError {
 	INVITATION_TOKEN_NOT_FOUND = "INVITATION_TOKEN_NOT_FOUND",

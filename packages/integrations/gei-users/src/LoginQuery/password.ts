@@ -9,14 +9,13 @@ export const handler = async (input: FieldResolveInput) =>
   resolverFor('LoginQuery', 'password', async (args) => {
     const o = await orm();
     if (!args.user.password || !args.user.username) return { hasError: LoginErrors.INVALID_LOGIN_OR_PASSWORD };
-    const [userAuth, user] = await Promise.all([
-      await o(UserAuthorizationCollection).collection.findOne({ username: args.user.username }),
-      await o(UserCollection).collection.findOne({ username: args.user.username }),
-    ]);
-    if (!userAuth && user) {
-      return { hasError: LoginErrors.YOU_PROVIDED_OTHER_METHOD_OF_LOGIN_ON_THIS_EMAIL };
-    }
+    const userAuth = await o(UserAuthorizationCollection).collection.findOne({ username: args.user.username });
+    const userById = userAuth ? await o(UserCollection).collection.findOne({ _id: userAuth.userId }) : undefined;
+    const user = userById ? userById : await o(UserCollection).collection.findOne({ username: args.user.username });
+
     if (!userAuth) {
+      if (user) return { hasError: LoginErrors.YOU_PROVIDED_OTHER_METHOD_OF_LOGIN_ON_THIS_EMAIL };
+
       return { hasError: LoginErrors.INVALID_LOGIN_OR_PASSWORD };
     }
     if (!user) return { hasError: LoginErrors.CANNOT_FIND_CONNECTED_USER };

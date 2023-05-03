@@ -39,12 +39,18 @@ export const addUserAndConnectSocial = async ({
 
   const foundUser = await o(UserCollection).collection.findOne({ username });
   if (!foundUser) {
-    const createdUser = await o(UserCollection).createWithAutoFields('_id')({
+    const createdUser = await o(UserCollection).createWithAutoFields(
+      '_id',
+      'createdAt',
+    )({
       username,
       emailConfirmed: true,
       teams: [],
     });
-    await o(SocialCollection).createWithAutoFields('_id')({
+    await o(SocialCollection).createWithAutoFields(
+      '_id',
+      'createdAt',
+    )({
       socialId: `${social}|${id}`,
       userId: createdUser.insertedId,
     });
@@ -60,7 +66,10 @@ export const addUserAndConnectSocial = async ({
   ).insertedId;
 
   if (!foundSocial) {
-    await o(SocialCollection).createWithAutoFields('_id')({
+    await o(SocialCollection).createWithAutoFields(
+      '_id',
+      'createdAt',
+    )({
       socialId: `${social}|${id}`,
       userId: foundUser._id,
     });

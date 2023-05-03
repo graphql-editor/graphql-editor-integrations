@@ -54,10 +54,16 @@ export const changeMemberOfTeams = async (o: Awaited<ReturnType<typeof orm>>, el
   );
 
 export const handler = (input: FieldResolveInput) =>
-  resolverForUser('Mutation', 'squashAccounts', async ({ user }, password) => {
+  resolverForUser('Mutation', 'squashAccounts', async ({ user, password }) => {
     const o = await orm();
-
-    const usersToSquash = await o(UserCollection).collection.find({ username: user.username }).toArray();
+    const username =
+      password && !user.username.includes('@')
+        ? (await o(UserCollection).collection.findOne({ _id: password }))?.username
+        : user.username;
+    const replace_id = password && !user.username.includes('@') ? user._id : password;
+    if (!username) return { hasError: SquashAccountsError.INCORRECT_PASSWORD };
+    await o(UserCollection).collection.updateOne({ _id: replace_id || undefined }, { $set: { username: username } });
+    const usersToSquash = await o(UserCollection).collection.find({ username: username }).toArray();
     if (usersToSquash.length === 1) return { hasError: SquashAccountsError.YOU_HAVE_ONLY_ONE_ACCOUNT };
     if (usersToSquash.find((user) => user.emailConfirmed === false))
       return { hasError: SquashAccountsError.YOUR_ACCOUNTS_DO_NOT_HAVE_CONFIRMED_EMAIL };

@@ -6,4 +6,5 @@ export type UserAuthModel = ModelTypes['UserAuth'] & {
   passwordHash?: string;
   authorizationToken?: string;
   resetPasswordToken?: string;
+  createdAt?: string;
 };
