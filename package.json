@@ -16,7 +16,8 @@
   "workspaces": [
     "packages/integrations/gei-rest",
     "packages/integrations/gei-users",
-    "packages/integrations/gei-s3"
+    "packages/integrations/gei-s3",
+    "packages/integrations/gei-stripe"
   ],
   "bugs": {
     "url": "https://github.com/graphql-editor/graphql-editor-integrations/issues"
