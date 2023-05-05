@@ -14,6 +14,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm install
       - run: npm run build --ws
+      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" >> ~/.npmrc
       - run: npm publish -w gei-users --access public --tag latest
       - run: npm publish -w gei-rest --access public --tag latest
       - run: npm publish -w gei-s3 --access public --tag latest
