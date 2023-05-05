@@ -17,9 +17,6 @@ jobs:
       - run: npm publish -w gei-users --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - run: npm publish -w graphql-editor-worker --access public --tag latest
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - run: npm publish -w gei-rest --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
