@@ -14,11 +14,11 @@ export const handler = async (input: FieldResolveInput) =>
     if (user._id == userId) {
       return { hasError: RemoveUserFromTeamError.YOU_CANNOT_KICK_YOURSELF_FROM_THE_TEAM };
     }
-    const foundUser = await o(UserCollection).collection.findOne({ userId });
+    const foundUser = await o(UserCollection).collection.findOne({ _id: userId });
     if (!foundUser) return { hasError: RemoveUserFromTeamError.USER_NOT_FOUND };
     await Promise.all([
       o(TeamInvitationsCollection).collection.deleteOne({ teamId: teamId, recipient: userId }),
-      o(UserCollection).collection.updateOne({ userId }, { $pull: { teams: teamId } }),
+      o(UserCollection).collection.updateOne({ _id: userId }, { $pull: { teams: teamId } }),
       o(TeamCollection).collection.updateOne({ _id: teamId }, { $pull: { members: foundUser._id } }),
     ]);
     return { result: true };
