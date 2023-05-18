@@ -17,7 +17,7 @@ export const handler = async (input: FieldResolveInput) =>
     const foundUser = await o(UserCollection).collection.findOne({ _id: userId });
     if (!foundUser) return { hasError: RemoveUserFromTeamError.USER_NOT_FOUND };
     await Promise.all([
-      o(TeamInvitationsCollection).collection.deleteOne({ teamId: teamId, recipient: userId }),
+      o(TeamInvitationsCollection).collection.deleteOne({ teamId: teamId, recipient: foundUser.username }),
       o(UserCollection).collection.updateOne({ _id: userId }, { $pull: { teams: teamId } }),
       o(TeamCollection).collection.updateOne({ _id: teamId }, { $pull: { members: foundUser._id } }),
     ]);
