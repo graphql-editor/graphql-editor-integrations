@@ -1082,7 +1082,8 @@ refreshToken?: [{	refreshToken: string | Variable<any, string>},boolean | `@${st
 		__typename?: boolean | `@${string}`
 }>;
 	["ProviderLoginInput"]: {
-	code: string | Variable<any, string>
+	code: string | Variable<any, string>,
+	redirectUri?: string | undefined | null | Variable<any, string>
 };
 	["ProviderLoginQuery"]: AliasType<{
 	apple?:ValueTypes["ProviderResponse"],
@@ -1372,7 +1373,8 @@ refreshToken?: [{	refreshToken: string},boolean | `@${string}`],
 		__typename?: boolean | `@${string}`
 }>;
 	["ProviderLoginInput"]: {
-	code: string
+	code: string,
+	redirectUri?: string | undefined | null
 };
 	["ProviderLoginQuery"]: AliasType<{
 	apple?:ResolverInputTypes["ProviderResponse"],
@@ -1627,7 +1629,8 @@ export type ModelTypes = {
 	refreshToken: string
 };
 	["ProviderLoginInput"]: {
-	code: string
+	code: string,
+	redirectUri?: string | undefined
 };
 	["ProviderLoginQuery"]: {
 		apple?: ModelTypes["ProviderResponse"] | undefined,
@@ -1914,7 +1917,8 @@ export type GraphQLTypes = {
 	refreshToken: string
 };
 	["ProviderLoginInput"]: {
-		code: string
+		code: string,
+	redirectUri?: string | undefined
 };
 	["ProviderLoginQuery"]: {
 	__typename: "ProviderLoginQuery",

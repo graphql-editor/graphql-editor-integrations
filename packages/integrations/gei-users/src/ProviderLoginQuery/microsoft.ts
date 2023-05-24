@@ -19,7 +19,7 @@ export const handler = async (input: FieldResolveInput) =>
     microsoftData.append('grant_type', 'authorization_code');
     microsoftData.append('client_id', getEnv('MICROSOFT_APPLICATION_CLIENT_ID'));
     microsoftData.append('client_secret', getEnv('MICROSOFT_APPLICATION_CLIENT_SECRET'));
-    microsoftData.append('redirect_uri', getEnv('MICROSOFT_REDIRECT_URI'));
+    microsoftData.append('redirect_uri', src?.redirectUri || getEnv('MICROSOFT_REDIRECT_URI'));
 
     const microsoftResponse = await fetch('https://login.microsoftonline.com/common/oauth2/v2.0/token', {
       method: 'POST',

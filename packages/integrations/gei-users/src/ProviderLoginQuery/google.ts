@@ -14,7 +14,7 @@ export const handler = async (input: FieldResolveInput) =>
     googleData.append('code', code);
     googleData.append('client_id', getEnv('GOOGLE_CLIENT_ID'));
     googleData.append('client_secret', getEnv('GOOGLE_SECRET_KEY'));
-    googleData.append('redirect_uri', getEnv('GOOGLE_REDIRECT_URI'));
+    googleData.append('redirect_uri', src?.redirectUri || getEnv('GOOGLE_REDIRECT_URI'));
     googleData.append('grant_type', 'authorization_code');
 
     const googleResponse = await fetch('https://accounts.google.com/o/oauth2/token', {

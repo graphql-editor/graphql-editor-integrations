@@ -13,7 +13,7 @@ export const handler = async (input: FieldResolveInput) =>
     githubData.append('code', src.code);
     githubData.append('client_id', getEnv('GITHUB_APPLICATION_CLIENT_ID'));
     githubData.append('client_secret', getEnv('GITHUB_APPLICATION_CLIENT_SECRET'));
-    githubData.append('redirect_uri', getEnv('GITHUB_REDIRECT_URI'));
+    githubData.append('redirect_uri', src?.redirectUri || getEnv('GITHUB_REDIRECT_URI'));
 
     const githubResponse = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',

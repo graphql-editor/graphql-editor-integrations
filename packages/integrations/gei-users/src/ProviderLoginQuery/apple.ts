@@ -14,7 +14,7 @@ export const handler = async (input: FieldResolveInput) =>
     const appleData = new URLSearchParams();
     appleData.append('code', src.code);
     appleData.append('grant_type', 'authorization_code');
-    appleData.append('redirect_uri', getEnv('APPLE_REDIRECT_URI'));
+    appleData.append('redirect_uri', src?.redirectUri || getEnv('APPLE_REDIRECT_URI'));
     appleData.append('client_secret', getEnv('APPLE_SECRET_KEY'));
     appleData.append('client_id', getEnv('APPLE_CLIENT_ID'));
     const appleResponse = await fetch('https://appleid.apple.com/auth/token', {
