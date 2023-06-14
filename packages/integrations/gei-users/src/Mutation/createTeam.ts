@@ -8,7 +8,7 @@ export const handler = async (input: FieldResolveInput) =>
   resolverForUser('Mutation', 'createTeam', async ({ user, teamName }) => {
     const o = await orm();
     if (await o(TeamCollection).collection.findOne({ name: teamName })) return { result: false };
-    const team = await o(TeamCollection).createWithAutoFields('_id')({
+    const team = await o(TeamCollection).createWithAutoFields('_id', 'createdAt')({
       owner: user._id,
       name: teamName,
       members: [user._id],

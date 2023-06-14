@@ -313,6 +313,7 @@ type Team implements Node{
 	name: String!
 	owner: String
 	members: [TeamMember!]!
+	createdAt: String
 }
 
 type TeamAuthType implements Node{
@@ -388,7 +389,7 @@ type LoginQuery{
 
 input ProviderLoginInput{
 	code: String!
-	redirectUri: String
+	redirectUri: String!
 }
 
 type ProviderLoginQuery{

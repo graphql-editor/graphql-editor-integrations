@@ -247,7 +247,8 @@ export const ReturnTypes: Record<string,any> = {
 		_id:"String",
 		name:"String",
 		owner:"String",
-		members:"TeamMember"
+		members:"TeamMember",
+		createdAt:"String"
 	},
 	TeamAuthType:{
 		_id:"String",

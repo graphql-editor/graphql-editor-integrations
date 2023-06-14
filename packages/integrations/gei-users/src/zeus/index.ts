@@ -1019,6 +1019,7 @@ editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>
 	name?:boolean | `@${string}`,
 	owner?:boolean | `@${string}`,
 	members?:ValueTypes["TeamMember"],
+	createdAt?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["TeamAuthType"]: AliasType<{
@@ -1083,7 +1084,7 @@ refreshToken?: [{	refreshToken: string | Variable<any, string>},boolean | `@${st
 }>;
 	["ProviderLoginInput"]: {
 	code: string | Variable<any, string>,
-	redirectUri?: string | undefined | null | Variable<any, string>
+	redirectUri: string | Variable<any, string>
 };
 	["ProviderLoginQuery"]: AliasType<{
 	apple?:ValueTypes["ProviderResponse"],
@@ -1310,6 +1311,7 @@ editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},boolean | `@${
 	name?:boolean | `@${string}`,
 	owner?:boolean | `@${string}`,
 	members?:ResolverInputTypes["TeamMember"],
+	createdAt?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["TeamAuthType"]: AliasType<{
@@ -1374,7 +1376,7 @@ refreshToken?: [{	refreshToken: string},boolean | `@${string}`],
 }>;
 	["ProviderLoginInput"]: {
 	code: string,
-	redirectUri?: string | undefined | null
+	redirectUri: string
 };
 	["ProviderLoginQuery"]: AliasType<{
 	apple?:ResolverInputTypes["ProviderResponse"],
@@ -1583,7 +1585,8 @@ export type ModelTypes = {
 		_id: string,
 	name: string,
 	owner?: string | undefined,
-	members: Array<ModelTypes["TeamMember"]>
+	members: Array<ModelTypes["TeamMember"]>,
+	createdAt?: string | undefined
 };
 	["TeamAuthType"]: {
 		_id: string,
@@ -1630,7 +1633,7 @@ export type ModelTypes = {
 };
 	["ProviderLoginInput"]: {
 	code: string,
-	redirectUri?: string | undefined
+	redirectUri: string
 };
 	["ProviderLoginQuery"]: {
 		apple?: ModelTypes["ProviderResponse"] | undefined,
@@ -1853,7 +1856,8 @@ export type GraphQLTypes = {
 	_id: string,
 	name: string,
 	owner?: string | undefined,
-	members: Array<GraphQLTypes["TeamMember"]>
+	members: Array<GraphQLTypes["TeamMember"]>,
+	createdAt?: string | undefined
 };
 	["TeamAuthType"]: {
 	__typename: "TeamAuthType",
@@ -1918,7 +1922,7 @@ export type GraphQLTypes = {
 };
 	["ProviderLoginInput"]: {
 		code: string,
-	redirectUri?: string | undefined
+	redirectUri: string
 };
 	["ProviderLoginQuery"]: {
 	__typename: "ProviderLoginQuery",
