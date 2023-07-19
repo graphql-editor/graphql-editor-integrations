@@ -18,10 +18,21 @@ type Mutation {
 	stripeCustomerMutationOps(
 		customerId: String!
 	): StripeCustomerMutationOps
+	createPaymentSession(
+		payload: CreatePaymentSessionPayload!
+	): String!
+	createCustomerPortal(
+		payload: CreateCustomerPortalPayload!
+	): String!
 	"""
 	entry point for Weebhooks.
 	"""
 	webhook: String
+}
+
+type User {
+	stripeId: String
+	email: String!
 }
 
 type StripeCustomerMutationOps{
@@ -44,6 +55,26 @@ input InitStripeCustomerInput {
 	name: String
 	phone: String
 	address: AddressInput
+}
+
+input CreatePaymentSessionPayload{
+	userEmail: String!
+	"""
+    Return url after successful transaction
+    """
+	successUrl: String!
+	cancelUrl: String!
+	products: [StripeProductInput!]!
+}
+
+input StripeProductInput{
+	productId: String!
+	quantity: Int!
+}
+
+input CreateCustomerPortalPayload{
+	userEmail: String!
+	returnUrl: String!
 }
 
 input AddressInput {

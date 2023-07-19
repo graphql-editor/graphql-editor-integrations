@@ -12,6 +12,12 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		stripeCustomerMutationOps:{
 
+		},
+		createPaymentSession:{
+			payload:"CreatePaymentSessionPayload"
+		},
+		createCustomerPortal:{
+			payload:"CreateCustomerPortalPayload"
 		}
 	},
 	StripeCustomerMutationOps:{
@@ -27,6 +33,15 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	InitStripeCustomerInput:{
 		address:"AddressInput"
+	},
+	CreatePaymentSessionPayload:{
+		products:"StripeProductInput"
+	},
+	StripeProductInput:{
+
+	},
+	CreateCustomerPortalPayload:{
+
 	},
 	AddressInput:{
 
@@ -80,7 +95,13 @@ export const ReturnTypes: Record<string,any> = {
 	Mutation:{
 		initStripeCustomer:"Boolean",
 		stripeCustomerMutationOps:"StripeCustomerMutationOps",
+		createPaymentSession:"String",
+		createCustomerPortal:"String",
 		webhook:"String"
+	},
+	User:{
+		stripeId:"String",
+		email:"String"
 	},
 	StripeCustomerMutationOps:{
 		generateBillingPortal:"String",

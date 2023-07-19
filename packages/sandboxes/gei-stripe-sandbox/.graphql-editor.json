@@ -3,7 +3,7 @@
     "project": "stripe-integration",
     "projectVersion": "latest",
     "backendSrc": "./src",
-    "schemaDir": "schema.graphql",
+    "schemaDir": "./",
     "typingsDir": "./src",
     "typingsEnv": "node",
     "typingsHost": "http://localhost:8080/"

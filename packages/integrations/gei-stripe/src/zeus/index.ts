@@ -847,8 +847,15 @@ stripeCustomerQueryOps?: [{	customerId: string | Variable<any, string>},ValueTyp
 	["Mutation"]: AliasType<{
 initStripeCustomer?: [{	initStripeCustomerInput: ValueTypes["InitStripeCustomerInput"] | Variable<any, string>},boolean | `@${string}`],
 stripeCustomerMutationOps?: [{	customerId: string | Variable<any, string>},ValueTypes["StripeCustomerMutationOps"]],
+createPaymentSession?: [{	payload: ValueTypes["CreatePaymentSessionPayload"] | Variable<any, string>},boolean | `@${string}`],
+createCustomerPortal?: [{	payload: ValueTypes["CreateCustomerPortalPayload"] | Variable<any, string>},boolean | `@${string}`],
 	/** entry point for Weebhooks. */
 	webhook?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["User"]: AliasType<{
+	stripeId?:boolean | `@${string}`,
+	email?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["StripeCustomerMutationOps"]: AliasType<{
@@ -866,6 +873,21 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ValueTypes["GenerateC
 	name?: string | undefined | null | Variable<any, string>,
 	phone?: string | undefined | null | Variable<any, string>,
 	address?: ValueTypes["AddressInput"] | undefined | null | Variable<any, string>
+};
+	["CreatePaymentSessionPayload"]: {
+	userEmail: string | Variable<any, string>,
+	/** Return url after successful transaction */
+	successUrl: string | Variable<any, string>,
+	cancelUrl: string | Variable<any, string>,
+	products: Array<ValueTypes["StripeProductInput"]> | Variable<any, string>
+};
+	["StripeProductInput"]: {
+	productId: string | Variable<any, string>,
+	quantity: number | Variable<any, string>
+};
+	["CreateCustomerPortalPayload"]: {
+	userEmail: string | Variable<any, string>,
+	returnUrl: string | Variable<any, string>
 };
 	["AddressInput"]: {
 	/** City, district, suburb, town, village, or ward. */
@@ -1039,8 +1061,15 @@ stripeCustomerQueryOps?: [{	customerId: string},ResolverInputTypes["StripeCustom
 	["Mutation"]: AliasType<{
 initStripeCustomer?: [{	initStripeCustomerInput: ResolverInputTypes["InitStripeCustomerInput"]},boolean | `@${string}`],
 stripeCustomerMutationOps?: [{	customerId: string},ResolverInputTypes["StripeCustomerMutationOps"]],
+createPaymentSession?: [{	payload: ResolverInputTypes["CreatePaymentSessionPayload"]},boolean | `@${string}`],
+createCustomerPortal?: [{	payload: ResolverInputTypes["CreateCustomerPortalPayload"]},boolean | `@${string}`],
 	/** entry point for Weebhooks. */
 	webhook?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["User"]: AliasType<{
+	stripeId?:boolean | `@${string}`,
+	email?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["StripeCustomerMutationOps"]: AliasType<{
@@ -1058,6 +1087,21 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ResolverInputTypes["G
 	name?: string | undefined | null,
 	phone?: string | undefined | null,
 	address?: ResolverInputTypes["AddressInput"] | undefined | null
+};
+	["CreatePaymentSessionPayload"]: {
+	userEmail: string,
+	/** Return url after successful transaction */
+	successUrl: string,
+	cancelUrl: string,
+	products: Array<ResolverInputTypes["StripeProductInput"]>
+};
+	["StripeProductInput"]: {
+	productId: string,
+	quantity: number
+};
+	["CreateCustomerPortalPayload"]: {
+	userEmail: string,
+	returnUrl: string
 };
 	["AddressInput"]: {
 	/** City, district, suburb, town, village, or ward. */
@@ -1229,8 +1273,14 @@ export type ModelTypes = {
 	["Mutation"]: {
 		initStripeCustomer: boolean,
 	stripeCustomerMutationOps?: ModelTypes["StripeCustomerMutationOps"] | undefined,
+	createPaymentSession: string,
+	createCustomerPortal: string,
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
+};
+	["User"]: {
+		stripeId?: string | undefined,
+	email: string
 };
 	["StripeCustomerMutationOps"]: {
 		generateBillingPortal?: string | undefined,
@@ -1246,6 +1296,21 @@ export type ModelTypes = {
 	name?: string | undefined,
 	phone?: string | undefined,
 	address?: ModelTypes["AddressInput"] | undefined
+};
+	["CreatePaymentSessionPayload"]: {
+	userEmail: string,
+	/** Return url after successful transaction */
+	successUrl: string,
+	cancelUrl: string,
+	products: Array<ModelTypes["StripeProductInput"]>
+};
+	["StripeProductInput"]: {
+	productId: string,
+	quantity: number
+};
+	["CreateCustomerPortalPayload"]: {
+	userEmail: string,
+	returnUrl: string
 };
 	["AddressInput"]: {
 	/** City, district, suburb, town, village, or ward. */
@@ -1409,8 +1474,15 @@ export type GraphQLTypes = {
 	__typename: "Mutation",
 	initStripeCustomer: boolean,
 	stripeCustomerMutationOps?: GraphQLTypes["StripeCustomerMutationOps"] | undefined,
+	createPaymentSession: string,
+	createCustomerPortal: string,
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
+};
+	["User"]: {
+	__typename: "User",
+	stripeId?: string | undefined,
+	email: string
 };
 	["StripeCustomerMutationOps"]: {
 	__typename: "StripeCustomerMutationOps",
@@ -1427,6 +1499,21 @@ export type GraphQLTypes = {
 	name?: string | undefined,
 	phone?: string | undefined,
 	address?: GraphQLTypes["AddressInput"] | undefined
+};
+	["CreatePaymentSessionPayload"]: {
+		userEmail: string,
+	/** Return url after successful transaction */
+	successUrl: string,
+	cancelUrl: string,
+	products: Array<GraphQLTypes["StripeProductInput"]>
+};
+	["StripeProductInput"]: {
+		productId: string,
+	quantity: number
+};
+	["CreateCustomerPortalPayload"]: {
+		userEmail: string,
+	returnUrl: string
 };
 	["AddressInput"]: {
 		/** City, district, suburb, town, village, or ward. */
@@ -1627,6 +1714,9 @@ export const enum Type {
 type ZEUS_VARIABLES = {
 	["GenerateCheckoutSessionInput"]: ValueTypes["GenerateCheckoutSessionInput"];
 	["InitStripeCustomerInput"]: ValueTypes["InitStripeCustomerInput"];
+	["CreatePaymentSessionPayload"]: ValueTypes["CreatePaymentSessionPayload"];
+	["StripeProductInput"]: ValueTypes["StripeProductInput"];
+	["CreateCustomerPortalPayload"]: ValueTypes["CreateCustomerPortalPayload"];
 	["AddressInput"]: ValueTypes["AddressInput"];
 	["ProductFilter"]: ValueTypes["ProductFilter"];
 	["RecurringFilter"]: ValueTypes["RecurringFilter"];

@@ -11,13 +11,12 @@
     "schema": "gecli schema",
     "get-integration": "gecli cloud install",
     "update": "npm run schema && npm run get-integration",
-    "updateV2":"gecli codegen models && gecli codegen typings && gecli schema"
+    "updateV2": "gecli codegen models && gecli codegen typings && gecli schema"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "gei-stripe": "^0.0.2",
     "stucco-js": "^0.10.18"
   },
   "peerDependencies": {
