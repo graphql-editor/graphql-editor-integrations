@@ -1,14 +1,11 @@
 /* eslint-disable */
 
-
 import { AllTypesProps, ReturnTypes, Ops } from './const.js';
 import fetch, { Response } from 'node-fetch';
 import WebSocket from 'ws';
-export const HOST = "http://localhost:8080/"
+export const HOST = 'http://localhost:8080/';
 
-
-export const HEADERS = {}
-
+export const HEADERS = {};
 
 const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   if (!response.ok) {
@@ -25,7 +22,7 @@ const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
         .catch(reject);
     });
   }
-  return response.json();
+  return response.json() as Promise<GraphQLResponse>;
 };
 
 export const apiFetch =
@@ -59,9 +56,6 @@ export const apiFetch =
       });
   };
 
-
-
-
 export const apiSubscription = (options: chainOptions) => (query: string) => {
   try {
     const queryString = options[0] + '?query=' + encodeURIComponent(query);
@@ -94,12 +88,6 @@ export const apiSubscription = (options: chainOptions) => (query: string) => {
     throw new Error('No websockets implemented');
   }
 };
-
-
-
-
-
-
 
 export const InternalsBuildQuery = ({
   ops,
@@ -170,14 +158,6 @@ export const InternalsBuildQuery = ({
   };
   return ibb;
 };
-
-
-
-
-
-
-
-
 
 export const Thunder =
   (fn: FetchFunction) =>
@@ -277,12 +257,6 @@ export const Gql = Chain(HOST, {
 
 export const ZeusScalars = ZeusSelect<ScalarCoders>();
 
-
-
-
-
-
-
 export const decodeScalarsInResponse = <O extends Operations>({
   response,
   scalars,
@@ -342,10 +316,6 @@ export const traverseResponse = ({
   };
   return ibb;
 };
-
-
-
-
 
 export type AllTypesPropsType = {
   [x: string]:
@@ -426,14 +396,10 @@ export class GraphQLError extends Error {
     return 'GraphQL Response Error';
   }
 }
-export type GenericOperation<O> = O extends keyof typeof Ops ? typeof Ops[O] : never;
+export type GenericOperation<O> = O extends keyof typeof Ops ? (typeof Ops)[O] : never;
 export type ThunderGraphQLOptions<SCLR extends ScalarDefinition> = {
   scalars?: SCLR | ScalarCoders;
 };
-
-
-
-
 
 const ExtractScalar = (mappedParts: string[], returns: ReturnTypesType): `scalar.${string}` | undefined => {
   if (mappedParts.length === 0) {
@@ -508,13 +474,7 @@ export const PrepareScalarPaths = ({ ops, returns }: { returns: ReturnTypesType;
   return ibb;
 };
 
-
 export const purifyGraphQLKey = (k: string) => k.replace(/\([^)]*\)/g, '').replace(/^[^:]*\:/g, '');
-
-
-
-
-
 
 const mapPart = (p: string) => {
   const [isArg, isField] = p.split('<>');
@@ -672,9 +632,6 @@ export const InternalArgsBuilt = ({
   return arb;
 };
 
-
-
-
 export const resolverFor = <X, T extends keyof ResolverInputTypes, Z extends keyof ResolverInputTypes[T]>(
   type: T,
   field: Z,
@@ -683,10 +640,6 @@ export const resolverFor = <X, T extends keyof ResolverInputTypes, Z extends key
     source: any,
   ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> | X : any,
 ) => fn as (args?: any, source?: any) => any;
-
-
-
-
 
 export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
 export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<UnwrapPromise<ReturnType<T>>>;
@@ -833,9 +786,6 @@ type OptionalKeys<T> = {
 
 export type WithOptionalNullables<T> = OptionalKeys<WithNullableKeys<T>> & WithNonNullableKeys<T>;
 
-
-
-
 export type Variable<T extends GraphQLVariableType, Name extends string> = {
   ' __zeus_name': Name;
   ' __zeus_type': T;
@@ -859,138 +809,139 @@ export const $ = <Type extends GraphQLVariableType, Name extends string>(name: N
   return (START_VAR_NAME + name + GRAPHQL_TYPE_SEPARATOR + graphqlType) as unknown as Variable<Type, Name>;
 };
 
-type ZEUS_INTERFACES = never
-export type ScalarCoders = {
-}
-type ZEUS_UNIONS = never
+type ZEUS_INTERFACES = never;
+export type ScalarCoders = {};
+type ZEUS_UNIONS = never;
 
 export type ValueTypes = {
-    ["Object"]: AliasType<{
-	name?:boolean | `@${string}`,
-	content?:boolean | `@${string}`,
-	oneToOne?:ValueTypes["Object"],
-	oneToMany?:ValueTypes["Object"],
-	_id?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["Query"]: AliasType<{
-	objects?:ValueTypes["Object"],
-oneById?: [{	_id: string | Variable<any, string>},ValueTypes["Object"]],
-		__typename?: boolean | `@${string}`
-}>;
-	["Mutation"]: AliasType<{
-create?: [{	object: ValueTypes["Update"] | Variable<any, string>},boolean | `@${string}`],
-update?: [{	_id: string | Variable<any, string>,	object: ValueTypes["Update"] | Variable<any, string>},boolean | `@${string}`],
-delete?: [{	_id: string | Variable<any, string>},boolean | `@${string}`],
-		__typename?: boolean | `@${string}`
-}>;
-	["Create"]: {
-	name: string | Variable<any, string>,
-	content?: string | undefined | null | Variable<any, string>,
-	owner?: string | undefined | null | Variable<any, string>
+  ['Object']: AliasType<{
+    name?: boolean | `@${string}`;
+    content?: boolean | `@${string}`;
+    oneToOne?: ValueTypes['Object'];
+    oneToMany?: ValueTypes['Object'];
+    _id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['Query']: AliasType<{
+    objects?: ValueTypes['Object'];
+    oneById?: [{ _id: string | Variable<any, string> }, ValueTypes['Object']];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['Mutation']: AliasType<{
+    create?: [{ object: ValueTypes['Update'] | Variable<any, string> }, boolean | `@${string}`];
+    update?: [
+      { _id: string | Variable<any, string>; object: ValueTypes['Update'] | Variable<any, string> },
+      boolean | `@${string}`,
+    ];
+    delete?: [{ _id: string | Variable<any, string> }, boolean | `@${string}`];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['Create']: {
+    name: string | Variable<any, string>;
+    content?: string | undefined | null | Variable<any, string>;
+    owner?: string | undefined | null | Variable<any, string>;
+  };
+  ['Update']: {
+    name?: string | undefined | null | Variable<any, string>;
+    content?: string | undefined | null | Variable<any, string>;
+    owner?: string | undefined | null | Variable<any, string>;
+  };
 };
-	["Update"]: {
-	name?: string | undefined | null | Variable<any, string>,
-	content?: string | undefined | null | Variable<any, string>,
-	owner?: string | undefined | null | Variable<any, string>
-}
-  }
 
 export type ResolverInputTypes = {
-    ["Object"]: AliasType<{
-	name?:boolean | `@${string}`,
-	content?:boolean | `@${string}`,
-	oneToOne?:ResolverInputTypes["Object"],
-	oneToMany?:ResolverInputTypes["Object"],
-	_id?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["Query"]: AliasType<{
-	objects?:ResolverInputTypes["Object"],
-oneById?: [{	_id: string},ResolverInputTypes["Object"]],
-		__typename?: boolean | `@${string}`
-}>;
-	["Mutation"]: AliasType<{
-create?: [{	object: ResolverInputTypes["Update"]},boolean | `@${string}`],
-update?: [{	_id: string,	object: ResolverInputTypes["Update"]},boolean | `@${string}`],
-delete?: [{	_id: string},boolean | `@${string}`],
-		__typename?: boolean | `@${string}`
-}>;
-	["Create"]: {
-	name: string,
-	content?: string | undefined | null,
-	owner?: string | undefined | null
+  ['Object']: AliasType<{
+    name?: boolean | `@${string}`;
+    content?: boolean | `@${string}`;
+    oneToOne?: ResolverInputTypes['Object'];
+    oneToMany?: ResolverInputTypes['Object'];
+    _id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['Query']: AliasType<{
+    objects?: ResolverInputTypes['Object'];
+    oneById?: [{ _id: string }, ResolverInputTypes['Object']];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['Mutation']: AliasType<{
+    create?: [{ object: ResolverInputTypes['Update'] }, boolean | `@${string}`];
+    update?: [{ _id: string; object: ResolverInputTypes['Update'] }, boolean | `@${string}`];
+    delete?: [{ _id: string }, boolean | `@${string}`];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['Create']: {
+    name: string;
+    content?: string | undefined | null;
+    owner?: string | undefined | null;
+  };
+  ['Update']: {
+    name?: string | undefined | null;
+    content?: string | undefined | null;
+    owner?: string | undefined | null;
+  };
 };
-	["Update"]: {
-	name?: string | undefined | null,
-	content?: string | undefined | null,
-	owner?: string | undefined | null
-}
-  }
 
 export type ModelTypes = {
-    ["Object"]: {
-		name: string,
-	content?: string | undefined,
-	oneToOne?: ModelTypes["Object"] | undefined,
-	oneToMany?: Array<ModelTypes["Object"] | undefined> | undefined,
-	_id: string
+  ['Object']: {
+    name: string;
+    content?: string | undefined;
+    oneToOne?: ModelTypes['Object'] | undefined;
+    oneToMany?: Array<ModelTypes['Object'] | undefined> | undefined;
+    _id: string;
+  };
+  ['Query']: {
+    objects?: Array<ModelTypes['Object']> | undefined;
+    oneById?: ModelTypes['Object'] | undefined;
+  };
+  ['Mutation']: {
+    create?: string | undefined;
+    update?: boolean | undefined;
+    delete?: boolean | undefined;
+  };
+  ['Create']: {
+    name: string;
+    content?: string | undefined;
+    owner?: string | undefined;
+  };
+  ['Update']: {
+    name?: string | undefined;
+    content?: string | undefined;
+    owner?: string | undefined;
+  };
 };
-	["Query"]: {
-		objects?: Array<ModelTypes["Object"]> | undefined,
-	oneById?: ModelTypes["Object"] | undefined
-};
-	["Mutation"]: {
-		create?: string | undefined,
-	update?: boolean | undefined,
-	delete?: boolean | undefined
-};
-	["Create"]: {
-	name: string,
-	content?: string | undefined,
-	owner?: string | undefined
-};
-	["Update"]: {
-	name?: string | undefined,
-	content?: string | undefined,
-	owner?: string | undefined
-}
-    }
 
 export type GraphQLTypes = {
-    ["Object"]: {
-	__typename: "Object",
-	name: string,
-	content?: string | undefined,
-	oneToOne?: GraphQLTypes["Object"] | undefined,
-	oneToMany?: Array<GraphQLTypes["Object"] | undefined> | undefined,
-	_id: string
+  ['Object']: {
+    __typename: 'Object';
+    name: string;
+    content?: string | undefined;
+    oneToOne?: GraphQLTypes['Object'] | undefined;
+    oneToMany?: Array<GraphQLTypes['Object'] | undefined> | undefined;
+    _id: string;
+  };
+  ['Query']: {
+    __typename: 'Query';
+    objects?: Array<GraphQLTypes['Object']> | undefined;
+    oneById?: GraphQLTypes['Object'] | undefined;
+  };
+  ['Mutation']: {
+    __typename: 'Mutation';
+    create?: string | undefined;
+    update?: boolean | undefined;
+    delete?: boolean | undefined;
+  };
+  ['Create']: {
+    name: string;
+    content?: string | undefined;
+    owner?: string | undefined;
+  };
+  ['Update']: {
+    name?: string | undefined;
+    content?: string | undefined;
+    owner?: string | undefined;
+  };
 };
-	["Query"]: {
-	__typename: "Query",
-	objects?: Array<GraphQLTypes["Object"]> | undefined,
-	oneById?: GraphQLTypes["Object"] | undefined
-};
-	["Mutation"]: {
-	__typename: "Mutation",
-	create?: string | undefined,
-	update?: boolean | undefined,
-	delete?: boolean | undefined
-};
-	["Create"]: {
-		name: string,
-	content?: string | undefined,
-	owner?: string | undefined
-};
-	["Update"]: {
-		name?: string | undefined,
-	content?: string | undefined,
-	owner?: string | undefined
-}
-    }
-
 
 type ZEUS_VARIABLES = {
-	["Create"]: ValueTypes["Create"];
-	["Update"]: ValueTypes["Update"];
-}
+  ['Create']: ValueTypes['Create'];
+  ['Update']: ValueTypes['Update'];
+};

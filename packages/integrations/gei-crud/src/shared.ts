@@ -44,7 +44,7 @@ type TypeRef = NamedTypeRef | NonNullTypeRef | ListTypeRef | undefined;
 export const getReturnTypeName = (ref: TypeRef): string | undefined => {
   if (!ref) return;
   if ('nonNull' in ref || 'list' in ref) {
-    return getReturnTypeName(ref);
+    return 'String';
   }
   return ref.name;
 };

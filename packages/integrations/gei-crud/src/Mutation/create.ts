@@ -22,5 +22,5 @@ export const handler = async (input: FieldResolveInput) =>
     return db
       .collection(prepareModel(input))
       .insertOne(creationInput)
-      .then((result:any) => result.insertedId);
+      .then((result) => result.insertedId);
   });
