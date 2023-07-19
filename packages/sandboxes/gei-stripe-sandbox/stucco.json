@@ -1,0 +1,14 @@
+{
+    "resolvers": {
+        "Mutation.initStripeCustomer": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.0.2",
+                "resolver": "initStripeCustomer"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.initStripeCustomer"
+            }
+        }
+    }
+}

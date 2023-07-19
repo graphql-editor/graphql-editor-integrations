@@ -1,0 +1,10 @@
+{
+    "namespace": "editor-integrations",
+    "project": "stripe-integration",
+    "projectVersion": "latest",
+    "backendSrc": "./src",
+    "schemaDir": "schema.graphql",
+    "typingsDir": "./src",
+    "typingsEnv": "node",
+    "typingsHost": "http://localhost:8080/"
+}
