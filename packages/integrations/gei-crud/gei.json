@@ -1,0 +1,6 @@
+{
+  "ENV": {
+    "required": ["MONGO_URL"]
+  },
+  "data": {}
+}

@@ -17,7 +17,8 @@
     "packages/integrations/gei-rest",
     "packages/integrations/gei-users",
     "packages/integrations/gei-s3",
-    "packages/integrations/gei-stripe"
+    "packages/integrations/gei-stripe",
+    "packages/integrations/gei-crud"
   ],
   "bugs": {
     "url": "https://github.com/graphql-editor/graphql-editor-integrations/issues"
