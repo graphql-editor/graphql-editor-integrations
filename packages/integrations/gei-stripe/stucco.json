@@ -1,0 +1,11 @@
+{
+    "resolvers": {
+        "Mutation.initStripeCustomer": {
+            "name": "initStripeCustomer",
+            "description": "Init stripe customer",
+            "resolve": {
+                "name": "Mutation.initStripeCustomer.handler"
+            }
+        }
+    }
+}

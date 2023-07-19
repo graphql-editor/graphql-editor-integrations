@@ -1,0 +1,274 @@
+
+
+type Query{
+	store: Store!
+	stripeCustomerQueryOps(
+		customerId: String!
+	): StripeCustomerQueryOps
+}
+
+type StripeCustomerQueryOps{
+	getCustomerInfo: StripeCustomer
+}
+
+type Mutation {
+	initStripeCustomer(
+		initStripeCustomerInput: InitStripeCustomerInput!
+	): Boolean!
+	stripeCustomerMutationOps(
+		customerId: String!
+	): StripeCustomerMutationOps
+	"""
+	entry point for Weebhooks.
+	"""
+	webhook: String
+}
+
+type StripeCustomerMutationOps{
+	generateBillingPortal(
+		returnUrl: String!
+	): String
+	generateCheckoutSession(
+		generateCheckoutSessionInput: GenerateCheckoutSessionInput!
+	): String
+}
+
+input GenerateCheckoutSessionInput {
+	productIds: [String!]!
+	success_url: String!
+	cancel_url: String!
+}
+
+input InitStripeCustomerInput {
+	email: String!
+	name: String
+	phone: String
+	address: AddressInput
+}
+
+input AddressInput {
+	"""
+    City, district, suburb, town, village, or ward.
+    """
+    city: String!
+    """
+    Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+    """
+    country: String!
+    """
+    Address line 1 (e.g., street, block, PO Box, or company name).
+    """
+    line1: String!
+    """
+    Address line 2 (e.g., apartment, suite, unit, or building).
+    """
+    line2: String!
+    """
+    ZIP or postal code.
+    """
+    postal_code: String!
+    """
+    State, county, province, prefecture, or region.
+    """
+    state: String!
+}
+
+type StripeCustomer {
+	customerId: String!
+	email: String!
+	name: String
+	address: Address
+}
+
+type Address {
+    city: String
+    country: String
+    line1: String
+    line2: String
+    postal_code: String
+    state: String
+}
+
+input ProductFilter{
+	active: Boolean
+	created: TimestampFilter
+	limit: Int
+	shippable: Boolean
+	ids: [ID!]
+	startingAfter: ID
+	endingBefore: ID
+	url: String
+}
+
+input RecurringFilter{
+	interval: Interval
+	usageType: UsageType
+}
+
+input PriceFilter{
+	active: Boolean
+	currency: String
+	product: ID
+	type: Type
+	created: TimestampFilter
+	limit: Int
+	startingAfter: ID
+	endingBefore: ID
+	recurring: RecurringFilter
+}
+
+type Store{
+	products(
+		filter: ProductFilter
+	): ProductsPage
+	prices(
+		filter: PriceFilter
+	): PricesPage
+}
+
+type Dimensions{
+	height: Float
+	length: Float
+	weight: Float
+	width: Float
+}
+
+type Product{
+	id: ID!
+	active: Boolean
+	created: Timestamp
+	defaultPrice: Price
+	description: String
+	images: [String!]
+	livemode: Boolean
+	metadata: AnyObject
+	name: String
+	packageDimensions: Dimensions
+	shippable: Boolean
+	statementDescriptor: String
+	taxCode: String
+	unitLabel: String
+	updated: Timestamp
+	url: String
+	prices: [Price!]
+}
+
+enum BillingScheme{
+	PER_UNIT
+	TIERED
+}
+
+"""
+Offset measured in seconds since Unix epoch.
+"""
+scalar Timestamp
+
+input TimestampFilter{
+	Gt: Timestamp
+	Gte: Timestamp
+	Lt: Timestamp
+	Lte: Timestamp
+}
+
+type CustomUnitAmount{
+	maximum: Int
+	minimum: Int
+	preset: Int
+}
+
+"""
+Any value that can be represented as JSON object
+"""
+scalar AnyObject
+
+enum AggregateUsage{
+	SUM
+	LAST_DURING_PERIOD
+	LAST_EVER
+	MAX
+}
+
+enum Interval{
+	MONTH
+	YEAR
+	WEEK
+	DAY
+}
+
+enum UsageType{
+	METERED
+	LICENSED
+}
+
+type PriceRecurring{
+	aggregateUsage: AggregateUsage
+	interval: Interval
+	intervalCount: Int
+	usageType: UsageType
+	trialPeriodDays: Int
+}
+
+enum TaxBehaviour{
+	INCLUSIVE
+	EXCLUSIVE
+	UNSPECIFIED
+}
+
+enum TiersMode{
+	GRADUATED
+	VOLUME
+}
+
+enum Round{
+	UP
+	DOWN
+}
+
+type TransformQuantity{
+	divideBy: Int
+	round: Round
+}
+
+enum Type{
+	RECURRING
+	ONE_TIME
+}
+
+type Price{
+	id: ID!
+	active: Boolean
+	billingScheme: BillingScheme
+	created: Timestamp
+	currency: String
+	customUnitAmount: CustomUnitAmount
+	livemode: Boolean
+	lookupKey: String
+	metadata: AnyObject
+	nickname: String
+	product: Product
+	recurring: PriceRecurring
+	taxBehavior: TaxBehaviour
+	tiersMode: TiersMode
+	transformQuantity: TransformQuantity
+	type: Type
+	unitAmount: Int
+	unitAmountDecimal: String
+}
+
+type ProductsPage{
+	products: [Product!]
+	startingAfter: ID
+	endingBefore: ID
+}
+
+type PricesPage{
+	products: [Price!]
+	startingAfter: ID
+	endingBefore: ID
+}
+
+
+schema{
+	query: Query
+	mutation: Mutation
+}
