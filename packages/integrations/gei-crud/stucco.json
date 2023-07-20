@@ -17,7 +17,7 @@
                 }
             },
             "resolve": {
-                "name": "lib/Query/objects"
+                "name": "Query.objects.handler"
             }
         },
         "Query.oneById": {
@@ -37,7 +37,7 @@
                 }
             },
             "resolve": {
-                "name": "lib/Query/oneById"
+                "name": "Query.oneById.handler"
             }
         },
         "Mutation.create": {
@@ -57,7 +57,7 @@
                 }
             },
             "resolve": {
-                "name": "lib/Mutation/create"
+                "name": "Mutation.create.handler"
             }
         },
         "Mutation.update": {
@@ -77,7 +77,7 @@
                 }
             },
             "resolve": {
-                "name": "lib/Mutation/update"
+                "name": "Mutation.update.handler"
             }
         },
         "Mutation.delete": {
@@ -90,14 +90,14 @@
                     "value": "Object",
                     "required": true
                 },
-                "sourceFilterParameters": {
-                    "name": "Get only owned objects by parameters from source",
+                "sourceParameters": {
+                    "name": "Get parameters from source",
                     "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
                     "value": []
                 }
             },
             "resolve": {
-                "name": "lib/Mutation/delete"
+                "name": "Mutation.delete.handler"
             }
         },
         "Object.oneToOne": {
@@ -117,7 +117,7 @@
                 }
             },
             "resolve": {
-                "name": "lib/Object/oneToOne"
+                "name": "Object.oneToOne.handler"
             }
         },
         "Object.oneToMany": {
@@ -137,7 +137,7 @@
                 }
             },
             "resolve": {
-                "name": "lib/Object/oneToMany"
+                "name": "Object.oneToMany.handler"
             }
         }
     }
