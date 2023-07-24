@@ -1,0 +1,23 @@
+{
+    "resolvers": {
+        "Mutation.initStripeCustomer": {
+            "name": "initStripeCustomer",
+            "description": "Init stripe customer",
+            "resolve": {
+                "name": "Mutation.initStripeCustomer.handler"
+            }
+        },
+        "Mutation.webhook": {
+            "name": "webhook",
+            "description": "Stripe webhook for managing mongo data",
+            "resolve": {
+                "name": "Mutation.webhook.handler"
+            }
+        }
+    },
+    "azureOpts": {
+        "webhooks": [
+            "webhook/Mutation/webhook"
+        ]
+    }
+}

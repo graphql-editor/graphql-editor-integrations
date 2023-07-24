@@ -8,5 +8,7 @@
     "backendSrc": "./src",
     "backendLib": "./lib",
     "schemaDir": "./",
-    "integrationPath": "./src/index.ts"
+    "integrationPath": "./src/index.ts",
+    "registry": "https://registry.npmjs.org/",
+    "npmPackage": "gei-stripe"
 }

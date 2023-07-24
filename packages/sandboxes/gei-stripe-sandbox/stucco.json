@@ -1,0 +1,29 @@
+{
+    "resolvers": {
+        "Mutation.initStripeCustomer": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.0.3",
+                "resolver": "initStripeCustomer"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.initStripeCustomer"
+            }
+        },
+        "Mutation.webhook": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.0.3",
+                "resolver": "webhook"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.webhook"
+            }
+        }
+    },
+    "azureOpts": {
+        "webhooks": [
+            "webhook/Mutation/webhook"
+        ]
+    }
+}
