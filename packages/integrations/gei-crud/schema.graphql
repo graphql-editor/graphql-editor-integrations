@@ -1,0 +1,45 @@
+
+
+type Object{
+	name: String!
+	content: String
+	oneToOne: Object
+	oneToMany: [Object]
+	_id: String!
+}
+
+type Query{
+	objects: [Object!]
+	oneById(
+		_id: String!
+	): Object
+}
+
+type Mutation{
+	create(
+		object: Update!
+	): String
+	update(
+		_id: String!
+		object: Update!
+	): Boolean
+	delete(
+		_id: String!
+	): Boolean
+}
+
+input Create{
+	name: String!
+	content: String
+	owner: String
+}
+
+input Update{
+	name: String
+	content: String
+	owner: String
+}
+schema{
+	query: Query,
+	mutation: Mutation
+}
