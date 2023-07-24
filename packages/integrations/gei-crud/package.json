@@ -2,7 +2,7 @@
   "name": "gei-crud",
   "version": "0.0.8",
   "description": "GraphQL Editor integration for stucco. Allows basic crud operations and relations.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "private": false,
   "scripts": {
     "start": "gecli dev",
@@ -12,7 +12,8 @@
     "temp-db": "docker run -p 27017:27017 --rm mongo",
     "prepack": "gecli gei integrate",
     "postpack": "rm stucco.json",
-    "integrate": "gecli gei integrate"
+    "integrate": "gecli gei integrate",
+    "publish": "gecli gei publish"
   },
   "repository": {
     "type": "git",
