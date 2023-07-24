@@ -21,6 +21,9 @@ type Mutation {
 	createPaymentSession(
 		payload: CreatePaymentSessionPayload!
 	): String!
+	createNewUserPaymentSession(
+		payload: CreateNewUserPaymentSessionPayload!
+	): String!
 	createCustomerPortal(
 		payload: CreateCustomerPortalPayload!
 	): String!
@@ -55,6 +58,12 @@ input InitStripeCustomerInput {
 	name: String
 	phone: String
 	address: AddressInput
+}
+
+input CreateNewUserPaymentSessionPayload {
+	successUrl: String!
+	cancelUrl: String!
+	products: [StripeProductInput!]!
 }
 
 input CreatePaymentSessionPayload{

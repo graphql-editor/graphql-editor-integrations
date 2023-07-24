@@ -14,7 +14,7 @@ export const handler = async (input: FieldResolveInput) =>
         phone: phone || undefined,
         address: address || undefined,
       });
-      await MongoOrb('UserCollection').collection.updateOne(
+      await MongoOrb('StripeUserCollection').collection.updateOne(
         { email: args.initStripeCustomerInput.email },
         { $set: { stripeId: customer.id } },
         { upsert: true },

@@ -848,6 +848,7 @@ stripeCustomerQueryOps?: [{	customerId: string | Variable<any, string>},ValueTyp
 initStripeCustomer?: [{	initStripeCustomerInput: ValueTypes["InitStripeCustomerInput"] | Variable<any, string>},boolean | `@${string}`],
 stripeCustomerMutationOps?: [{	customerId: string | Variable<any, string>},ValueTypes["StripeCustomerMutationOps"]],
 createPaymentSession?: [{	payload: ValueTypes["CreatePaymentSessionPayload"] | Variable<any, string>},boolean | `@${string}`],
+createNewUserPaymentSession?: [{	payload: ValueTypes["CreateNewUserPaymentSessionPayload"] | Variable<any, string>},boolean | `@${string}`],
 createCustomerPortal?: [{	payload: ValueTypes["CreateCustomerPortalPayload"] | Variable<any, string>},boolean | `@${string}`],
 	/** entry point for Weebhooks. */
 	webhook?:boolean | `@${string}`,
@@ -873,6 +874,11 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ValueTypes["GenerateC
 	name?: string | undefined | null | Variable<any, string>,
 	phone?: string | undefined | null | Variable<any, string>,
 	address?: ValueTypes["AddressInput"] | undefined | null | Variable<any, string>
+};
+	["CreateNewUserPaymentSessionPayload"]: {
+	successUrl: string | Variable<any, string>,
+	cancelUrl: string | Variable<any, string>,
+	products: Array<ValueTypes["StripeProductInput"]> | Variable<any, string>
 };
 	["CreatePaymentSessionPayload"]: {
 	userEmail: string | Variable<any, string>,
@@ -1062,6 +1068,7 @@ stripeCustomerQueryOps?: [{	customerId: string},ResolverInputTypes["StripeCustom
 initStripeCustomer?: [{	initStripeCustomerInput: ResolverInputTypes["InitStripeCustomerInput"]},boolean | `@${string}`],
 stripeCustomerMutationOps?: [{	customerId: string},ResolverInputTypes["StripeCustomerMutationOps"]],
 createPaymentSession?: [{	payload: ResolverInputTypes["CreatePaymentSessionPayload"]},boolean | `@${string}`],
+createNewUserPaymentSession?: [{	payload: ResolverInputTypes["CreateNewUserPaymentSessionPayload"]},boolean | `@${string}`],
 createCustomerPortal?: [{	payload: ResolverInputTypes["CreateCustomerPortalPayload"]},boolean | `@${string}`],
 	/** entry point for Weebhooks. */
 	webhook?:boolean | `@${string}`,
@@ -1087,6 +1094,11 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ResolverInputTypes["G
 	name?: string | undefined | null,
 	phone?: string | undefined | null,
 	address?: ResolverInputTypes["AddressInput"] | undefined | null
+};
+	["CreateNewUserPaymentSessionPayload"]: {
+	successUrl: string,
+	cancelUrl: string,
+	products: Array<ResolverInputTypes["StripeProductInput"]>
 };
 	["CreatePaymentSessionPayload"]: {
 	userEmail: string,
@@ -1274,6 +1286,7 @@ export type ModelTypes = {
 		initStripeCustomer: boolean,
 	stripeCustomerMutationOps?: ModelTypes["StripeCustomerMutationOps"] | undefined,
 	createPaymentSession: string,
+	createNewUserPaymentSession: string,
 	createCustomerPortal: string,
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
@@ -1296,6 +1309,11 @@ export type ModelTypes = {
 	name?: string | undefined,
 	phone?: string | undefined,
 	address?: ModelTypes["AddressInput"] | undefined
+};
+	["CreateNewUserPaymentSessionPayload"]: {
+	successUrl: string,
+	cancelUrl: string,
+	products: Array<ModelTypes["StripeProductInput"]>
 };
 	["CreatePaymentSessionPayload"]: {
 	userEmail: string,
@@ -1475,6 +1493,7 @@ export type GraphQLTypes = {
 	initStripeCustomer: boolean,
 	stripeCustomerMutationOps?: GraphQLTypes["StripeCustomerMutationOps"] | undefined,
 	createPaymentSession: string,
+	createNewUserPaymentSession: string,
 	createCustomerPortal: string,
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
@@ -1499,6 +1518,11 @@ export type GraphQLTypes = {
 	name?: string | undefined,
 	phone?: string | undefined,
 	address?: GraphQLTypes["AddressInput"] | undefined
+};
+	["CreateNewUserPaymentSessionPayload"]: {
+		successUrl: string,
+	cancelUrl: string,
+	products: Array<GraphQLTypes["StripeProductInput"]>
 };
 	["CreatePaymentSessionPayload"]: {
 		userEmail: string,
@@ -1714,6 +1738,7 @@ export const enum Type {
 type ZEUS_VARIABLES = {
 	["GenerateCheckoutSessionInput"]: ValueTypes["GenerateCheckoutSessionInput"];
 	["InitStripeCustomerInput"]: ValueTypes["InitStripeCustomerInput"];
+	["CreateNewUserPaymentSessionPayload"]: ValueTypes["CreateNewUserPaymentSessionPayload"];
 	["CreatePaymentSessionPayload"]: ValueTypes["CreatePaymentSessionPayload"];
 	["StripeProductInput"]: ValueTypes["StripeProductInput"];
 	["CreateCustomerPortalPayload"]: ValueTypes["CreateCustomerPortalPayload"];

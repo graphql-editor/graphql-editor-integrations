@@ -16,6 +16,9 @@ export const AllTypesProps: Record<string,any> = {
 		createPaymentSession:{
 			payload:"CreatePaymentSessionPayload"
 		},
+		createNewUserPaymentSession:{
+			payload:"CreateNewUserPaymentSessionPayload"
+		},
 		createCustomerPortal:{
 			payload:"CreateCustomerPortalPayload"
 		}
@@ -33,6 +36,9 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	InitStripeCustomerInput:{
 		address:"AddressInput"
+	},
+	CreateNewUserPaymentSessionPayload:{
+		products:"StripeProductInput"
 	},
 	CreatePaymentSessionPayload:{
 		products:"StripeProductInput"
@@ -96,6 +102,7 @@ export const ReturnTypes: Record<string,any> = {
 		initStripeCustomer:"Boolean",
 		stripeCustomerMutationOps:"StripeCustomerMutationOps",
 		createPaymentSession:"String",
+		createNewUserPaymentSession:"String",
 		createCustomerPortal:"String",
 		webhook:"String"
 	},
