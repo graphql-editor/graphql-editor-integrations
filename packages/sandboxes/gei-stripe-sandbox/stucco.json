@@ -10,6 +10,26 @@
                 "name": "gei-stripe@Mutation.initStripeCustomer"
             }
         },
+        "Mutation.createNewUserPaymentSession": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.0.3",
+                "resolver": "createNewUserPaymentSession"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.createNewUserPaymentSession"
+            }
+        },
+        "Mutation.createPaymentSession": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.0.3",
+                "resolver": "createPaymentSession"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.createPaymentSession"
+            }
+        },
         "Mutation.webhook": {
             "noCode": {
                 "package": "gei-stripe",
@@ -18,6 +38,36 @@
             },
             "resolve": {
                 "name": "gei-stripe@Mutation.webhook"
+            }
+        },
+        "Query.products": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.0.3",
+                "resolver": "products"
+            },
+            "resolve": {
+                "name": "gei-stripe@Query.products"
+            }
+        },
+        "Product.default_price": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.0.3",
+                "resolver": "default_price"
+            },
+            "resolve": {
+                "name": "gei-stripe@Product.default_price"
+            }
+        },
+        "Product.prices": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.0.3",
+                "resolver": "prices"
+            },
+            "resolve": {
+                "name": "gei-stripe@Product.prices"
             }
         }
     },
