@@ -9,7 +9,7 @@ type Object{
 }
 
 type Query{
-	objects: [Object!]
+	objects(filter: ObjectInput): [Object!]
 	oneById(
 		_id: String!
 	): Object
@@ -32,6 +32,11 @@ input Create{
 	name: String!
 	content: String
 	owner: String
+}
+
+input ObjectInput{
+	name: String
+	content: String
 }
 
 input Update{

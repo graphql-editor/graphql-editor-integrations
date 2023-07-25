@@ -3,12 +3,12 @@ import { getResolverData } from './shared.js';
 
 export const prepareSourceParameters = (input: FieldResolveInput) => {
   const source = input.source;
-  const { data } = getResolverData<{ sourceParameters?: string[] }>(input);
-  const sourceParameters = data?.sourceParameters?.value;
+  const { data } = getResolverData<{ sourceParameters?: string[], sourceFilterParameters?: string[] }>(input);
+  const sourceParameters = data?.sourceParameters?.value || data?.sourceFilterParameters?.value;
   if (sourceParameters && sourceParameters.length > 0) {
     if (!source) {
       throw new Error(
-        'Invalid input. This resolver work only if it is piped from other resolver. Either make it correct way or remove sourceParameters from resolver',
+        'Invalid input. This resolver work only if it is piped from other resolver. Either make it correct way or remove sourceFilterParameters from resolver',
       );
     }
     const s = source as Record<string, any>;
@@ -21,7 +21,7 @@ export const prepareSourceParameters = (input: FieldResolveInput) => {
               s,
               null,
               2,
-            )}. Please change sourceParam name or provide correct source from piped resolver.`,
+            )}. Please change sourceFilterParameter name or provide correct source from piped resolver.`,
           );
         }
         return [sp, sourceParamValue];
@@ -62,3 +62,4 @@ export const prepareRequired_id = (input: FieldResolveInput) => {
   }
   return _id;
 };
+
