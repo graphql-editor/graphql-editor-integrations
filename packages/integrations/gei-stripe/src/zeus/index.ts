@@ -836,7 +836,7 @@ type ZEUS_UNIONS = never
 
 export type ValueTypes = {
     ["Query"]: AliasType<{
-	store?:ValueTypes["Store"],
+products?: [{	filter?: ValueTypes["ProductFilter"] | undefined | null | Variable<any, string>},ValueTypes["ProductsPage"]],
 stripeCustomerQueryOps?: [{	customerId: string | Variable<any, string>},ValueTypes["StripeCustomerQueryOps"]],
 		__typename?: boolean | `@${string}`
 }>;
@@ -931,8 +931,8 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ValueTypes["GenerateC
 	limit?: number | undefined | null | Variable<any, string>,
 	shippable?: boolean | undefined | null | Variable<any, string>,
 	ids?: Array<string> | undefined | null | Variable<any, string>,
-	startingAfter?: string | undefined | null | Variable<any, string>,
-	endingBefore?: string | undefined | null | Variable<any, string>,
+	starting_after?: string | undefined | null | Variable<any, string>,
+	ending_before?: string | undefined | null | Variable<any, string>,
 	url?: string | undefined | null | Variable<any, string>
 };
 	["RecurringFilter"]: {
@@ -946,15 +946,10 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ValueTypes["GenerateC
 	type?: ValueTypes["Type"] | undefined | null | Variable<any, string>,
 	created?: ValueTypes["TimestampFilter"] | undefined | null | Variable<any, string>,
 	limit?: number | undefined | null | Variable<any, string>,
-	startingAfter?: string | undefined | null | Variable<any, string>,
-	endingBefore?: string | undefined | null | Variable<any, string>,
+	starting_after?: string | undefined | null | Variable<any, string>,
+	ending_before?: string | undefined | null | Variable<any, string>,
 	recurring?: ValueTypes["RecurringFilter"] | undefined | null | Variable<any, string>
 };
-	["Store"]: AliasType<{
-products?: [{	filter?: ValueTypes["ProductFilter"] | undefined | null | Variable<any, string>},ValueTypes["ProductsPage"]],
-prices?: [{	filter?: ValueTypes["PriceFilter"] | undefined | null | Variable<any, string>},ValueTypes["PricesPage"]],
-		__typename?: boolean | `@${string}`
-}>;
 	["Dimensions"]: AliasType<{
 	height?:boolean | `@${string}`,
 	length?:boolean | `@${string}`,
@@ -966,16 +961,16 @@ prices?: [{	filter?: ValueTypes["PriceFilter"] | undefined | null | Variable<any
 	id?:boolean | `@${string}`,
 	active?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
-	defaultPrice?:ValueTypes["Price"],
+	default_price?:ValueTypes["Price"],
 	description?:boolean | `@${string}`,
 	images?:boolean | `@${string}`,
 	livemode?:boolean | `@${string}`,
 	metadata?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
-	packageDimensions?:ValueTypes["Dimensions"],
+	package_dimensions?:ValueTypes["Dimensions"],
 	shippable?:boolean | `@${string}`,
-	statementDescriptor?:boolean | `@${string}`,
-	taxCode?:boolean | `@${string}`,
+	statement_descriptor?:boolean | `@${string}`,
+	tax_code?:boolean | `@${string}`,
 	unitLabel?:boolean | `@${string}`,
 	updated?:boolean | `@${string}`,
 	url?:boolean | `@${string}`,
@@ -1003,11 +998,11 @@ prices?: [{	filter?: ValueTypes["PriceFilter"] | undefined | null | Variable<any
 	["Interval"]:Interval;
 	["UsageType"]:UsageType;
 	["PriceRecurring"]: AliasType<{
-	aggregateUsage?:boolean | `@${string}`,
+	aggregate_usage?:boolean | `@${string}`,
 	interval?:boolean | `@${string}`,
-	intervalCount?:boolean | `@${string}`,
-	usageType?:boolean | `@${string}`,
-	trialPeriodDays?:boolean | `@${string}`,
+	interval_count?:boolean | `@${string}`,
+	usage_type?:boolean | `@${string}`,
+	trial_period_days?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["TaxBehaviour"]:TaxBehaviour;
@@ -1022,32 +1017,26 @@ prices?: [{	filter?: ValueTypes["PriceFilter"] | undefined | null | Variable<any
 	["Price"]: AliasType<{
 	id?:boolean | `@${string}`,
 	active?:boolean | `@${string}`,
-	billingScheme?:boolean | `@${string}`,
+	billing_scheme?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
 	currency?:boolean | `@${string}`,
-	customUnitAmount?:ValueTypes["CustomUnitAmount"],
+	custom_unit_amount?:ValueTypes["CustomUnitAmount"],
 	livemode?:boolean | `@${string}`,
-	lookupKey?:boolean | `@${string}`,
+	lookup_key?:boolean | `@${string}`,
 	metadata?:boolean | `@${string}`,
 	nickname?:boolean | `@${string}`,
 	product?:ValueTypes["Product"],
 	recurring?:ValueTypes["PriceRecurring"],
-	taxBehavior?:boolean | `@${string}`,
-	tiersMode?:boolean | `@${string}`,
-	transformQuantity?:ValueTypes["TransformQuantity"],
+	tax_behavior?:boolean | `@${string}`,
+	tiers_mode?:boolean | `@${string}`,
+	transform_quantity?:ValueTypes["TransformQuantity"],
 	type?:boolean | `@${string}`,
-	unitAmount?:boolean | `@${string}`,
-	unitAmountDecimal?:boolean | `@${string}`,
+	unit_amount?:boolean | `@${string}`,
+	unit_amount_decimal?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["ProductsPage"]: AliasType<{
 	products?:ValueTypes["Product"],
-	startingAfter?:boolean | `@${string}`,
-	endingBefore?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["PricesPage"]: AliasType<{
-	products?:ValueTypes["Price"],
 	startingAfter?:boolean | `@${string}`,
 	endingBefore?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
@@ -1056,7 +1045,7 @@ prices?: [{	filter?: ValueTypes["PriceFilter"] | undefined | null | Variable<any
 
 export type ResolverInputTypes = {
     ["Query"]: AliasType<{
-	store?:ResolverInputTypes["Store"],
+products?: [{	filter?: ResolverInputTypes["ProductFilter"] | undefined | null},ResolverInputTypes["ProductsPage"]],
 stripeCustomerQueryOps?: [{	customerId: string},ResolverInputTypes["StripeCustomerQueryOps"]],
 		__typename?: boolean | `@${string}`
 }>;
@@ -1151,8 +1140,8 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ResolverInputTypes["G
 	limit?: number | undefined | null,
 	shippable?: boolean | undefined | null,
 	ids?: Array<string> | undefined | null,
-	startingAfter?: string | undefined | null,
-	endingBefore?: string | undefined | null,
+	starting_after?: string | undefined | null,
+	ending_before?: string | undefined | null,
 	url?: string | undefined | null
 };
 	["RecurringFilter"]: {
@@ -1166,15 +1155,10 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ResolverInputTypes["G
 	type?: ResolverInputTypes["Type"] | undefined | null,
 	created?: ResolverInputTypes["TimestampFilter"] | undefined | null,
 	limit?: number | undefined | null,
-	startingAfter?: string | undefined | null,
-	endingBefore?: string | undefined | null,
+	starting_after?: string | undefined | null,
+	ending_before?: string | undefined | null,
 	recurring?: ResolverInputTypes["RecurringFilter"] | undefined | null
 };
-	["Store"]: AliasType<{
-products?: [{	filter?: ResolverInputTypes["ProductFilter"] | undefined | null},ResolverInputTypes["ProductsPage"]],
-prices?: [{	filter?: ResolverInputTypes["PriceFilter"] | undefined | null},ResolverInputTypes["PricesPage"]],
-		__typename?: boolean | `@${string}`
-}>;
 	["Dimensions"]: AliasType<{
 	height?:boolean | `@${string}`,
 	length?:boolean | `@${string}`,
@@ -1186,16 +1170,16 @@ prices?: [{	filter?: ResolverInputTypes["PriceFilter"] | undefined | null},Resol
 	id?:boolean | `@${string}`,
 	active?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
-	defaultPrice?:ResolverInputTypes["Price"],
+	default_price?:ResolverInputTypes["Price"],
 	description?:boolean | `@${string}`,
 	images?:boolean | `@${string}`,
 	livemode?:boolean | `@${string}`,
 	metadata?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
-	packageDimensions?:ResolverInputTypes["Dimensions"],
+	package_dimensions?:ResolverInputTypes["Dimensions"],
 	shippable?:boolean | `@${string}`,
-	statementDescriptor?:boolean | `@${string}`,
-	taxCode?:boolean | `@${string}`,
+	statement_descriptor?:boolean | `@${string}`,
+	tax_code?:boolean | `@${string}`,
 	unitLabel?:boolean | `@${string}`,
 	updated?:boolean | `@${string}`,
 	url?:boolean | `@${string}`,
@@ -1223,11 +1207,11 @@ prices?: [{	filter?: ResolverInputTypes["PriceFilter"] | undefined | null},Resol
 	["Interval"]:Interval;
 	["UsageType"]:UsageType;
 	["PriceRecurring"]: AliasType<{
-	aggregateUsage?:boolean | `@${string}`,
+	aggregate_usage?:boolean | `@${string}`,
 	interval?:boolean | `@${string}`,
-	intervalCount?:boolean | `@${string}`,
-	usageType?:boolean | `@${string}`,
-	trialPeriodDays?:boolean | `@${string}`,
+	interval_count?:boolean | `@${string}`,
+	usage_type?:boolean | `@${string}`,
+	trial_period_days?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["TaxBehaviour"]:TaxBehaviour;
@@ -1242,32 +1226,26 @@ prices?: [{	filter?: ResolverInputTypes["PriceFilter"] | undefined | null},Resol
 	["Price"]: AliasType<{
 	id?:boolean | `@${string}`,
 	active?:boolean | `@${string}`,
-	billingScheme?:boolean | `@${string}`,
+	billing_scheme?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
 	currency?:boolean | `@${string}`,
-	customUnitAmount?:ResolverInputTypes["CustomUnitAmount"],
+	custom_unit_amount?:ResolverInputTypes["CustomUnitAmount"],
 	livemode?:boolean | `@${string}`,
-	lookupKey?:boolean | `@${string}`,
+	lookup_key?:boolean | `@${string}`,
 	metadata?:boolean | `@${string}`,
 	nickname?:boolean | `@${string}`,
 	product?:ResolverInputTypes["Product"],
 	recurring?:ResolverInputTypes["PriceRecurring"],
-	taxBehavior?:boolean | `@${string}`,
-	tiersMode?:boolean | `@${string}`,
-	transformQuantity?:ResolverInputTypes["TransformQuantity"],
+	tax_behavior?:boolean | `@${string}`,
+	tiers_mode?:boolean | `@${string}`,
+	transform_quantity?:ResolverInputTypes["TransformQuantity"],
 	type?:boolean | `@${string}`,
-	unitAmount?:boolean | `@${string}`,
-	unitAmountDecimal?:boolean | `@${string}`,
+	unit_amount?:boolean | `@${string}`,
+	unit_amount_decimal?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["ProductsPage"]: AliasType<{
 	products?:ResolverInputTypes["Product"],
-	startingAfter?:boolean | `@${string}`,
-	endingBefore?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["PricesPage"]: AliasType<{
-	products?:ResolverInputTypes["Price"],
 	startingAfter?:boolean | `@${string}`,
 	endingBefore?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
@@ -1276,7 +1254,7 @@ prices?: [{	filter?: ResolverInputTypes["PriceFilter"] | undefined | null},Resol
 
 export type ModelTypes = {
     ["Query"]: {
-		store: ModelTypes["Store"],
+		products?: ModelTypes["ProductsPage"] | undefined,
 	stripeCustomerQueryOps?: ModelTypes["StripeCustomerQueryOps"] | undefined
 };
 	["StripeCustomerQueryOps"]: {
@@ -1364,8 +1342,8 @@ export type ModelTypes = {
 	limit?: number | undefined,
 	shippable?: boolean | undefined,
 	ids?: Array<string> | undefined,
-	startingAfter?: string | undefined,
-	endingBefore?: string | undefined,
+	starting_after?: string | undefined,
+	ending_before?: string | undefined,
 	url?: string | undefined
 };
 	["RecurringFilter"]: {
@@ -1379,13 +1357,9 @@ export type ModelTypes = {
 	type?: ModelTypes["Type"] | undefined,
 	created?: ModelTypes["TimestampFilter"] | undefined,
 	limit?: number | undefined,
-	startingAfter?: string | undefined,
-	endingBefore?: string | undefined,
+	starting_after?: string | undefined,
+	ending_before?: string | undefined,
 	recurring?: ModelTypes["RecurringFilter"] | undefined
-};
-	["Store"]: {
-		products?: ModelTypes["ProductsPage"] | undefined,
-	prices?: ModelTypes["PricesPage"] | undefined
 };
 	["Dimensions"]: {
 		height?: number | undefined,
@@ -1395,18 +1369,18 @@ export type ModelTypes = {
 };
 	["Product"]: {
 		id: string,
-	active?: boolean | undefined,
+	active: boolean,
 	created?: ModelTypes["Timestamp"] | undefined,
-	defaultPrice?: ModelTypes["Price"] | undefined,
+	default_price?: ModelTypes["Price"] | undefined,
 	description?: string | undefined,
 	images?: Array<string> | undefined,
 	livemode?: boolean | undefined,
 	metadata?: ModelTypes["AnyObject"] | undefined,
 	name?: string | undefined,
-	packageDimensions?: ModelTypes["Dimensions"] | undefined,
+	package_dimensions?: ModelTypes["Dimensions"] | undefined,
 	shippable?: boolean | undefined,
-	statementDescriptor?: string | undefined,
-	taxCode?: string | undefined,
+	statement_descriptor?: string | undefined,
+	tax_code?: string | undefined,
 	unitLabel?: string | undefined,
 	updated?: ModelTypes["Timestamp"] | undefined,
 	url?: string | undefined,
@@ -1432,11 +1406,11 @@ export type ModelTypes = {
 	["Interval"]:Interval;
 	["UsageType"]:UsageType;
 	["PriceRecurring"]: {
-		aggregateUsage?: ModelTypes["AggregateUsage"] | undefined,
+		aggregate_usage?: ModelTypes["AggregateUsage"] | undefined,
 	interval?: ModelTypes["Interval"] | undefined,
-	intervalCount?: number | undefined,
-	usageType?: ModelTypes["UsageType"] | undefined,
-	trialPeriodDays?: number | undefined
+	interval_count?: number | undefined,
+	usage_type?: ModelTypes["UsageType"] | undefined,
+	trial_period_days?: number | undefined
 };
 	["TaxBehaviour"]:TaxBehaviour;
 	["TiersMode"]:TiersMode;
@@ -1449,30 +1423,25 @@ export type ModelTypes = {
 	["Price"]: {
 		id: string,
 	active?: boolean | undefined,
-	billingScheme?: ModelTypes["BillingScheme"] | undefined,
+	billing_scheme?: ModelTypes["BillingScheme"] | undefined,
 	created?: ModelTypes["Timestamp"] | undefined,
 	currency?: string | undefined,
-	customUnitAmount?: ModelTypes["CustomUnitAmount"] | undefined,
+	custom_unit_amount?: ModelTypes["CustomUnitAmount"] | undefined,
 	livemode?: boolean | undefined,
-	lookupKey?: string | undefined,
+	lookup_key?: string | undefined,
 	metadata?: ModelTypes["AnyObject"] | undefined,
 	nickname?: string | undefined,
 	product?: ModelTypes["Product"] | undefined,
 	recurring?: ModelTypes["PriceRecurring"] | undefined,
-	taxBehavior?: ModelTypes["TaxBehaviour"] | undefined,
-	tiersMode?: ModelTypes["TiersMode"] | undefined,
-	transformQuantity?: ModelTypes["TransformQuantity"] | undefined,
+	tax_behavior?: ModelTypes["TaxBehaviour"] | undefined,
+	tiers_mode?: ModelTypes["TiersMode"] | undefined,
+	transform_quantity?: ModelTypes["TransformQuantity"] | undefined,
 	type?: ModelTypes["Type"] | undefined,
-	unitAmount?: number | undefined,
-	unitAmountDecimal?: string | undefined
+	unit_amount?: number | undefined,
+	unit_amount_decimal?: string | undefined
 };
 	["ProductsPage"]: {
 		products?: Array<ModelTypes["Product"]> | undefined,
-	startingAfter?: string | undefined,
-	endingBefore?: string | undefined
-};
-	["PricesPage"]: {
-		products?: Array<ModelTypes["Price"]> | undefined,
 	startingAfter?: string | undefined,
 	endingBefore?: string | undefined
 }
@@ -1481,7 +1450,7 @@ export type ModelTypes = {
 export type GraphQLTypes = {
     ["Query"]: {
 	__typename: "Query",
-	store: GraphQLTypes["Store"],
+	products?: GraphQLTypes["ProductsPage"] | undefined,
 	stripeCustomerQueryOps?: GraphQLTypes["StripeCustomerQueryOps"] | undefined
 };
 	["StripeCustomerQueryOps"]: {
@@ -1575,8 +1544,8 @@ export type GraphQLTypes = {
 	limit?: number | undefined,
 	shippable?: boolean | undefined,
 	ids?: Array<string> | undefined,
-	startingAfter?: string | undefined,
-	endingBefore?: string | undefined,
+	starting_after?: string | undefined,
+	ending_before?: string | undefined,
 	url?: string | undefined
 };
 	["RecurringFilter"]: {
@@ -1590,14 +1559,9 @@ export type GraphQLTypes = {
 	type?: GraphQLTypes["Type"] | undefined,
 	created?: GraphQLTypes["TimestampFilter"] | undefined,
 	limit?: number | undefined,
-	startingAfter?: string | undefined,
-	endingBefore?: string | undefined,
+	starting_after?: string | undefined,
+	ending_before?: string | undefined,
 	recurring?: GraphQLTypes["RecurringFilter"] | undefined
-};
-	["Store"]: {
-	__typename: "Store",
-	products?: GraphQLTypes["ProductsPage"] | undefined,
-	prices?: GraphQLTypes["PricesPage"] | undefined
 };
 	["Dimensions"]: {
 	__typename: "Dimensions",
@@ -1609,18 +1573,18 @@ export type GraphQLTypes = {
 	["Product"]: {
 	__typename: "Product",
 	id: string,
-	active?: boolean | undefined,
+	active: boolean,
 	created?: GraphQLTypes["Timestamp"] | undefined,
-	defaultPrice?: GraphQLTypes["Price"] | undefined,
+	default_price?: GraphQLTypes["Price"] | undefined,
 	description?: string | undefined,
 	images?: Array<string> | undefined,
 	livemode?: boolean | undefined,
 	metadata?: GraphQLTypes["AnyObject"] | undefined,
 	name?: string | undefined,
-	packageDimensions?: GraphQLTypes["Dimensions"] | undefined,
+	package_dimensions?: GraphQLTypes["Dimensions"] | undefined,
 	shippable?: boolean | undefined,
-	statementDescriptor?: string | undefined,
-	taxCode?: string | undefined,
+	statement_descriptor?: string | undefined,
+	tax_code?: string | undefined,
 	unitLabel?: string | undefined,
 	updated?: GraphQLTypes["Timestamp"] | undefined,
 	url?: string | undefined,
@@ -1648,11 +1612,11 @@ export type GraphQLTypes = {
 	["UsageType"]: UsageType;
 	["PriceRecurring"]: {
 	__typename: "PriceRecurring",
-	aggregateUsage?: GraphQLTypes["AggregateUsage"] | undefined,
+	aggregate_usage?: GraphQLTypes["AggregateUsage"] | undefined,
 	interval?: GraphQLTypes["Interval"] | undefined,
-	intervalCount?: number | undefined,
-	usageType?: GraphQLTypes["UsageType"] | undefined,
-	trialPeriodDays?: number | undefined
+	interval_count?: number | undefined,
+	usage_type?: GraphQLTypes["UsageType"] | undefined,
+	trial_period_days?: number | undefined
 };
 	["TaxBehaviour"]: TaxBehaviour;
 	["TiersMode"]: TiersMode;
@@ -1667,32 +1631,26 @@ export type GraphQLTypes = {
 	__typename: "Price",
 	id: string,
 	active?: boolean | undefined,
-	billingScheme?: GraphQLTypes["BillingScheme"] | undefined,
+	billing_scheme?: GraphQLTypes["BillingScheme"] | undefined,
 	created?: GraphQLTypes["Timestamp"] | undefined,
 	currency?: string | undefined,
-	customUnitAmount?: GraphQLTypes["CustomUnitAmount"] | undefined,
+	custom_unit_amount?: GraphQLTypes["CustomUnitAmount"] | undefined,
 	livemode?: boolean | undefined,
-	lookupKey?: string | undefined,
+	lookup_key?: string | undefined,
 	metadata?: GraphQLTypes["AnyObject"] | undefined,
 	nickname?: string | undefined,
 	product?: GraphQLTypes["Product"] | undefined,
 	recurring?: GraphQLTypes["PriceRecurring"] | undefined,
-	taxBehavior?: GraphQLTypes["TaxBehaviour"] | undefined,
-	tiersMode?: GraphQLTypes["TiersMode"] | undefined,
-	transformQuantity?: GraphQLTypes["TransformQuantity"] | undefined,
+	tax_behavior?: GraphQLTypes["TaxBehaviour"] | undefined,
+	tiers_mode?: GraphQLTypes["TiersMode"] | undefined,
+	transform_quantity?: GraphQLTypes["TransformQuantity"] | undefined,
 	type?: GraphQLTypes["Type"] | undefined,
-	unitAmount?: number | undefined,
-	unitAmountDecimal?: string | undefined
+	unit_amount?: number | undefined,
+	unit_amount_decimal?: string | undefined
 };
 	["ProductsPage"]: {
 	__typename: "ProductsPage",
 	products?: Array<GraphQLTypes["Product"]> | undefined,
-	startingAfter?: string | undefined,
-	endingBefore?: string | undefined
-};
-	["PricesPage"]: {
-	__typename: "PricesPage",
-	products?: Array<GraphQLTypes["Price"]> | undefined,
 	startingAfter?: string | undefined,
 	endingBefore?: string | undefined
 }

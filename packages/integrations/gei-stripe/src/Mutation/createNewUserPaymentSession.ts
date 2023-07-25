@@ -14,14 +14,21 @@ export const handler = async (input: FieldResolveInput) =>
 
     await Promise.all(
       products.map(async (product) => {
-        const { default_price } = await stripe.products.retrieve(product.productId);
-        if (!default_price) {
-          throw new Error('Cannot find product ' + product.productId + ' default price');
+        let price;
+        if (product.productId.startsWith('price_')) {
+          price = await stripe.prices.retrieve(product.productId);
+        } else if (product.productId.startsWith('prod_')) {
+          const { default_price } = await stripe.products.retrieve(product.productId);
+          if (!default_price) {
+            throw new Error('Cannot find product ' + product.productId + ' default price');
+          }
+          price =
+            typeof default_price === 'string'
+              ? await stripe.prices.retrieve(default_price)
+              : await stripe.prices.retrieve(default_price.id);
+        } else {
+          throw new Error('Invalid product ID: ' + product.productId);
         }
-        const price =
-          typeof default_price === 'string'
-            ? await stripe.prices.retrieve(default_price)
-            : await stripe.prices.retrieve(default_price.id);
 
         const item = {
           price: price.id,
@@ -52,10 +59,6 @@ export const handler = async (input: FieldResolveInput) =>
           enabled: true,
         },
         billing_address_collection: 'required',
-        customer_update: {
-          address: 'auto',
-          name: 'auto',
-        },
       });
       return session.url;
     }
@@ -71,10 +74,6 @@ export const handler = async (input: FieldResolveInput) =>
           enabled: true,
         },
         billing_address_collection: 'required',
-        customer_update: {
-          address: 'auto',
-          name: 'auto',
-        },
       });
       return session.url;
     }

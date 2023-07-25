@@ -1,7 +1,9 @@
 
 
 type Query{
-	store: Store!
+	products(
+		filter: ProductFilter
+	): ProductsPage
 	stripeCustomerQueryOps(
 		customerId: String!
 	): StripeCustomerQueryOps
@@ -11,7 +13,7 @@ type StripeCustomerQueryOps{
 	getCustomerInfo: StripeCustomer
 }
 
-type Mutation {
+type Mutation{
 	initStripeCustomer(
 		initStripeCustomerInput: InitStripeCustomerInput!
 	): Boolean!
@@ -33,7 +35,7 @@ type Mutation {
 	webhook: String
 }
 
-type User {
+type User{
 	stripeId: String
 	email: String!
 }
@@ -47,20 +49,20 @@ type StripeCustomerMutationOps{
 	): String
 }
 
-input GenerateCheckoutSessionInput {
+input GenerateCheckoutSessionInput{
 	productIds: [String!]!
 	success_url: String!
 	cancel_url: String!
 }
 
-input InitStripeCustomerInput {
+input InitStripeCustomerInput{
 	email: String!
 	name: String
 	phone: String
 	address: AddressInput
 }
 
-input CreateNewUserPaymentSessionPayload {
+input CreateNewUserPaymentSessionPayload{
 	successUrl: String!
 	cancelUrl: String!
 	products: [StripeProductInput!]!
@@ -69,8 +71,8 @@ input CreateNewUserPaymentSessionPayload {
 input CreatePaymentSessionPayload{
 	userEmail: String!
 	"""
-    Return url after successful transaction
-    """
+	Return url after successful transaction
+	"""
 	successUrl: String!
 	cancelUrl: String!
 	products: [StripeProductInput!]!
@@ -86,47 +88,47 @@ input CreateCustomerPortalPayload{
 	returnUrl: String!
 }
 
-input AddressInput {
+input AddressInput{
 	"""
-    City, district, suburb, town, village, or ward.
-    """
-    city: String!
-    """
-    Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-    """
-    country: String!
-    """
-    Address line 1 (e.g., street, block, PO Box, or company name).
-    """
-    line1: String!
-    """
-    Address line 2 (e.g., apartment, suite, unit, or building).
-    """
-    line2: String!
-    """
-    ZIP or postal code.
-    """
-    postal_code: String!
-    """
-    State, county, province, prefecture, or region.
-    """
-    state: String!
+	City, district, suburb, town, village, or ward.
+	"""
+	city: String!
+	"""
+	Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	"""
+	country: String!
+	"""
+	Address line 1 (e.g., street, block, PO Box, or company name).
+	"""
+	line1: String!
+	"""
+	Address line 2 (e.g., apartment, suite, unit, or building).
+	"""
+	line2: String!
+	"""
+	ZIP or postal code.
+	"""
+	postal_code: String!
+	"""
+	State, county, province, prefecture, or region.
+	"""
+	state: String!
 }
 
-type StripeCustomer {
+type StripeCustomer{
 	customerId: String!
 	email: String!
 	name: String
 	address: Address
 }
 
-type Address {
-    city: String
-    country: String
-    line1: String
-    line2: String
-    postal_code: String
-    state: String
+type Address{
+	city: String
+	country: String
+	line1: String
+	line2: String
+	postal_code: String
+	state: String
 }
 
 input ProductFilter{
@@ -135,8 +137,8 @@ input ProductFilter{
 	limit: Int
 	shippable: Boolean
 	ids: [ID!]
-	startingAfter: ID
-	endingBefore: ID
+	starting_after: ID
+	ending_before: ID
 	url: String
 }
 
@@ -152,18 +154,9 @@ input PriceFilter{
 	type: Type
 	created: TimestampFilter
 	limit: Int
-	startingAfter: ID
-	endingBefore: ID
+	starting_after: ID
+	ending_before: ID
 	recurring: RecurringFilter
-}
-
-type Store{
-	products(
-		filter: ProductFilter
-	): ProductsPage
-	prices(
-		filter: PriceFilter
-	): PricesPage
 }
 
 type Dimensions{
@@ -175,18 +168,18 @@ type Dimensions{
 
 type Product{
 	id: ID!
-	active: Boolean
+	active: Boolean!
 	created: Timestamp
-	defaultPrice: Price
+	default_price: Price
 	description: String
 	images: [String!]
 	livemode: Boolean
 	metadata: AnyObject
 	name: String
-	packageDimensions: Dimensions
+	package_dimensions: Dimensions
 	shippable: Boolean
-	statementDescriptor: String
-	taxCode: String
+	statement_descriptor: String
+	tax_code: String
 	unitLabel: String
 	updated: Timestamp
 	url: String
@@ -241,11 +234,11 @@ enum UsageType{
 }
 
 type PriceRecurring{
-	aggregateUsage: AggregateUsage
+	aggregate_usage: AggregateUsage
 	interval: Interval
-	intervalCount: Int
-	usageType: UsageType
-	trialPeriodDays: Int
+	interval_count: Int
+	usage_type: UsageType
+	trial_period_days: Int
 }
 
 enum TaxBehaviour{
@@ -277,22 +270,22 @@ enum Type{
 type Price{
 	id: ID!
 	active: Boolean
-	billingScheme: BillingScheme
+	billing_scheme: BillingScheme
 	created: Timestamp
 	currency: String
-	customUnitAmount: CustomUnitAmount
+	custom_unit_amount: CustomUnitAmount
 	livemode: Boolean
-	lookupKey: String
+	lookup_key: String
 	metadata: AnyObject
 	nickname: String
 	product: Product
 	recurring: PriceRecurring
-	taxBehavior: TaxBehaviour
-	tiersMode: TiersMode
-	transformQuantity: TransformQuantity
+	tax_behavior: TaxBehaviour
+	tiers_mode: TiersMode
+	transform_quantity: TransformQuantity
 	type: Type
-	unitAmount: Int
-	unitAmountDecimal: String
+	unit_amount: Int
+	unit_amount_decimal: String
 }
 
 type ProductsPage{
@@ -301,14 +294,7 @@ type ProductsPage{
 	endingBefore: ID
 }
 
-type PricesPage{
-	products: [Price!]
-	startingAfter: ID
-	endingBefore: ID
-}
-
-
 schema{
-	query: Query
+	query: Query,
 	mutation: Mutation
 }

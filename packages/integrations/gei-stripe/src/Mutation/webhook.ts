@@ -25,10 +25,10 @@ import {
   invoicePaymentSucceeded,
   invoiceUpcoming,
 } from '../utils/invoiceEvents.js';
+import { customerDelete, customerInsert, customerUpdate } from '../utils/customerEvents.js';
 
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'webhook', async (args) => {
-    console.log('NEW REQUEST');
     if (input.protocol?.body && input.protocol?.headers) {
       const stripe = newStripe();
       const STRIPE_SIGNING_KEY = process.env.STRIPE_SIGNING_KEY;
@@ -36,7 +36,6 @@ export const handler = async (input: FieldResolveInput) =>
       if (STRIPE_SIGNING_KEY && sig) {
         try {
           const ev = await stripe.webhooks.constructEventAsync(input.protocol.body, sig[0], STRIPE_SIGNING_KEY);
-          console.log(ev.type);
           switch (ev.type) {
             case 'customer.subscription.created':
               return stripeSubscriptionInsert(ev.data.object as Stripe.Subscription);
@@ -82,6 +81,12 @@ export const handler = async (input: FieldResolveInput) =>
               return invoiceMarkedUncollectible(ev.data.object as Stripe.Invoice);
             case 'invoice.payment_action_required':
               return invoicePaymentActionRequired(ev.data.object as Stripe.Invoice);
+            case 'customer.created':
+              return customerInsert(ev.data.object as Stripe.Customer);
+            case 'customer.deleted':
+              return customerDelete(ev.data.object as Stripe.Customer);
+              case 'customer.updated':
+                return customerUpdate(ev.data.object as Stripe.Customer);
           }
         } catch (e) {
           throw new Error('cannot authorize request');

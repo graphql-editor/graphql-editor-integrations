@@ -4,8 +4,17 @@ import { handler as webhookHandler } from './Mutation/webhook.js';
 import { handler as createCustomerPortalHandler } from './Mutation/createCustomerPortal.js';
 import { handler as createPaymentSessionHandler } from './Mutation/createPaymentSession.js';
 import { handler as createNewUserPaymentSessionHandler } from './Mutation/createNewUserPaymentSession.js';
+import { handler as productsHandler } from './Query/products.js';
+import { handler as productDefaultPriceHandler } from './Product/default_price.js';
+import { handler as productPricesHandler } from './Product/prices.js';
+
 export const integration = NewIntegration({
   Query: {
+    products: {
+      name: 'products',
+      description: 'List stripe products with corresponding prices',
+      handler: productsHandler,
+    }
   },
   Mutation: {
     initStripeCustomer: {
@@ -34,6 +43,18 @@ export const integration = NewIntegration({
       handler: webhookHandler,
     }
   },
+  Product: {
+    default_price: {
+      name: 'default_price',
+      description: 'Resolver for querying default price object',
+      handler: productDefaultPriceHandler,
+    },
+    prices: {
+      name: 'prices',
+      description: 'Resolver for querying prices objects',
+      handler: productPricesHandler,
+    },
+  }
 });
 
 export default integration;
