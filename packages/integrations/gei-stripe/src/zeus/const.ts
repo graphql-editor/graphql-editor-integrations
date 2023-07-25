@@ -2,6 +2,9 @@
 
 export const AllTypesProps: Record<string,any> = {
 	Query:{
+		products:{
+			filter:"ProductFilter"
+		},
 		stripeCustomerQueryOps:{
 
 		}
@@ -15,6 +18,9 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		createPaymentSession:{
 			payload:"CreatePaymentSessionPayload"
+		},
+		createNewUserPaymentSession:{
+			payload:"CreateNewUserPaymentSessionPayload"
 		},
 		createCustomerPortal:{
 			payload:"CreateCustomerPortalPayload"
@@ -33,6 +39,9 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	InitStripeCustomerInput:{
 		address:"AddressInput"
+	},
+	CreateNewUserPaymentSessionPayload:{
+		products:"StripeProductInput"
 	},
 	CreatePaymentSessionPayload:{
 		products:"StripeProductInput"
@@ -58,14 +67,6 @@ export const AllTypesProps: Record<string,any> = {
 		created:"TimestampFilter",
 		recurring:"RecurringFilter"
 	},
-	Store:{
-		products:{
-			filter:"ProductFilter"
-		},
-		prices:{
-			filter:"PriceFilter"
-		}
-	},
 	BillingScheme: "enum" as const,
 	Timestamp: `scalar.Timestamp` as const,
 	TimestampFilter:{
@@ -86,7 +87,7 @@ export const AllTypesProps: Record<string,any> = {
 
 export const ReturnTypes: Record<string,any> = {
 	Query:{
-		store:"Store",
+		products:"ProductsPage",
 		stripeCustomerQueryOps:"StripeCustomerQueryOps"
 	},
 	StripeCustomerQueryOps:{
@@ -96,6 +97,7 @@ export const ReturnTypes: Record<string,any> = {
 		initStripeCustomer:"Boolean",
 		stripeCustomerMutationOps:"StripeCustomerMutationOps",
 		createPaymentSession:"String",
+		createNewUserPaymentSession:"String",
 		createCustomerPortal:"String",
 		webhook:"String"
 	},
@@ -121,10 +123,6 @@ export const ReturnTypes: Record<string,any> = {
 		postal_code:"String",
 		state:"String"
 	},
-	Store:{
-		products:"ProductsPage",
-		prices:"PricesPage"
-	},
 	Dimensions:{
 		height:"Float",
 		length:"Float",
@@ -135,16 +133,16 @@ export const ReturnTypes: Record<string,any> = {
 		id:"ID",
 		active:"Boolean",
 		created:"Timestamp",
-		defaultPrice:"Price",
+		default_price:"Price",
 		description:"String",
 		images:"String",
 		livemode:"Boolean",
 		metadata:"AnyObject",
 		name:"String",
-		packageDimensions:"Dimensions",
+		package_dimensions:"Dimensions",
 		shippable:"Boolean",
-		statementDescriptor:"String",
-		taxCode:"String",
+		statement_descriptor:"String",
+		tax_code:"String",
 		unitLabel:"String",
 		updated:"Timestamp",
 		url:"String",
@@ -158,11 +156,11 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	AnyObject: `scalar.AnyObject` as const,
 	PriceRecurring:{
-		aggregateUsage:"AggregateUsage",
+		aggregate_usage:"AggregateUsage",
 		interval:"Interval",
-		intervalCount:"Int",
-		usageType:"UsageType",
-		trialPeriodDays:"Int"
+		interval_count:"Int",
+		usage_type:"UsageType",
+		trial_period_days:"Int"
 	},
 	TransformQuantity:{
 		divideBy:"Int",
@@ -171,30 +169,25 @@ export const ReturnTypes: Record<string,any> = {
 	Price:{
 		id:"ID",
 		active:"Boolean",
-		billingScheme:"BillingScheme",
+		billing_scheme:"BillingScheme",
 		created:"Timestamp",
 		currency:"String",
-		customUnitAmount:"CustomUnitAmount",
+		custom_unit_amount:"CustomUnitAmount",
 		livemode:"Boolean",
-		lookupKey:"String",
+		lookup_key:"String",
 		metadata:"AnyObject",
 		nickname:"String",
 		product:"Product",
 		recurring:"PriceRecurring",
-		taxBehavior:"TaxBehaviour",
-		tiersMode:"TiersMode",
-		transformQuantity:"TransformQuantity",
+		tax_behavior:"TaxBehaviour",
+		tiers_mode:"TiersMode",
+		transform_quantity:"TransformQuantity",
 		type:"Type",
-		unitAmount:"Int",
-		unitAmountDecimal:"String"
+		unit_amount:"Int",
+		unit_amount_decimal:"String"
 	},
 	ProductsPage:{
 		products:"Product",
-		startingAfter:"ID",
-		endingBefore:"ID"
-	},
-	PricesPage:{
-		products:"Price",
 		startingAfter:"ID",
 		endingBefore:"ID"
 	}

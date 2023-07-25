@@ -1,6 +1,6 @@
 {
     "namespace": "editor-integrations",
-    "project": "stripe-integration",
+    "project": "stripe",
     "projectVersion": "latest",
     "backendSrc": "./src",
     "schemaDir": "./",

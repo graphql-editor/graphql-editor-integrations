@@ -13,6 +13,55 @@
             "resolve": {
                 "name": "Mutation.webhook.handler"
             }
+        },
+        "Mutation.createCustomerPortal": {
+            "name": "createCustomerPortal",
+            "description": "Creates customer portal for managing accound and subscriptions",
+            "resolve": {
+                "name": "Mutation.createCustomerPortal.handler"
+            }
+        },
+        "Mutation.createPaymentSession": {
+            "name": "createPaymentSession",
+            "description": "Creates payment session for already existing user",
+            "resolve": {
+                "name": "Mutation.createPaymentSession.handler"
+            }
+        },
+        "Mutation.createNewUserPaymentSession": {
+            "name": "createNewUserPaymentSession",
+            "description": "Creates payment session for user that is not yet registered",
+            "resolve": {
+                "name": "Mutation.createNewUserPaymentSession.handler"
+            }
+        },
+        "Query.products": {
+            "name": "products",
+            "description": "List stripe products with corresponding prices",
+            "resolve": {
+                "name": "Query.products.handler"
+            }
+        },
+        "Query.prices": {
+            "name": "prices",
+            "description": "List prices",
+            "resolve": {
+                "name": "Query.prices.handler"
+            }
+        },
+        "Product.default_price": {
+            "name": "default_price",
+            "description": "Resolver for querying default price object",
+            "resolve": {
+                "name": "Product.default_price.handler"
+            }
+        },
+        "Product.prices": {
+            "name": "prices",
+            "description": "Resolver for querying prices objects",
+            "resolve": {
+                "name": "Product.prices.handler"
+            }
         }
     },
     "azureOpts": {

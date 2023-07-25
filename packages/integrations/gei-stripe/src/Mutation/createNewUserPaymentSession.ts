@@ -7,18 +7,8 @@ type item = {
   quantity?: number;
 };
 export const handler = async (input: FieldResolveInput) =>
-  resolverFor('Mutation', 'createPaymentSession', async ({ payload: { successUrl, cancelUrl, products, userEmail } }) => {
+  resolverFor('Mutation', 'createNewUserPaymentSession', async ({ payload: { successUrl, cancelUrl, products } }) => {
     const stripe = newStripe();
-    const user = await MongoOrb('StripeUserCollection').collection.findOne(
-        { email: userEmail },
-      );
-    if (!user) {
-      throw new Error('Invalid product or customer');
-    }
-    if (!user.stripeId) {
-        throw new Error('Stripe customer not initialized');
-    }
-
     const subscriptionItems: item[] = [];
     const oneTimePaymentItems: item[] = [];
 
@@ -64,19 +54,11 @@ export const handler = async (input: FieldResolveInput) =>
         cancel_url: cancelUrl,
         line_items: subscriptionItems,
         mode: 'subscription',
-        customer: user.stripeId,
         tax_id_collection: { enabled: true },
-        subscription_data: {
-          metadata: { assignedTo: user.email },
-        },
         automatic_tax: {
           enabled: true,
         },
         billing_address_collection: 'required',
-        customer_update: {
-          address: 'auto',
-          name: 'auto',
-        },
       });
       return session.url;
     }
@@ -87,16 +69,11 @@ export const handler = async (input: FieldResolveInput) =>
         cancel_url: cancelUrl,
         line_items: oneTimePaymentItems,
         mode: 'payment',
-        customer: user.stripeId,
         tax_id_collection: { enabled: true },
         automatic_tax: {
           enabled: true,
         },
         billing_address_collection: 'required',
-        customer_update: {
-          address: 'auto',
-          name: 'auto',
-        },
       });
       return session.url;
     }
