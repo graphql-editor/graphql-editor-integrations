@@ -12,10 +12,9 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
-
       - run: npm install
       - run: npm run build --ws --if-present
-
+      
       - name: Check if gei-users version has been updated
         id: check-users-version
         run: |
@@ -23,13 +22,13 @@ jobs:
           NEW_VERSION=$(node -p "require('./packages/integrations/gei-users/package.json').version")
           if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
           then
-            echo "::set-output name=updated::true"
+            echo "users_updated=true" >> $GITHUB_ENV
           else
-            echo "::set-output name=updated::false"
+            echo "users_updated=false" >> $GITHUB_ENV
           fi
 
       - name: Publish gei-users
-        if: steps.check-users-version.outputs.updated == 'true'
+        if: env.users_updated == 'true'
         run: npm publish -w gei-users --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
@@ -41,13 +40,13 @@ jobs:
           NEW_VERSION=$(node -p "require('./packages/integrations/gei-rest/package.json').version")
           if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
           then
-            echo "::set-output name=updated::true"
+            echo "rest_updated=true" >> $GITHUB_ENV
           else
-            echo "::set-output name=updated::false"
+            echo "rest_updated=false" >> $GITHUB_ENV
           fi
 
       - name: Publish gei-rest
-        if: steps.check-rest-version.outputs.updated == 'true'
+        if: env.rest_updated == 'true'
         run: npm publish -w gei-rest --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
@@ -59,13 +58,13 @@ jobs:
           NEW_VERSION=$(node -p "require('./packages/integrations/gei-s3/package.json').version")
           if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
           then
-            echo "::set-output name=updated::true"
+            echo "s3_updated=true" >> $GITHUB_ENV
           else
-            echo "::set-output name=updated::false"
+            echo "s3_updated=false" >> $GITHUB_ENV
           fi
 
       - name: Publish gei-s3
-        if: steps.check-s3-version.outputs.updated == 'true'
+        if: env.s3_updated == 'true'
         run: npm publish -w gei-s3 --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
@@ -77,13 +76,13 @@ jobs:
           NEW_VERSION=$(node -p "require('./packages/integrations/gei-crud/package.json').version")
           if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
           then
-            echo "::set-output name=updated::true"
+            echo "crud_updated=true" >> $GITHUB_ENV
           else
-            echo "::set-output name=updated::false"
+            echo "crud_updated=false" >> $GITHUB_ENV
           fi
 
       - name: Publish gei-crud
-        if: steps.check-crud-version.outputs.updated == 'true'
+        if: env.crud_updated == 'true'
         run: npm publish -w gei-crud --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
