@@ -12,20 +12,78 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
+
       - run: npm install
       - run: npm run build --ws --if-present
-      - run: npm publish -w gei-users --access public --tag latest
+
+      - name: Check if gei-users version has been updated
+        id: check-users-version
+        run: |
+          CURRENT_VERSION=$(npm show gei-users version)
+          NEW_VERSION=$(node -p "require('./packages/gei-users/package.json').version")
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
+          then
+            echo "::set-output name=updated::true"
+          else
+            echo "::set-output name=updated::false"
+          fi
+
+      - name: Publish gei-users
+        if: steps.check-users-version.outputs.updated == 'true'
+        run: npm publish -w gei-users --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - run: npm publish -w gei-rest --access public --tag latest
+      
+      - name: Check if gei-rest version has been updated
+        id: check-rest-version
+        run: |
+          CURRENT_VERSION=$(npm show gei-rest version)
+          NEW_VERSION=$(node -p "require('./packages/gei-rest/package.json').version")
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
+          then
+            echo "::set-output name=updated::true"
+          else
+            echo "::set-output name=updated::false"
+          fi
+
+      - name: Publish gei-rest
+        if: steps.check-rest-version.outputs.updated == 'true'
+        run: npm publish -w gei-rest --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - run: npm publish -w gei-s3 --access public --tag latest
+
+      - name: Check if gei-s3 version has been updated
+        id: check-s3-version
+        run: |
+          CURRENT_VERSION=$(npm show gei-s3 version)
+          NEW_VERSION=$(node -p "require('./packages/gei-s3/package.json').version")
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
+          then
+            echo "::set-output name=updated::true"
+          else
+            echo "::set-output name=updated::false"
+          fi
+
+      - name: Publish gei-s3
+        if: steps.check-s3-version.outputs.updated == 'true'
+        run: npm publish -w gei-s3 --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - run: npm publish -w gei-crud --access public --tag latest
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - run: npm publish -w gei-stripe --access public --tag latest
+
+      - name: Check if gei-crud version has been updated
+        id: check-crud-version
+        run: |
+          CURRENT_VERSION=$(npm show gei-crud version)
+          NEW_VERSION=$(node -p "require('./packages/gei-crud/package.json').version")
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
+          then
+            echo "::set-output name=updated::true"
+          else
+            echo "::set-output name=updated::false"
+          fi
+
+      - name: Publish gei-crud
+        if: steps.check-crud-version.outputs.updated == 'true'
+        run: npm publish -w gei-crud --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
