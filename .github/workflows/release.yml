@@ -18,7 +18,8 @@ jobs:
       - name: Check if gei-users version has been updated
         id: check-users-version
         run: |
-          CURRENT_VERSION=$(npm show gei-users version)
+          PACKAGE_NAME="gei-users"
+          CURRENT_VERSION=$(npm show "$PACKAGE_NAME" version || echo "0.0.0")
           NEW_VERSION=$(node -p "require('./packages/integrations/gei-users/package.json').version")
           if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
           then
@@ -36,7 +37,8 @@ jobs:
       - name: Check if gei-rest version has been updated
         id: check-rest-version
         run: |
-          CURRENT_VERSION=$(npm show gei-rest version)
+          PACKAGE_NAME="gei-rest"
+          CURRENT_VERSION=$(npm show "$PACKAGE_NAME" version || echo "0.0.0")
           NEW_VERSION=$(node -p "require('./packages/integrations/gei-rest/package.json').version")
           if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
           then
@@ -54,7 +56,8 @@ jobs:
       - name: Check if gei-s3 version has been updated
         id: check-s3-version
         run: |
-          CURRENT_VERSION=$(npm show gei-s3 version)
+          PACKAGE_NAME="gei-s3"
+          CURRENT_VERSION=$(npm show "$PACKAGE_NAME" version || echo "0.0.0")
           NEW_VERSION=$(node -p "require('./packages/integrations/gei-s3/package.json').version")
           if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
           then
@@ -72,7 +75,8 @@ jobs:
       - name: Check if gei-crud version has been updated
         id: check-crud-version
         run: |
-          CURRENT_VERSION=$(npm show gei-crud version)
+          PACKAGE_NAME="gei-crud"
+          CURRENT_VERSION=$(npm show "$PACKAGE_NAME" version || echo "0.0.0")
           NEW_VERSION=$(node -p "require('./packages/integrations/gei-crud/package.json').version")
           if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
           then
@@ -90,7 +94,8 @@ jobs:
       - name: Check if gei-stripe version has been updated
         id: check-stripe-version
         run: |
-          CURRENT_VERSION=$(npm show gei-stripe version)
+          PACKAGE_NAME="gei-stripe"
+          CURRENT_VERSION=$(npm show "$PACKAGE_NAME" version || echo "0.0.0")
           NEW_VERSION=$(node -p "require('./packages/integrations/gei-stripe/package.json').version")
           if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
           then
