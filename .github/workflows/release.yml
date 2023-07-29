@@ -86,3 +86,21 @@ jobs:
         run: npm publish -w gei-crud --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: Check if gei-stripe version has been updated
+        id: check-stripe-version
+        run: |
+          CURRENT_VERSION=$(npm show gei-stripe version)
+          NEW_VERSION=$(node -p "require('./packages/integrations/gei-stripe/package.json').version")
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
+          then
+            echo "stripe_updated=true" >> $GITHUB_ENV
+          else
+            echo "stripe_updated=false" >> $GITHUB_ENV
+          fi
+
+      - name: Publish gei-stripe
+        if: env.stripe_updated == 'true'
+        run: npm publish -w gei-stripe --access public --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
