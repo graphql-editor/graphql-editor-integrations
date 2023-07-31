@@ -283,7 +283,8 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	TeamMember:{
 		_id:"String",
-		username:"String"
+		username:"String",
+		fullName:"String"
 	},
 	Node:{
 		"...on InvitationTeamToken": "InvitationTeamToken",

@@ -995,8 +995,8 @@ editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>
 	["RegisterInput"]: {
 	username: string | Variable<any, string>,
 	password: string | Variable<any, string>,
-	invitationToken?: string | undefined | null | Variable<any, string>,
-	fullName?: string | undefined | null | Variable<any, string>
+	fullName?: string | undefined | null | Variable<any, string>,
+	invitationToken?: string | undefined | null | Variable<any, string>
 };
 	["InvitationTeamToken"]: AliasType<{
 	teamId?:boolean | `@${string}`,
@@ -1064,6 +1064,7 @@ editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>
 	["TeamMember"]: AliasType<{
 	_id?:boolean | `@${string}`,
 	username?:boolean | `@${string}`,
+	fullName?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["Node"]:AliasType<{
@@ -1289,8 +1290,8 @@ editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},boolean | `@${
 	["RegisterInput"]: {
 	username: string,
 	password: string,
-	invitationToken?: string | undefined | null,
-	fullName?: string | undefined | null
+	fullName?: string | undefined | null,
+	invitationToken?: string | undefined | null
 };
 	["InvitationTeamToken"]: AliasType<{
 	teamId?:boolean | `@${string}`,
@@ -1358,6 +1359,7 @@ editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},boolean | `@${
 	["TeamMember"]: AliasType<{
 	_id?:boolean | `@${string}`,
 	username?:boolean | `@${string}`,
+	fullName?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["Node"]:AliasType<{
@@ -1568,8 +1570,8 @@ export type ModelTypes = {
 	["RegisterInput"]: {
 	username: string,
 	password: string,
-	invitationToken?: string | undefined,
-	fullName?: string | undefined
+	fullName?: string | undefined,
+	invitationToken?: string | undefined
 };
 	["InvitationTeamToken"]: {
 		teamId: string,
@@ -1628,7 +1630,8 @@ export type ModelTypes = {
 	["SocialKind"]:SocialKind;
 	["TeamMember"]: {
 		_id: string,
-	username: string
+	username: string,
+	fullName?: string | undefined
 };
 	["Node"]: ModelTypes["InvitationTeamToken"] | ModelTypes["InviteToken"] | ModelTypes["Team"] | ModelTypes["TeamAuthType"] | ModelTypes["User"] | ModelTypes["Social"] | ModelTypes["UserAuth"] | ModelTypes["TeamMember"];
 	["LoginQuery"]: {
@@ -1838,8 +1841,8 @@ export type GraphQLTypes = {
 	["RegisterInput"]: {
 		username: string,
 	password: string,
-	invitationToken?: string | undefined,
-	fullName?: string | undefined
+	fullName?: string | undefined,
+	invitationToken?: string | undefined
 };
 	["InvitationTeamToken"]: {
 	__typename: "InvitationTeamToken",
@@ -1907,7 +1910,8 @@ export type GraphQLTypes = {
 	["TeamMember"]: {
 	__typename: "TeamMember",
 	_id: string,
-	username: string
+	username: string,
+	fullName?: string | undefined
 };
 	["Node"]: {
 	__typename:"InvitationTeamToken" | "InviteToken" | "Team" | "TeamAuthType" | "User" | "Social" | "UserAuth" | "TeamMember",

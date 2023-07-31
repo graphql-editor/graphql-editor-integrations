@@ -288,8 +288,8 @@ input ChangePasswordWhenLoggedInput{
 input RegisterInput{
 	username: String!
 	password: String!
-	invitationToken: String
 	fullName: String
+	invitationToken: String
 }
 
 type InvitationTeamToken implements Node{
@@ -368,6 +368,7 @@ enum SocialKind{
 type TeamMember implements Node{
 	_id: String!
 	username: String!
+	fullName: String
 }
 
 interface Node{
