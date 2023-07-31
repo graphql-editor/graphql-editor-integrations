@@ -3,7 +3,7 @@
         "Mutation.initStripeCustomer": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.0.3",
+                "version": "0.2.0",
                 "resolver": "initStripeCustomer"
             },
             "resolve": {
@@ -13,7 +13,7 @@
         "Mutation.createNewUserPaymentSession": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.0.3",
+                "version": "0.2.0",
                 "resolver": "createNewUserPaymentSession"
             },
             "resolve": {
@@ -23,7 +23,7 @@
         "Mutation.createPaymentSession": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.0.3",
+                "version": "0.2.0",
                 "resolver": "createPaymentSession"
             },
             "resolve": {
@@ -33,7 +33,7 @@
         "Mutation.webhook": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.0.3",
+                "version": "0.2.0",
                 "resolver": "webhook"
             },
             "resolve": {
@@ -43,17 +43,27 @@
         "Query.products": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.0.3",
+                "version": "0.2.0",
                 "resolver": "products"
             },
             "resolve": {
                 "name": "gei-stripe@Query.products"
             }
         },
+        "Query.subscriptions": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.2.0",
+                "resolver": "products"
+            },
+            "resolve": {
+                "name": "gei-stripe@Query.subscriptions"
+            }
+        },
         "Product.default_price": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.0.3",
+                "version": "0.2.0",
                 "resolver": "default_price"
             },
             "resolve": {
@@ -63,7 +73,7 @@
         "Product.prices": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.0.3",
+                "version": "0.2.0",
                 "resolver": "prices"
             },
             "resolve": {

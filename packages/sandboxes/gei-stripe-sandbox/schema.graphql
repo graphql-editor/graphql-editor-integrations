@@ -2,24 +2,17 @@
 
 type Query{
 	products(
-		filter: ProductFilter
-	): ProductsPage
-	stripeCustomerQueryOps(
-		customerId: String!
-	): StripeCustomerQueryOps
-}
-
-type StripeCustomerQueryOps{
-	getCustomerInfo: StripeCustomer
+		filter: StripeProductFilter
+	): StripeProductsPage
+	subscriptions(  
+		filter: StripeSubscriptionFilter
+	): [StripeSubscription!]
 }
 
 type Mutation{
 	initStripeCustomer(
 		initStripeCustomerInput: InitStripeCustomerInput!
 	): Boolean!
-	stripeCustomerMutationOps(
-		customerId: String!
-	): StripeCustomerMutationOps
 	createPaymentSession(
 		payload: CreatePaymentSessionPayload!
 	): String!
@@ -35,34 +28,58 @@ type Mutation{
 	webhook: String
 }
 
-type User{
+input StripeSubscriptionFilter {
+	customerId: String
+}
+
+type StripeSubscription {
+	id: String!
+	cancel_at_period_end: Boolean!
+	current_period_end: Timestamp!
+	current_period_start: Timestamp!
+	customer: String!
+	description: String
+	items:[StripeItem!]!
+	quantity: Int!
+	start: Timestamp!
+	status: StripeSubStatus!
+}
+
+enum StripeSubStatus{
+	incomplete
+	incomplete_expired
+	trialing
+	active
+	past_due
+	canceled
+	unpaid
+}
+
+type StripeItem {
+	id: String!
+	created: Timestamp!
+	metadata: AnyObject
+	price: StripePrice!
+	quantity: Int!
+	subscription: String!
+}
+
+type StripeUser{
 	stripeId: String
 	email: String!
-}
-
-type StripeCustomerMutationOps{
-	generateBillingPortal(
-		returnUrl: String!
-	): String
-	generateCheckoutSession(
-		generateCheckoutSessionInput: GenerateCheckoutSessionInput!
-	): String
-}
-
-input GenerateCheckoutSessionInput{
-	productIds: [String!]!
-	success_url: String!
-	cancel_url: String!
 }
 
 input InitStripeCustomerInput{
 	email: String!
 	name: String
 	phone: String
-	address: AddressInput
+	address: StripeAddressInput
 }
 
 input CreateNewUserPaymentSessionPayload{
+	"""
+	Return url after successful transaction
+	"""
 	successUrl: String!
 	cancelUrl: String!
 	products: [StripeProductInput!]!
@@ -88,7 +105,7 @@ input CreateCustomerPortalPayload{
 	returnUrl: String!
 }
 
-input AddressInput{
+input StripeAddressInput{
 	"""
 	City, district, suburb, town, village, or ward.
 	"""
@@ -119,10 +136,10 @@ type StripeCustomer{
 	customerId: String!
 	email: String!
 	name: String
-	address: Address
+	address: StripeAddress
 }
 
-type Address{
+type StripeAddress{
 	city: String
 	country: String
 	line1: String
@@ -131,7 +148,7 @@ type Address{
 	state: String
 }
 
-input ProductFilter{
+input StripeProductFilter{
 	active: Boolean
 	created: TimestampFilter
 	limit: Int
@@ -147,7 +164,7 @@ input RecurringFilter{
 	usageType: UsageType
 }
 
-input PriceFilter{
+input StripePriceFilter{
 	active: Boolean
 	currency: String
 	product: ID
@@ -166,11 +183,11 @@ type Dimensions{
 	width: Float
 }
 
-type Product{
+type StripeProduct{
 	id: ID!
 	active: Boolean!
 	created: Timestamp
-	default_price: Price
+	default_price: StripePrice
 	description: String
 	images: [String!]
 	livemode: Boolean
@@ -183,7 +200,7 @@ type Product{
 	unitLabel: String
 	updated: Timestamp
 	url: String
-	prices: [Price!]
+	prices: [StripePrice!]
 }
 
 enum BillingScheme{
@@ -267,7 +284,7 @@ enum Type{
 	ONE_TIME
 }
 
-type Price{
+type StripePrice{
 	id: ID!
 	active: Boolean
 	billing_scheme: BillingScheme
@@ -278,7 +295,7 @@ type Price{
 	lookup_key: String
 	metadata: AnyObject
 	nickname: String
-	product: Product
+	product: StripeProduct
 	recurring: PriceRecurring
 	tax_behavior: TaxBehaviour
 	tiers_mode: TiersMode
@@ -288,8 +305,8 @@ type Price{
 	unit_amount_decimal: String
 }
 
-type ProductsPage{
-	products: [Product!]
+type StripeProductsPage{
+	products: [StripeProduct!]
 	startingAfter: ID
 	endingBefore: ID
 }
