@@ -12,10 +12,10 @@ import { MailgunWrapper, formatVerifyEmail } from '../mailgun.js';
 import { orm } from '../db/orm.js';
 
 export const isPasswordEqualToSpecialParams = (password: string): boolean =>
-  /[!@#\$%\^\&*\)\(+=._-]/.test(password) && /[a-z]/.test(password) && /[A-Z]/.test(password) && !/\s/.test(password);
+  /[!@#$%^&*()+=._-]/.test(password) && /[a-z]/.test(password) && /[A-Z]/.test(password) && !/\s/.test(password);
 
 export const handler = async (input: FieldResolveInput) =>
-  resolverFor('Mutation', 'register', async ({ user: { username, password, invitationToken, ...rest } }) => {
+  resolverFor('Mutation', 'register', async ({ user: { username, password, invitationToken, fullName, ...rest } }) => {
     const o = await orm();
     if (password.length <= 6) {
       return {
@@ -58,12 +58,19 @@ export const handler = async (input: FieldResolveInput) =>
       }
     }
     const authorizationToken = crypto.pseudoRandomBytes(8).toString('hex');
+
+    let fullNameToUse = fullName;
+    if (!fullName && username.includes('@')) {
+      fullNameToUse = username.split('@')[0];
+    }
+
     const insertedUser = await o(UserCollection).createWithAutoFields(
       '_id',
       'createdAt',
     )({
       ...rest,
       username,
+      fullName: fullNameToUse,
       emailConfirmed: false,
       teams: teamFromToken,
     });

@@ -995,7 +995,8 @@ editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>
 	["RegisterInput"]: {
 	username: string | Variable<any, string>,
 	password: string | Variable<any, string>,
-	invitationToken?: string | undefined | null | Variable<any, string>
+	invitationToken?: string | undefined | null | Variable<any, string>,
+	fullName?: string | undefined | null | Variable<any, string>
 };
 	["InvitationTeamToken"]: AliasType<{
 	teamId?:boolean | `@${string}`,
@@ -1035,6 +1036,7 @@ editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>
 	teams?:ValueTypes["Team"],
 	emailConfirmed?:boolean | `@${string}`,
 	createdAt?:boolean | `@${string}`,
+	fullName?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["UserAuthType"]: AliasType<{
@@ -1287,7 +1289,8 @@ editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},boolean | `@${
 	["RegisterInput"]: {
 	username: string,
 	password: string,
-	invitationToken?: string | undefined | null
+	invitationToken?: string | undefined | null,
+	fullName?: string | undefined | null
 };
 	["InvitationTeamToken"]: AliasType<{
 	teamId?:boolean | `@${string}`,
@@ -1327,6 +1330,7 @@ editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},boolean | `@${
 	teams?:ResolverInputTypes["Team"],
 	emailConfirmed?:boolean | `@${string}`,
 	createdAt?:boolean | `@${string}`,
+	fullName?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["UserAuthType"]: AliasType<{
@@ -1564,7 +1568,8 @@ export type ModelTypes = {
 	["RegisterInput"]: {
 	username: string,
 	password: string,
-	invitationToken?: string | undefined
+	invitationToken?: string | undefined,
+	fullName?: string | undefined
 };
 	["InvitationTeamToken"]: {
 		teamId: string,
@@ -1599,7 +1604,8 @@ export type ModelTypes = {
 	username: string,
 	teams: Array<ModelTypes["Team"]>,
 	emailConfirmed: boolean,
-	createdAt?: string | undefined
+	createdAt?: string | undefined,
+	fullName?: string | undefined
 };
 	["UserAuthType"]: {
 		_id: string,
@@ -1832,7 +1838,8 @@ export type GraphQLTypes = {
 	["RegisterInput"]: {
 		username: string,
 	password: string,
-	invitationToken?: string | undefined
+	invitationToken?: string | undefined,
+	fullName?: string | undefined
 };
 	["InvitationTeamToken"]: {
 	__typename: "InvitationTeamToken",
@@ -1872,7 +1879,8 @@ export type GraphQLTypes = {
 	username: string,
 	teams: Array<GraphQLTypes["Team"]>,
 	emailConfirmed: boolean,
-	createdAt?: string | undefined
+	createdAt?: string | undefined,
+	fullName?: string | undefined
 };
 	["UserAuthType"]: {
 	__typename: "UserAuthType",
