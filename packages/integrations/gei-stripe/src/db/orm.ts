@@ -1,19 +1,19 @@
 import { iGraphQL } from 'i-graphql';
 import { ObjectId } from 'mongodb';
 import Stripe from 'stripe';
-import { UserModel } from '../models/UserModel';
+import { StripeUserModel } from '../models/StripeUserModel';
 
 export const orm = async () => {
   return iGraphQL<
     {
-      SubscriptionCollection: Stripe.Subscription,
-      ProductCollection: Stripe.Product,
-      PriceCollection: Stripe.Price
-      CheckoutSessionsCollection: Stripe.Checkout.Session,
-      PaymentIntentCollection: Stripe.PaymentIntent,
-      TaxRateCollection: Stripe.TaxRate,
-      InvoiceCollection: Stripe.Invoice,
-      StripeUserCollection: UserModel
+      StripeSubscriptionCollection: Stripe.Subscription,
+      StripeProductCollection: Stripe.Product,
+      StripePriceCollection: Stripe.Price
+      StripeCheckoutSessionsCollection: Stripe.Checkout.Session,
+      StripePaymentIntentCollection: Stripe.PaymentIntent,
+      StripeTaxRateCollection: Stripe.TaxRate,
+      StripeInvoiceCollection: Stripe.Invoice,
+      StripeUserCollection: StripeUserModel
       StripeCustomerCollection: Stripe.Customer
     },
     {

@@ -2,7 +2,7 @@ import Stripe from "stripe";
 import { MongoOrb } from "../db/orm.js";
 
 const upsertInvoice = async (invoiceEvent: Stripe.Invoice) => {
-    return await MongoOrb('InvoiceCollection').collection.updateOne(
+    return await MongoOrb('StripeInvoiceCollection').collection.updateOne(
         { id: invoiceEvent.id },
         { $set: { ...invoiceEvent } },
         { upsert: true } // creates a new document if no documents match the filter

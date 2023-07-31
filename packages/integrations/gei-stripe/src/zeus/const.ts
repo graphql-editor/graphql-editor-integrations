@@ -3,7 +3,10 @@
 export const AllTypesProps: Record<string,any> = {
 	Query:{
 		products:{
-			filter:"ProductFilter"
+			filter:"StripeProductFilter"
+		},
+		subscriptions:{
+			filter:"StripeSubscriptionFilter"
 		}
 	},
 	Mutation:{
@@ -20,8 +23,12 @@ export const AllTypesProps: Record<string,any> = {
 			payload:"CreateCustomerPortalPayload"
 		}
 	},
+	StripeSubscriptionFilter:{
+
+	},
+	StripeSubStatus: "enum" as const,
 	InitStripeCustomerInput:{
-		address:"AddressInput"
+		address:"StripeAddressInput"
 	},
 	CreateNewUserPaymentSessionPayload:{
 		products:"StripeProductInput"
@@ -35,17 +42,17 @@ export const AllTypesProps: Record<string,any> = {
 	CreateCustomerPortalPayload:{
 
 	},
-	AddressInput:{
+	StripeAddressInput:{
 
 	},
-	ProductFilter:{
+	StripeProductFilter:{
 		created:"TimestampFilter"
 	},
 	RecurringFilter:{
 		interval:"Interval",
 		usageType:"UsageType"
 	},
-	PriceFilter:{
+	StripePriceFilter:{
 		type:"Type",
 		created:"TimestampFilter",
 		recurring:"RecurringFilter"
@@ -70,7 +77,8 @@ export const AllTypesProps: Record<string,any> = {
 
 export const ReturnTypes: Record<string,any> = {
 	Query:{
-		products:"ProductsPage"
+		products:"StripeProductsPage",
+		subscriptions:"StripeSubscription"
 	},
 	Mutation:{
 		initStripeCustomer:"Boolean",
@@ -79,7 +87,27 @@ export const ReturnTypes: Record<string,any> = {
 		createCustomerPortal:"String",
 		webhook:"String"
 	},
-	User:{
+	StripeSubscription:{
+		id:"String",
+		cancel_at_period_end:"Boolean",
+		current_period_end:"Timestamp",
+		current_period_start:"Timestamp",
+		customer:"String",
+		description:"String",
+		items:"StripeItem",
+		quantity:"Int",
+		start:"Timestamp",
+		status:"StripeSubStatus"
+	},
+	StripeItem:{
+		id:"String",
+		created:"Timestamp",
+		metadata:"AnyObject",
+		price:"StripePrice",
+		quantity:"Int",
+		subscription:"String"
+	},
+	StripeUser:{
 		stripeId:"String",
 		email:"String"
 	},
@@ -87,9 +115,9 @@ export const ReturnTypes: Record<string,any> = {
 		customerId:"String",
 		email:"String",
 		name:"String",
-		address:"Address"
+		address:"StripeAddress"
 	},
-	Address:{
+	StripeAddress:{
 		city:"String",
 		country:"String",
 		line1:"String",
@@ -103,11 +131,11 @@ export const ReturnTypes: Record<string,any> = {
 		weight:"Float",
 		width:"Float"
 	},
-	Product:{
+	StripeProduct:{
 		id:"ID",
 		active:"Boolean",
 		created:"Timestamp",
-		default_price:"Price",
+		default_price:"StripePrice",
 		description:"String",
 		images:"String",
 		livemode:"Boolean",
@@ -120,7 +148,7 @@ export const ReturnTypes: Record<string,any> = {
 		unitLabel:"String",
 		updated:"Timestamp",
 		url:"String",
-		prices:"Price"
+		prices:"StripePrice"
 	},
 	Timestamp: `scalar.Timestamp` as const,
 	CustomUnitAmount:{
@@ -140,7 +168,7 @@ export const ReturnTypes: Record<string,any> = {
 		divideBy:"Int",
 		round:"Round"
 	},
-	Price:{
+	StripePrice:{
 		id:"ID",
 		active:"Boolean",
 		billing_scheme:"BillingScheme",
@@ -151,7 +179,7 @@ export const ReturnTypes: Record<string,any> = {
 		lookup_key:"String",
 		metadata:"AnyObject",
 		nickname:"String",
-		product:"Product",
+		product:"StripeProduct",
 		recurring:"PriceRecurring",
 		tax_behavior:"TaxBehaviour",
 		tiers_mode:"TiersMode",
@@ -160,8 +188,8 @@ export const ReturnTypes: Record<string,any> = {
 		unit_amount:"Int",
 		unit_amount_decimal:"String"
 	},
-	ProductsPage:{
-		products:"Product",
+	StripeProductsPage:{
+		products:"StripeProduct",
 		startingAfter:"ID",
 		endingBefore:"ID"
 	}

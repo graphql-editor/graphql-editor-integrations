@@ -5,8 +5,9 @@ import { handler as createCustomerPortalHandler } from './Mutation/createCustome
 import { handler as createPaymentSessionHandler } from './Mutation/createPaymentSession.js';
 import { handler as createNewUserPaymentSessionHandler } from './Mutation/createNewUserPaymentSession.js';
 import { handler as productsHandler } from './Query/products.js';
-import { handler as productDefaultPriceHandler } from './Product/default_price.js';
-import { handler as productPricesHandler } from './Product/prices.js';
+import { handler as productDefaultPriceHandler } from './StripeProduct/default_price.js';
+import { handler as productPricesHandler } from './StripeProduct/prices.js';
+import { handler as subscriptionsHandler } from './Query/subscriptions.js';
 
 export const integration = NewIntegration({
   Query: {
@@ -14,6 +15,11 @@ export const integration = NewIntegration({
       name: 'products',
       description: 'List stripe products with corresponding prices',
       handler: productsHandler,
+    },
+    subscriptions: {
+      name: 'subscriptions',
+      description: 'List stripe subscriptions with corresponding prices',
+      handler: subscriptionsHandler,
     }
   },
   Mutation: {
@@ -24,7 +30,7 @@ export const integration = NewIntegration({
     },
     createCustomerPortal: {
       name: 'createCustomerPortal',
-      description: 'Creates customer portal for managing accound and subscriptions',
+      description: 'Creates customer portal for managing account and subscriptions',
       handler: createCustomerPortalHandler,
     },
     createPaymentSession: {

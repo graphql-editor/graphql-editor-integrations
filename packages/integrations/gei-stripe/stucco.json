@@ -42,6 +42,13 @@
                 "name": "Query.products.handler"
             }
         },
+        "Query.subscriptions": {
+            "name": "subscriptions",
+            "description": "List stripe subscriptions with corresponding prices",
+            "resolve": {
+                "name": "Query.subscriptions.handler"
+            }
+        },
         "Product.default_price": {
             "name": "default_price",
             "description": "Resolver for querying default price object",

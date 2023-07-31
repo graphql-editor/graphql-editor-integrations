@@ -4,9 +4,9 @@ import Stripe from 'stripe';
 import { MongoOrb } from '../db/orm.js';
 
 export const handler = async (input: FieldResolveInput) => 
-  resolverFor('Product','default_price',async (_, src: Stripe.Product) => {
+  resolverFor('StripeProduct','default_price',async (_, src: Stripe.Product) => {
     if (typeof src.default_price === "string") {
-      return await MongoOrb('PriceCollection').collection.findOne({ id: src.default_price });
+      return await MongoOrb('StripePriceCollection').collection.findOne({ id: src.default_price });
     } else {
       return null;
     }

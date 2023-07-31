@@ -4,10 +4,9 @@ import { MongoOrb } from "../db/orm.js";
 
 export const handler = async (input: FieldResolveInput) => 
   resolverFor('Query','products',async (args) => {
-    console.log("Siema")
     let res;
     if(!args || !args.filter){
-      res = await MongoOrb('ProductCollection').collection.find().toArray();
+      res = await MongoOrb('StripeProductCollection').collection.find().toArray();
     } else {
       let filter:any = {};
       if (args.filter.active !== undefined) filter.active = args.filter.active;
@@ -22,7 +21,7 @@ export const handler = async (input: FieldResolveInput) =>
       if (args.filter.ids) filter.id = { $in: args.filter.ids };
       if (args.filter.url) filter.url = args.filter.url;
 
-      res = await MongoOrb('ProductCollection').collection.find(filter).toArray();
+      res = await MongoOrb('StripeProductCollection').collection.find(filter).toArray();
     }
     return {products: res}
   })(input.arguments);

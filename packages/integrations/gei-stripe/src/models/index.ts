@@ -1,28 +1,32 @@
 import { QueryModel } from './QueryModel.js'
 import { MutationModel } from './MutationModel.js'
-import { UserModel } from './UserModel.js'
+import { StripeSubscriptionModel } from './StripeSubscriptionModel.js'
+import { StripeItemModel } from './StripeItemModel.js'
+import { StripeUserModel } from './StripeUserModel.js'
 import { StripeCustomerModel } from './StripeCustomerModel.js'
-import { AddressModel } from './AddressModel.js'
+import { StripeAddressModel } from './StripeAddressModel.js'
 import { DimensionsModel } from './DimensionsModel.js'
-import { ProductModel } from './ProductModel.js'
+import { StripeProductModel } from './StripeProductModel.js'
 import { CustomUnitAmountModel } from './CustomUnitAmountModel.js'
 import { PriceRecurringModel } from './PriceRecurringModel.js'
 import { TransformQuantityModel } from './TransformQuantityModel.js'
-import { PriceModel } from './PriceModel.js'
-import { ProductsPageModel } from './ProductsPageModel.js'
+import { StripePriceModel } from './StripePriceModel.js'
+import { StripeProductsPageModel } from './StripeProductsPageModel.js'
 
 
 export type Models = {
 	QueryModel: QueryModel;
 	MutationModel: MutationModel;
-	UserModel: UserModel;
+	StripeSubscriptionModel: StripeSubscriptionModel;
+	StripeItemModel: StripeItemModel;
+	StripeUserModel: StripeUserModel;
 	StripeCustomerModel: StripeCustomerModel;
-	AddressModel: AddressModel;
+	StripeAddressModel: StripeAddressModel;
 	DimensionsModel: DimensionsModel;
-	ProductModel: ProductModel;
+	StripeProductModel: StripeProductModel;
 	CustomUnitAmountModel: CustomUnitAmountModel;
 	PriceRecurringModel: PriceRecurringModel;
 	TransformQuantityModel: TransformQuantityModel;
-	PriceModel: PriceModel;
-	ProductsPageModel: ProductsPageModel;
+	StripePriceModel: StripePriceModel;
+	StripeProductsPageModel: StripeProductsPageModel;
 };
