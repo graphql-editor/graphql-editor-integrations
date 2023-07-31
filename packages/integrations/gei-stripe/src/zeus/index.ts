@@ -837,16 +837,10 @@ type ZEUS_UNIONS = never
 export type ValueTypes = {
     ["Query"]: AliasType<{
 products?: [{	filter?: ValueTypes["ProductFilter"] | undefined | null | Variable<any, string>},ValueTypes["ProductsPage"]],
-stripeCustomerQueryOps?: [{	customerId: string | Variable<any, string>},ValueTypes["StripeCustomerQueryOps"]],
-		__typename?: boolean | `@${string}`
-}>;
-	["StripeCustomerQueryOps"]: AliasType<{
-	getCustomerInfo?:ValueTypes["StripeCustomer"],
 		__typename?: boolean | `@${string}`
 }>;
 	["Mutation"]: AliasType<{
 initStripeCustomer?: [{	initStripeCustomerInput: ValueTypes["InitStripeCustomerInput"] | Variable<any, string>},boolean | `@${string}`],
-stripeCustomerMutationOps?: [{	customerId: string | Variable<any, string>},ValueTypes["StripeCustomerMutationOps"]],
 createPaymentSession?: [{	payload: ValueTypes["CreatePaymentSessionPayload"] | Variable<any, string>},boolean | `@${string}`],
 createNewUserPaymentSession?: [{	payload: ValueTypes["CreateNewUserPaymentSessionPayload"] | Variable<any, string>},boolean | `@${string}`],
 createCustomerPortal?: [{	payload: ValueTypes["CreateCustomerPortalPayload"] | Variable<any, string>},boolean | `@${string}`],
@@ -859,16 +853,6 @@ createCustomerPortal?: [{	payload: ValueTypes["CreateCustomerPortalPayload"] | V
 	email?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["StripeCustomerMutationOps"]: AliasType<{
-generateBillingPortal?: [{	returnUrl: string | Variable<any, string>},boolean | `@${string}`],
-generateCheckoutSession?: [{	generateCheckoutSessionInput: ValueTypes["GenerateCheckoutSessionInput"] | Variable<any, string>},boolean | `@${string}`],
-		__typename?: boolean | `@${string}`
-}>;
-	["GenerateCheckoutSessionInput"]: {
-	productIds: Array<string> | Variable<any, string>,
-	success_url: string | Variable<any, string>,
-	cancel_url: string | Variable<any, string>
-};
 	["InitStripeCustomerInput"]: {
 	email: string | Variable<any, string>,
 	name?: string | undefined | null | Variable<any, string>,
@@ -876,6 +860,7 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ValueTypes["GenerateC
 	address?: ValueTypes["AddressInput"] | undefined | null | Variable<any, string>
 };
 	["CreateNewUserPaymentSessionPayload"]: {
+	/** Return url after successful transaction */
 	successUrl: string | Variable<any, string>,
 	cancelUrl: string | Variable<any, string>,
 	products: Array<ValueTypes["StripeProductInput"]> | Variable<any, string>
@@ -1046,16 +1031,10 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ValueTypes["GenerateC
 export type ResolverInputTypes = {
     ["Query"]: AliasType<{
 products?: [{	filter?: ResolverInputTypes["ProductFilter"] | undefined | null},ResolverInputTypes["ProductsPage"]],
-stripeCustomerQueryOps?: [{	customerId: string},ResolverInputTypes["StripeCustomerQueryOps"]],
-		__typename?: boolean | `@${string}`
-}>;
-	["StripeCustomerQueryOps"]: AliasType<{
-	getCustomerInfo?:ResolverInputTypes["StripeCustomer"],
 		__typename?: boolean | `@${string}`
 }>;
 	["Mutation"]: AliasType<{
 initStripeCustomer?: [{	initStripeCustomerInput: ResolverInputTypes["InitStripeCustomerInput"]},boolean | `@${string}`],
-stripeCustomerMutationOps?: [{	customerId: string},ResolverInputTypes["StripeCustomerMutationOps"]],
 createPaymentSession?: [{	payload: ResolverInputTypes["CreatePaymentSessionPayload"]},boolean | `@${string}`],
 createNewUserPaymentSession?: [{	payload: ResolverInputTypes["CreateNewUserPaymentSessionPayload"]},boolean | `@${string}`],
 createCustomerPortal?: [{	payload: ResolverInputTypes["CreateCustomerPortalPayload"]},boolean | `@${string}`],
@@ -1068,16 +1047,6 @@ createCustomerPortal?: [{	payload: ResolverInputTypes["CreateCustomerPortalPaylo
 	email?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["StripeCustomerMutationOps"]: AliasType<{
-generateBillingPortal?: [{	returnUrl: string},boolean | `@${string}`],
-generateCheckoutSession?: [{	generateCheckoutSessionInput: ResolverInputTypes["GenerateCheckoutSessionInput"]},boolean | `@${string}`],
-		__typename?: boolean | `@${string}`
-}>;
-	["GenerateCheckoutSessionInput"]: {
-	productIds: Array<string>,
-	success_url: string,
-	cancel_url: string
-};
 	["InitStripeCustomerInput"]: {
 	email: string,
 	name?: string | undefined | null,
@@ -1085,6 +1054,7 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ResolverInputTypes["G
 	address?: ResolverInputTypes["AddressInput"] | undefined | null
 };
 	["CreateNewUserPaymentSessionPayload"]: {
+	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
 	products: Array<ResolverInputTypes["StripeProductInput"]>
@@ -1254,15 +1224,10 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ResolverInputTypes["G
 
 export type ModelTypes = {
     ["Query"]: {
-		products?: ModelTypes["ProductsPage"] | undefined,
-	stripeCustomerQueryOps?: ModelTypes["StripeCustomerQueryOps"] | undefined
-};
-	["StripeCustomerQueryOps"]: {
-		getCustomerInfo?: ModelTypes["StripeCustomer"] | undefined
+		products?: ModelTypes["ProductsPage"] | undefined
 };
 	["Mutation"]: {
 		initStripeCustomer: boolean,
-	stripeCustomerMutationOps?: ModelTypes["StripeCustomerMutationOps"] | undefined,
 	createPaymentSession: string,
 	createNewUserPaymentSession: string,
 	createCustomerPortal: string,
@@ -1273,15 +1238,6 @@ export type ModelTypes = {
 		stripeId?: string | undefined,
 	email: string
 };
-	["StripeCustomerMutationOps"]: {
-		generateBillingPortal?: string | undefined,
-	generateCheckoutSession?: string | undefined
-};
-	["GenerateCheckoutSessionInput"]: {
-	productIds: Array<string>,
-	success_url: string,
-	cancel_url: string
-};
 	["InitStripeCustomerInput"]: {
 	email: string,
 	name?: string | undefined,
@@ -1289,6 +1245,7 @@ export type ModelTypes = {
 	address?: ModelTypes["AddressInput"] | undefined
 };
 	["CreateNewUserPaymentSessionPayload"]: {
+	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
 	products: Array<ModelTypes["StripeProductInput"]>
@@ -1450,17 +1407,11 @@ export type ModelTypes = {
 export type GraphQLTypes = {
     ["Query"]: {
 	__typename: "Query",
-	products?: GraphQLTypes["ProductsPage"] | undefined,
-	stripeCustomerQueryOps?: GraphQLTypes["StripeCustomerQueryOps"] | undefined
-};
-	["StripeCustomerQueryOps"]: {
-	__typename: "StripeCustomerQueryOps",
-	getCustomerInfo?: GraphQLTypes["StripeCustomer"] | undefined
+	products?: GraphQLTypes["ProductsPage"] | undefined
 };
 	["Mutation"]: {
 	__typename: "Mutation",
 	initStripeCustomer: boolean,
-	stripeCustomerMutationOps?: GraphQLTypes["StripeCustomerMutationOps"] | undefined,
 	createPaymentSession: string,
 	createNewUserPaymentSession: string,
 	createCustomerPortal: string,
@@ -1472,16 +1423,6 @@ export type GraphQLTypes = {
 	stripeId?: string | undefined,
 	email: string
 };
-	["StripeCustomerMutationOps"]: {
-	__typename: "StripeCustomerMutationOps",
-	generateBillingPortal?: string | undefined,
-	generateCheckoutSession?: string | undefined
-};
-	["GenerateCheckoutSessionInput"]: {
-		productIds: Array<string>,
-	success_url: string,
-	cancel_url: string
-};
 	["InitStripeCustomerInput"]: {
 		email: string,
 	name?: string | undefined,
@@ -1489,7 +1430,8 @@ export type GraphQLTypes = {
 	address?: GraphQLTypes["AddressInput"] | undefined
 };
 	["CreateNewUserPaymentSessionPayload"]: {
-		successUrl: string,
+		/** Return url after successful transaction */
+	successUrl: string,
 	cancelUrl: string,
 	products: Array<GraphQLTypes["StripeProductInput"]>
 };
@@ -1694,7 +1636,6 @@ export const enum Type {
 }
 
 type ZEUS_VARIABLES = {
-	["GenerateCheckoutSessionInput"]: ValueTypes["GenerateCheckoutSessionInput"];
 	["InitStripeCustomerInput"]: ValueTypes["InitStripeCustomerInput"];
 	["CreateNewUserPaymentSessionPayload"]: ValueTypes["CreateNewUserPaymentSessionPayload"];
 	["CreatePaymentSessionPayload"]: ValueTypes["CreatePaymentSessionPayload"];

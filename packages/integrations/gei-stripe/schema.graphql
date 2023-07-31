@@ -4,22 +4,12 @@ type Query{
 	products(
 		filter: ProductFilter
 	): ProductsPage
-	stripeCustomerQueryOps(
-		customerId: String!
-	): StripeCustomerQueryOps
-}
-
-type StripeCustomerQueryOps{
-	getCustomerInfo: StripeCustomer
 }
 
 type Mutation{
 	initStripeCustomer(
 		initStripeCustomerInput: InitStripeCustomerInput!
 	): Boolean!
-	stripeCustomerMutationOps(
-		customerId: String!
-	): StripeCustomerMutationOps
 	createPaymentSession(
 		payload: CreatePaymentSessionPayload!
 	): String!
@@ -40,21 +30,6 @@ type User{
 	email: String!
 }
 
-type StripeCustomerMutationOps{
-	generateBillingPortal(
-		returnUrl: String!
-	): String
-	generateCheckoutSession(
-		generateCheckoutSessionInput: GenerateCheckoutSessionInput!
-	): String
-}
-
-input GenerateCheckoutSessionInput{
-	productIds: [String!]!
-	success_url: String!
-	cancel_url: String!
-}
-
 input InitStripeCustomerInput{
 	email: String!
 	name: String
@@ -63,6 +38,9 @@ input InitStripeCustomerInput{
 }
 
 input CreateNewUserPaymentSessionPayload{
+	"""
+	Return url after successful transaction
+	"""
 	successUrl: String!
 	cancelUrl: String!
 	products: [StripeProductInput!]!

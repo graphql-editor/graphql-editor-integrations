@@ -4,17 +4,11 @@ export const AllTypesProps: Record<string,any> = {
 	Query:{
 		products:{
 			filter:"ProductFilter"
-		},
-		stripeCustomerQueryOps:{
-
 		}
 	},
 	Mutation:{
 		initStripeCustomer:{
 			initStripeCustomerInput:"InitStripeCustomerInput"
-		},
-		stripeCustomerMutationOps:{
-
 		},
 		createPaymentSession:{
 			payload:"CreatePaymentSessionPayload"
@@ -25,17 +19,6 @@ export const AllTypesProps: Record<string,any> = {
 		createCustomerPortal:{
 			payload:"CreateCustomerPortalPayload"
 		}
-	},
-	StripeCustomerMutationOps:{
-		generateBillingPortal:{
-
-		},
-		generateCheckoutSession:{
-			generateCheckoutSessionInput:"GenerateCheckoutSessionInput"
-		}
-	},
-	GenerateCheckoutSessionInput:{
-
 	},
 	InitStripeCustomerInput:{
 		address:"AddressInput"
@@ -87,15 +70,10 @@ export const AllTypesProps: Record<string,any> = {
 
 export const ReturnTypes: Record<string,any> = {
 	Query:{
-		products:"ProductsPage",
-		stripeCustomerQueryOps:"StripeCustomerQueryOps"
-	},
-	StripeCustomerQueryOps:{
-		getCustomerInfo:"StripeCustomer"
+		products:"ProductsPage"
 	},
 	Mutation:{
 		initStripeCustomer:"Boolean",
-		stripeCustomerMutationOps:"StripeCustomerMutationOps",
 		createPaymentSession:"String",
 		createNewUserPaymentSession:"String",
 		createCustomerPortal:"String",
@@ -104,10 +82,6 @@ export const ReturnTypes: Record<string,any> = {
 	User:{
 		stripeId:"String",
 		email:"String"
-	},
-	StripeCustomerMutationOps:{
-		generateBillingPortal:"String",
-		generateCheckoutSession:"String"
 	},
 	StripeCustomer:{
 		customerId:"String",
