@@ -8,7 +8,7 @@ import { MongoOrb } from '../db/orm.js';
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'createCustomerPortal', async ({ payload: { returnUrl, userEmail } }) => {
     const stripe = newStripe();
-    const user = await MongoOrb('StripeUserCollection').collection.findOne(
+    const user = await MongoOrb('UserCollection').collection.findOne(
         { email: userEmail },
       );
     if (!user) {

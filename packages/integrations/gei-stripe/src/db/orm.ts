@@ -13,7 +13,7 @@ export const orm = async () => {
       StripePaymentIntentCollection: Stripe.PaymentIntent,
       StripeTaxRateCollection: Stripe.TaxRate,
       StripeInvoiceCollection: Stripe.Invoice,
-      StripeUserCollection: StripeUserModel
+      UserCollection: StripeUserModel
       StripeCustomerCollection: Stripe.Customer
     },
     {

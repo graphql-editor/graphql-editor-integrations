@@ -8,7 +8,7 @@ export const handler = async (input: FieldResolveInput) =>
     const { email, name, phone, address } = args.initStripeCustomerInput;
     const existingCustomer = await MongoOrb('StripeCustomerCollection').collection.findOne({email: email});
     if(existingCustomer){
-      await MongoOrb('StripeUserCollection').collection.updateOne(
+      await MongoOrb('UserCollection').collection.updateOne(
         { email: args.initStripeCustomerInput.email },
         { $set: { stripeId: existingCustomer.id } },
         { upsert: true },
@@ -22,7 +22,7 @@ export const handler = async (input: FieldResolveInput) =>
           phone: phone || undefined,
           address: address || undefined,
         });
-        await MongoOrb('StripeUserCollection').collection.updateOne(
+        await MongoOrb('UserCollection').collection.updateOne(
           { email: args.initStripeCustomerInput.email },
           { $set: { stripeId: customer.id } },
           { upsert: true },

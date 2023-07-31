@@ -9,7 +9,7 @@ type item = {
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'createPaymentSession', async ({ payload: { successUrl, cancelUrl, products, userEmail } }) => {
     const stripe = newStripe();
-    const user = await MongoOrb('StripeUserCollection').collection.findOne(
+    const user = await MongoOrb('UserCollection').collection.findOne(
         { email: userEmail },
       );
     if (!user) {
