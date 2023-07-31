@@ -49,7 +49,7 @@ export const integration = NewIntegration({
       handler: webhookHandler,
     }
   },
-  Product: {
+  StripeProduct: {
     default_price: {
       name: 'default_price',
       description: 'Resolver for querying default price object',

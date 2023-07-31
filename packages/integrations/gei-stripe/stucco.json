@@ -16,7 +16,7 @@
         },
         "Mutation.createCustomerPortal": {
             "name": "createCustomerPortal",
-            "description": "Creates customer portal for managing accound and subscriptions",
+            "description": "Creates customer portal for managing account and subscriptions",
             "resolve": {
                 "name": "Mutation.createCustomerPortal.handler"
             }
@@ -49,18 +49,18 @@
                 "name": "Query.subscriptions.handler"
             }
         },
-        "Product.default_price": {
+        "StripeProduct.default_price": {
             "name": "default_price",
             "description": "Resolver for querying default price object",
             "resolve": {
-                "name": "Product.default_price.handler"
+                "name": "StripeProduct.default_price.handler"
             }
         },
-        "Product.prices": {
+        "StripeProduct.prices": {
             "name": "prices",
             "description": "Resolver for querying prices objects",
             "resolve": {
-                "name": "Product.prices.handler"
+                "name": "StripeProduct.prices.handler"
             }
         }
     },
