@@ -4,10 +4,10 @@ import { DB } from '../db/mongo.js';
 
 export const handler = async (input: FieldResolveInput) => {
   return DB().then((db) => {
-    
+    const fieldFilter = input.arguments?.fieldFilter ? input.arguments?.fieldFilter : input.arguments?.fieldRegexFilter ? {} : input.arguments
     const filterInput = {
       ...prepareSourceParameters(input),
-      ...(input.arguments?.fieldFilter as object),
+      ...(fieldFilter as object),
       ...convertObjectToRegexFormat(input.arguments?.fieldRegexFilter as QueryObject),
     };
    const sort = (typeof input.arguments?.sortByField === 'object') ?  input.arguments?.sortByField as {field: string, order?: boolean}   : undefined
