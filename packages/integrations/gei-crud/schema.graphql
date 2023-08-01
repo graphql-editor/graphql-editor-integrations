@@ -9,7 +9,8 @@ type Object{
 }
 
 type Query{
-	objects: [Object!]
+	objects(fieldFilter: FieldFilterInput,
+	fieldRegexFilter: FieldFilterInput): [Object!]
 	oneById(
 		_id: String!
 	): Object
@@ -32,6 +33,13 @@ input Create{
 	name: String!
 	content: String
 	owner: String
+}
+
+input FieldFilterInput	{ 
+    name: String
+	content: String
+	owner: String
+	customFieldName: String
 }
 
 input Update{
