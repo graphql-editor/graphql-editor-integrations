@@ -8,7 +8,7 @@ export const handler = async (input: FieldResolveInput) => {
     const filterInput = {
       ...prepareSourceParameters(input),
       ...(input.arguments?.fieldFilter as object),
-      ...convertObjectToRegexFormat(input.arguments?.fieldFilterReg as QueryObject),
+      ...convertObjectToRegexFormat(input.arguments?.fieldRegexFilter as QueryObject),
     };
    const sort = (typeof input.arguments?.sortByField === 'object') ?  input.arguments?.sortByField as {field: string, order?: boolean}   : undefined
    const field = snakeCaseToCamelCase(sort?.field as unknown as string)

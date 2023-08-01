@@ -56,8 +56,9 @@ input SortInput {
 
 enum SortField {
   CREATED_AT
-  CLIENT_NAME
-  PROJECT_NAME
+  UPDATED_AT
+  NAME
+  CUSTOM_FIELD_NAME
 }
 
 
