@@ -10,11 +10,14 @@ type Object{
 
 type Query{
 	objects(fieldFilter: FieldFilterInput,
-	fieldRegexFilter: FieldFilterInput): [Object!]
+	fieldRegexFilter: FieldFilterInput,
+	sortByField: SortInput): [Object!]
 	oneById(
 		_id: String!
 	): Object
 }
+
+
 
 type Mutation{
 	create(
@@ -41,6 +44,23 @@ input FieldFilterInput	{
 	owner: String
 	customFieldName: String
 }
+
+
+input SortInput {
+  field: SortField!
+  """
+  True for ASC, false for DESC
+  """
+  order: Boolean
+}
+
+enum SortField {
+  CREATED_AT
+  UPDATED_AT
+  NAME
+  CUSTOM_FIELD_NAME
+}
+
 
 input Update{
 	name: String

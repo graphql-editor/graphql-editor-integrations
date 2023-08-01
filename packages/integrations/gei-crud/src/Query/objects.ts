@@ -4,19 +4,23 @@ import { DB } from '../db/mongo.js';
 
 export const handler = async (input: FieldResolveInput) => {
   return DB().then((db) => {
+    
     const filterInput = {
       ...prepareSourceParameters(input),
       ...(input.arguments?.fieldFilter as object),
-      ...convertObjectToRegexFormat(input.arguments?.fieldFilterReg as QueryObject),
+      ...convertObjectToRegexFormat(input.arguments?.fieldRegexFilter as QueryObject),
     };
-  
-    return db.collection(prepareModel(input)).find(filterInput).toArray();
+   const sort = (typeof input.arguments?.sortByField === 'object') ?  input.arguments?.sortByField as {field: string, order?: boolean}   : undefined
+   const field = snakeCaseToCamelCase(sort?.field as unknown as string)
+
+    return db.collection(prepareModel(input)).find(filterInput).sort(field ? { [field]: sort?.order === false ? -1 : 1 } : { _id: 1 }).toArray();
   });
 };
 
 interface QueryObject {
   [key: string]: unknown;
 }
+
 
 // Function to convert the object to the desired format
 function convertObjectToRegexFormat(obj: QueryObject): QueryObject | undefined {
@@ -26,4 +30,9 @@ function convertObjectToRegexFormat(obj: QueryObject): QueryObject | undefined {
     if (obj[key]) obj2[key] = { $regex: obj[key], $options: 'i' };
   }
   return obj2 || {};
+}
+
+
+function snakeCaseToCamelCase(input:  string | null | undefined) {
+  return input?.toLowerCase().replace(/_([a-z])/g, (match, group1) => group1.toUpperCase());
 }
