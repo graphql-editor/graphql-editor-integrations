@@ -9,8 +9,7 @@ export const handler = async (input: FieldResolveInput) => {
       ...(input.arguments?.fieldFilter as object),
       ...convertObjectToRegexFormat(input.arguments?.fieldFilterReg as QueryObject),
     };
-    console.log(filterInput);
-
+  
     return db.collection(prepareModel(input)).find(filterInput).toArray();
   });
 };
