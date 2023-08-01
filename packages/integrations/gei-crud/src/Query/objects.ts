@@ -4,15 +4,16 @@ import { DB } from '../db/mongo.js';
 
 export const handler = async (input: FieldResolveInput) => {
   return DB().then((db) => {
+    
     const filterInput = {
       ...prepareSourceParameters(input),
       ...(input.arguments?.fieldFilter as object),
       ...convertObjectToRegexFormat(input.arguments?.fieldFilterReg as QueryObject),
     };
-   const sort: {field: string, order: boolean} = input.arguments?.sortByField
-    
-  
-    return db.collection(prepareModel(input)).find(filterInput).sort(sort?.field ? { [snakeCaseToCamelCase(sort.field)]: sort.order === false ? -1 : 1 } : { _id: 1 }).toArray();
+   const sort = (typeof input.arguments?.sortByField === 'object') ?  input.arguments?.sortByField as {field: string, order?: boolean}   : undefined
+   const field = snakeCaseToCamelCase(sort?.field as unknown as string)
+
+    return db.collection(prepareModel(input)).find(filterInput).sort(field ? { [field]: sort?.order === false ? -1 : 1 } : { _id: 1 }).toArray();
   });
 };
 
@@ -32,6 +33,6 @@ function convertObjectToRegexFormat(obj: QueryObject): QueryObject | undefined {
 }
 
 
-function snakeCaseToCamelCase(input: string | null | undefined) {
+function snakeCaseToCamelCase(input:  string | null | undefined) {
   return input?.toLowerCase().replace(/_([a-z])/g, (match, group1) => group1.toUpperCase());
 }

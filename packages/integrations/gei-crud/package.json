@@ -8,7 +8,7 @@
     "start": "gecli dev",
     "build": "tsc",
     "watch": "tsc --watch",
-    "update": "gecli codegen models && gecli schema && gecli typings",
+    "update": "gecli schema && gecli typings",
     "temp-db": "docker run -p 27017:27017 --rm mongo",
     "integrate": "gecli gei integrate",
     "publish": "gecli gei publish"
