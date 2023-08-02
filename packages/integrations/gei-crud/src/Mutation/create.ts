@@ -18,6 +18,8 @@ export const handler = async (input: FieldResolveInput) =>
       ...(entries[0][1] as OptionalId<any>),
       ...prepareSourceParameters(input),
       _id: new ObjectId().toHexString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
     return db
       .collection(prepareModel(input))
