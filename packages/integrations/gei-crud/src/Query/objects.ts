@@ -4,11 +4,13 @@ import { DB } from '../db/mongo.js';
 
 export const handler = async (input: FieldResolveInput) => {
   return DB().then((db) => {
-    const fieldFilter = input.arguments?.fieldFilter ? input.arguments?.fieldFilter : input.arguments?.fieldRegexFilter ? {} : input.arguments
+    const fieldFilter = input.arguments?.fieldFilter 
+    const fieldRegexFilter: any = input.arguments?.fieldRegexFilter ? input.arguments?.fieldRegexFilter :  fieldFilter ? {} : input.arguments
+    if (fieldRegexFilter?.sort) delete fieldRegexFilter?.sort
     const filterInput = {
       ...prepareSourceParameters(input),
       ...(fieldFilter as object),
-      ...convertObjectToRegexFormat(input.arguments?.fieldRegexFilter as QueryObject),
+      ...convertObjectToRegexFormat(fieldRegexFilter as QueryObject),
     };
    const sort = (typeof input.arguments?.sortByField === 'object') ?  input.arguments?.sortByField as {field: string, order?: boolean}   : undefined
    const field = snakeCaseToCamelCase(sort?.field as unknown as string)
