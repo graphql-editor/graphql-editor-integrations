@@ -3,7 +3,7 @@ import { getResolverData } from './shared.js';
 
 export const prepareSourceParameters = (input: FieldResolveInput) => {
   const source = input.source;
-  const { data } = getResolverData<{ sourceParameters?: string[], sourceFilterParameters?: string[] }>(input);
+  const { data } = getResolverData<{ sourceParameters?: string[]; sourceFilterParameters?: string[] }>(input);
   const sourceParameters = data?.sourceParameters?.value || data?.sourceFilterParameters?.value;
   if (sourceParameters && sourceParameters.length > 0) {
     if (!source) {
@@ -13,18 +13,29 @@ export const prepareSourceParameters = (input: FieldResolveInput) => {
     }
     const s = source as Record<string, any>;
     return Object.fromEntries(
-      sourceParameters.map((sp) => {
-        const sourceParamValue = s[sp];
-        if (!sourceParamValue) {
-          throw new Error(
-            `Parameter "${sp}" does not exist on object ${JSON.stringify(
-              s,
-              null,
-              2,
-            )}. Please change sourceFilterParameter name or provide correct source from piped resolver.`,
-          );
+      sourceParameters.map((spStringObject: string) => {
+        //let sourceObj: any = undefined;
+        let sourceParamValue: any = undefined;
+        let returnParameter = '';
+        const spStringObjectAr = spStringObject.replace(/[{ }]/g, '').split(':');
+        const returnParameterName = spStringObjectAr.length > 1 ? spStringObjectAr[0] : undefined;
+        const spStringPath = returnParameterName ? spStringObjectAr[1] : spStringObjectAr[0];
+        const spPath = spStringPath.split('.');
+        for (const sp of spPath) {
+          sourceParamValue = sourceParamValue ? sourceParamValue[sp] : s[sp];
+          //sourceObj = sourceParamValue as Record<string, any>;
+          returnParameter = sp;
+          if (!sourceParamValue) {
+            throw new Error(
+              `Parameter "${sp}" does not exist on object ${JSON.stringify(
+                s,
+                null,
+                2,
+              )}. Please change sourceFilterParameter name or provide correct source from piped resolver.`,
+            );
+          }
         }
-        return [sp, sourceParamValue];
+        return [returnParameterName || returnParameter, sourceParamValue];
       }),
     );
   }
@@ -55,6 +66,12 @@ export const prepareRelatedField = (input: FieldResolveInput) => {
   }
   return model;
 };
+
+export const prepare_id = (input: FieldResolveInput) => {
+  const _id = input.arguments?._id as string;
+  return _id;
+};
+
 export const prepareRequired_id = (input: FieldResolveInput) => {
   const _id = input.arguments?._id as string;
   if (!_id) {
