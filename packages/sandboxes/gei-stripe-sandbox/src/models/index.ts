@@ -1,9 +1,9 @@
 import { QueryModel } from './QueryModel.js'
-import { StripeCustomerQueryOpsModel } from './StripeCustomerQueryOpsModel.js'
 import { MutationModel } from './MutationModel.js'
+import { SubscriptionModel } from './SubscriptionModel.js'
+import { ItemModel } from './ItemModel.js'
 import { UserModel } from './UserModel.js'
-import { StripeCustomerMutationOpsModel } from './StripeCustomerMutationOpsModel.js'
-import { StripeCustomerModel } from './StripeCustomerModel.js'
+import { CustomerModel } from './CustomerModel.js'
 import { AddressModel } from './AddressModel.js'
 import { DimensionsModel } from './DimensionsModel.js'
 import { ProductModel } from './ProductModel.js'
@@ -16,11 +16,11 @@ import { ProductsPageModel } from './ProductsPageModel.js'
 
 export type Models = {
 	QueryModel: QueryModel;
-	StripeCustomerQueryOpsModel: StripeCustomerQueryOpsModel;
 	MutationModel: MutationModel;
+	SubscriptionModel: SubscriptionModel;
+	ItemModel: ItemModel;
 	UserModel: UserModel;
-	StripeCustomerMutationOpsModel: StripeCustomerMutationOpsModel;
-	StripeCustomerModel: StripeCustomerModel;
+	CustomerModel: CustomerModel;
 	AddressModel: AddressModel;
 	DimensionsModel: DimensionsModel;
 	ProductModel: ProductModel;

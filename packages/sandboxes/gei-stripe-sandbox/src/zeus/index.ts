@@ -837,21 +837,60 @@ type ZEUS_UNIONS = never
 export type ValueTypes = {
     ["Query"]: AliasType<{
 products?: [{	filter?: ValueTypes["ProductFilter"] | undefined | null | Variable<any, string>},ValueTypes["ProductsPage"]],
-stripeCustomerQueryOps?: [{	customerId: string | Variable<any, string>},ValueTypes["StripeCustomerQueryOps"]],
-		__typename?: boolean | `@${string}`
-}>;
-	["StripeCustomerQueryOps"]: AliasType<{
-	getCustomerInfo?:ValueTypes["StripeCustomer"],
+subscriptions?: [{	filter?: ValueTypes["SubscriptionFilter"] | undefined | null | Variable<any, string>},ValueTypes["Subscription"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["Mutation"]: AliasType<{
 initStripeCustomer?: [{	initStripeCustomerInput: ValueTypes["InitStripeCustomerInput"] | Variable<any, string>},boolean | `@${string}`],
-stripeCustomerMutationOps?: [{	customerId: string | Variable<any, string>},ValueTypes["StripeCustomerMutationOps"]],
-createPaymentSession?: [{	payload: ValueTypes["CreatePaymentSessionPayload"] | Variable<any, string>},boolean | `@${string}`],
-createNewUserPaymentSession?: [{	payload: ValueTypes["CreateNewUserPaymentSessionPayload"] | Variable<any, string>},boolean | `@${string}`],
-createCustomerPortal?: [{	payload: ValueTypes["CreateCustomerPortalPayload"] | Variable<any, string>},boolean | `@${string}`],
+createCheckoutSession?: [{	payload: ValueTypes["CreateCheckoutSessionInput"] | Variable<any, string>},boolean | `@${string}`],
+createNewUserCheckoutSession?: [{	payload: ValueTypes["CreateNewUserCheckoutSessionInput"] | Variable<any, string>},boolean | `@${string}`],
+createCustomerPortal?: [{	payload: ValueTypes["CreateCustomerPortalInput"] | Variable<any, string>},boolean | `@${string}`],
+createConnectAccount?: [{	payload: ValueTypes["CreateConnectAccountInput"] | Variable<any, string>},boolean | `@${string}`],
 	/** entry point for Weebhooks. */
 	webhook?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["CreateConnectAccountInput"]: {
+	type: string | Variable<any, string>,
+	country: string | Variable<any, string>,
+	email: string | Variable<any, string>,
+	business_type: string | Variable<any, string>,
+	bankAccount: ValueTypes["BankAccountInput"] | Variable<any, string>
+};
+	["BankAccountInput"]: {
+	country: string | Variable<any, string>,
+	/** Required supported currency for the country https://stripe.com/docs/payouts */
+	currency: string | Variable<any, string>,
+	/** IBAN account number */
+	account_number: string | Variable<any, string>,
+	/** Required when attaching the bank account to a Customer */
+	account_holder_name: string | Variable<any, string>
+};
+	["BankAccountHolderType"]:BankAccountHolderType;
+	["SubscriptionFilter"]: {
+	customerId?: string | undefined | null | Variable<any, string>
+};
+	["Subscription"]: AliasType<{
+	id?:boolean | `@${string}`,
+	cancel_at_period_end?:boolean | `@${string}`,
+	current_period_end?:boolean | `@${string}`,
+	current_period_start?:boolean | `@${string}`,
+	customer?:boolean | `@${string}`,
+	description?:boolean | `@${string}`,
+	items?:ValueTypes["Item"],
+	quantity?:boolean | `@${string}`,
+	start?:boolean | `@${string}`,
+	status?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["SubStatus"]:SubStatus;
+	["Item"]: AliasType<{
+	id?:boolean | `@${string}`,
+	created?:boolean | `@${string}`,
+	metadata?:boolean | `@${string}`,
+	price?:ValueTypes["Price"],
+	quantity?:boolean | `@${string}`,
+	subscription?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["User"]: AliasType<{
@@ -859,39 +898,38 @@ createCustomerPortal?: [{	payload: ValueTypes["CreateCustomerPortalPayload"] | V
 	email?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["StripeCustomerMutationOps"]: AliasType<{
-generateBillingPortal?: [{	returnUrl: string | Variable<any, string>},boolean | `@${string}`],
-generateCheckoutSession?: [{	generateCheckoutSessionInput: ValueTypes["GenerateCheckoutSessionInput"] | Variable<any, string>},boolean | `@${string}`],
-		__typename?: boolean | `@${string}`
-}>;
-	["GenerateCheckoutSessionInput"]: {
-	productIds: Array<string> | Variable<any, string>,
-	success_url: string | Variable<any, string>,
-	cancel_url: string | Variable<any, string>
-};
 	["InitStripeCustomerInput"]: {
 	email: string | Variable<any, string>,
 	name?: string | undefined | null | Variable<any, string>,
 	phone?: string | undefined | null | Variable<any, string>,
 	address?: ValueTypes["AddressInput"] | undefined | null | Variable<any, string>
 };
-	["CreateNewUserPaymentSessionPayload"]: {
+	["CreateNewUserCheckoutSessionInput"]: {
+	/** Return url after successful transaction */
 	successUrl: string | Variable<any, string>,
 	cancelUrl: string | Variable<any, string>,
-	products: Array<ValueTypes["StripeProductInput"]> | Variable<any, string>
+	products: Array<ValueTypes["ProductInput"]> | Variable<any, string>
 };
-	["CreatePaymentSessionPayload"]: {
+	["CreateCheckoutSessionInput"]: {
 	userEmail: string | Variable<any, string>,
 	/** Return url after successful transaction */
 	successUrl: string | Variable<any, string>,
 	cancelUrl: string | Variable<any, string>,
-	products: Array<ValueTypes["StripeProductInput"]> | Variable<any, string>
+	products: Array<ValueTypes["ProductInput"]> | Variable<any, string>,
+	/** Define amount to transfer into stripe connect account and set the rest for application fees */
+	applicationFee?: ValueTypes["ApplicationFeeInput"] | undefined | null | Variable<any, string>
 };
-	["StripeProductInput"]: {
+	["ApplicationFeeInput"]: {
+	/** Value from 0-100 */
+	application_fee: number | Variable<any, string>,
+	/** Connect Account (not stripe customer) id */
+	connectAccountId: string | Variable<any, string>
+};
+	["ProductInput"]: {
 	productId: string | Variable<any, string>,
 	quantity: number | Variable<any, string>
 };
-	["CreateCustomerPortalPayload"]: {
+	["CreateCustomerPortalInput"]: {
 	userEmail: string | Variable<any, string>,
 	returnUrl: string | Variable<any, string>
 };
@@ -909,7 +947,7 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ValueTypes["GenerateC
 	/** State, county, province, prefecture, or region. */
 	state: string | Variable<any, string>
 };
-	["StripeCustomer"]: AliasType<{
+	["Customer"]: AliasType<{
 	customerId?:boolean | `@${string}`,
 	email?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
@@ -1046,21 +1084,60 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ValueTypes["GenerateC
 export type ResolverInputTypes = {
     ["Query"]: AliasType<{
 products?: [{	filter?: ResolverInputTypes["ProductFilter"] | undefined | null},ResolverInputTypes["ProductsPage"]],
-stripeCustomerQueryOps?: [{	customerId: string},ResolverInputTypes["StripeCustomerQueryOps"]],
-		__typename?: boolean | `@${string}`
-}>;
-	["StripeCustomerQueryOps"]: AliasType<{
-	getCustomerInfo?:ResolverInputTypes["StripeCustomer"],
+subscriptions?: [{	filter?: ResolverInputTypes["SubscriptionFilter"] | undefined | null},ResolverInputTypes["Subscription"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["Mutation"]: AliasType<{
 initStripeCustomer?: [{	initStripeCustomerInput: ResolverInputTypes["InitStripeCustomerInput"]},boolean | `@${string}`],
-stripeCustomerMutationOps?: [{	customerId: string},ResolverInputTypes["StripeCustomerMutationOps"]],
-createPaymentSession?: [{	payload: ResolverInputTypes["CreatePaymentSessionPayload"]},boolean | `@${string}`],
-createNewUserPaymentSession?: [{	payload: ResolverInputTypes["CreateNewUserPaymentSessionPayload"]},boolean | `@${string}`],
-createCustomerPortal?: [{	payload: ResolverInputTypes["CreateCustomerPortalPayload"]},boolean | `@${string}`],
+createCheckoutSession?: [{	payload: ResolverInputTypes["CreateCheckoutSessionInput"]},boolean | `@${string}`],
+createNewUserCheckoutSession?: [{	payload: ResolverInputTypes["CreateNewUserCheckoutSessionInput"]},boolean | `@${string}`],
+createCustomerPortal?: [{	payload: ResolverInputTypes["CreateCustomerPortalInput"]},boolean | `@${string}`],
+createConnectAccount?: [{	payload: ResolverInputTypes["CreateConnectAccountInput"]},boolean | `@${string}`],
 	/** entry point for Weebhooks. */
 	webhook?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["CreateConnectAccountInput"]: {
+	type: string,
+	country: string,
+	email: string,
+	business_type: string,
+	bankAccount: ResolverInputTypes["BankAccountInput"]
+};
+	["BankAccountInput"]: {
+	country: string,
+	/** Required supported currency for the country https://stripe.com/docs/payouts */
+	currency: string,
+	/** IBAN account number */
+	account_number: string,
+	/** Required when attaching the bank account to a Customer */
+	account_holder_name: string
+};
+	["BankAccountHolderType"]:BankAccountHolderType;
+	["SubscriptionFilter"]: {
+	customerId?: string | undefined | null
+};
+	["Subscription"]: AliasType<{
+	id?:boolean | `@${string}`,
+	cancel_at_period_end?:boolean | `@${string}`,
+	current_period_end?:boolean | `@${string}`,
+	current_period_start?:boolean | `@${string}`,
+	customer?:boolean | `@${string}`,
+	description?:boolean | `@${string}`,
+	items?:ResolverInputTypes["Item"],
+	quantity?:boolean | `@${string}`,
+	start?:boolean | `@${string}`,
+	status?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["SubStatus"]:SubStatus;
+	["Item"]: AliasType<{
+	id?:boolean | `@${string}`,
+	created?:boolean | `@${string}`,
+	metadata?:boolean | `@${string}`,
+	price?:ResolverInputTypes["Price"],
+	quantity?:boolean | `@${string}`,
+	subscription?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["User"]: AliasType<{
@@ -1068,39 +1145,38 @@ createCustomerPortal?: [{	payload: ResolverInputTypes["CreateCustomerPortalPaylo
 	email?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["StripeCustomerMutationOps"]: AliasType<{
-generateBillingPortal?: [{	returnUrl: string},boolean | `@${string}`],
-generateCheckoutSession?: [{	generateCheckoutSessionInput: ResolverInputTypes["GenerateCheckoutSessionInput"]},boolean | `@${string}`],
-		__typename?: boolean | `@${string}`
-}>;
-	["GenerateCheckoutSessionInput"]: {
-	productIds: Array<string>,
-	success_url: string,
-	cancel_url: string
-};
 	["InitStripeCustomerInput"]: {
 	email: string,
 	name?: string | undefined | null,
 	phone?: string | undefined | null,
 	address?: ResolverInputTypes["AddressInput"] | undefined | null
 };
-	["CreateNewUserPaymentSessionPayload"]: {
+	["CreateNewUserCheckoutSessionInput"]: {
+	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<ResolverInputTypes["StripeProductInput"]>
+	products: Array<ResolverInputTypes["ProductInput"]>
 };
-	["CreatePaymentSessionPayload"]: {
+	["CreateCheckoutSessionInput"]: {
 	userEmail: string,
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<ResolverInputTypes["StripeProductInput"]>
+	products: Array<ResolverInputTypes["ProductInput"]>,
+	/** Define amount to transfer into stripe connect account and set the rest for application fees */
+	applicationFee?: ResolverInputTypes["ApplicationFeeInput"] | undefined | null
 };
-	["StripeProductInput"]: {
+	["ApplicationFeeInput"]: {
+	/** Value from 0-100 */
+	application_fee: number,
+	/** Connect Account (not stripe customer) id */
+	connectAccountId: string
+};
+	["ProductInput"]: {
 	productId: string,
 	quantity: number
 };
-	["CreateCustomerPortalPayload"]: {
+	["CreateCustomerPortalInput"]: {
 	userEmail: string,
 	returnUrl: string
 };
@@ -1118,7 +1194,7 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ResolverInputTypes["G
 	/** State, county, province, prefecture, or region. */
 	state: string
 };
-	["StripeCustomer"]: AliasType<{
+	["Customer"]: AliasType<{
 	customerId?:boolean | `@${string}`,
 	email?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
@@ -1255,32 +1331,62 @@ generateCheckoutSession?: [{	generateCheckoutSessionInput: ResolverInputTypes["G
 export type ModelTypes = {
     ["Query"]: {
 		products?: ModelTypes["ProductsPage"] | undefined,
-	stripeCustomerQueryOps?: ModelTypes["StripeCustomerQueryOps"] | undefined
-};
-	["StripeCustomerQueryOps"]: {
-		getCustomerInfo?: ModelTypes["StripeCustomer"] | undefined
+	subscriptions?: Array<ModelTypes["Subscription"]> | undefined
 };
 	["Mutation"]: {
-		initStripeCustomer: boolean,
-	stripeCustomerMutationOps?: ModelTypes["StripeCustomerMutationOps"] | undefined,
-	createPaymentSession: string,
-	createNewUserPaymentSession: string,
+		/** Creates stripe customer for further purchases, links with user "email" field in UserCollection */
+	initStripeCustomer: boolean,
+	createCheckoutSession: string,
+	createNewUserCheckoutSession: string,
 	createCustomerPortal: string,
+	createConnectAccount: boolean,
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
+};
+	["CreateConnectAccountInput"]: {
+	type: string,
+	country: string,
+	email: string,
+	business_type: string,
+	bankAccount: ModelTypes["BankAccountInput"]
+};
+	["BankAccountInput"]: {
+	country: string,
+	/** Required supported currency for the country https://stripe.com/docs/payouts */
+	currency: string,
+	/** IBAN account number */
+	account_number: string,
+	/** Required when attaching the bank account to a Customer */
+	account_holder_name: string
+};
+	["BankAccountHolderType"]:BankAccountHolderType;
+	["SubscriptionFilter"]: {
+	customerId?: string | undefined
+};
+	["Subscription"]: {
+		id: string,
+	cancel_at_period_end: boolean,
+	current_period_end: ModelTypes["Timestamp"],
+	current_period_start: ModelTypes["Timestamp"],
+	customer: string,
+	description?: string | undefined,
+	items: Array<ModelTypes["Item"]>,
+	quantity: number,
+	start: ModelTypes["Timestamp"],
+	status: ModelTypes["SubStatus"]
+};
+	["SubStatus"]:SubStatus;
+	["Item"]: {
+		id: string,
+	created: ModelTypes["Timestamp"],
+	metadata?: ModelTypes["AnyObject"] | undefined,
+	price: ModelTypes["Price"],
+	quantity: number,
+	subscription: string
 };
 	["User"]: {
 		stripeId?: string | undefined,
 	email: string
-};
-	["StripeCustomerMutationOps"]: {
-		generateBillingPortal?: string | undefined,
-	generateCheckoutSession?: string | undefined
-};
-	["GenerateCheckoutSessionInput"]: {
-	productIds: Array<string>,
-	success_url: string,
-	cancel_url: string
 };
 	["InitStripeCustomerInput"]: {
 	email: string,
@@ -1288,23 +1394,32 @@ export type ModelTypes = {
 	phone?: string | undefined,
 	address?: ModelTypes["AddressInput"] | undefined
 };
-	["CreateNewUserPaymentSessionPayload"]: {
+	["CreateNewUserCheckoutSessionInput"]: {
+	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<ModelTypes["StripeProductInput"]>
+	products: Array<ModelTypes["ProductInput"]>
 };
-	["CreatePaymentSessionPayload"]: {
+	["CreateCheckoutSessionInput"]: {
 	userEmail: string,
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<ModelTypes["StripeProductInput"]>
+	products: Array<ModelTypes["ProductInput"]>,
+	/** Define amount to transfer into stripe connect account and set the rest for application fees */
+	applicationFee?: ModelTypes["ApplicationFeeInput"] | undefined
 };
-	["StripeProductInput"]: {
+	["ApplicationFeeInput"]: {
+	/** Value from 0-100 */
+	application_fee: number,
+	/** Connect Account (not stripe customer) id */
+	connectAccountId: string
+};
+	["ProductInput"]: {
 	productId: string,
 	quantity: number
 };
-	["CreateCustomerPortalPayload"]: {
+	["CreateCustomerPortalInput"]: {
 	userEmail: string,
 	returnUrl: string
 };
@@ -1322,7 +1437,7 @@ export type ModelTypes = {
 	/** State, county, province, prefecture, or region. */
 	state: string
 };
-	["StripeCustomer"]: {
+	["Customer"]: {
 		customerId: string,
 	email: string,
 	name?: string | undefined,
@@ -1451,36 +1566,66 @@ export type GraphQLTypes = {
     ["Query"]: {
 	__typename: "Query",
 	products?: GraphQLTypes["ProductsPage"] | undefined,
-	stripeCustomerQueryOps?: GraphQLTypes["StripeCustomerQueryOps"] | undefined
-};
-	["StripeCustomerQueryOps"]: {
-	__typename: "StripeCustomerQueryOps",
-	getCustomerInfo?: GraphQLTypes["StripeCustomer"] | undefined
+	subscriptions?: Array<GraphQLTypes["Subscription"]> | undefined
 };
 	["Mutation"]: {
 	__typename: "Mutation",
+	/** Creates stripe customer for further purchases, links with user "email" field in UserCollection */
 	initStripeCustomer: boolean,
-	stripeCustomerMutationOps?: GraphQLTypes["StripeCustomerMutationOps"] | undefined,
-	createPaymentSession: string,
-	createNewUserPaymentSession: string,
+	createCheckoutSession: string,
+	createNewUserCheckoutSession: string,
 	createCustomerPortal: string,
+	createConnectAccount: boolean,
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
+};
+	["CreateConnectAccountInput"]: {
+		type: string,
+	country: string,
+	email: string,
+	business_type: string,
+	bankAccount: GraphQLTypes["BankAccountInput"]
+};
+	["BankAccountInput"]: {
+		country: string,
+	/** Required supported currency for the country https://stripe.com/docs/payouts */
+	currency: string,
+	/** IBAN account number */
+	account_number: string,
+	/** Required when attaching the bank account to a Customer */
+	account_holder_name: string
+};
+	["BankAccountHolderType"]: BankAccountHolderType;
+	["SubscriptionFilter"]: {
+		customerId?: string | undefined
+};
+	["Subscription"]: {
+	__typename: "Subscription",
+	id: string,
+	cancel_at_period_end: boolean,
+	current_period_end: GraphQLTypes["Timestamp"],
+	current_period_start: GraphQLTypes["Timestamp"],
+	customer: string,
+	description?: string | undefined,
+	items: Array<GraphQLTypes["Item"]>,
+	quantity: number,
+	start: GraphQLTypes["Timestamp"],
+	status: GraphQLTypes["SubStatus"]
+};
+	["SubStatus"]: SubStatus;
+	["Item"]: {
+	__typename: "Item",
+	id: string,
+	created: GraphQLTypes["Timestamp"],
+	metadata?: GraphQLTypes["AnyObject"] | undefined,
+	price: GraphQLTypes["Price"],
+	quantity: number,
+	subscription: string
 };
 	["User"]: {
 	__typename: "User",
 	stripeId?: string | undefined,
 	email: string
-};
-	["StripeCustomerMutationOps"]: {
-	__typename: "StripeCustomerMutationOps",
-	generateBillingPortal?: string | undefined,
-	generateCheckoutSession?: string | undefined
-};
-	["GenerateCheckoutSessionInput"]: {
-		productIds: Array<string>,
-	success_url: string,
-	cancel_url: string
 };
 	["InitStripeCustomerInput"]: {
 		email: string,
@@ -1488,23 +1633,32 @@ export type GraphQLTypes = {
 	phone?: string | undefined,
 	address?: GraphQLTypes["AddressInput"] | undefined
 };
-	["CreateNewUserPaymentSessionPayload"]: {
-		successUrl: string,
+	["CreateNewUserCheckoutSessionInput"]: {
+		/** Return url after successful transaction */
+	successUrl: string,
 	cancelUrl: string,
-	products: Array<GraphQLTypes["StripeProductInput"]>
+	products: Array<GraphQLTypes["ProductInput"]>
 };
-	["CreatePaymentSessionPayload"]: {
+	["CreateCheckoutSessionInput"]: {
 		userEmail: string,
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<GraphQLTypes["StripeProductInput"]>
+	products: Array<GraphQLTypes["ProductInput"]>,
+	/** Define amount to transfer into stripe connect account and set the rest for application fees */
+	applicationFee?: GraphQLTypes["ApplicationFeeInput"] | undefined
 };
-	["StripeProductInput"]: {
+	["ApplicationFeeInput"]: {
+		/** Value from 0-100 */
+	application_fee: number,
+	/** Connect Account (not stripe customer) id */
+	connectAccountId: string
+};
+	["ProductInput"]: {
 		productId: string,
 	quantity: number
 };
-	["CreateCustomerPortalPayload"]: {
+	["CreateCustomerPortalInput"]: {
 		userEmail: string,
 	returnUrl: string
 };
@@ -1522,8 +1676,8 @@ export type GraphQLTypes = {
 	/** State, county, province, prefecture, or region. */
 	state: string
 };
-	["StripeCustomer"]: {
-	__typename: "StripeCustomer",
+	["Customer"]: {
+	__typename: "Customer",
 	customerId: string,
 	email: string,
 	name?: string | undefined,
@@ -1655,6 +1809,19 @@ export type GraphQLTypes = {
 	endingBefore?: string | undefined
 }
     }
+export const enum BankAccountHolderType {
+	individual = "individual",
+	company = "company"
+}
+export const enum SubStatus {
+	incomplete = "incomplete",
+	incomplete_expired = "incomplete_expired",
+	trialing = "trialing",
+	active = "active",
+	past_due = "past_due",
+	canceled = "canceled",
+	unpaid = "unpaid"
+}
 export const enum BillingScheme {
 	PER_UNIT = "PER_UNIT",
 	TIERED = "TIERED"
@@ -1694,12 +1861,17 @@ export const enum Type {
 }
 
 type ZEUS_VARIABLES = {
-	["GenerateCheckoutSessionInput"]: ValueTypes["GenerateCheckoutSessionInput"];
+	["CreateConnectAccountInput"]: ValueTypes["CreateConnectAccountInput"];
+	["BankAccountInput"]: ValueTypes["BankAccountInput"];
+	["BankAccountHolderType"]: ValueTypes["BankAccountHolderType"];
+	["SubscriptionFilter"]: ValueTypes["SubscriptionFilter"];
+	["SubStatus"]: ValueTypes["SubStatus"];
 	["InitStripeCustomerInput"]: ValueTypes["InitStripeCustomerInput"];
-	["CreateNewUserPaymentSessionPayload"]: ValueTypes["CreateNewUserPaymentSessionPayload"];
-	["CreatePaymentSessionPayload"]: ValueTypes["CreatePaymentSessionPayload"];
-	["StripeProductInput"]: ValueTypes["StripeProductInput"];
-	["CreateCustomerPortalPayload"]: ValueTypes["CreateCustomerPortalPayload"];
+	["CreateNewUserCheckoutSessionInput"]: ValueTypes["CreateNewUserCheckoutSessionInput"];
+	["CreateCheckoutSessionInput"]: ValueTypes["CreateCheckoutSessionInput"];
+	["ApplicationFeeInput"]: ValueTypes["ApplicationFeeInput"];
+	["ProductInput"]: ValueTypes["ProductInput"];
+	["CreateCustomerPortalInput"]: ValueTypes["CreateCustomerPortalInput"];
 	["AddressInput"]: ValueTypes["AddressInput"];
 	["ProductFilter"]: ValueTypes["ProductFilter"];
 	["RecurringFilter"]: ValueTypes["RecurringFilter"];

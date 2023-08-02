@@ -10,24 +10,24 @@
                 "name": "gei-stripe@Mutation.initStripeCustomer"
             }
         },
-        "Mutation.createNewUserPaymentSession": {
+        "Mutation.createNewUserCheckoutSession": {
             "noCode": {
                 "package": "gei-stripe",
                 "version": "0.2.0",
-                "resolver": "createNewUserPaymentSession"
+                "resolver": "createNewUserCheckoutSession"
             },
             "resolve": {
-                "name": "gei-stripe@Mutation.createNewUserPaymentSession"
+                "name": "gei-stripe@Mutation.createNewUserCheckoutSession"
             }
         },
-        "Mutation.createPaymentSession": {
+        "Mutation.createCheckoutSession": {
             "noCode": {
                 "package": "gei-stripe",
                 "version": "0.2.0",
-                "resolver": "createPaymentSession"
+                "resolver": "createCheckoutSession"
             },
             "resolve": {
-                "name": "gei-stripe@Mutation.createPaymentSession"
+                "name": "gei-stripe@Mutation.createCheckoutSession"
             }
         },
         "Mutation.webhook": {

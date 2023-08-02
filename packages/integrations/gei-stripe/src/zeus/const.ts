@@ -13,16 +13,42 @@ export const AllTypesProps: Record<string,any> = {
 		initStripeCustomer:{
 			initStripeCustomerInput:"InitStripeCustomerInput"
 		},
-		createPaymentSession:{
-			payload:"CreatePaymentSessionPayload"
+		createCheckoutSession:{
+			payload:"CreateCheckoutSessionInput"
 		},
-		createNewUserPaymentSession:{
-			payload:"CreateNewUserPaymentSessionPayload"
+		createNewUserCheckoutSession:{
+			payload:"CreateNewUserCheckoutSessionInput"
 		},
 		createCustomerPortal:{
-			payload:"CreateCustomerPortalPayload"
+			payload:"CreateCustomerPortalInput"
+		},
+		createConnectAccount:{
+			payload:"CreateConnectAccountInput"
+		},
+		attachPaymentMethod:{
+			payload:"AttachPaymentMethodInput"
+		},
+		setDefaultPaymentMethod:{
+			payload:"setDefaultPaymentMethodInput"
 		}
 	},
+	setDefaultPaymentMethodInput:{
+
+	},
+	AttachPaymentMethodInput:{
+
+	},
+	CreateConnectAccountInput:{
+		type:"ConnectAccountType",
+		business_type:"ConnectAccountBusinessType",
+		bankAccount:"BankAccountInput"
+	},
+	ConnectAccountBusinessType: "enum" as const,
+	ConnectAccountType: "enum" as const,
+	BankAccountInput:{
+		account_holder_type:"BankAccountHolderType"
+	},
+	BankAccountHolderType: "enum" as const,
 	SubscriptionFilter:{
 
 	},
@@ -30,16 +56,21 @@ export const AllTypesProps: Record<string,any> = {
 	InitStripeCustomerInput:{
 		address:"AddressInput"
 	},
-	CreateNewUserPaymentSessionPayload:{
-		products:"ProductInput"
+	CreateNewUserCheckoutSessionInput:{
+		products:"ProductInput",
+		applicationFee:"ApplicationFeeInput"
 	},
-	CreatePaymentSessionPayload:{
-		products:"ProductInput"
+	CreateCheckoutSessionInput:{
+		products:"ProductInput",
+		applicationFee:"ApplicationFeeInput"
+	},
+	ApplicationFeeInput:{
+
 	},
 	ProductInput:{
 
 	},
-	CreateCustomerPortalPayload:{
+	CreateCustomerPortalInput:{
 
 	},
 	AddressInput:{
@@ -82,9 +113,12 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	Mutation:{
 		initStripeCustomer:"Boolean",
-		createPaymentSession:"String",
-		createNewUserPaymentSession:"String",
+		createCheckoutSession:"String",
+		createNewUserCheckoutSession:"String",
 		createCustomerPortal:"String",
+		createConnectAccount:"Boolean",
+		attachPaymentMethod:"Boolean",
+		setDefaultPaymentMethod:"Boolean",
 		webhook:"String"
 	},
 	Subscription:{

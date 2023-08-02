@@ -2,6 +2,7 @@ import { iGraphQL } from 'i-graphql';
 import { ObjectId } from 'mongodb';
 import Stripe from 'stripe';
 import { UserModel } from '../models/UserModel';
+import { ExternalAccount } from '../utils/externalAccountEvents';
 
 export const orm = async () => {
   return iGraphQL<
@@ -15,6 +16,7 @@ export const orm = async () => {
       StripeInvoiceCollection: Stripe.Invoice,
       UserCollection: UserModel
       StripeCustomerCollection: Stripe.Customer
+      StripeExternalAccount: ExternalAccount
     },
     {
       _id: () => string;

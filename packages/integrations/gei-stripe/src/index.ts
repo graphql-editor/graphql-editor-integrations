@@ -2,13 +2,14 @@ import { NewIntegration } from 'graphql-editor-cli';
 import { handler as initStripeCustomerHandler } from './Mutation/initStripeCustomer.js';
 import { handler as webhookHandler } from './Mutation/webhook.js';
 import { handler as createCustomerPortalHandler } from './Mutation/createCustomerPortal.js';
-import { handler as createPaymentSessionHandler } from './Mutation/createPaymentSession.js';
-import { handler as createNewUserPaymentSessionHandler } from './Mutation/createNewUserPaymentSession.js';
+import { handler as createCheckoutSessionHandler } from './Mutation/createCheckoutSession.js';
+import { handler as createNewUserCheckoutSessionHandler } from './Mutation/createNewUserCheckoutSession.js';
 import { handler as productsHandler } from './Query/products.js';
 import { handler as productDefaultPriceHandler } from './StripeProduct/default_price.js';
 import { handler as productPricesHandler } from './StripeProduct/prices.js';
 import { handler as subscriptionsHandler } from './Query/subscriptions.js';
-
+import { handler as attachPaymentMethodHandler } from './Mutation/attachPaymentMethod.js';
+import { handler as createConnectAccountHandler } from './Mutation/createConnectAccount.js';
 export const integration = NewIntegration({
   Query: {
     products: {
@@ -23,25 +24,35 @@ export const integration = NewIntegration({
     }
   },
   Mutation: {
-    initStripeCustomer: {
-      name: 'initStripeCustomer',
-      description: 'Init stripe customer',
-      handler: initStripeCustomerHandler,
+    attachPaymentMethod: {
+      name: 'attachPaymentMethod',
+      description: 'attach payment method created on the frontend to existing stripe customer',
+      handler: attachPaymentMethodHandler,
+    },
+    createCheckoutSession: {
+      name: 'createCheckoutSession',
+      description: 'Creates payment session for already existing user',
+      handler: createCheckoutSessionHandler,
+    },
+    createConnectAccount: {
+      name: 'createConnectAccount',
+      description: 'Creates stripe connect account for specific payments design with application fees or custom withdrawals',
+      handler: createConnectAccountHandler,
     },
     createCustomerPortal: {
       name: 'createCustomerPortal',
       description: 'Creates customer portal for managing account and subscriptions',
       handler: createCustomerPortalHandler,
     },
-    createPaymentSession: {
-      name: 'createPaymentSession',
-      description: 'Creates payment session for already existing user',
-      handler: createPaymentSessionHandler,
+    initStripeCustomer: {
+      name: 'initStripeCustomer',
+      description: 'Init stripe customer',
+      handler: initStripeCustomerHandler,
     },
-    createNewUserPaymentSession: {
-      name: 'createNewUserPaymentSession',
+    createNewUserCheckoutSession: {
+      name: 'reateNewUserCheckoutSession',
       description: 'Creates payment session for user that is not yet registered',
-      handler: createNewUserPaymentSessionHandler,
+      handler: createNewUserCheckoutSessionHandler,
     },
     webhook: {
       name: 'webhook',

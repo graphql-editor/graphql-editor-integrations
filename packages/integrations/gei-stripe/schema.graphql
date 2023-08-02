@@ -10,22 +10,90 @@ type Query{
 }
 
 type Mutation{
+	"""
+	Creates stripe customer for further purchases, links with user "email" field in UserCollection
+	"""
 	initStripeCustomer(
 		initStripeCustomerInput: InitStripeCustomerInput!
 	): Boolean!
-	createPaymentSession(
-		payload: CreatePaymentSessionPayload!
+	createCheckoutSession(
+		payload: CreateCheckoutSessionInput!
 	): String!
-	createNewUserPaymentSession(
-		payload: CreateNewUserPaymentSessionPayload!
+	createNewUserCheckoutSession(
+		payload: CreateNewUserCheckoutSessionInput!
 	): String!
 	createCustomerPortal(
-		payload: CreateCustomerPortalPayload!
+		payload: CreateCustomerPortalInput!
 	): String!
+	createConnectAccount(
+		payload: CreateConnectAccountInput!
+	): Boolean!
+	"""
+	Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements
+	"""
+	attachPaymentMethod(
+		payload: AttachPaymentMethodInput!
+	): Boolean!
+	setDefaultPaymentMethod(
+		payload: setDefaultPaymentMethodInput!
+	): Boolean!
 	"""
 	entry point for Weebhooks.
 	"""
 	webhook: String
+}
+
+input setDefaultPaymentMethodInput{
+	attachedPaymentMethodId: String!
+	customerId: String!
+}
+
+input AttachPaymentMethodInput {
+	paymentMethodId: String!
+	customerId: String!
+}
+
+input CreateConnectAccountInput {
+	type: ConnectAccountType!
+	country: String!
+	email: String!
+	business_type: ConnectAccountBusinessType!
+	bankAccount: BankAccountInput!
+}
+
+enum ConnectAccountBusinessType{
+	company
+	government_entity
+	individual
+	non_profit
+}
+
+enum ConnectAccountType {
+	standard
+	express
+	custom
+}
+
+input BankAccountInput {
+	country: String!
+	"""
+	Required supported currency for the country https://stripe.com/docs/payouts
+	"""
+	currency: String!
+	"""
+	IBAN account number
+	"""
+	account_number: String!
+	"""
+	Required when attaching the bank account to a Customer
+	"""
+	account_holder_name: String!
+	account_holder_type: BankAccountHolderType!
+}
+
+enum BankAccountHolderType {
+	individual
+	company
 }
 
 input SubscriptionFilter {
@@ -76,16 +144,20 @@ input InitStripeCustomerInput{
 	address: AddressInput
 }
 
-input CreateNewUserPaymentSessionPayload{
+input CreateNewUserCheckoutSessionInput{
 	"""
 	Return url after successful transaction
 	"""
 	successUrl: String!
 	cancelUrl: String!
 	products: [ProductInput!]!
+	"""
+	Define amount to transfer into stripe connect account and set the rest for application fees
+	"""
+	applicationFee: ApplicationFeeInput
 }
 
-input CreatePaymentSessionPayload{
+input CreateCheckoutSessionInput{
 	userEmail: String!
 	"""
 	Return url after successful transaction
@@ -93,6 +165,21 @@ input CreatePaymentSessionPayload{
 	successUrl: String!
 	cancelUrl: String!
 	products: [ProductInput!]!
+	"""
+	Define amount to transfer into stripe connect account and set the rest for application fees
+	"""
+	applicationFee: ApplicationFeeInput
+}
+
+input ApplicationFeeInput {
+	"""
+	Value from 0-100
+	"""
+	feePercentage: Int!
+	"""
+	Connect Account (not stripe customer) id
+	"""
+	connectAccountId: String!
 }
 
 input ProductInput{
@@ -100,7 +187,7 @@ input ProductInput{
 	quantity: Int!
 }
 
-input CreateCustomerPortalPayload{
+input CreateCustomerPortalInput{
 	userEmail: String!
 	returnUrl: String!
 }
