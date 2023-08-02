@@ -1,32 +1,32 @@
 import { QueryModel } from './QueryModel.js'
 import { MutationModel } from './MutationModel.js'
-import { StripeSubscriptionModel } from './StripeSubscriptionModel.js'
-import { StripeItemModel } from './StripeItemModel.js'
-import { StripeUserModel } from './StripeUserModel.js'
-import { StripeCustomerModel } from './StripeCustomerModel.js'
-import { StripeAddressModel } from './StripeAddressModel.js'
+import { SubscriptionModel } from './SubscriptionModel.js'
+import { ItemModel } from './ItemModel.js'
+import { UserModel } from './UserModel.js'
+import { CustomerModel } from './CustomerModel.js'
+import { AddressModel } from './AddressModel.js'
 import { DimensionsModel } from './DimensionsModel.js'
-import { StripeProductModel } from './StripeProductModel.js'
+import { ProductModel } from './ProductModel.js'
 import { CustomUnitAmountModel } from './CustomUnitAmountModel.js'
 import { PriceRecurringModel } from './PriceRecurringModel.js'
 import { TransformQuantityModel } from './TransformQuantityModel.js'
-import { StripePriceModel } from './StripePriceModel.js'
-import { StripeProductsPageModel } from './StripeProductsPageModel.js'
+import { PriceModel } from './PriceModel.js'
+import { ProductsPageModel } from './ProductsPageModel.js'
 
 
 export type Models = {
 	QueryModel: QueryModel;
 	MutationModel: MutationModel;
-	StripeSubscriptionModel: StripeSubscriptionModel;
-	StripeItemModel: StripeItemModel;
-	StripeUserModel: StripeUserModel;
-	StripeCustomerModel: StripeCustomerModel;
-	StripeAddressModel: StripeAddressModel;
+	SubscriptionModel: SubscriptionModel;
+	ItemModel: ItemModel;
+	UserModel: UserModel;
+	CustomerModel: CustomerModel;
+	AddressModel: AddressModel;
 	DimensionsModel: DimensionsModel;
-	StripeProductModel: StripeProductModel;
+	ProductModel: ProductModel;
 	CustomUnitAmountModel: CustomUnitAmountModel;
 	PriceRecurringModel: PriceRecurringModel;
 	TransformQuantityModel: TransformQuantityModel;
-	StripePriceModel: StripePriceModel;
-	StripeProductsPageModel: StripeProductsPageModel;
+	PriceModel: PriceModel;
+	ProductsPageModel: ProductsPageModel;
 };

@@ -5,51 +5,55 @@ export const AllTypesProps: Record<string,any> = {
 		products:{
 			filter:"ProductFilter"
 		},
-		stripeCustomerQueryOps:{
-
+		subscriptions:{
+			filter:"SubscriptionFilter"
 		}
 	},
 	Mutation:{
 		initStripeCustomer:{
 			initStripeCustomerInput:"InitStripeCustomerInput"
 		},
-		stripeCustomerMutationOps:{
-
+		createCheckoutSession:{
+			payload:"CreateCheckoutSessionInput"
 		},
-		createPaymentSession:{
-			payload:"CreatePaymentSessionPayload"
-		},
-		createNewUserPaymentSession:{
-			payload:"CreateNewUserPaymentSessionPayload"
+		createNewUserCheckoutSession:{
+			payload:"CreateNewUserCheckoutSessionInput"
 		},
 		createCustomerPortal:{
-			payload:"CreateCustomerPortalPayload"
-		}
-	},
-	StripeCustomerMutationOps:{
-		generateBillingPortal:{
-
+			payload:"CreateCustomerPortalInput"
 		},
-		generateCheckoutSession:{
-			generateCheckoutSessionInput:"GenerateCheckoutSessionInput"
+		createConnectAccount:{
+			payload:"CreateConnectAccountInput"
 		}
 	},
-	GenerateCheckoutSessionInput:{
+	CreateConnectAccountInput:{
+		bankAccount:"BankAccountInput"
+	},
+	BankAccountInput:{
 
 	},
+	BankAccountHolderType: "enum" as const,
+	SubscriptionFilter:{
+
+	},
+	SubStatus: "enum" as const,
 	InitStripeCustomerInput:{
 		address:"AddressInput"
 	},
-	CreateNewUserPaymentSessionPayload:{
-		products:"StripeProductInput"
+	CreateNewUserCheckoutSessionInput:{
+		products:"ProductInput"
 	},
-	CreatePaymentSessionPayload:{
-		products:"StripeProductInput"
+	CreateCheckoutSessionInput:{
+		products:"ProductInput",
+		applicationFee:"ApplicationFeeInput"
 	},
-	StripeProductInput:{
+	ApplicationFeeInput:{
 
 	},
-	CreateCustomerPortalPayload:{
+	ProductInput:{
+
+	},
+	CreateCustomerPortalInput:{
 
 	},
 	AddressInput:{
@@ -88,28 +92,41 @@ export const AllTypesProps: Record<string,any> = {
 export const ReturnTypes: Record<string,any> = {
 	Query:{
 		products:"ProductsPage",
-		stripeCustomerQueryOps:"StripeCustomerQueryOps"
-	},
-	StripeCustomerQueryOps:{
-		getCustomerInfo:"StripeCustomer"
+		subscriptions:"Subscription"
 	},
 	Mutation:{
 		initStripeCustomer:"Boolean",
-		stripeCustomerMutationOps:"StripeCustomerMutationOps",
-		createPaymentSession:"String",
-		createNewUserPaymentSession:"String",
+		createCheckoutSession:"String",
+		createNewUserCheckoutSession:"String",
 		createCustomerPortal:"String",
+		createConnectAccount:"Boolean",
 		webhook:"String"
+	},
+	Subscription:{
+		id:"String",
+		cancel_at_period_end:"Boolean",
+		current_period_end:"Timestamp",
+		current_period_start:"Timestamp",
+		customer:"String",
+		description:"String",
+		items:"Item",
+		quantity:"Int",
+		start:"Timestamp",
+		status:"SubStatus"
+	},
+	Item:{
+		id:"String",
+		created:"Timestamp",
+		metadata:"AnyObject",
+		price:"Price",
+		quantity:"Int",
+		subscription:"String"
 	},
 	User:{
 		stripeId:"String",
 		email:"String"
 	},
-	StripeCustomerMutationOps:{
-		generateBillingPortal:"String",
-		generateCheckoutSession:"String"
-	},
-	StripeCustomer:{
+	Customer:{
 		customerId:"String",
 		email:"String",
 		name:"String",
@@ -195,5 +212,6 @@ export const ReturnTypes: Record<string,any> = {
 
 export const Ops = {
 query: "Query" as const,
-	mutation: "Mutation" as const
+	mutation: "Mutation" as const,
+	subscription: "Subscription" as const
 }

@@ -26,6 +26,12 @@ import {
   invoiceUpcoming,
 } from '../utils/invoiceEvents.js';
 import { customerDelete, customerInsert, customerUpdate } from '../utils/customerEvents.js';
+import {
+  ExternalAccount,
+  externalAccountDelete,
+  externalAccountInsert,
+  externalAccountUpdate,
+} from '../utils/externalAccountEvents.js';
 
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'webhook', async (args) => {
@@ -85,8 +91,14 @@ export const handler = async (input: FieldResolveInput) =>
               return customerInsert(ev.data.object as Stripe.Customer);
             case 'customer.deleted':
               return customerDelete(ev.data.object as Stripe.Customer);
-              case 'customer.updated':
-                return customerUpdate(ev.data.object as Stripe.Customer);
+            case 'customer.updated':
+              return customerUpdate(ev.data.object as Stripe.Customer);
+            case 'account.external_account.created':
+              return externalAccountInsert(ev.data.object as ExternalAccount);
+            case 'account.external_account.deleted':
+              return externalAccountDelete(ev.data.object as ExternalAccount);
+            case 'account.external_account.updated':
+              return externalAccountUpdate(ev.data.object as ExternalAccount);
           }
         } catch (e) {
           throw new Error('cannot authorize request');

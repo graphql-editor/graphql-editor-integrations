@@ -2,50 +2,118 @@
 
 type Query{
 	products(
-		filter: StripeProductFilter
-	): StripeProductsPage
-	subscriptions(
-		filter: StripeSubscriptionFilter
-	): [StripeSubscription!]
+		filter: ProductFilter
+	): ProductsPage
+	subscriptions(  
+		filter: SubscriptionFilter
+	): [Subscription!]
 }
 
 type Mutation{
+	"""
+	Creates stripe customer for further purchases, links with user "email" field in UserCollection
+	"""
 	initStripeCustomer(
 		initStripeCustomerInput: InitStripeCustomerInput!
 	): Boolean!
-	createPaymentSession(
-		payload: CreatePaymentSessionPayload!
+	createCheckoutSession(
+		payload: CreateCheckoutSessionInput!
 	): String!
-	createNewUserPaymentSession(
-		payload: CreateNewUserPaymentSessionPayload!
+	createNewUserCheckoutSession(
+		payload: CreateNewUserCheckoutSessionInput!
 	): String!
 	createCustomerPortal(
-		payload: CreateCustomerPortalPayload!
+		payload: CreateCustomerPortalInput!
 	): String!
+	createConnectAccount(
+		payload: CreateConnectAccountInput!
+	): Boolean!
+	"""
+	Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements
+	"""
+	attachPaymentMethod(
+		payload: AttachPaymentMethodInput!
+	): Boolean!
+	setDefaultPaymentMethod(
+		payload: setDefaultPaymentMethodInput!
+	): Boolean!
 	"""
 	entry point for Weebhooks.
 	"""
 	webhook: String
 }
 
-input StripeSubscriptionFilter {
+input setDefaultPaymentMethodInput{
+	attachedPaymentMethodId: String!
+	customerId: String!
+}
+
+input AttachPaymentMethodInput {
+	paymentMethodId: String!
+	customerId: String!
+}
+
+input CreateConnectAccountInput {
+	type: ConnectAccountType!
+	country: String!
+	email: String!
+	business_type: ConnectAccountBusinessType!
+	bankAccount: BankAccountInput!
+}
+
+enum ConnectAccountBusinessType{
+	company
+	government_entity
+	individual
+	non_profit
+}
+
+enum ConnectAccountType {
+	standard
+	express
+	custom
+}
+
+input BankAccountInput {
+	country: String!
+	"""
+	Required supported currency for the country https://stripe.com/docs/payouts
+	"""
+	currency: String!
+	"""
+	IBAN account number
+	"""
+	account_number: String!
+	"""
+	Required when attaching the bank account to a Customer
+	"""
+	account_holder_name: String!
+	account_holder_type: BankAccountHolderType!
+}
+
+enum BankAccountHolderType {
+	individual
+	company
+}
+
+input SubscriptionFilter {
 	customerId: String
 }
 
-type StripeSubscription {
+type Subscription {
 	id: String!
 	cancel_at_period_end: Boolean!
 	current_period_end: Timestamp!
 	current_period_start: Timestamp!
 	customer: String!
 	description: String
-	items:[StripeItem!]!
+	items:[Item!]!
 	quantity: Int!
 	start: Timestamp!
-	status: StripeSubStatus!
+	status: SubStatus!
 }
 
-enum StripeSubStatus{
+enum SubStatus{
 	incomplete
 	incomplete_expired
 	trialing
@@ -55,16 +123,16 @@ enum StripeSubStatus{
 	unpaid
 }
 
-type StripeItem {
+type Item {
 	id: String!
 	created: Timestamp!
 	metadata: AnyObject
-	price: StripePrice!
+	price: Price!
 	quantity: Int!
 	subscription: String!
 }
 
-type StripeUser{
+type User{
 	stripeId: String
 	email: String!
 }
@@ -73,39 +141,58 @@ input InitStripeCustomerInput{
 	email: String!
 	name: String
 	phone: String
-	address: StripeAddressInput
+	address: AddressInput
 }
 
-input CreateNewUserPaymentSessionPayload{
+input CreateNewUserCheckoutSessionInput{
 	"""
 	Return url after successful transaction
 	"""
 	successUrl: String!
 	cancelUrl: String!
-	products: [StripeProductInput!]!
+	products: [ProductInput!]!
+	"""
+	Define amount to transfer into stripe connect account and set the rest for application fees
+	"""
+	applicationFee: ApplicationFeeInput
 }
 
-input CreatePaymentSessionPayload{
+input CreateCheckoutSessionInput{
 	userEmail: String!
 	"""
 	Return url after successful transaction
 	"""
 	successUrl: String!
 	cancelUrl: String!
-	products: [StripeProductInput!]!
+	products: [ProductInput!]!
+	"""
+	Define amount to transfer into stripe connect account and set the rest for application fees
+	"""
+	applicationFee: ApplicationFeeInput
 }
 
-input StripeProductInput{
+input ApplicationFeeInput {
+	"""
+	Value from 0-100
+	"""
+	feePercentage: Int!
+	"""
+	Connect Account (not stripe customer) id
+	"""
+	connectAccountId: String!
+}
+
+input ProductInput{
 	productId: String!
 	quantity: Int!
 }
 
-input CreateCustomerPortalPayload{
+input CreateCustomerPortalInput{
 	userEmail: String!
 	returnUrl: String!
 }
 
-input StripeAddressInput{
+input AddressInput{
 	"""
 	City, district, suburb, town, village, or ward.
 	"""
@@ -132,14 +219,14 @@ input StripeAddressInput{
 	state: String!
 }
 
-type StripeCustomer{
+type Customer{
 	customerId: String!
 	email: String!
 	name: String
-	address: StripeAddress
+	address: Address
 }
 
-type StripeAddress{
+type Address{
 	city: String
 	country: String
 	line1: String
@@ -148,7 +235,7 @@ type StripeAddress{
 	state: String
 }
 
-input StripeProductFilter{
+input ProductFilter{
 	active: Boolean
 	created: TimestampFilter
 	limit: Int
@@ -164,7 +251,7 @@ input RecurringFilter{
 	usageType: UsageType
 }
 
-input StripePriceFilter{
+input PriceFilter{
 	active: Boolean
 	currency: String
 	product: ID
@@ -183,11 +270,11 @@ type Dimensions{
 	width: Float
 }
 
-type StripeProduct{
+type Product{
 	id: ID!
 	active: Boolean!
 	created: Timestamp
-	default_price: StripePrice
+	default_price: Price
 	description: String
 	images: [String!]
 	livemode: Boolean
@@ -200,7 +287,7 @@ type StripeProduct{
 	unitLabel: String
 	updated: Timestamp
 	url: String
-	prices: [StripePrice!]
+	prices: [Price!]
 }
 
 enum BillingScheme{
@@ -284,7 +371,7 @@ enum Type{
 	ONE_TIME
 }
 
-type StripePrice{
+type Price{
 	id: ID!
 	active: Boolean
 	billing_scheme: BillingScheme
@@ -295,7 +382,7 @@ type StripePrice{
 	lookup_key: String
 	metadata: AnyObject
 	nickname: String
-	product: StripeProduct
+	product: Product
 	recurring: PriceRecurring
 	tax_behavior: TaxBehaviour
 	tiers_mode: TiersMode
@@ -305,8 +392,8 @@ type StripePrice{
 	unit_amount_decimal: String
 }
 
-type StripeProductsPage{
-	products: [StripeProduct!]
+type ProductsPage{
+	products: [Product!]
 	startingAfter: ID
 	endingBefore: ID
 }

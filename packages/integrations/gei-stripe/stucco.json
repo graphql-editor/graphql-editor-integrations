@@ -21,18 +21,18 @@
                 "name": "Mutation.createCustomerPortal.handler"
             }
         },
-        "Mutation.createPaymentSession": {
-            "name": "createPaymentSession",
+        "Mutation.createCheckoutSession": {
+            "name": "createCheckoutSession",
             "description": "Creates payment session for already existing user",
             "resolve": {
-                "name": "Mutation.createPaymentSession.handler"
+                "name": "Mutation.createCheckoutSession.handler"
             }
         },
-        "Mutation.createNewUserPaymentSession": {
-            "name": "createNewUserPaymentSession",
+        "Mutation.createNewUserCheckoutSession": {
+            "name": "reateNewUserCheckoutSession",
             "description": "Creates payment session for user that is not yet registered",
             "resolve": {
-                "name": "Mutation.createNewUserPaymentSession.handler"
+                "name": "Mutation.createNewUserCheckoutSession.handler"
             }
         },
         "Query.products": {
@@ -61,6 +61,34 @@
             "description": "Resolver for querying prices objects",
             "resolve": {
                 "name": "StripeProduct.prices.handler"
+            }
+        },
+        "Mutation.attachPaymentMethod": {
+            "name": "attachPaymentMethod",
+            "description": "attach payment method created on the frontend to existing stripe customer",
+            "resolve": {
+                "name": "Mutation.attachPaymentMethod.handler"
+            }
+        },
+        "Mutation.createConnectAccount": {
+            "name": "createConnectAccount",
+            "description": "Creates stripe connect account for specific payments design with application fees or custom withdrawals",
+            "resolve": {
+                "name": "Mutation.createConnectAccount.handler"
+            }
+        },
+        "Product.default_price": {
+            "name": "default_price",
+            "description": "Resolver for querying default price object",
+            "resolve": {
+                "name": "Product.default_price.handler"
+            }
+        },
+        "Product.prices": {
+            "name": "prices",
+            "description": "Resolver for querying prices objects",
+            "resolve": {
+                "name": "Product.prices.handler"
             }
         }
     },
