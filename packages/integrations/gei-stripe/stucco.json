@@ -76,6 +76,13 @@
             "resolve": {
                 "name": "Product.prices.handler"
             }
+        },
+        "Mutation.setDefaultPaymentMethod": {
+            "name": "setDefaultPaymentMethod",
+            "description": "Sets default user payment method",
+            "resolve": {
+                "name": "Mutation.setDefaultPaymentMethod.handler"
+            }
         }
     },
     "azureOpts": {

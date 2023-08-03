@@ -10,6 +10,7 @@ import { handler as productPricesHandler } from './Product/prices.js';
 import { handler as subscriptionsHandler } from './Query/subscriptions.js';
 import { handler as attachPaymentMethodHandler } from './Mutation/attachPaymentMethod.js';
 import { handler as createConnectAccountHandler } from './Mutation/createConnectAccount.js';
+import { handler as setDefaultPaymentMethodHandler } from './Mutation/setDefaultPaymentMethod.js';
 export const integration = NewIntegration({
   Query: {
     products: {
@@ -53,6 +54,11 @@ export const integration = NewIntegration({
       name: 'createNewUserCheckoutSession',
       description: 'Creates payment session for user that is not yet registered',
       handler: createNewUserCheckoutSessionHandler,
+    },
+    setDefaultPaymentMethod: {
+      name: 'setDefaultPaymentMethod',
+      description: 'Sets default user payment method',
+      handler: setDefaultPaymentMethodHandler,
     },
     webhook: {
       name: 'webhook',
