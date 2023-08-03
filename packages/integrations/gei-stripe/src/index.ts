@@ -50,7 +50,7 @@ export const integration = NewIntegration({
       handler: initStripeCustomerHandler,
     },
     createNewUserCheckoutSession: {
-      name: 'reateNewUserCheckoutSession',
+      name: 'createNewUserCheckoutSession',
       description: 'Creates payment session for user that is not yet registered',
       handler: createNewUserCheckoutSessionHandler,
     },
