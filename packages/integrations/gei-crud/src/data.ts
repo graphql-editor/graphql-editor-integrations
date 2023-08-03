@@ -14,7 +14,6 @@ export const prepareSourceParameters = (input: FieldResolveInput) => {
     const s = source as Record<string, any>;
     return Object.fromEntries(
       sourceParameters.map((spStringObject: string) => {
-        //let sourceObj: any = undefined;
         let sourceParamValue: any = undefined;
         let returnParameter = '';
         const spStringObjectAr = spStringObject.replace(/[{ }]/g, '').split(':');
@@ -23,7 +22,6 @@ export const prepareSourceParameters = (input: FieldResolveInput) => {
         const spPath = spStringPath.split('.');
         for (const sp of spPath) {
           sourceParamValue = sourceParamValue ? sourceParamValue[sp] : s[sp];
-          //sourceObj = sourceParamValue as Record<string, any>;
           returnParameter = sp;
           if (!sourceParamValue) {
             throw new Error(
