@@ -846,17 +846,29 @@ createCheckoutSession?: [{	payload: ValueTypes["CreateCheckoutSessionInput"] | V
 createNewUserCheckoutSession?: [{	payload: ValueTypes["CreateNewUserCheckoutSessionInput"] | Variable<any, string>},boolean | `@${string}`],
 createCustomerPortal?: [{	payload: ValueTypes["CreateCustomerPortalInput"] | Variable<any, string>},boolean | `@${string}`],
 createConnectAccount?: [{	payload: ValueTypes["CreateConnectAccountInput"] | Variable<any, string>},boolean | `@${string}`],
+attachPaymentMethod?: [{	payload: ValueTypes["AttachPaymentMethodInput"] | Variable<any, string>},boolean | `@${string}`],
+setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"] | Variable<any, string>},boolean | `@${string}`],
 	/** entry point for Weebhooks. */
 	webhook?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	["setDefaultPaymentMethodInput"]: {
+	attachedPaymentMethodId: string | Variable<any, string>,
+	customerId: string | Variable<any, string>
+};
+	["AttachPaymentMethodInput"]: {
+	paymentMethodId: string | Variable<any, string>,
+	customerId: string | Variable<any, string>
+};
 	["CreateConnectAccountInput"]: {
-	type: string | Variable<any, string>,
+	type: ValueTypes["ConnectAccountType"] | Variable<any, string>,
 	country: string | Variable<any, string>,
 	email: string | Variable<any, string>,
-	business_type: string | Variable<any, string>,
+	business_type: ValueTypes["ConnectAccountBusinessType"] | Variable<any, string>,
 	bankAccount: ValueTypes["BankAccountInput"] | Variable<any, string>
 };
+	["ConnectAccountBusinessType"]:ConnectAccountBusinessType;
+	["ConnectAccountType"]:ConnectAccountType;
 	["BankAccountInput"]: {
 	country: string | Variable<any, string>,
 	/** Required supported currency for the country https://stripe.com/docs/payouts */
@@ -864,7 +876,8 @@ createConnectAccount?: [{	payload: ValueTypes["CreateConnectAccountInput"] | Var
 	/** IBAN account number */
 	account_number: string | Variable<any, string>,
 	/** Required when attaching the bank account to a Customer */
-	account_holder_name: string | Variable<any, string>
+	account_holder_name: string | Variable<any, string>,
+	account_holder_type: ValueTypes["BankAccountHolderType"] | Variable<any, string>
 };
 	["BankAccountHolderType"]:BankAccountHolderType;
 	["SubscriptionFilter"]: {
@@ -908,7 +921,9 @@ createConnectAccount?: [{	payload: ValueTypes["CreateConnectAccountInput"] | Var
 	/** Return url after successful transaction */
 	successUrl: string | Variable<any, string>,
 	cancelUrl: string | Variable<any, string>,
-	products: Array<ValueTypes["ProductInput"]> | Variable<any, string>
+	products: Array<ValueTypes["ProductInput"]> | Variable<any, string>,
+	/** Define amount to transfer into stripe connect account and set the rest for application fees */
+	applicationFee?: ValueTypes["ApplicationFeeInput"] | undefined | null | Variable<any, string>
 };
 	["CreateCheckoutSessionInput"]: {
 	userEmail: string | Variable<any, string>,
@@ -921,7 +936,7 @@ createConnectAccount?: [{	payload: ValueTypes["CreateConnectAccountInput"] | Var
 };
 	["ApplicationFeeInput"]: {
 	/** Value from 0-100 */
-	application_fee: number | Variable<any, string>,
+	feePercentage: number | Variable<any, string>,
 	/** Connect Account (not stripe customer) id */
 	connectAccountId: string | Variable<any, string>
 };
@@ -1093,17 +1108,29 @@ createCheckoutSession?: [{	payload: ResolverInputTypes["CreateCheckoutSessionInp
 createNewUserCheckoutSession?: [{	payload: ResolverInputTypes["CreateNewUserCheckoutSessionInput"]},boolean | `@${string}`],
 createCustomerPortal?: [{	payload: ResolverInputTypes["CreateCustomerPortalInput"]},boolean | `@${string}`],
 createConnectAccount?: [{	payload: ResolverInputTypes["CreateConnectAccountInput"]},boolean | `@${string}`],
+attachPaymentMethod?: [{	payload: ResolverInputTypes["AttachPaymentMethodInput"]},boolean | `@${string}`],
+setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMethodInput"]},boolean | `@${string}`],
 	/** entry point for Weebhooks. */
 	webhook?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	["setDefaultPaymentMethodInput"]: {
+	attachedPaymentMethodId: string,
+	customerId: string
+};
+	["AttachPaymentMethodInput"]: {
+	paymentMethodId: string,
+	customerId: string
+};
 	["CreateConnectAccountInput"]: {
-	type: string,
+	type: ResolverInputTypes["ConnectAccountType"],
 	country: string,
 	email: string,
-	business_type: string,
+	business_type: ResolverInputTypes["ConnectAccountBusinessType"],
 	bankAccount: ResolverInputTypes["BankAccountInput"]
 };
+	["ConnectAccountBusinessType"]:ConnectAccountBusinessType;
+	["ConnectAccountType"]:ConnectAccountType;
 	["BankAccountInput"]: {
 	country: string,
 	/** Required supported currency for the country https://stripe.com/docs/payouts */
@@ -1111,7 +1138,8 @@ createConnectAccount?: [{	payload: ResolverInputTypes["CreateConnectAccountInput
 	/** IBAN account number */
 	account_number: string,
 	/** Required when attaching the bank account to a Customer */
-	account_holder_name: string
+	account_holder_name: string,
+	account_holder_type: ResolverInputTypes["BankAccountHolderType"]
 };
 	["BankAccountHolderType"]:BankAccountHolderType;
 	["SubscriptionFilter"]: {
@@ -1155,7 +1183,9 @@ createConnectAccount?: [{	payload: ResolverInputTypes["CreateConnectAccountInput
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<ResolverInputTypes["ProductInput"]>
+	products: Array<ResolverInputTypes["ProductInput"]>,
+	/** Define amount to transfer into stripe connect account and set the rest for application fees */
+	applicationFee?: ResolverInputTypes["ApplicationFeeInput"] | undefined | null
 };
 	["CreateCheckoutSessionInput"]: {
 	userEmail: string,
@@ -1168,7 +1198,7 @@ createConnectAccount?: [{	payload: ResolverInputTypes["CreateConnectAccountInput
 };
 	["ApplicationFeeInput"]: {
 	/** Value from 0-100 */
-	application_fee: number,
+	feePercentage: number,
 	/** Connect Account (not stripe customer) id */
 	connectAccountId: string
 };
@@ -1340,16 +1370,29 @@ export type ModelTypes = {
 	createNewUserCheckoutSession: string,
 	createCustomerPortal: string,
 	createConnectAccount: boolean,
+	/** Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements */
+	attachPaymentMethod: boolean,
+	setDefaultPaymentMethod: boolean,
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
 };
+	["setDefaultPaymentMethodInput"]: {
+	attachedPaymentMethodId: string,
+	customerId: string
+};
+	["AttachPaymentMethodInput"]: {
+	paymentMethodId: string,
+	customerId: string
+};
 	["CreateConnectAccountInput"]: {
-	type: string,
+	type: ModelTypes["ConnectAccountType"],
 	country: string,
 	email: string,
-	business_type: string,
+	business_type: ModelTypes["ConnectAccountBusinessType"],
 	bankAccount: ModelTypes["BankAccountInput"]
 };
+	["ConnectAccountBusinessType"]:ConnectAccountBusinessType;
+	["ConnectAccountType"]:ConnectAccountType;
 	["BankAccountInput"]: {
 	country: string,
 	/** Required supported currency for the country https://stripe.com/docs/payouts */
@@ -1357,7 +1400,8 @@ export type ModelTypes = {
 	/** IBAN account number */
 	account_number: string,
 	/** Required when attaching the bank account to a Customer */
-	account_holder_name: string
+	account_holder_name: string,
+	account_holder_type: ModelTypes["BankAccountHolderType"]
 };
 	["BankAccountHolderType"]:BankAccountHolderType;
 	["SubscriptionFilter"]: {
@@ -1398,7 +1442,9 @@ export type ModelTypes = {
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<ModelTypes["ProductInput"]>
+	products: Array<ModelTypes["ProductInput"]>,
+	/** Define amount to transfer into stripe connect account and set the rest for application fees */
+	applicationFee?: ModelTypes["ApplicationFeeInput"] | undefined
 };
 	["CreateCheckoutSessionInput"]: {
 	userEmail: string,
@@ -1411,7 +1457,7 @@ export type ModelTypes = {
 };
 	["ApplicationFeeInput"]: {
 	/** Value from 0-100 */
-	application_fee: number,
+	feePercentage: number,
 	/** Connect Account (not stripe customer) id */
 	connectAccountId: string
 };
@@ -1576,16 +1622,29 @@ export type GraphQLTypes = {
 	createNewUserCheckoutSession: string,
 	createCustomerPortal: string,
 	createConnectAccount: boolean,
+	/** Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements */
+	attachPaymentMethod: boolean,
+	setDefaultPaymentMethod: boolean,
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
 };
+	["setDefaultPaymentMethodInput"]: {
+		attachedPaymentMethodId: string,
+	customerId: string
+};
+	["AttachPaymentMethodInput"]: {
+		paymentMethodId: string,
+	customerId: string
+};
 	["CreateConnectAccountInput"]: {
-		type: string,
+		type: GraphQLTypes["ConnectAccountType"],
 	country: string,
 	email: string,
-	business_type: string,
+	business_type: GraphQLTypes["ConnectAccountBusinessType"],
 	bankAccount: GraphQLTypes["BankAccountInput"]
 };
+	["ConnectAccountBusinessType"]: ConnectAccountBusinessType;
+	["ConnectAccountType"]: ConnectAccountType;
 	["BankAccountInput"]: {
 		country: string,
 	/** Required supported currency for the country https://stripe.com/docs/payouts */
@@ -1593,7 +1652,8 @@ export type GraphQLTypes = {
 	/** IBAN account number */
 	account_number: string,
 	/** Required when attaching the bank account to a Customer */
-	account_holder_name: string
+	account_holder_name: string,
+	account_holder_type: GraphQLTypes["BankAccountHolderType"]
 };
 	["BankAccountHolderType"]: BankAccountHolderType;
 	["SubscriptionFilter"]: {
@@ -1637,7 +1697,9 @@ export type GraphQLTypes = {
 		/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<GraphQLTypes["ProductInput"]>
+	products: Array<GraphQLTypes["ProductInput"]>,
+	/** Define amount to transfer into stripe connect account and set the rest for application fees */
+	applicationFee?: GraphQLTypes["ApplicationFeeInput"] | undefined
 };
 	["CreateCheckoutSessionInput"]: {
 		userEmail: string,
@@ -1650,7 +1712,7 @@ export type GraphQLTypes = {
 };
 	["ApplicationFeeInput"]: {
 		/** Value from 0-100 */
-	application_fee: number,
+	feePercentage: number,
 	/** Connect Account (not stripe customer) id */
 	connectAccountId: string
 };
@@ -1809,6 +1871,17 @@ export type GraphQLTypes = {
 	endingBefore?: string | undefined
 }
     }
+export const enum ConnectAccountBusinessType {
+	company = "company",
+	government_entity = "government_entity",
+	individual = "individual",
+	non_profit = "non_profit"
+}
+export const enum ConnectAccountType {
+	standard = "standard",
+	express = "express",
+	custom = "custom"
+}
 export const enum BankAccountHolderType {
 	individual = "individual",
 	company = "company"
@@ -1861,7 +1934,11 @@ export const enum Type {
 }
 
 type ZEUS_VARIABLES = {
+	["setDefaultPaymentMethodInput"]: ValueTypes["setDefaultPaymentMethodInput"];
+	["AttachPaymentMethodInput"]: ValueTypes["AttachPaymentMethodInput"];
 	["CreateConnectAccountInput"]: ValueTypes["CreateConnectAccountInput"];
+	["ConnectAccountBusinessType"]: ValueTypes["ConnectAccountBusinessType"];
+	["ConnectAccountType"]: ValueTypes["ConnectAccountType"];
 	["BankAccountInput"]: ValueTypes["BankAccountInput"];
 	["BankAccountHolderType"]: ValueTypes["BankAccountHolderType"];
 	["SubscriptionFilter"]: ValueTypes["SubscriptionFilter"];

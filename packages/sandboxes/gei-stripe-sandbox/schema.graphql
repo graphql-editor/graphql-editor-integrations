@@ -29,17 +29,49 @@ type Mutation{
 		payload: CreateConnectAccountInput!
 	): Boolean!
 	"""
+	Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements
+	"""
+	attachPaymentMethod(
+		payload: AttachPaymentMethodInput!
+	): Boolean!
+	setDefaultPaymentMethod(
+		payload: setDefaultPaymentMethodInput!
+	): Boolean!
+	"""
 	entry point for Weebhooks.
 	"""
 	webhook: String
 }
 
+input setDefaultPaymentMethodInput{
+	attachedPaymentMethodId: String!
+	customerId: String!
+}
+
+input AttachPaymentMethodInput {
+	paymentMethodId: String!
+	customerId: String!
+}
+
 input CreateConnectAccountInput {
-	type: String!
+	type: ConnectAccountType!
 	country: String!
 	email: String!
-	business_type: String!
+	business_type: ConnectAccountBusinessType!
 	bankAccount: BankAccountInput!
+}
+
+enum ConnectAccountBusinessType{
+	company
+	government_entity
+	individual
+	non_profit
+}
+
+enum ConnectAccountType {
+	standard
+	express
+	custom
 }
 
 input BankAccountInput {
@@ -56,6 +88,7 @@ input BankAccountInput {
 	Required when attaching the bank account to a Customer
 	"""
 	account_holder_name: String!
+	account_holder_type: BankAccountHolderType!
 }
 
 enum BankAccountHolderType {
@@ -118,6 +151,10 @@ input CreateNewUserCheckoutSessionInput{
 	successUrl: String!
 	cancelUrl: String!
 	products: [ProductInput!]!
+	"""
+	Define amount to transfer into stripe connect account and set the rest for application fees
+	"""
+	applicationFee: ApplicationFeeInput
 }
 
 input CreateCheckoutSessionInput{
@@ -138,7 +175,7 @@ input ApplicationFeeInput {
 	"""
 	Value from 0-100
 	"""
-	application_fee: Int!
+	feePercentage: Int!
 	"""
 	Connect Account (not stripe customer) id
 	"""

@@ -24,13 +24,29 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		createConnectAccount:{
 			payload:"CreateConnectAccountInput"
+		},
+		attachPaymentMethod:{
+			payload:"AttachPaymentMethodInput"
+		},
+		setDefaultPaymentMethod:{
+			payload:"setDefaultPaymentMethodInput"
 		}
 	},
+	setDefaultPaymentMethodInput:{
+
+	},
+	AttachPaymentMethodInput:{
+
+	},
 	CreateConnectAccountInput:{
+		type:"ConnectAccountType",
+		business_type:"ConnectAccountBusinessType",
 		bankAccount:"BankAccountInput"
 	},
+	ConnectAccountBusinessType: "enum" as const,
+	ConnectAccountType: "enum" as const,
 	BankAccountInput:{
-
+		account_holder_type:"BankAccountHolderType"
 	},
 	BankAccountHolderType: "enum" as const,
 	SubscriptionFilter:{
@@ -41,7 +57,8 @@ export const AllTypesProps: Record<string,any> = {
 		address:"AddressInput"
 	},
 	CreateNewUserCheckoutSessionInput:{
-		products:"ProductInput"
+		products:"ProductInput",
+		applicationFee:"ApplicationFeeInput"
 	},
 	CreateCheckoutSessionInput:{
 		products:"ProductInput",
@@ -100,6 +117,8 @@ export const ReturnTypes: Record<string,any> = {
 		createNewUserCheckoutSession:"String",
 		createCustomerPortal:"String",
 		createConnectAccount:"Boolean",
+		attachPaymentMethod:"Boolean",
+		setDefaultPaymentMethod:"Boolean",
 		webhook:"String"
 	},
 	Subscription:{

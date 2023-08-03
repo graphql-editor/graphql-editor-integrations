@@ -5,8 +5,8 @@ import { handler as createCustomerPortalHandler } from './Mutation/createCustome
 import { handler as createCheckoutSessionHandler } from './Mutation/createCheckoutSession.js';
 import { handler as createNewUserCheckoutSessionHandler } from './Mutation/createNewUserCheckoutSession.js';
 import { handler as productsHandler } from './Query/products.js';
-import { handler as productDefaultPriceHandler } from './StripeProduct/default_price.js';
-import { handler as productPricesHandler } from './StripeProduct/prices.js';
+import { handler as productDefaultPriceHandler } from './Product/default_price.js';
+import { handler as productPricesHandler } from './Product/prices.js';
 import { handler as subscriptionsHandler } from './Query/subscriptions.js';
 import { handler as attachPaymentMethodHandler } from './Mutation/attachPaymentMethod.js';
 import { handler as createConnectAccountHandler } from './Mutation/createConnectAccount.js';

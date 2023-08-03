@@ -63,7 +63,7 @@
         "Product.default_price": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.2.0",
+                "version": "0.3.3",
                 "resolver": "default_price"
             },
             "resolve": {
@@ -73,7 +73,7 @@
         "Product.prices": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.2.0",
+                "version": "0.3.3",
                 "resolver": "prices"
             },
             "resolve": {
