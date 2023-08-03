@@ -49,20 +49,6 @@
                 "name": "Query.subscriptions.handler"
             }
         },
-        "StripeProduct.default_price": {
-            "name": "default_price",
-            "description": "Resolver for querying default price object",
-            "resolve": {
-                "name": "StripeProduct.default_price.handler"
-            }
-        },
-        "StripeProduct.prices": {
-            "name": "prices",
-            "description": "Resolver for querying prices objects",
-            "resolve": {
-                "name": "StripeProduct.prices.handler"
-            }
-        },
         "Mutation.attachPaymentMethod": {
             "name": "attachPaymentMethod",
             "description": "attach payment method created on the frontend to existing stripe customer",
