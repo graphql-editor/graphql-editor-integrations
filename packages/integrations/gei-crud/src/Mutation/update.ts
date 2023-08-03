@@ -3,9 +3,7 @@ import { prepareModel, prepare_id, prepareSourceParameters } from '../data.js';
 import { DB } from '../db/mongo.js';
 
 export const handler = async (input: FieldResolveInput) =>
-  DB().then((db) => {
-    console.log(input);
-    
+  DB().then(async (db) => {
     const _id = prepare_id(input) || (prepareSourceParameters(input)._id as string);
     if (!_id) throw new Error('_id not found');
     const entries = Object.entries(input.arguments || {});
@@ -19,12 +17,9 @@ export const handler = async (input: FieldResolveInput) =>
       throw new Error(`You need update input argument for this resolver to work`);
     }
     const filterInput: Record<string, any> = { _id, ...prepareSourceParameters(input) };
-    console.log(filterInput);
-    console.log( setter[1])
-    
-
-    return db
-      .collection(prepareModel(input))
-      .updateOne(filterInput, { $set: { ...(setter[1] as object), updatedAt: new Date().toISOString() } })
-      .then((r) =>r.modifiedCount>1);
+    const res = await db
+    .collection(prepareModel(input))
+    .updateOne(filterInput, { $set: { ...(setter[1] as object), updatedAt: new Date().toISOString() } })
+    if(res.matchedCount<1) throw new Error('Object for update not found')
+    return res.modifiedCount>=1
   });
