@@ -29,7 +29,7 @@
             }
         },
         "Mutation.createNewUserCheckoutSession": {
-            "name": "reateNewUserCheckoutSession",
+            "name": "createNewUserCheckoutSession",
             "description": "Creates payment session for user that is not yet registered",
             "resolve": {
                 "name": "Mutation.createNewUserCheckoutSession.handler"
