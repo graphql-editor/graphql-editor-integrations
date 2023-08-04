@@ -876,7 +876,7 @@ createTeam?: [{	teamName: string | Variable<any, string>},ValueTypes["CreateTeam
 squashAccounts?: [{	password?: string | undefined | null | Variable<any, string>},ValueTypes["SquashAccountsResponse"]],
 integrateSocialAccount?: [{	userData: ValueTypes["SimpleUserInput"] | Variable<any, string>},ValueTypes["IntegrateSocialAccountResponse"]],
 generateOAuthToken?: [{	tokenData: ValueTypes["GenerateOAuthTokenInput"] | Variable<any, string>},ValueTypes["GenerateOAuthTokenResponse"]],
-editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>},boolean | `@${string}`],
+editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>},ValueTypes["EditUserResponse"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["EditUserError"]:EditUserError;
@@ -1179,7 +1179,7 @@ createTeam?: [{	teamName: string},ResolverInputTypes["CreateTeamResponse"]],
 squashAccounts?: [{	password?: string | undefined | null},ResolverInputTypes["SquashAccountsResponse"]],
 integrateSocialAccount?: [{	userData: ResolverInputTypes["SimpleUserInput"]},ResolverInputTypes["IntegrateSocialAccountResponse"]],
 generateOAuthToken?: [{	tokenData: ResolverInputTypes["GenerateOAuthTokenInput"]},ResolverInputTypes["GenerateOAuthTokenResponse"]],
-editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},boolean | `@${string}`],
+editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},ResolverInputTypes["EditUserResponse"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["EditUserError"]:EditUserError;
@@ -1480,7 +1480,7 @@ export type ModelTypes = {
 	squashAccounts: ModelTypes["SquashAccountsResponse"],
 	integrateSocialAccount: ModelTypes["IntegrateSocialAccountResponse"],
 	generateOAuthToken: ModelTypes["GenerateOAuthTokenResponse"],
-	editUser: boolean
+	editUser: ModelTypes["EditUserResponse"]
 };
 	["EditUserError"]:EditUserError;
 	["EditUserResponse"]: {
@@ -1746,7 +1746,7 @@ export type GraphQLTypes = {
 	squashAccounts: GraphQLTypes["SquashAccountsResponse"],
 	integrateSocialAccount: GraphQLTypes["IntegrateSocialAccountResponse"],
 	generateOAuthToken: GraphQLTypes["GenerateOAuthTokenResponse"],
-	editUser: boolean
+	editUser: GraphQLTypes["EditUserResponse"]
 };
 	["EditUserError"]: EditUserError;
 	["EditUserResponse"]: {

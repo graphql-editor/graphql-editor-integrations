@@ -179,7 +179,7 @@ export const ReturnTypes: Record<string,any> = {
 		squashAccounts:"SquashAccountsResponse",
 		integrateSocialAccount:"IntegrateSocialAccountResponse",
 		generateOAuthToken:"GenerateOAuthTokenResponse",
-		editUser:"Boolean"
+		editUser:"EditUserResponse"
 	},
 	EditUserResponse:{
 		result:"Boolean",
