@@ -78,6 +78,7 @@ export const AllTypesProps: Record<string,any> = {
 			updatedUser:"UpdateUserInput"
 		}
 	},
+	EditUserError: "enum" as const,
 	VerifyEmailError: "enum" as const,
 	ChangePasswordWhenLoggedError: "enum" as const,
 	ChangePasswordWithTokenError: "enum" as const,
@@ -179,6 +180,10 @@ export const ReturnTypes: Record<string,any> = {
 		integrateSocialAccount:"IntegrateSocialAccountResponse",
 		generateOAuthToken:"GenerateOAuthTokenResponse",
 		editUser:"Boolean"
+	},
+	EditUserResponse:{
+		result:"Boolean",
+		hasError:"EditUserError"
 	},
 	VerifyEmailResponse:{
 		result:"Boolean",

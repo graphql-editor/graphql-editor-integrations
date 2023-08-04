@@ -105,6 +105,18 @@ type Mutation{
 	): Boolean!
 }
 
+enum EditUserError { 
+	USERNAME_ALREADY_TAKEN
+	FAILED_MONGO_UPDATE
+	USER_DOES_NOT_EXIST
+}
+
+type EditUserResponse{
+	result: Boolean
+	hasError: EditUserError
+}
+
+
 enum VerifyEmailError{
 	TOKEN_CANNOT_BE_FOUND
 }
@@ -240,7 +252,9 @@ input RemoveUserFromTeamInput{
 }
 
 input UpdateUserInput{
-	username: String!
+	userId: String!
+	username: String
+	fullName: String
 }
 
 input GenerateOAuthTokenInput{

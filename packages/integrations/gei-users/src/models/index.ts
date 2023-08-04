@@ -1,6 +1,7 @@
 import { QueryModel } from './QueryModel.js'
 import { UserMemberModel } from './UserMemberModel.js'
 import { MutationModel } from './MutationModel.js'
+import { EditUserResponseModel } from './EditUserResponseModel.js'
 import { VerifyEmailResponseModel } from './VerifyEmailResponseModel.js'
 import { ChangePasswordWhenLoggedResponseModel } from './ChangePasswordWhenLoggedResponseModel.js'
 import { ChangePasswordWithTokenResponseModel } from './ChangePasswordWithTokenResponseModel.js'
@@ -33,6 +34,7 @@ export type Models = {
 	QueryModel: QueryModel;
 	UserMemberModel: UserMemberModel;
 	MutationModel: MutationModel;
+	EditUserResponseModel: EditUserResponseModel;
 	VerifyEmailResponseModel: VerifyEmailResponseModel;
 	ChangePasswordWhenLoggedResponseModel: ChangePasswordWhenLoggedResponseModel;
 	ChangePasswordWithTokenResponseModel: ChangePasswordWithTokenResponseModel;

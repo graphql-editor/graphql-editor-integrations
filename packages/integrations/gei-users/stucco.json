@@ -30,133 +30,133 @@
         },
         "Query.getGoogleOAuthLink": {
             "name": "GetGoogleOAuthLink",
-            "description": "GetGoogleOAuthLink",
+            "description": "Get Google OAuth link for login user with his Google account",
             "resolve": {
                 "name": "Query.getGoogleOAuthLink.handler"
             }
         },
         "Query.getGithubOAuthLink": {
             "name": "GetGithubOAuthLink",
-            "description": "getGithubOAuthLink",
+            "description": "Get Github OAuth link for login user with his Github account",
             "resolve": {
                 "name": "Query.getGithubOAuthLink.handler"
             }
         },
         "Query.getAppleOAuthLink": {
             "name": "GetAppleOAuthLink",
-            "description": "getAppleOAuthLink",
+            "description": "Get Apple OAuth link for login user with his Apple account",
             "resolve": {
                 "name": "Query.getAppleOAuthLink.handler"
             }
         },
         "Query.showTeamInvitations": {
             "name": "ShowTeamInvitations",
-            "description": "showTeamInvitations",
+            "description": "Show all private team invitations that were sent for you or from this team to emails to users",
             "resolve": {
                 "name": "Query.showTeamInvitations.handler"
             }
         },
         "Query.requestForForgotPassword": {
             "name": "RequestForForgotPassword",
-            "description": "requestForForgotPassword",
+            "description": "Provide your email, send this request and get link for create new password",
             "resolve": {
                 "name": "Query.requestForForgotPassword.handler"
             }
         },
         "Query.getMicrosoftOAuthLink": {
             "name": "GetMicrosoftOAuthLink",
-            "description": "getMicrosoftOAuthLink",
+            "description": "Get Microsoft OAuth link for login user with his Microsoft account",
             "resolve": {
                 "name": "Query.getMicrosoftOAuthLink.handler"
             }
         },
         "Query.mustBeTeamMember": {
             "name": "MustBeTeamMember",
-            "description": "mustBeTeamMember",
+            "description": "Provide token via headers to check if user is member this team. Returns User object and Team object. If user is not team member in throws an error",
             "resolve": {
                 "name": "Query.mustBeTeamMember.handler"
             }
         },
         "Mutation.createTeam": {
             "name": "CreateTeam",
-            "description": "createTeam",
+            "description": "Provide team name and become the owner of the new team",
             "resolve": {
                 "name": "Mutation.createTeam.handler"
             }
         },
         "Mutation.verifyEmail": {
             "name": "VerifyEmail",
-            "description": "verifyEmail",
+            "description": "Provide token which you will receive by mail after registration to confirm verify your email address",
             "resolve": {
                 "name": "Mutation.verifyEmail.handler"
             }
         },
         "Mutation.changePasswordWhenLogged": {
             "name": "ChangePasswordWhenLogged",
-            "description": "changePasswordWhenLogged",
+            "description": "Provide email, old and new password to change password",
             "resolve": {
                 "name": "Mutation.changePasswordWhenLogged.handler"
             }
         },
         "Mutation.changePasswordWithToken": {
             "name": "changePasswordWithToken",
-            "description": "changePasswordWithToken",
+            "description": "Provide  email, new password and token which you will receive by mail after sending a request for forgot password",
             "resolve": {
                 "name": "Mutation.changePasswordWithToken.handler"
             }
         },
         "Mutation.generateInviteToken": {
             "name": "GenerateInviteToken",
-            "description": "generateInviteToken",
+            "description": "Provide teamId, and generate team invite token for send to anyone",
             "resolve": {
                 "name": "Mutation.generateInviteToken.handler"
             }
         },
         "Mutation.sendInvitationToTeam": {
             "name": "sendInvitationToTeam",
-            "description": "sendInvitationToTeam",
+            "description": "Provide teamId and email of the user to send to him private team invitation",
             "resolve": {
                 "name": "Mutation.sendInvitationToTeam.handler"
             }
         },
         "Mutation.joinToTeam": {
             "name": "JoinToTeam",
-            "description": "joinToTeam",
+            "description": "If you received private invitation to the team, then provide here teamId and be joined",
             "resolve": {
                 "name": "Mutation.joinToTeam.handler"
             }
         },
         "Mutation.removeUserFromTeam": {
             "name": "RemoveUserFromTeam",
-            "description": "removeUserFromTeam",
+            "description": "Provide teamId and userId to remove this user from this team",
             "resolve": {
                 "name": "Mutation.removeUserFromTeam.handler"
             }
         },
         "Mutation.squashAccounts": {
             "name": "SquashAccounts",
-            "description": "squashAccounts",
+            "description": "This mutation basically serves accounts registered by password before login by providers. This case have create two accounts with one email. You can merge them into one - simply run it without arguments. Also you can merge accounts registered with different emails, if provide in arguments password. Now the password is _id of the user account you want be merge with. New account will have the email of the profile from which run this mutation. But if one of the profiles has hide email, then it anyway will be replaced",
             "resolve": {
                 "name": "Mutation.squashAccounts.handler"
             }
         },
         "Mutation.integrateSocialAccount": {
             "name": "integrateSocialAccount",
-            "description": "integrateSocialAccount",
+            "description": "Endpoint using to merge user social account which is pointed with parameters",
             "resolve": {
                 "name": "Mutation.integrateSocialAccount.handler"
             }
         },
         "Mutation.joinToTeamWithInvitationToken": {
             "name": "JoinToTeamWithInvitationToken",
-            "description": "joinToTeamWithInvitationToken",
+            "description": "This mutation for registered users to join to team by invite token. Provide token and be joined",
             "resolve": {
                 "name": "Mutation.joinToTeamWithInvitationToken.handler"
             }
         },
         "Mutation.generateOAuthToken": {
             "name": "GenerateOAuthToken",
-            "description": "generateOAuthToken",
+            "description": "This endpoint send to social api (google/github/apple) request for get information about user which have code as his identify",
             "resolve": {
                 "name": "Mutation.generateOAuthToken.handler"
             }
@@ -169,59 +169,80 @@
             }
         },
         "User.teams": {
-            "name": "Teams",
-            "description": "Show your teams with members",
+            "name": "ShowMyTeams",
+            "description": "Show all your teams with members",
             "resolve": {
                 "name": "User.teams.handler"
             }
         },
         "LoginQuery.password": {
             "name": "Password",
-            "description": "Login with password",
+            "description": "Login with email and password",
             "resolve": {
                 "name": "LoginQuery.password.handler"
             }
         },
         "LoginQuery.provider": {
             "name": "Provider",
-            "description": "Login with provider",
+            "description": "Login with provider. Use with resolvers google/github/apple/microsoft",
             "resolve": {
                 "name": "LoginQuery.provider.handler"
             }
         },
         "ProviderLoginQuery.apple": {
             "name": "Apple",
-            "description": "Login with apple",
+            "description": "Login with apple. Provide here the code that you will get by the link from resolver getAppleOAuthLink",
             "resolve": {
                 "name": "ProviderLoginQuery.apple.handler"
             }
         },
         "ProviderLoginQuery.github": {
             "name": "Github",
-            "description": "Login with github",
+            "description": "Login with github. Provide here the code that you will get by the link from resolver getGithubOAuthLink",
             "resolve": {
                 "name": "ProviderLoginQuery.github.handler"
             }
         },
         "ProviderLoginQuery.microsoft": {
             "name": "Microsoft",
-            "description": "Login with microsoft",
+            "description": "Login with microsoft. Provide here the code that you will get by the link from resolver getMicrosoftOAuthLink",
             "resolve": {
                 "name": "ProviderLoginQuery.microsoft.handler"
             }
         },
         "ProviderLoginQuery.google": {
             "name": "Google",
-            "description": "Login with google",
+            "description": "Login with google. Provide here the code that you will get by the link from resolver getGoogleOAuthLink",
             "resolve": {
                 "name": "ProviderLoginQuery.google.handler"
             }
         },
         "LoginQuery.refreshToken": {
             "name": "RefreshToken",
-            "description": "get new accessToken by refreshToken",
+            "description": "Get new accessToken by refreshToken",
             "resolve": {
                 "name": "LoginQuery.refreshToken.handler"
+            }
+        },
+        "Query.showInviteTokens": {
+            "name": "ShowInviteTokens",
+            "description": "Show all invite tokens, that were generated by this team",
+            "resolve": {
+                "name": "Query.showInviteTokens.handler"
+            }
+        },
+        "Mutation.editUser": {
+            "name": "EditUser",
+            "description": "Edit user data",
+            "resolve": {
+                "name": "Mutation.editUser.handler"
+            }
+        },
+        "Mutation.deleteInvitation": {
+            "name": "DeleteInvitationOrInviteToken",
+            "description": "Provide invitationId or inviteTokenId to delete it",
+            "resolve": {
+                "name": "Mutation.deleteInvitation.handler"
             }
         }
     }

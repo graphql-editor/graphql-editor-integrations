@@ -17,6 +17,7 @@ import { handler as requestForForgotPassword } from './Query/requestForForgotPas
 import { handler as createTeam } from './Mutation/createTeam.js';
 import { handler as verifyEmail } from './Mutation/verifyEmail.js';
 import { handler as changePasswordWhenLogged } from './Mutation/changePasswordWhenLogged.js';
+import { handler as editUser} from './Mutation/editUser.js'
 
 import { handler as integrateSocialAccount } from './Mutation/integrateSocialAccount.js';
 import { handler as changePasswordWithToken } from './Mutation/changePasswordWithToken.js';
@@ -105,6 +106,11 @@ export const integration = NewIntegration({
       name: 'CreateTeam',
       description: 'Provide team name and become the owner of the new team',
       handler: createTeam,
+    },
+    editUser: {
+      name: 'EditUser',
+      description: 'Edit user data',
+      handler: editUser,
     },
     verifyEmail: {
       name: 'VerifyEmail',

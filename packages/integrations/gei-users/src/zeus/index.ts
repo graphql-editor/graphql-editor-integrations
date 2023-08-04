@@ -879,6 +879,12 @@ generateOAuthToken?: [{	tokenData: ValueTypes["GenerateOAuthTokenInput"] | Varia
 editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>},boolean | `@${string}`],
 		__typename?: boolean | `@${string}`
 }>;
+	["EditUserError"]:EditUserError;
+	["EditUserResponse"]: AliasType<{
+	result?:boolean | `@${string}`,
+	hasError?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["VerifyEmailError"]:VerifyEmailError;
 	["VerifyEmailResponse"]: AliasType<{
 	result?:boolean | `@${string}`,
@@ -956,7 +962,9 @@ editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>
 	teamId: string | Variable<any, string>
 };
 	["UpdateUserInput"]: {
-	username: string | Variable<any, string>
+	userId: string | Variable<any, string>,
+	username?: string | undefined | null | Variable<any, string>,
+	fullName?: string | undefined | null | Variable<any, string>
 };
 	["GenerateOAuthTokenInput"]: {
 	social: ValueTypes["SocialKind"] | Variable<any, string>,
@@ -1174,6 +1182,12 @@ generateOAuthToken?: [{	tokenData: ResolverInputTypes["GenerateOAuthTokenInput"]
 editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},boolean | `@${string}`],
 		__typename?: boolean | `@${string}`
 }>;
+	["EditUserError"]:EditUserError;
+	["EditUserResponse"]: AliasType<{
+	result?:boolean | `@${string}`,
+	hasError?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["VerifyEmailError"]:VerifyEmailError;
 	["VerifyEmailResponse"]: AliasType<{
 	result?:boolean | `@${string}`,
@@ -1251,7 +1265,9 @@ editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},boolean | `@${
 	teamId: string
 };
 	["UpdateUserInput"]: {
-	username: string
+	userId: string,
+	username?: string | undefined | null,
+	fullName?: string | undefined | null
 };
 	["GenerateOAuthTokenInput"]: {
 	social: ResolverInputTypes["SocialKind"],
@@ -1466,6 +1482,11 @@ export type ModelTypes = {
 	generateOAuthToken: ModelTypes["GenerateOAuthTokenResponse"],
 	editUser: boolean
 };
+	["EditUserError"]:EditUserError;
+	["EditUserResponse"]: {
+		result?: boolean | undefined,
+	hasError?: ModelTypes["EditUserError"] | undefined
+};
 	["VerifyEmailError"]:VerifyEmailError;
 	["VerifyEmailResponse"]: {
 		result?: boolean | undefined,
@@ -1531,7 +1552,9 @@ export type ModelTypes = {
 	teamId: string
 };
 	["UpdateUserInput"]: {
-	username: string
+	userId: string,
+	username?: string | undefined,
+	fullName?: string | undefined
 };
 	["GenerateOAuthTokenInput"]: {
 	social: ModelTypes["SocialKind"],
@@ -1725,6 +1748,12 @@ export type GraphQLTypes = {
 	generateOAuthToken: GraphQLTypes["GenerateOAuthTokenResponse"],
 	editUser: boolean
 };
+	["EditUserError"]: EditUserError;
+	["EditUserResponse"]: {
+	__typename: "EditUserResponse",
+	result?: boolean | undefined,
+	hasError?: GraphQLTypes["EditUserError"] | undefined
+};
 	["VerifyEmailError"]: VerifyEmailError;
 	["VerifyEmailResponse"]: {
 	__typename: "VerifyEmailResponse",
@@ -1802,7 +1831,9 @@ export type GraphQLTypes = {
 	teamId: string
 };
 	["UpdateUserInput"]: {
-		username: string
+		userId: string,
+	username?: string | undefined,
+	fullName?: string | undefined
 };
 	["GenerateOAuthTokenInput"]: {
 		social: GraphQLTypes["SocialKind"],
@@ -1977,6 +2008,11 @@ export const enum MustBeTeamMemberError {
 	USER_IS_NOT_A_TEAM_MEMBER = "USER_IS_NOT_A_TEAM_MEMBER",
 	TEAM_DOES_NOT_EXIST = "TEAM_DOES_NOT_EXIST"
 }
+export const enum EditUserError {
+	USERNAME_ALREADY_TAKEN = "USERNAME_ALREADY_TAKEN",
+	FAILED_MONGO_UPDATE = "FAILED_MONGO_UPDATE",
+	USER_DOES_NOT_EXIST = "USER_DOES_NOT_EXIST"
+}
 export const enum VerifyEmailError {
 	TOKEN_CANNOT_BE_FOUND = "TOKEN_CANNOT_BE_FOUND"
 }
@@ -2070,6 +2106,7 @@ export const enum ProviderErrors {
 type ZEUS_VARIABLES = {
 	["MustBeTeamMemberError"]: ValueTypes["MustBeTeamMemberError"];
 	["GetOAuthInput"]: ValueTypes["GetOAuthInput"];
+	["EditUserError"]: ValueTypes["EditUserError"];
 	["VerifyEmailError"]: ValueTypes["VerifyEmailError"];
 	["ChangePasswordWhenLoggedError"]: ValueTypes["ChangePasswordWhenLoggedError"];
 	["ChangePasswordWithTokenError"]: ValueTypes["ChangePasswordWithTokenError"];
