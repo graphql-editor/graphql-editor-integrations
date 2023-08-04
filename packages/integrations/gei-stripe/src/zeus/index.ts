@@ -926,7 +926,7 @@ setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"]
 	applicationFee?: ValueTypes["ApplicationFeeInput"] | undefined | null | Variable<any, string>
 };
 	["CreateCheckoutSessionInput"]: {
-	userEmail: string | Variable<any, string>,
+	username: string | Variable<any, string>,
 	/** Return url after successful transaction */
 	successUrl: string | Variable<any, string>,
 	cancelUrl: string | Variable<any, string>,
@@ -1188,7 +1188,7 @@ setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMetho
 	applicationFee?: ResolverInputTypes["ApplicationFeeInput"] | undefined | null
 };
 	["CreateCheckoutSessionInput"]: {
-	userEmail: string,
+	username: string,
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
@@ -1447,7 +1447,7 @@ export type ModelTypes = {
 	applicationFee?: ModelTypes["ApplicationFeeInput"] | undefined
 };
 	["CreateCheckoutSessionInput"]: {
-	userEmail: string,
+	username: string,
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
@@ -1702,7 +1702,7 @@ export type GraphQLTypes = {
 	applicationFee?: GraphQLTypes["ApplicationFeeInput"] | undefined
 };
 	["CreateCheckoutSessionInput"]: {
-		userEmail: string,
+		username: string,
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,

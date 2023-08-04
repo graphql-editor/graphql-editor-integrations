@@ -158,7 +158,7 @@ input CreateNewUserCheckoutSessionInput{
 }
 
 input CreateCheckoutSessionInput{
-	userEmail: String!
+	username: String!
 	"""
 	Return url after successful transaction
 	"""
