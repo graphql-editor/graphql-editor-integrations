@@ -13,7 +13,7 @@ export const handler = async (input: FieldResolveInput) => {
     if (fieldRegexFilter?.sort) delete fieldRegexFilter?.sort
     const filterInput = {
       ...prepareSourceParameters(input),
-      ...(fieldFilter as object),
+      ...(ifValueIsArray(fieldFilter as QueryObject)),
       ...convertObjectToRegexFormat(fieldRegexFilter as QueryObject),
     };
    
@@ -29,12 +29,21 @@ interface QueryObject {
 
 // Function to convert the object to the desired format
 function convertObjectToRegexFormat(obj: QueryObject): QueryObject | undefined {
-  const obj2: QueryObject = {};
+
 
   for (const key in obj) {
-    if (obj[key]) obj2[key] = { $regex: obj[key], $options: 'i' };
+    if (Array.isArray(obj[key])) obj[key] = { $regex: { $in: obj[key]}, $options: 'i' }
+    if (obj[key]&& typeof obj[key] === 'string' ) obj[key] = { $regex: obj[key], $options: 'i' };
   }
-  return obj2 || {};
+  return obj;
+}
+
+
+function ifValueIsArray(obj: QueryObject): QueryObject | undefined {
+  for (const key in obj) {
+    if (Array.isArray(obj[key]) ) obj[key] = { $in: obj[key]}
+  }
+  return obj;
 }
 
 
