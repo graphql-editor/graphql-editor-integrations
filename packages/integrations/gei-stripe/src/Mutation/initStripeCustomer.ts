@@ -16,12 +16,18 @@ export const handler = async (input: FieldResolveInput) =>
     }else{
       try {
         const stripe = newStripe();
-        const customer = await stripe.customers.create({
-          email,
-          name: name || undefined,
-          phone: phone || undefined,
-          address: address || undefined,
-        });
+        const customerInput: any = {};
+        if(name){
+          customerInput.name = name;
+        }
+        if(phone){
+          customerInput.phone = phone;
+        }
+        if(address){
+          customerInput.address = address
+        }
+        const customer = await stripe.customers.create(customerInput);
+        
         await MongoOrb('UserCollection').collection.updateOne(
           { username: args.initStripeCustomerInput.email },
           { $set: { stripeId: customer.id } },
