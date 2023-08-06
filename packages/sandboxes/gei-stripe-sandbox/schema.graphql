@@ -1,41 +1,51 @@
-
-
-type Query{
+type StripeQuery{
 	products(
-		filter: ProductFilter
-	): ProductsPage
-	subscriptions(  
-		filter: SubscriptionFilter
-	): [Subscription!]
+		filter: StripeProductFilter
+	): StripeProductsPage
+	subscriptions(
+		filter: StripeSubscriptionFilter
+	): [StripeSubscription!]
 }
 
-type Mutation{
+type StripeMutation{
 	"""
 	Creates stripe customer for further purchases, links with user "email" field in UserCollection
 	"""
 	initStripeCustomer(
-		initStripeCustomerInput: InitStripeCustomerInput!
+		initStripeCustomerInput: StripeInitStripeCustomerInput!
 	): Boolean!
+	"""
+	Creates checkout for existing user (returns checkout url)
+	"""
 	createCheckoutSession(
-		payload: CreateCheckoutSessionInput!
+		payload: StripeCreateCheckoutSessionInput!
 	): String!
+	"""
+	Creates checkout without providing user data - it will be filled during payment
+	"""
 	createNewUserCheckoutSession(
-		payload: CreateNewUserCheckoutSessionInput!
+		payload: StripeCreateNewUserCheckoutSessionInput!
 	): String!
+	"""
+	Creates stripe customer portal (returns portal url)
+	"""
 	createCustomerPortal(
-		payload: CreateCustomerPortalInput!
+		payload: StripeCreateCustomerPortalInput!
 	): String!
+	"""
+	Create stripe connect external account for further transactions directly with banking account
+	"""
 	createConnectAccount(
-		payload: CreateConnectAccountInput!
+		payload: StripeCreateConnectAccountInput!
 	): Boolean!
 	"""
 	Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements
 	"""
 	attachPaymentMethod(
-		payload: AttachPaymentMethodInput!
+		payload: StripeAttachPaymentMethodInput!
 	): Boolean!
 	setDefaultPaymentMethod(
-		payload: setDefaultPaymentMethodInput!
+		payload: StripesetDefaultPaymentMethodInput!
 	): Boolean!
 	"""
 	entry point for Weebhooks.
@@ -43,38 +53,38 @@ type Mutation{
 	webhook: String
 }
 
-input setDefaultPaymentMethodInput{
+input StripesetDefaultPaymentMethodInput{
 	attachedPaymentMethodId: String!
 	customerId: String!
 }
 
-input AttachPaymentMethodInput {
+input StripeAttachPaymentMethodInput{
 	paymentMethodId: String!
 	customerId: String!
 }
 
-input CreateConnectAccountInput {
-	type: ConnectAccountType!
+input StripeCreateConnectAccountInput{
+	type: StripeConnectAccountType!
 	country: String!
 	email: String!
-	business_type: ConnectAccountBusinessType!
-	bankAccount: BankAccountInput!
+	business_type: StripeConnectAccountBusinessType!
+	bankAccount: StripeBankAccountInput!
 }
 
-enum ConnectAccountBusinessType{
+enum StripeConnectAccountBusinessType{
 	company
 	government_entity
 	individual
 	non_profit
 }
 
-enum ConnectAccountType {
+enum StripeConnectAccountType{
 	standard
 	express
 	custom
 }
 
-input BankAccountInput {
+input StripeBankAccountInput{
 	country: String!
 	"""
 	Required supported currency for the country https://stripe.com/docs/payouts
@@ -88,32 +98,31 @@ input BankAccountInput {
 	Required when attaching the bank account to a Customer
 	"""
 	account_holder_name: String!
-	account_holder_type: BankAccountHolderType!
+	account_holder_type: StripeBankAccountHolderType!
 }
 
-enum BankAccountHolderType {
+enum StripeBankAccountHolderType{
 	individual
 	company
 }
 
-input SubscriptionFilter {
+input StripeSubscriptionFilter{
 	customerId: String
 }
 
-type Subscription {
+type StripeSubscription{
 	id: String!
 	cancel_at_period_end: Boolean!
-	current_period_end: Timestamp!
-	current_period_start: Timestamp!
+	current_period_end: StripeTimestamp!
+	current_period_start: StripeTimestamp!
 	customer: String!
 	description: String
-	items:[Item!]!
+	items: StripeSubscriptionItems!
 	quantity: Int!
-	start: Timestamp!
-	status: SubStatus!
+	status: StripeSubStatus!
 }
 
-enum SubStatus{
+enum StripeSubStatus{
 	incomplete
 	incomplete_expired
 	trialing
@@ -123,55 +132,63 @@ enum SubStatus{
 	unpaid
 }
 
-type Item {
+type StripeSubscriptionItems{
+	data: [StripeItem!]!
+	has_more: Boolean!
+	total_count: Int!
+	url: String!
+	object: String!
+}
+
+type StripeItem{
 	id: String!
-	created: Timestamp!
-	metadata: AnyObject
-	price: Price!
+	created: StripeTimestamp!
+	metadata: StripeAnyObject
+	price: StripePrice!
 	quantity: Int!
 	subscription: String!
 }
 
-type User{
+type StripeUser{
 	stripeId: String
 	email: String!
 }
 
-input InitStripeCustomerInput{
+input StripeInitStripeCustomerInput{
 	email: String!
 	name: String
 	phone: String
-	address: AddressInput
+	address: StripeAddressInput
 }
 
-input CreateNewUserCheckoutSessionInput{
+input StripeCreateNewUserCheckoutSessionInput{
 	"""
 	Return url after successful transaction
 	"""
 	successUrl: String!
 	cancelUrl: String!
-	products: [ProductInput!]!
+	products: [StripeProductInput!]!
 	"""
 	Define amount to transfer into stripe connect account and set the rest for application fees
 	"""
-	applicationFee: ApplicationFeeInput
+	applicationFee: StripeApplicationFeeInput
 }
 
-input CreateCheckoutSessionInput{
-	userEmail: String!
+input StripeCreateCheckoutSessionInput{
+	username: String!
 	"""
 	Return url after successful transaction
 	"""
 	successUrl: String!
 	cancelUrl: String!
-	products: [ProductInput!]!
+	products: [StripeProductInput!]!
 	"""
 	Define amount to transfer into stripe connect account and set the rest for application fees
 	"""
-	applicationFee: ApplicationFeeInput
+	applicationFee: StripeApplicationFeeInput
 }
 
-input ApplicationFeeInput {
+input StripeApplicationFeeInput{
 	"""
 	Value from 0-100
 	"""
@@ -182,17 +199,17 @@ input ApplicationFeeInput {
 	connectAccountId: String!
 }
 
-input ProductInput{
+input StripeProductInput{
 	productId: String!
 	quantity: Int!
 }
 
-input CreateCustomerPortalInput{
-	userEmail: String!
+input StripeCreateCustomerPortalInput{
+	username: String!
 	returnUrl: String!
 }
 
-input AddressInput{
+input StripeAddressInput{
 	"""
 	City, district, suburb, town, village, or ward.
 	"""
@@ -219,14 +236,14 @@ input AddressInput{
 	state: String!
 }
 
-type Customer{
+type StripeCustomer{
 	customerId: String!
 	email: String!
 	name: String
-	address: Address
+	address: StripeAddress
 }
 
-type Address{
+type StripeAddress{
 	city: String
 	country: String
 	line1: String
@@ -235,9 +252,9 @@ type Address{
 	state: String
 }
 
-input ProductFilter{
+input StripeProductFilter{
 	active: Boolean
-	created: TimestampFilter
+	created: StripeTimestampFilter
 	limit: Int
 	shippable: Boolean
 	ids: [ID!]
@@ -246,51 +263,51 @@ input ProductFilter{
 	url: String
 }
 
-input RecurringFilter{
-	interval: Interval
-	usageType: UsageType
+input StripeRecurringFilter{
+	interval: StripeInterval
+	usageType: StripeUsageType
 }
 
-input PriceFilter{
+input StripePriceFilter{
 	active: Boolean
 	currency: String
 	product: ID
-	type: Type
-	created: TimestampFilter
+	type: StripeType
+	created: StripeTimestampFilter
 	limit: Int
 	starting_after: ID
 	ending_before: ID
-	recurring: RecurringFilter
+	recurring: StripeRecurringFilter
 }
 
-type Dimensions{
+type StripeDimensions{
 	height: Float
 	length: Float
 	weight: Float
 	width: Float
 }
 
-type Product{
+type StripeProduct{
 	id: ID!
 	active: Boolean!
-	created: Timestamp
-	default_price: Price
+	created: StripeTimestamp
+	default_price: StripePrice
 	description: String
 	images: [String!]
 	livemode: Boolean
-	metadata: AnyObject
+	metadata: StripeAnyObject
 	name: String
-	package_dimensions: Dimensions
+	package_dimensions: StripeDimensions
 	shippable: Boolean
 	statement_descriptor: String
 	tax_code: String
 	unitLabel: String
-	updated: Timestamp
+	updated: StripeTimestamp
 	url: String
-	prices: [Price!]
+	prices: [StripePrice!]
 }
 
-enum BillingScheme{
+enum StripeBillingScheme{
 	PER_UNIT
 	TIERED
 }
@@ -298,16 +315,16 @@ enum BillingScheme{
 """
 Offset measured in seconds since Unix epoch.
 """
-scalar Timestamp
+scalar StripeTimestamp
 
-input TimestampFilter{
-	Gt: Timestamp
-	Gte: Timestamp
-	Lt: Timestamp
-	Lte: Timestamp
+input StripeTimestampFilter{
+	Gt: StripeTimestamp
+	Gte: StripeTimestamp
+	Lt: StripeTimestamp
+	Lte: StripeTimestamp
 }
 
-type CustomUnitAmount{
+type StripeCustomUnitAmount{
 	maximum: Int
 	minimum: Int
 	preset: Int
@@ -316,89 +333,99 @@ type CustomUnitAmount{
 """
 Any value that can be represented as JSON object
 """
-scalar AnyObject
+scalar StripeAnyObject
 
-enum AggregateUsage{
+enum StripeAggregateUsage{
 	SUM
 	LAST_DURING_PERIOD
 	LAST_EVER
 	MAX
 }
 
-enum Interval{
+enum StripeInterval{
 	MONTH
 	YEAR
 	WEEK
 	DAY
 }
 
-enum UsageType{
+enum StripeUsageType{
 	METERED
 	LICENSED
 }
 
-type PriceRecurring{
-	aggregate_usage: AggregateUsage
-	interval: Interval
+type StripePriceRecurring{
+	aggregate_usage: StripeAggregateUsage
+	interval: StripeInterval
 	interval_count: Int
-	usage_type: UsageType
+	usage_type: StripeUsageType
 	trial_period_days: Int
 }
 
-enum TaxBehaviour{
+enum StripeTaxBehaviour{
 	INCLUSIVE
 	EXCLUSIVE
 	UNSPECIFIED
 }
 
-enum TiersMode{
+enum StripeTiersMode{
 	GRADUATED
 	VOLUME
 }
 
-enum Round{
+enum StripeRound{
 	UP
 	DOWN
 }
 
-type TransformQuantity{
+type StripeTransformQuantity{
 	divideBy: Int
-	round: Round
+	round: StripeRound
 }
 
-enum Type{
+enum StripeType{
 	RECURRING
 	ONE_TIME
 }
 
-type Price{
+type StripePrice{
 	id: ID!
 	active: Boolean
-	billing_scheme: BillingScheme
-	created: Timestamp
+	billing_scheme: StripeBillingScheme
+	created: StripeTimestamp
 	currency: String
-	custom_unit_amount: CustomUnitAmount
+	custom_unit_amount: StripeCustomUnitAmount
 	livemode: Boolean
 	lookup_key: String
-	metadata: AnyObject
+	metadata: StripeAnyObject
 	nickname: String
-	product: Product
-	recurring: PriceRecurring
-	tax_behavior: TaxBehaviour
-	tiers_mode: TiersMode
-	transform_quantity: TransformQuantity
-	type: Type
+	product: StripeProduct
+	recurring: StripePriceRecurring
+	tax_behavior: StripeTaxBehaviour
+	tiers_mode: StripeTiersMode
+	transform_quantity: StripeTransformQuantity
+	type: StripeType
 	unit_amount: Int
 	unit_amount_decimal: String
 }
 
-type ProductsPage{
-	products: [Product!]
+type StripeProductsPage{
+	products: [StripeProduct!]
 	startingAfter: ID
 	endingBefore: ID
 }
 
+
 schema{
 	query: Query,
 	mutation: Mutation
+}
+
+type Mutation {
+	webhook: String
+	StripeMutation: StripeMutation!
+}
+
+type Query {
+	StripeQuery: StripeQuery!
 }

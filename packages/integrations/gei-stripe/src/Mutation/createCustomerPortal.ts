@@ -6,13 +6,13 @@ import { MongoOrb } from '../db/orm.js';
 
 
 export const handler = async (input: FieldResolveInput) =>
-  resolverFor('Mutation', 'createCustomerPortal', async ({ payload: { returnUrl, userEmail } }) => {
+  resolverFor('Mutation', 'createCustomerPortal', async ({ payload: { returnUrl, username } }) => {
     const stripe = newStripe();
     const user = await MongoOrb('UserCollection').collection.findOne(
-        { email: userEmail },
+        { username },
       );
     if (!user) {
-      throw new Error('Invalid product or customer');
+      throw new Error('Cannot find user with specific username');
     }
     if (!user.stripeId) {
         throw new Error('Stripe customer not initialized');

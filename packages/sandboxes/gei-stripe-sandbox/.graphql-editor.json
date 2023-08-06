@@ -1,10 +1,11 @@
 {
     "namespace": "editor-integrations",
-    "project": "stripe",
+    "project": "stripe-integration",
     "projectVersion": "latest",
     "backendSrc": "./src",
     "schemaDir": "./",
     "typingsDir": "./src",
     "typingsEnv": "node",
-    "typingsHost": "http://localhost:8080/"
+    "typingsHost": "http://localhost:8080/",
+    "backendLib": "./lib"
 }

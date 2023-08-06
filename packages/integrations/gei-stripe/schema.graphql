@@ -16,15 +16,27 @@ type Mutation{
 	initStripeCustomer(
 		initStripeCustomerInput: InitStripeCustomerInput!
 	): Boolean!
+	"""
+	Creates checkout for existing user (returns checkout url)
+	"""
 	createCheckoutSession(
 		payload: CreateCheckoutSessionInput!
 	): String!
+	"""
+	Creates checkout without providing user data - it will be filled during payment
+	"""
 	createNewUserCheckoutSession(
 		payload: CreateNewUserCheckoutSessionInput!
 	): String!
+	"""
+	Creates stripe customer portal (returns portal url)
+	"""
 	createCustomerPortal(
 		payload: CreateCustomerPortalInput!
 	): String!
+	"""
+	Create stripe connect external account for further transactions directly with banking account
+	"""
 	createConnectAccount(
 		payload: CreateConnectAccountInput!
 	): Boolean!
@@ -107,9 +119,8 @@ type Subscription {
 	current_period_start: Timestamp!
 	customer: String!
 	description: String
-	items:[Item!]!
+	items:SubscriptionItems!
 	quantity: Int!
-	start: Timestamp!
 	status: SubStatus!
 }
 
@@ -121,6 +132,14 @@ enum SubStatus{
 	past_due
 	canceled
 	unpaid
+}
+
+type SubscriptionItems {
+	data: [Item!]!
+	has_more: Boolean!
+	total_count: Int!
+	url: String!
+	object: String!
 }
 
 type Item {
@@ -188,7 +207,7 @@ input ProductInput{
 }
 
 input CreateCustomerPortalInput{
-	userEmail: String!
+	username: String!
 	returnUrl: String!
 }
 

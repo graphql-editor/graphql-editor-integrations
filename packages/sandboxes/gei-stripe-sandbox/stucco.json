@@ -1,79 +1,169 @@
 {
     "resolvers": {
-        "Mutation.initStripeCustomer": {
+        "Mutation.setDefaultPaymentMethod": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.2.0",
-                "resolver": "initStripeCustomer"
+                "version": "0.3.6",
+                "resolver": "setDefaultPaymentMethod"
             },
             "resolve": {
-                "name": "gei-stripe@Mutation.initStripeCustomer"
+                "name": "gei-stripe@Mutation.setDefaultPaymentMethod"
             }
         },
-        "Mutation.createNewUserCheckoutSession": {
+        "Mutation.attachPaymentMethod": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.2.0",
-                "resolver": "createNewUserCheckoutSession"
+                "version": "0.3.6",
+                "resolver": "attachPaymentMethod"
             },
             "resolve": {
-                "name": "gei-stripe@Mutation.createNewUserCheckoutSession"
+                "name": "gei-stripe@Mutation.attachPaymentMethod"
             }
         },
-        "Mutation.createCheckoutSession": {
+        "Mutation.createConnectAccount": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.2.0",
-                "resolver": "createCheckoutSession"
+                "version": "0.3.6",
+                "resolver": "createConnectAccount"
             },
             "resolve": {
-                "name": "gei-stripe@Mutation.createCheckoutSession"
+                "name": "gei-stripe@Mutation.createConnectAccount"
             }
         },
-        "Mutation.webhook": {
+        "Mutation.createCustomerPortal": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.2.0",
-                "resolver": "webhook"
+                "version": "0.3.6",
+                "resolver": "createCustomerPortal"
             },
             "resolve": {
-                "name": "gei-stripe@Mutation.webhook"
+                "name": "gei-stripe@Mutation.createCustomerPortal"
             }
         },
-        "Query.products": {
+        "StripeQuery.products": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.2.0",
+                "version": "0.3.6",
                 "resolver": "products"
             },
             "resolve": {
                 "name": "gei-stripe@Query.products"
             }
         },
-        "Query.subscriptions": {
+        "StripeQuery.subscriptions": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.2.0",
-                "resolver": "products"
+                "version": "0.3.6",
+                "resolver": "subscriptions"
             },
             "resolve": {
                 "name": "gei-stripe@Query.subscriptions"
             }
         },
-        "Product.default_price": {
+        "StripeMutation.initStripeCustomer": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.3.3",
+                "version": "0.3.6",
+                "resolver": "initStripeCustomer"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.initStripeCustomer"
+            }
+        },
+        "StripeMutation.setDefaultPaymentMethod": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.3.6",
+                "resolver": "setDefaultPaymentMethod"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.setDefaultPaymentMethod"
+            }
+        },
+        "StripeMutation.attachPaymentMethod": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.3.6",
+                "resolver": "attachPaymentMethod"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.attachPaymentMethod"
+            }
+        },
+        "StripeMutation.createConnectAccount": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.3.6",
+                "resolver": "createConnectAccount"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.createConnectAccount"
+            }
+        },
+        "StripeMutation.createCustomerPortal": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.3.6",
+                "resolver": "createCustomerPortal"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.createCustomerPortal"
+            }
+        },
+        "StripeMutation.createNewUserCheckoutSession": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.3.6",
+                "resolver": "createNewUserCheckoutSession"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.createNewUserCheckoutSession"
+            }
+        },
+        "StripeMutation.createCheckoutSession": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.3.6",
+                "resolver": "createCheckoutSession"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.createCheckoutSession"
+            }
+        },
+        "Mutation.StripeMutation": {
+            "resolve": {
+                "name": "lib/Mutation/StripeMutation"
+            }
+        },
+        "Query.StripeQuery": {
+            "resolve": {
+                "name": "lib/Query/StripeQuery"
+            }
+        },
+        "Mutation.webhook": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.3.6",
+                "resolver": "webhook"
+            },
+            "resolve": {
+                "name": "gei-stripe@Mutation.webhook"
+            }
+        },
+        "StripeProduct.default_price": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.3.6",
                 "resolver": "default_price"
             },
             "resolve": {
                 "name": "gei-stripe@Product.default_price"
             }
         },
-        "Product.prices": {
+        "StripeProduct.prices": {
             "noCode": {
                 "package": "gei-stripe",
-                "version": "0.3.3",
+                "version": "0.3.6",
                 "resolver": "prices"
             },
             "resolve": {

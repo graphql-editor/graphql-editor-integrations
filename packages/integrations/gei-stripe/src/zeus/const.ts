@@ -128,10 +128,16 @@ export const ReturnTypes: Record<string,any> = {
 		current_period_start:"Timestamp",
 		customer:"String",
 		description:"String",
-		items:"Item",
+		items:"SubscriptionItems",
 		quantity:"Int",
-		start:"Timestamp",
 		status:"SubStatus"
+	},
+	SubscriptionItems:{
+		data:"Item",
+		has_more:"Boolean",
+		total_count:"Int",
+		url:"String",
+		object:"String"
 	},
 	Item:{
 		id:"String",
