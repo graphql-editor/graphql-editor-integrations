@@ -1,117 +1,117 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Query:{
+	StripeQuery:{
 		products:{
-			filter:"ProductFilter"
+			filter:"StripeProductFilter"
 		},
 		subscriptions:{
-			filter:"SubscriptionFilter"
+			filter:"StripeSubscriptionFilter"
 		}
 	},
-	Mutation:{
+	StripeMutation:{
 		initStripeCustomer:{
-			initStripeCustomerInput:"InitStripeCustomerInput"
+			initStripeCustomerInput:"StripeInitStripeCustomerInput"
 		},
 		createCheckoutSession:{
-			payload:"CreateCheckoutSessionInput"
+			payload:"StripeCreateCheckoutSessionInput"
 		},
 		createNewUserCheckoutSession:{
-			payload:"CreateNewUserCheckoutSessionInput"
+			payload:"StripeCreateNewUserCheckoutSessionInput"
 		},
 		createCustomerPortal:{
-			payload:"CreateCustomerPortalInput"
+			payload:"StripeCreateCustomerPortalInput"
 		},
 		createConnectAccount:{
-			payload:"CreateConnectAccountInput"
+			payload:"StripeCreateConnectAccountInput"
 		},
 		attachPaymentMethod:{
-			payload:"AttachPaymentMethodInput"
+			payload:"StripeAttachPaymentMethodInput"
 		},
 		setDefaultPaymentMethod:{
-			payload:"setDefaultPaymentMethodInput"
+			payload:"StripesetDefaultPaymentMethodInput"
 		}
 	},
-	setDefaultPaymentMethodInput:{
+	StripesetDefaultPaymentMethodInput:{
 
 	},
-	AttachPaymentMethodInput:{
+	StripeAttachPaymentMethodInput:{
 
 	},
-	CreateConnectAccountInput:{
-		type:"ConnectAccountType",
-		business_type:"ConnectAccountBusinessType",
-		bankAccount:"BankAccountInput"
+	StripeCreateConnectAccountInput:{
+		type:"StripeConnectAccountType",
+		business_type:"StripeConnectAccountBusinessType",
+		bankAccount:"StripeBankAccountInput"
 	},
-	ConnectAccountBusinessType: "enum" as const,
-	ConnectAccountType: "enum" as const,
-	BankAccountInput:{
-		account_holder_type:"BankAccountHolderType"
+	StripeConnectAccountBusinessType: "enum" as const,
+	StripeConnectAccountType: "enum" as const,
+	StripeBankAccountInput:{
+		account_holder_type:"StripeBankAccountHolderType"
 	},
-	BankAccountHolderType: "enum" as const,
-	SubscriptionFilter:{
+	StripeBankAccountHolderType: "enum" as const,
+	StripeSubscriptionFilter:{
 
 	},
-	SubStatus: "enum" as const,
-	InitStripeCustomerInput:{
-		address:"AddressInput"
+	StripeSubStatus: "enum" as const,
+	StripeInitStripeCustomerInput:{
+		address:"StripeAddressInput"
 	},
-	CreateNewUserCheckoutSessionInput:{
-		products:"ProductInput",
-		applicationFee:"ApplicationFeeInput"
+	StripeCreateNewUserCheckoutSessionInput:{
+		products:"StripeProductInput",
+		applicationFee:"StripeApplicationFeeInput"
 	},
-	CreateCheckoutSessionInput:{
-		products:"ProductInput",
-		applicationFee:"ApplicationFeeInput"
+	StripeCreateCheckoutSessionInput:{
+		products:"StripeProductInput",
+		applicationFee:"StripeApplicationFeeInput"
 	},
-	ApplicationFeeInput:{
+	StripeApplicationFeeInput:{
 
 	},
-	ProductInput:{
+	StripeProductInput:{
 
 	},
-	CreateCustomerPortalInput:{
+	StripeCreateCustomerPortalInput:{
 
 	},
-	AddressInput:{
+	StripeAddressInput:{
 
 	},
-	ProductFilter:{
-		created:"TimestampFilter"
+	StripeProductFilter:{
+		created:"StripeTimestampFilter"
 	},
-	RecurringFilter:{
-		interval:"Interval",
-		usageType:"UsageType"
+	StripeRecurringFilter:{
+		interval:"StripeInterval",
+		usageType:"StripeUsageType"
 	},
-	PriceFilter:{
-		type:"Type",
-		created:"TimestampFilter",
-		recurring:"RecurringFilter"
+	StripePriceFilter:{
+		type:"StripeType",
+		created:"StripeTimestampFilter",
+		recurring:"StripeRecurringFilter"
 	},
-	BillingScheme: "enum" as const,
-	Timestamp: `scalar.Timestamp` as const,
-	TimestampFilter:{
-		Gt:"Timestamp",
-		Gte:"Timestamp",
-		Lt:"Timestamp",
-		Lte:"Timestamp"
+	StripeBillingScheme: "enum" as const,
+	StripeTimestamp: `scalar.StripeTimestamp` as const,
+	StripeTimestampFilter:{
+		Gt:"StripeTimestamp",
+		Gte:"StripeTimestamp",
+		Lt:"StripeTimestamp",
+		Lte:"StripeTimestamp"
 	},
-	AnyObject: `scalar.AnyObject` as const,
-	AggregateUsage: "enum" as const,
-	Interval: "enum" as const,
-	UsageType: "enum" as const,
-	TaxBehaviour: "enum" as const,
-	TiersMode: "enum" as const,
-	Round: "enum" as const,
-	Type: "enum" as const
+	StripeAnyObject: `scalar.StripeAnyObject` as const,
+	StripeAggregateUsage: "enum" as const,
+	StripeInterval: "enum" as const,
+	StripeUsageType: "enum" as const,
+	StripeTaxBehaviour: "enum" as const,
+	StripeTiersMode: "enum" as const,
+	StripeRound: "enum" as const,
+	StripeType: "enum" as const
 }
 
 export const ReturnTypes: Record<string,any> = {
-	Query:{
-		products:"ProductsPage",
-		subscriptions:"Subscription"
+	StripeQuery:{
+		products:"StripeProductsPage",
+		subscriptions:"StripeSubscription"
 	},
-	Mutation:{
+	StripeMutation:{
 		initStripeCustomer:"Boolean",
 		createCheckoutSession:"String",
 		createNewUserCheckoutSession:"String",
@@ -121,37 +121,43 @@ export const ReturnTypes: Record<string,any> = {
 		setDefaultPaymentMethod:"Boolean",
 		webhook:"String"
 	},
-	Subscription:{
+	StripeSubscription:{
 		id:"String",
 		cancel_at_period_end:"Boolean",
-		current_period_end:"Timestamp",
-		current_period_start:"Timestamp",
+		current_period_end:"StripeTimestamp",
+		current_period_start:"StripeTimestamp",
 		customer:"String",
 		description:"String",
-		items:"Item",
+		items:"StripeSubscriptionItems",
 		quantity:"Int",
-		start:"Timestamp",
-		status:"SubStatus"
+		status:"StripeSubStatus"
 	},
-	Item:{
+	StripeSubscriptionItems:{
+		data:"StripeItem",
+		has_more:"Boolean",
+		total_count:"Int",
+		url:"String",
+		object:"String"
+	},
+	StripeItem:{
 		id:"String",
-		created:"Timestamp",
-		metadata:"AnyObject",
-		price:"Price",
+		created:"StripeTimestamp",
+		metadata:"StripeAnyObject",
+		price:"StripePrice",
 		quantity:"Int",
 		subscription:"String"
 	},
-	User:{
+	StripeUser:{
 		stripeId:"String",
 		email:"String"
 	},
-	Customer:{
+	StripeCustomer:{
 		customerId:"String",
 		email:"String",
 		name:"String",
-		address:"Address"
+		address:"StripeAddress"
 	},
-	Address:{
+	StripeAddress:{
 		city:"String",
 		country:"String",
 		line1:"String",
@@ -159,78 +165,84 @@ export const ReturnTypes: Record<string,any> = {
 		postal_code:"String",
 		state:"String"
 	},
-	Dimensions:{
+	StripeDimensions:{
 		height:"Float",
 		length:"Float",
 		weight:"Float",
 		width:"Float"
 	},
-	Product:{
+	StripeProduct:{
 		id:"ID",
 		active:"Boolean",
-		created:"Timestamp",
-		default_price:"Price",
+		created:"StripeTimestamp",
+		default_price:"StripePrice",
 		description:"String",
 		images:"String",
 		livemode:"Boolean",
-		metadata:"AnyObject",
+		metadata:"StripeAnyObject",
 		name:"String",
-		package_dimensions:"Dimensions",
+		package_dimensions:"StripeDimensions",
 		shippable:"Boolean",
 		statement_descriptor:"String",
 		tax_code:"String",
 		unitLabel:"String",
-		updated:"Timestamp",
+		updated:"StripeTimestamp",
 		url:"String",
-		prices:"Price"
+		prices:"StripePrice"
 	},
-	Timestamp: `scalar.Timestamp` as const,
-	CustomUnitAmount:{
+	StripeTimestamp: `scalar.StripeTimestamp` as const,
+	StripeCustomUnitAmount:{
 		maximum:"Int",
 		minimum:"Int",
 		preset:"Int"
 	},
-	AnyObject: `scalar.AnyObject` as const,
-	PriceRecurring:{
-		aggregate_usage:"AggregateUsage",
-		interval:"Interval",
+	StripeAnyObject: `scalar.StripeAnyObject` as const,
+	StripePriceRecurring:{
+		aggregate_usage:"StripeAggregateUsage",
+		interval:"StripeInterval",
 		interval_count:"Int",
-		usage_type:"UsageType",
+		usage_type:"StripeUsageType",
 		trial_period_days:"Int"
 	},
-	TransformQuantity:{
+	StripeTransformQuantity:{
 		divideBy:"Int",
-		round:"Round"
+		round:"StripeRound"
 	},
-	Price:{
+	StripePrice:{
 		id:"ID",
 		active:"Boolean",
-		billing_scheme:"BillingScheme",
-		created:"Timestamp",
+		billing_scheme:"StripeBillingScheme",
+		created:"StripeTimestamp",
 		currency:"String",
-		custom_unit_amount:"CustomUnitAmount",
+		custom_unit_amount:"StripeCustomUnitAmount",
 		livemode:"Boolean",
 		lookup_key:"String",
-		metadata:"AnyObject",
+		metadata:"StripeAnyObject",
 		nickname:"String",
-		product:"Product",
-		recurring:"PriceRecurring",
-		tax_behavior:"TaxBehaviour",
-		tiers_mode:"TiersMode",
-		transform_quantity:"TransformQuantity",
-		type:"Type",
+		product:"StripeProduct",
+		recurring:"StripePriceRecurring",
+		tax_behavior:"StripeTaxBehaviour",
+		tiers_mode:"StripeTiersMode",
+		transform_quantity:"StripeTransformQuantity",
+		type:"StripeType",
 		unit_amount:"Int",
 		unit_amount_decimal:"String"
 	},
-	ProductsPage:{
-		products:"Product",
+	StripeProductsPage:{
+		products:"StripeProduct",
 		startingAfter:"ID",
 		endingBefore:"ID"
+	},
+	Mutation:{
+		webhook:"String",
+		StripeMutation:"StripeMutation"
+	},
+	Query:{
+		StripeQuery:"StripeQuery"
 	}
 }
 
 export const Ops = {
-query: "Query" as const,
-	mutation: "Mutation" as const,
-	subscription: "Subscription" as const
+mutation: "Mutation" as const,
+	query: "Query" as const
 }

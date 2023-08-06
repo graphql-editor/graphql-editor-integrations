@@ -44,7 +44,7 @@ export const handler = async (input: FieldResolveInput) =>
 
           const quantity = price.type === 'recurring' || price.recurring?.usage_type === 'metered' ? 1 : product.quantity;
           const item = { price: price.id, ...(quantity && { quantity }) };
-
+          console.log(price)
           totalAmount += (price.unit_amount || 0) * (quantity || 0);
 
           if (price.type === 'recurring') {
@@ -54,8 +54,8 @@ export const handler = async (input: FieldResolveInput) =>
           }
         }),
       );
-
       const applicationFeeAmount = applicationFee ? Math.round((totalAmount * applicationFee.feePercentage) / 100) : 0;
+      console.log(`Total amount : ${totalAmount} app fee ${applicationFeeAmount}`)
 
       if (subscriptionItems.length > 0 && oneTimePaymentItems.length > 0) {
         throw new Error('Cannot handle subscription items and one-time payment items in the same request');
@@ -73,10 +73,14 @@ export const handler = async (input: FieldResolveInput) =>
           tax_id_collection: { enabled: true },
           automatic_tax: { enabled: true },
           billing_address_collection: 'required',
+          customer_update: {
+            address: 'auto',
+            name: 'auto',
+          },
           customer: user.stripeId
         };
 
-        if (applicationFeeAmount > 0 && applicationFee) {
+        if (applicationFeeAmount > 0 && applicationFee && oneTimePaymentItems.length > 0) {
           sessionData.payment_intent_data = {
             application_fee_amount: applicationFeeAmount,
             transfer_data: {
@@ -85,6 +89,16 @@ export const handler = async (input: FieldResolveInput) =>
           };
         }
 
+        if (applicationFeeAmount > 0 && applicationFee && subscriptionItems.length > 0) {
+          sessionData.subscription_data = {
+            application_fee_percent: applicationFee.feePercentage,
+            transfer_data: {
+              destination: applicationFee.connectAccountId,
+            },
+          };
+        }
+
+        console.log(sessionData)
         const session = await stripe.checkout.sessions.create(sessionData);
         return session.url;
       }

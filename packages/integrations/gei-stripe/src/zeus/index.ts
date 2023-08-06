@@ -890,13 +890,20 @@ setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"]
 	current_period_start?:boolean | `@${string}`,
 	customer?:boolean | `@${string}`,
 	description?:boolean | `@${string}`,
-	items?:ValueTypes["Item"],
+	items?:ValueTypes["SubscriptionItems"],
 	quantity?:boolean | `@${string}`,
-	start?:boolean | `@${string}`,
 	status?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["SubStatus"]:SubStatus;
+	["SubscriptionItems"]: AliasType<{
+	data?:ValueTypes["Item"],
+	has_more?:boolean | `@${string}`,
+	total_count?:boolean | `@${string}`,
+	url?:boolean | `@${string}`,
+	object?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["Item"]: AliasType<{
 	id?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
@@ -945,7 +952,7 @@ setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"]
 	quantity: number | Variable<any, string>
 };
 	["CreateCustomerPortalInput"]: {
-	userEmail: string | Variable<any, string>,
+	username: string | Variable<any, string>,
 	returnUrl: string | Variable<any, string>
 };
 	["AddressInput"]: {
@@ -1152,13 +1159,20 @@ setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMetho
 	current_period_start?:boolean | `@${string}`,
 	customer?:boolean | `@${string}`,
 	description?:boolean | `@${string}`,
-	items?:ResolverInputTypes["Item"],
+	items?:ResolverInputTypes["SubscriptionItems"],
 	quantity?:boolean | `@${string}`,
-	start?:boolean | `@${string}`,
 	status?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["SubStatus"]:SubStatus;
+	["SubscriptionItems"]: AliasType<{
+	data?:ResolverInputTypes["Item"],
+	has_more?:boolean | `@${string}`,
+	total_count?:boolean | `@${string}`,
+	url?:boolean | `@${string}`,
+	object?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["Item"]: AliasType<{
 	id?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
@@ -1207,7 +1221,7 @@ setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMetho
 	quantity: number
 };
 	["CreateCustomerPortalInput"]: {
-	userEmail: string,
+	username: string,
 	returnUrl: string
 };
 	["AddressInput"]: {
@@ -1366,9 +1380,13 @@ export type ModelTypes = {
 	["Mutation"]: {
 		/** Creates stripe customer for further purchases, links with user "email" field in UserCollection */
 	initStripeCustomer: boolean,
+	/** Creates checkout for existing user (returns checkout url) */
 	createCheckoutSession: string,
+	/** Creates checkout without providing user data - it will be filled during payment */
 	createNewUserCheckoutSession: string,
+	/** Creates stripe customer portal (returns portal url) */
 	createCustomerPortal: string,
+	/** Create stripe connect external account for further transactions directly with banking account */
 	createConnectAccount: boolean,
 	/** Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements */
 	attachPaymentMethod: boolean,
@@ -1414,12 +1432,18 @@ export type ModelTypes = {
 	current_period_start: ModelTypes["Timestamp"],
 	customer: string,
 	description?: string | undefined,
-	items: Array<ModelTypes["Item"]>,
+	items: ModelTypes["SubscriptionItems"],
 	quantity: number,
-	start: ModelTypes["Timestamp"],
 	status: ModelTypes["SubStatus"]
 };
 	["SubStatus"]:SubStatus;
+	["SubscriptionItems"]: {
+		data: Array<ModelTypes["Item"]>,
+	has_more: boolean,
+	total_count: number,
+	url: string,
+	object: string
+};
 	["Item"]: {
 		id: string,
 	created: ModelTypes["Timestamp"],
@@ -1466,7 +1490,7 @@ export type ModelTypes = {
 	quantity: number
 };
 	["CreateCustomerPortalInput"]: {
-	userEmail: string,
+	username: string,
 	returnUrl: string
 };
 	["AddressInput"]: {
@@ -1618,9 +1642,13 @@ export type GraphQLTypes = {
 	__typename: "Mutation",
 	/** Creates stripe customer for further purchases, links with user "email" field in UserCollection */
 	initStripeCustomer: boolean,
+	/** Creates checkout for existing user (returns checkout url) */
 	createCheckoutSession: string,
+	/** Creates checkout without providing user data - it will be filled during payment */
 	createNewUserCheckoutSession: string,
+	/** Creates stripe customer portal (returns portal url) */
 	createCustomerPortal: string,
+	/** Create stripe connect external account for further transactions directly with banking account */
 	createConnectAccount: boolean,
 	/** Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements */
 	attachPaymentMethod: boolean,
@@ -1667,12 +1695,19 @@ export type GraphQLTypes = {
 	current_period_start: GraphQLTypes["Timestamp"],
 	customer: string,
 	description?: string | undefined,
-	items: Array<GraphQLTypes["Item"]>,
+	items: GraphQLTypes["SubscriptionItems"],
 	quantity: number,
-	start: GraphQLTypes["Timestamp"],
 	status: GraphQLTypes["SubStatus"]
 };
 	["SubStatus"]: SubStatus;
+	["SubscriptionItems"]: {
+	__typename: "SubscriptionItems",
+	data: Array<GraphQLTypes["Item"]>,
+	has_more: boolean,
+	total_count: number,
+	url: string,
+	object: string
+};
 	["Item"]: {
 	__typename: "Item",
 	id: string,
@@ -1721,7 +1756,7 @@ export type GraphQLTypes = {
 	quantity: number
 };
 	["CreateCustomerPortalInput"]: {
-		userEmail: string,
+		username: string,
 	returnUrl: string
 };
 	["AddressInput"]: {

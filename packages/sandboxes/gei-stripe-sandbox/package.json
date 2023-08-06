@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "gei-stripe": "^0.0.3",
+    "gei-stripe": "^0.3.6",
     "stucco-js": "^0.10.18"
   },
   "peerDependencies": {

@@ -1,6 +1,7 @@
 import { QueryModel } from './QueryModel.js'
 import { MutationModel } from './MutationModel.js'
 import { SubscriptionModel } from './SubscriptionModel.js'
+import { SubscriptionItemsModel } from './SubscriptionItemsModel.js'
 import { ItemModel } from './ItemModel.js'
 import { UserModel } from './UserModel.js'
 import { CustomerModel } from './CustomerModel.js'
@@ -18,6 +19,7 @@ export type Models = {
 	QueryModel: QueryModel;
 	MutationModel: MutationModel;
 	SubscriptionModel: SubscriptionModel;
+	SubscriptionItemsModel: SubscriptionItemsModel;
 	ItemModel: ItemModel;
 	UserModel: UserModel;
 	CustomerModel: CustomerModel;

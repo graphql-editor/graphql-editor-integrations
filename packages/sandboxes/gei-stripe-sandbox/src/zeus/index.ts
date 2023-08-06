@@ -829,47 +829,47 @@ export const $ = <Type extends GraphQLVariableType, Name extends string>(name: N
 };
 type ZEUS_INTERFACES = never
 export type ScalarCoders = {
-	Timestamp?: ScalarResolver;
-	AnyObject?: ScalarResolver;
+	StripeTimestamp?: ScalarResolver;
+	StripeAnyObject?: ScalarResolver;
 }
 type ZEUS_UNIONS = never
 
 export type ValueTypes = {
-    ["Query"]: AliasType<{
-products?: [{	filter?: ValueTypes["ProductFilter"] | undefined | null | Variable<any, string>},ValueTypes["ProductsPage"]],
-subscriptions?: [{	filter?: ValueTypes["SubscriptionFilter"] | undefined | null | Variable<any, string>},ValueTypes["Subscription"]],
+    ["StripeQuery"]: AliasType<{
+products?: [{	filter?: ValueTypes["StripeProductFilter"] | undefined | null | Variable<any, string>},ValueTypes["StripeProductsPage"]],
+subscriptions?: [{	filter?: ValueTypes["StripeSubscriptionFilter"] | undefined | null | Variable<any, string>},ValueTypes["StripeSubscription"]],
 		__typename?: boolean | `@${string}`
 }>;
-	["Mutation"]: AliasType<{
-initStripeCustomer?: [{	initStripeCustomerInput: ValueTypes["InitStripeCustomerInput"] | Variable<any, string>},boolean | `@${string}`],
-createCheckoutSession?: [{	payload: ValueTypes["CreateCheckoutSessionInput"] | Variable<any, string>},boolean | `@${string}`],
-createNewUserCheckoutSession?: [{	payload: ValueTypes["CreateNewUserCheckoutSessionInput"] | Variable<any, string>},boolean | `@${string}`],
-createCustomerPortal?: [{	payload: ValueTypes["CreateCustomerPortalInput"] | Variable<any, string>},boolean | `@${string}`],
-createConnectAccount?: [{	payload: ValueTypes["CreateConnectAccountInput"] | Variable<any, string>},boolean | `@${string}`],
-attachPaymentMethod?: [{	payload: ValueTypes["AttachPaymentMethodInput"] | Variable<any, string>},boolean | `@${string}`],
-setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"] | Variable<any, string>},boolean | `@${string}`],
+	["StripeMutation"]: AliasType<{
+initStripeCustomer?: [{	initStripeCustomerInput: ValueTypes["StripeInitStripeCustomerInput"] | Variable<any, string>},boolean | `@${string}`],
+createCheckoutSession?: [{	payload: ValueTypes["StripeCreateCheckoutSessionInput"] | Variable<any, string>},boolean | `@${string}`],
+createNewUserCheckoutSession?: [{	payload: ValueTypes["StripeCreateNewUserCheckoutSessionInput"] | Variable<any, string>},boolean | `@${string}`],
+createCustomerPortal?: [{	payload: ValueTypes["StripeCreateCustomerPortalInput"] | Variable<any, string>},boolean | `@${string}`],
+createConnectAccount?: [{	payload: ValueTypes["StripeCreateConnectAccountInput"] | Variable<any, string>},boolean | `@${string}`],
+attachPaymentMethod?: [{	payload: ValueTypes["StripeAttachPaymentMethodInput"] | Variable<any, string>},boolean | `@${string}`],
+setDefaultPaymentMethod?: [{	payload: ValueTypes["StripesetDefaultPaymentMethodInput"] | Variable<any, string>},boolean | `@${string}`],
 	/** entry point for Weebhooks. */
 	webhook?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["setDefaultPaymentMethodInput"]: {
+	["StripesetDefaultPaymentMethodInput"]: {
 	attachedPaymentMethodId: string | Variable<any, string>,
 	customerId: string | Variable<any, string>
 };
-	["AttachPaymentMethodInput"]: {
+	["StripeAttachPaymentMethodInput"]: {
 	paymentMethodId: string | Variable<any, string>,
 	customerId: string | Variable<any, string>
 };
-	["CreateConnectAccountInput"]: {
-	type: ValueTypes["ConnectAccountType"] | Variable<any, string>,
+	["StripeCreateConnectAccountInput"]: {
+	type: ValueTypes["StripeConnectAccountType"] | Variable<any, string>,
 	country: string | Variable<any, string>,
 	email: string | Variable<any, string>,
-	business_type: ValueTypes["ConnectAccountBusinessType"] | Variable<any, string>,
-	bankAccount: ValueTypes["BankAccountInput"] | Variable<any, string>
+	business_type: ValueTypes["StripeConnectAccountBusinessType"] | Variable<any, string>,
+	bankAccount: ValueTypes["StripeBankAccountInput"] | Variable<any, string>
 };
-	["ConnectAccountBusinessType"]:ConnectAccountBusinessType;
-	["ConnectAccountType"]:ConnectAccountType;
-	["BankAccountInput"]: {
+	["StripeConnectAccountBusinessType"]:StripeConnectAccountBusinessType;
+	["StripeConnectAccountType"]:StripeConnectAccountType;
+	["StripeBankAccountInput"]: {
 	country: string | Variable<any, string>,
 	/** Required supported currency for the country https://stripe.com/docs/payouts */
 	currency: string | Variable<any, string>,
@@ -877,78 +877,85 @@ setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"]
 	account_number: string | Variable<any, string>,
 	/** Required when attaching the bank account to a Customer */
 	account_holder_name: string | Variable<any, string>,
-	account_holder_type: ValueTypes["BankAccountHolderType"] | Variable<any, string>
+	account_holder_type: ValueTypes["StripeBankAccountHolderType"] | Variable<any, string>
 };
-	["BankAccountHolderType"]:BankAccountHolderType;
-	["SubscriptionFilter"]: {
+	["StripeBankAccountHolderType"]:StripeBankAccountHolderType;
+	["StripeSubscriptionFilter"]: {
 	customerId?: string | undefined | null | Variable<any, string>
 };
-	["Subscription"]: AliasType<{
+	["StripeSubscription"]: AliasType<{
 	id?:boolean | `@${string}`,
 	cancel_at_period_end?:boolean | `@${string}`,
 	current_period_end?:boolean | `@${string}`,
 	current_period_start?:boolean | `@${string}`,
 	customer?:boolean | `@${string}`,
 	description?:boolean | `@${string}`,
-	items?:ValueTypes["Item"],
+	items?:ValueTypes["StripeSubscriptionItems"],
 	quantity?:boolean | `@${string}`,
-	start?:boolean | `@${string}`,
 	status?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["SubStatus"]:SubStatus;
-	["Item"]: AliasType<{
+	["StripeSubStatus"]:StripeSubStatus;
+	["StripeSubscriptionItems"]: AliasType<{
+	data?:ValueTypes["StripeItem"],
+	has_more?:boolean | `@${string}`,
+	total_count?:boolean | `@${string}`,
+	url?:boolean | `@${string}`,
+	object?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["StripeItem"]: AliasType<{
 	id?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
 	metadata?:boolean | `@${string}`,
-	price?:ValueTypes["Price"],
+	price?:ValueTypes["StripePrice"],
 	quantity?:boolean | `@${string}`,
 	subscription?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["User"]: AliasType<{
+	["StripeUser"]: AliasType<{
 	stripeId?:boolean | `@${string}`,
 	email?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["InitStripeCustomerInput"]: {
+	["StripeInitStripeCustomerInput"]: {
 	email: string | Variable<any, string>,
 	name?: string | undefined | null | Variable<any, string>,
 	phone?: string | undefined | null | Variable<any, string>,
-	address?: ValueTypes["AddressInput"] | undefined | null | Variable<any, string>
+	address?: ValueTypes["StripeAddressInput"] | undefined | null | Variable<any, string>
 };
-	["CreateNewUserCheckoutSessionInput"]: {
+	["StripeCreateNewUserCheckoutSessionInput"]: {
 	/** Return url after successful transaction */
 	successUrl: string | Variable<any, string>,
 	cancelUrl: string | Variable<any, string>,
-	products: Array<ValueTypes["ProductInput"]> | Variable<any, string>,
+	products: Array<ValueTypes["StripeProductInput"]> | Variable<any, string>,
 	/** Define amount to transfer into stripe connect account and set the rest for application fees */
-	applicationFee?: ValueTypes["ApplicationFeeInput"] | undefined | null | Variable<any, string>
+	applicationFee?: ValueTypes["StripeApplicationFeeInput"] | undefined | null | Variable<any, string>
 };
-	["CreateCheckoutSessionInput"]: {
-	userEmail: string | Variable<any, string>,
+	["StripeCreateCheckoutSessionInput"]: {
+	username: string | Variable<any, string>,
 	/** Return url after successful transaction */
 	successUrl: string | Variable<any, string>,
 	cancelUrl: string | Variable<any, string>,
-	products: Array<ValueTypes["ProductInput"]> | Variable<any, string>,
+	products: Array<ValueTypes["StripeProductInput"]> | Variable<any, string>,
 	/** Define amount to transfer into stripe connect account and set the rest for application fees */
-	applicationFee?: ValueTypes["ApplicationFeeInput"] | undefined | null | Variable<any, string>
+	applicationFee?: ValueTypes["StripeApplicationFeeInput"] | undefined | null | Variable<any, string>
 };
-	["ApplicationFeeInput"]: {
+	["StripeApplicationFeeInput"]: {
 	/** Value from 0-100 */
 	feePercentage: number | Variable<any, string>,
 	/** Connect Account (not stripe customer) id */
 	connectAccountId: string | Variable<any, string>
 };
-	["ProductInput"]: {
+	["StripeProductInput"]: {
 	productId: string | Variable<any, string>,
 	quantity: number | Variable<any, string>
 };
-	["CreateCustomerPortalInput"]: {
-	userEmail: string | Variable<any, string>,
+	["StripeCreateCustomerPortalInput"]: {
+	username: string | Variable<any, string>,
 	returnUrl: string | Variable<any, string>
 };
-	["AddressInput"]: {
+	["StripeAddressInput"]: {
 	/** City, district, suburb, town, village, or ward. */
 	city: string | Variable<any, string>,
 	/** Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). */
@@ -962,14 +969,14 @@ setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"]
 	/** State, county, province, prefecture, or region. */
 	state: string | Variable<any, string>
 };
-	["Customer"]: AliasType<{
+	["StripeCustomer"]: AliasType<{
 	customerId?:boolean | `@${string}`,
 	email?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
-	address?:ValueTypes["Address"],
+	address?:ValueTypes["StripeAddress"],
 		__typename?: boolean | `@${string}`
 }>;
-	["Address"]: AliasType<{
+	["StripeAddress"]: AliasType<{
 	city?:boolean | `@${string}`,
 	country?:boolean | `@${string}`,
 	line1?:boolean | `@${string}`,
@@ -978,9 +985,9 @@ setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"]
 	state?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["ProductFilter"]: {
+	["StripeProductFilter"]: {
 	active?: boolean | undefined | null | Variable<any, string>,
-	created?: ValueTypes["TimestampFilter"] | undefined | null | Variable<any, string>,
+	created?: ValueTypes["StripeTimestampFilter"] | undefined | null | Variable<any, string>,
 	limit?: number | undefined | null | Variable<any, string>,
 	shippable?: boolean | undefined | null | Variable<any, string>,
 	ids?: Array<string> | undefined | null | Variable<any, string>,
@@ -988,69 +995,69 @@ setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"]
 	ending_before?: string | undefined | null | Variable<any, string>,
 	url?: string | undefined | null | Variable<any, string>
 };
-	["RecurringFilter"]: {
-	interval?: ValueTypes["Interval"] | undefined | null | Variable<any, string>,
-	usageType?: ValueTypes["UsageType"] | undefined | null | Variable<any, string>
+	["StripeRecurringFilter"]: {
+	interval?: ValueTypes["StripeInterval"] | undefined | null | Variable<any, string>,
+	usageType?: ValueTypes["StripeUsageType"] | undefined | null | Variable<any, string>
 };
-	["PriceFilter"]: {
+	["StripePriceFilter"]: {
 	active?: boolean | undefined | null | Variable<any, string>,
 	currency?: string | undefined | null | Variable<any, string>,
 	product?: string | undefined | null | Variable<any, string>,
-	type?: ValueTypes["Type"] | undefined | null | Variable<any, string>,
-	created?: ValueTypes["TimestampFilter"] | undefined | null | Variable<any, string>,
+	type?: ValueTypes["StripeType"] | undefined | null | Variable<any, string>,
+	created?: ValueTypes["StripeTimestampFilter"] | undefined | null | Variable<any, string>,
 	limit?: number | undefined | null | Variable<any, string>,
 	starting_after?: string | undefined | null | Variable<any, string>,
 	ending_before?: string | undefined | null | Variable<any, string>,
-	recurring?: ValueTypes["RecurringFilter"] | undefined | null | Variable<any, string>
+	recurring?: ValueTypes["StripeRecurringFilter"] | undefined | null | Variable<any, string>
 };
-	["Dimensions"]: AliasType<{
+	["StripeDimensions"]: AliasType<{
 	height?:boolean | `@${string}`,
 	length?:boolean | `@${string}`,
 	weight?:boolean | `@${string}`,
 	width?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["Product"]: AliasType<{
+	["StripeProduct"]: AliasType<{
 	id?:boolean | `@${string}`,
 	active?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
-	default_price?:ValueTypes["Price"],
+	default_price?:ValueTypes["StripePrice"],
 	description?:boolean | `@${string}`,
 	images?:boolean | `@${string}`,
 	livemode?:boolean | `@${string}`,
 	metadata?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
-	package_dimensions?:ValueTypes["Dimensions"],
+	package_dimensions?:ValueTypes["StripeDimensions"],
 	shippable?:boolean | `@${string}`,
 	statement_descriptor?:boolean | `@${string}`,
 	tax_code?:boolean | `@${string}`,
 	unitLabel?:boolean | `@${string}`,
 	updated?:boolean | `@${string}`,
 	url?:boolean | `@${string}`,
-	prices?:ValueTypes["Price"],
+	prices?:ValueTypes["StripePrice"],
 		__typename?: boolean | `@${string}`
 }>;
-	["BillingScheme"]:BillingScheme;
+	["StripeBillingScheme"]:StripeBillingScheme;
 	/** Offset measured in seconds since Unix epoch. */
-["Timestamp"]:unknown;
-	["TimestampFilter"]: {
-	Gt?: ValueTypes["Timestamp"] | undefined | null | Variable<any, string>,
-	Gte?: ValueTypes["Timestamp"] | undefined | null | Variable<any, string>,
-	Lt?: ValueTypes["Timestamp"] | undefined | null | Variable<any, string>,
-	Lte?: ValueTypes["Timestamp"] | undefined | null | Variable<any, string>
+["StripeTimestamp"]:unknown;
+	["StripeTimestampFilter"]: {
+	Gt?: ValueTypes["StripeTimestamp"] | undefined | null | Variable<any, string>,
+	Gte?: ValueTypes["StripeTimestamp"] | undefined | null | Variable<any, string>,
+	Lt?: ValueTypes["StripeTimestamp"] | undefined | null | Variable<any, string>,
+	Lte?: ValueTypes["StripeTimestamp"] | undefined | null | Variable<any, string>
 };
-	["CustomUnitAmount"]: AliasType<{
+	["StripeCustomUnitAmount"]: AliasType<{
 	maximum?:boolean | `@${string}`,
 	minimum?:boolean | `@${string}`,
 	preset?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	/** Any value that can be represented as JSON object */
-["AnyObject"]:unknown;
-	["AggregateUsage"]:AggregateUsage;
-	["Interval"]:Interval;
-	["UsageType"]:UsageType;
-	["PriceRecurring"]: AliasType<{
+["StripeAnyObject"]:unknown;
+	["StripeAggregateUsage"]:StripeAggregateUsage;
+	["StripeInterval"]:StripeInterval;
+	["StripeUsageType"]:StripeUsageType;
+	["StripePriceRecurring"]: AliasType<{
 	aggregate_usage?:boolean | `@${string}`,
 	interval?:boolean | `@${string}`,
 	interval_count?:boolean | `@${string}`,
@@ -1058,80 +1065,89 @@ setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"]
 	trial_period_days?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["TaxBehaviour"]:TaxBehaviour;
-	["TiersMode"]:TiersMode;
-	["Round"]:Round;
-	["TransformQuantity"]: AliasType<{
+	["StripeTaxBehaviour"]:StripeTaxBehaviour;
+	["StripeTiersMode"]:StripeTiersMode;
+	["StripeRound"]:StripeRound;
+	["StripeTransformQuantity"]: AliasType<{
 	divideBy?:boolean | `@${string}`,
 	round?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["Type"]:Type;
-	["Price"]: AliasType<{
+	["StripeType"]:StripeType;
+	["StripePrice"]: AliasType<{
 	id?:boolean | `@${string}`,
 	active?:boolean | `@${string}`,
 	billing_scheme?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
 	currency?:boolean | `@${string}`,
-	custom_unit_amount?:ValueTypes["CustomUnitAmount"],
+	custom_unit_amount?:ValueTypes["StripeCustomUnitAmount"],
 	livemode?:boolean | `@${string}`,
 	lookup_key?:boolean | `@${string}`,
 	metadata?:boolean | `@${string}`,
 	nickname?:boolean | `@${string}`,
-	product?:ValueTypes["Product"],
-	recurring?:ValueTypes["PriceRecurring"],
+	product?:ValueTypes["StripeProduct"],
+	recurring?:ValueTypes["StripePriceRecurring"],
 	tax_behavior?:boolean | `@${string}`,
 	tiers_mode?:boolean | `@${string}`,
-	transform_quantity?:ValueTypes["TransformQuantity"],
+	transform_quantity?:ValueTypes["StripeTransformQuantity"],
 	type?:boolean | `@${string}`,
 	unit_amount?:boolean | `@${string}`,
 	unit_amount_decimal?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["ProductsPage"]: AliasType<{
-	products?:ValueTypes["Product"],
+	["StripeProductsPage"]: AliasType<{
+	products?:ValueTypes["StripeProduct"],
 	startingAfter?:boolean | `@${string}`,
 	endingBefore?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["Mutation"]: AliasType<{
+	webhook?:boolean | `@${string}`,
+	StripeMutation?:ValueTypes["StripeMutation"],
+		__typename?: boolean | `@${string}`
+}>;
+	["Query"]: AliasType<{
+	StripeQuery?:ValueTypes["StripeQuery"],
 		__typename?: boolean | `@${string}`
 }>
   }
 
 export type ResolverInputTypes = {
-    ["Query"]: AliasType<{
-products?: [{	filter?: ResolverInputTypes["ProductFilter"] | undefined | null},ResolverInputTypes["ProductsPage"]],
-subscriptions?: [{	filter?: ResolverInputTypes["SubscriptionFilter"] | undefined | null},ResolverInputTypes["Subscription"]],
+    ["StripeQuery"]: AliasType<{
+products?: [{	filter?: ResolverInputTypes["StripeProductFilter"] | undefined | null},ResolverInputTypes["StripeProductsPage"]],
+subscriptions?: [{	filter?: ResolverInputTypes["StripeSubscriptionFilter"] | undefined | null},ResolverInputTypes["StripeSubscription"]],
 		__typename?: boolean | `@${string}`
 }>;
-	["Mutation"]: AliasType<{
-initStripeCustomer?: [{	initStripeCustomerInput: ResolverInputTypes["InitStripeCustomerInput"]},boolean | `@${string}`],
-createCheckoutSession?: [{	payload: ResolverInputTypes["CreateCheckoutSessionInput"]},boolean | `@${string}`],
-createNewUserCheckoutSession?: [{	payload: ResolverInputTypes["CreateNewUserCheckoutSessionInput"]},boolean | `@${string}`],
-createCustomerPortal?: [{	payload: ResolverInputTypes["CreateCustomerPortalInput"]},boolean | `@${string}`],
-createConnectAccount?: [{	payload: ResolverInputTypes["CreateConnectAccountInput"]},boolean | `@${string}`],
-attachPaymentMethod?: [{	payload: ResolverInputTypes["AttachPaymentMethodInput"]},boolean | `@${string}`],
-setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMethodInput"]},boolean | `@${string}`],
+	["StripeMutation"]: AliasType<{
+initStripeCustomer?: [{	initStripeCustomerInput: ResolverInputTypes["StripeInitStripeCustomerInput"]},boolean | `@${string}`],
+createCheckoutSession?: [{	payload: ResolverInputTypes["StripeCreateCheckoutSessionInput"]},boolean | `@${string}`],
+createNewUserCheckoutSession?: [{	payload: ResolverInputTypes["StripeCreateNewUserCheckoutSessionInput"]},boolean | `@${string}`],
+createCustomerPortal?: [{	payload: ResolverInputTypes["StripeCreateCustomerPortalInput"]},boolean | `@${string}`],
+createConnectAccount?: [{	payload: ResolverInputTypes["StripeCreateConnectAccountInput"]},boolean | `@${string}`],
+attachPaymentMethod?: [{	payload: ResolverInputTypes["StripeAttachPaymentMethodInput"]},boolean | `@${string}`],
+setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["StripesetDefaultPaymentMethodInput"]},boolean | `@${string}`],
 	/** entry point for Weebhooks. */
 	webhook?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["setDefaultPaymentMethodInput"]: {
+	["StripesetDefaultPaymentMethodInput"]: {
 	attachedPaymentMethodId: string,
 	customerId: string
 };
-	["AttachPaymentMethodInput"]: {
+	["StripeAttachPaymentMethodInput"]: {
 	paymentMethodId: string,
 	customerId: string
 };
-	["CreateConnectAccountInput"]: {
-	type: ResolverInputTypes["ConnectAccountType"],
+	["StripeCreateConnectAccountInput"]: {
+	type: ResolverInputTypes["StripeConnectAccountType"],
 	country: string,
 	email: string,
-	business_type: ResolverInputTypes["ConnectAccountBusinessType"],
-	bankAccount: ResolverInputTypes["BankAccountInput"]
+	business_type: ResolverInputTypes["StripeConnectAccountBusinessType"],
+	bankAccount: ResolverInputTypes["StripeBankAccountInput"]
 };
-	["ConnectAccountBusinessType"]:ConnectAccountBusinessType;
-	["ConnectAccountType"]:ConnectAccountType;
-	["BankAccountInput"]: {
+	["StripeConnectAccountBusinessType"]:StripeConnectAccountBusinessType;
+	["StripeConnectAccountType"]:StripeConnectAccountType;
+	["StripeBankAccountInput"]: {
 	country: string,
 	/** Required supported currency for the country https://stripe.com/docs/payouts */
 	currency: string,
@@ -1139,78 +1155,85 @@ setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMetho
 	account_number: string,
 	/** Required when attaching the bank account to a Customer */
 	account_holder_name: string,
-	account_holder_type: ResolverInputTypes["BankAccountHolderType"]
+	account_holder_type: ResolverInputTypes["StripeBankAccountHolderType"]
 };
-	["BankAccountHolderType"]:BankAccountHolderType;
-	["SubscriptionFilter"]: {
+	["StripeBankAccountHolderType"]:StripeBankAccountHolderType;
+	["StripeSubscriptionFilter"]: {
 	customerId?: string | undefined | null
 };
-	["Subscription"]: AliasType<{
+	["StripeSubscription"]: AliasType<{
 	id?:boolean | `@${string}`,
 	cancel_at_period_end?:boolean | `@${string}`,
 	current_period_end?:boolean | `@${string}`,
 	current_period_start?:boolean | `@${string}`,
 	customer?:boolean | `@${string}`,
 	description?:boolean | `@${string}`,
-	items?:ResolverInputTypes["Item"],
+	items?:ResolverInputTypes["StripeSubscriptionItems"],
 	quantity?:boolean | `@${string}`,
-	start?:boolean | `@${string}`,
 	status?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["SubStatus"]:SubStatus;
-	["Item"]: AliasType<{
+	["StripeSubStatus"]:StripeSubStatus;
+	["StripeSubscriptionItems"]: AliasType<{
+	data?:ResolverInputTypes["StripeItem"],
+	has_more?:boolean | `@${string}`,
+	total_count?:boolean | `@${string}`,
+	url?:boolean | `@${string}`,
+	object?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["StripeItem"]: AliasType<{
 	id?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
 	metadata?:boolean | `@${string}`,
-	price?:ResolverInputTypes["Price"],
+	price?:ResolverInputTypes["StripePrice"],
 	quantity?:boolean | `@${string}`,
 	subscription?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["User"]: AliasType<{
+	["StripeUser"]: AliasType<{
 	stripeId?:boolean | `@${string}`,
 	email?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["InitStripeCustomerInput"]: {
+	["StripeInitStripeCustomerInput"]: {
 	email: string,
 	name?: string | undefined | null,
 	phone?: string | undefined | null,
-	address?: ResolverInputTypes["AddressInput"] | undefined | null
+	address?: ResolverInputTypes["StripeAddressInput"] | undefined | null
 };
-	["CreateNewUserCheckoutSessionInput"]: {
+	["StripeCreateNewUserCheckoutSessionInput"]: {
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<ResolverInputTypes["ProductInput"]>,
+	products: Array<ResolverInputTypes["StripeProductInput"]>,
 	/** Define amount to transfer into stripe connect account and set the rest for application fees */
-	applicationFee?: ResolverInputTypes["ApplicationFeeInput"] | undefined | null
+	applicationFee?: ResolverInputTypes["StripeApplicationFeeInput"] | undefined | null
 };
-	["CreateCheckoutSessionInput"]: {
-	userEmail: string,
+	["StripeCreateCheckoutSessionInput"]: {
+	username: string,
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<ResolverInputTypes["ProductInput"]>,
+	products: Array<ResolverInputTypes["StripeProductInput"]>,
 	/** Define amount to transfer into stripe connect account and set the rest for application fees */
-	applicationFee?: ResolverInputTypes["ApplicationFeeInput"] | undefined | null
+	applicationFee?: ResolverInputTypes["StripeApplicationFeeInput"] | undefined | null
 };
-	["ApplicationFeeInput"]: {
+	["StripeApplicationFeeInput"]: {
 	/** Value from 0-100 */
 	feePercentage: number,
 	/** Connect Account (not stripe customer) id */
 	connectAccountId: string
 };
-	["ProductInput"]: {
+	["StripeProductInput"]: {
 	productId: string,
 	quantity: number
 };
-	["CreateCustomerPortalInput"]: {
-	userEmail: string,
+	["StripeCreateCustomerPortalInput"]: {
+	username: string,
 	returnUrl: string
 };
-	["AddressInput"]: {
+	["StripeAddressInput"]: {
 	/** City, district, suburb, town, village, or ward. */
 	city: string,
 	/** Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). */
@@ -1224,14 +1247,14 @@ setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMetho
 	/** State, county, province, prefecture, or region. */
 	state: string
 };
-	["Customer"]: AliasType<{
+	["StripeCustomer"]: AliasType<{
 	customerId?:boolean | `@${string}`,
 	email?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
-	address?:ResolverInputTypes["Address"],
+	address?:ResolverInputTypes["StripeAddress"],
 		__typename?: boolean | `@${string}`
 }>;
-	["Address"]: AliasType<{
+	["StripeAddress"]: AliasType<{
 	city?:boolean | `@${string}`,
 	country?:boolean | `@${string}`,
 	line1?:boolean | `@${string}`,
@@ -1240,9 +1263,9 @@ setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMetho
 	state?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["ProductFilter"]: {
+	["StripeProductFilter"]: {
 	active?: boolean | undefined | null,
-	created?: ResolverInputTypes["TimestampFilter"] | undefined | null,
+	created?: ResolverInputTypes["StripeTimestampFilter"] | undefined | null,
 	limit?: number | undefined | null,
 	shippable?: boolean | undefined | null,
 	ids?: Array<string> | undefined | null,
@@ -1250,69 +1273,69 @@ setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMetho
 	ending_before?: string | undefined | null,
 	url?: string | undefined | null
 };
-	["RecurringFilter"]: {
-	interval?: ResolverInputTypes["Interval"] | undefined | null,
-	usageType?: ResolverInputTypes["UsageType"] | undefined | null
+	["StripeRecurringFilter"]: {
+	interval?: ResolverInputTypes["StripeInterval"] | undefined | null,
+	usageType?: ResolverInputTypes["StripeUsageType"] | undefined | null
 };
-	["PriceFilter"]: {
+	["StripePriceFilter"]: {
 	active?: boolean | undefined | null,
 	currency?: string | undefined | null,
 	product?: string | undefined | null,
-	type?: ResolverInputTypes["Type"] | undefined | null,
-	created?: ResolverInputTypes["TimestampFilter"] | undefined | null,
+	type?: ResolverInputTypes["StripeType"] | undefined | null,
+	created?: ResolverInputTypes["StripeTimestampFilter"] | undefined | null,
 	limit?: number | undefined | null,
 	starting_after?: string | undefined | null,
 	ending_before?: string | undefined | null,
-	recurring?: ResolverInputTypes["RecurringFilter"] | undefined | null
+	recurring?: ResolverInputTypes["StripeRecurringFilter"] | undefined | null
 };
-	["Dimensions"]: AliasType<{
+	["StripeDimensions"]: AliasType<{
 	height?:boolean | `@${string}`,
 	length?:boolean | `@${string}`,
 	weight?:boolean | `@${string}`,
 	width?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["Product"]: AliasType<{
+	["StripeProduct"]: AliasType<{
 	id?:boolean | `@${string}`,
 	active?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
-	default_price?:ResolverInputTypes["Price"],
+	default_price?:ResolverInputTypes["StripePrice"],
 	description?:boolean | `@${string}`,
 	images?:boolean | `@${string}`,
 	livemode?:boolean | `@${string}`,
 	metadata?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
-	package_dimensions?:ResolverInputTypes["Dimensions"],
+	package_dimensions?:ResolverInputTypes["StripeDimensions"],
 	shippable?:boolean | `@${string}`,
 	statement_descriptor?:boolean | `@${string}`,
 	tax_code?:boolean | `@${string}`,
 	unitLabel?:boolean | `@${string}`,
 	updated?:boolean | `@${string}`,
 	url?:boolean | `@${string}`,
-	prices?:ResolverInputTypes["Price"],
+	prices?:ResolverInputTypes["StripePrice"],
 		__typename?: boolean | `@${string}`
 }>;
-	["BillingScheme"]:BillingScheme;
+	["StripeBillingScheme"]:StripeBillingScheme;
 	/** Offset measured in seconds since Unix epoch. */
-["Timestamp"]:unknown;
-	["TimestampFilter"]: {
-	Gt?: ResolverInputTypes["Timestamp"] | undefined | null,
-	Gte?: ResolverInputTypes["Timestamp"] | undefined | null,
-	Lt?: ResolverInputTypes["Timestamp"] | undefined | null,
-	Lte?: ResolverInputTypes["Timestamp"] | undefined | null
+["StripeTimestamp"]:unknown;
+	["StripeTimestampFilter"]: {
+	Gt?: ResolverInputTypes["StripeTimestamp"] | undefined | null,
+	Gte?: ResolverInputTypes["StripeTimestamp"] | undefined | null,
+	Lt?: ResolverInputTypes["StripeTimestamp"] | undefined | null,
+	Lte?: ResolverInputTypes["StripeTimestamp"] | undefined | null
 };
-	["CustomUnitAmount"]: AliasType<{
+	["StripeCustomUnitAmount"]: AliasType<{
 	maximum?:boolean | `@${string}`,
 	minimum?:boolean | `@${string}`,
 	preset?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	/** Any value that can be represented as JSON object */
-["AnyObject"]:unknown;
-	["AggregateUsage"]:AggregateUsage;
-	["Interval"]:Interval;
-	["UsageType"]:UsageType;
-	["PriceRecurring"]: AliasType<{
+["StripeAnyObject"]:unknown;
+	["StripeAggregateUsage"]:StripeAggregateUsage;
+	["StripeInterval"]:StripeInterval;
+	["StripeUsageType"]:StripeUsageType;
+	["StripePriceRecurring"]: AliasType<{
 	aggregate_usage?:boolean | `@${string}`,
 	interval?:boolean | `@${string}`,
 	interval_count?:boolean | `@${string}`,
@@ -1320,55 +1343,68 @@ setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMetho
 	trial_period_days?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["TaxBehaviour"]:TaxBehaviour;
-	["TiersMode"]:TiersMode;
-	["Round"]:Round;
-	["TransformQuantity"]: AliasType<{
+	["StripeTaxBehaviour"]:StripeTaxBehaviour;
+	["StripeTiersMode"]:StripeTiersMode;
+	["StripeRound"]:StripeRound;
+	["StripeTransformQuantity"]: AliasType<{
 	divideBy?:boolean | `@${string}`,
 	round?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["Type"]:Type;
-	["Price"]: AliasType<{
+	["StripeType"]:StripeType;
+	["StripePrice"]: AliasType<{
 	id?:boolean | `@${string}`,
 	active?:boolean | `@${string}`,
 	billing_scheme?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
 	currency?:boolean | `@${string}`,
-	custom_unit_amount?:ResolverInputTypes["CustomUnitAmount"],
+	custom_unit_amount?:ResolverInputTypes["StripeCustomUnitAmount"],
 	livemode?:boolean | `@${string}`,
 	lookup_key?:boolean | `@${string}`,
 	metadata?:boolean | `@${string}`,
 	nickname?:boolean | `@${string}`,
-	product?:ResolverInputTypes["Product"],
-	recurring?:ResolverInputTypes["PriceRecurring"],
+	product?:ResolverInputTypes["StripeProduct"],
+	recurring?:ResolverInputTypes["StripePriceRecurring"],
 	tax_behavior?:boolean | `@${string}`,
 	tiers_mode?:boolean | `@${string}`,
-	transform_quantity?:ResolverInputTypes["TransformQuantity"],
+	transform_quantity?:ResolverInputTypes["StripeTransformQuantity"],
 	type?:boolean | `@${string}`,
 	unit_amount?:boolean | `@${string}`,
 	unit_amount_decimal?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["ProductsPage"]: AliasType<{
-	products?:ResolverInputTypes["Product"],
+	["StripeProductsPage"]: AliasType<{
+	products?:ResolverInputTypes["StripeProduct"],
 	startingAfter?:boolean | `@${string}`,
 	endingBefore?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["Mutation"]: AliasType<{
+	webhook?:boolean | `@${string}`,
+	StripeMutation?:ResolverInputTypes["StripeMutation"],
+		__typename?: boolean | `@${string}`
+}>;
+	["Query"]: AliasType<{
+	StripeQuery?:ResolverInputTypes["StripeQuery"],
 		__typename?: boolean | `@${string}`
 }>
   }
 
 export type ModelTypes = {
-    ["Query"]: {
-		products?: ModelTypes["ProductsPage"] | undefined,
-	subscriptions?: Array<ModelTypes["Subscription"]> | undefined
+    ["StripeQuery"]: {
+		products?: ModelTypes["StripeProductsPage"] | undefined,
+	subscriptions?: Array<ModelTypes["StripeSubscription"]> | undefined
 };
-	["Mutation"]: {
+	["StripeMutation"]: {
 		/** Creates stripe customer for further purchases, links with user "email" field in UserCollection */
 	initStripeCustomer: boolean,
+	/** Creates checkout for existing user (returns checkout url) */
 	createCheckoutSession: string,
+	/** Creates checkout without providing user data - it will be filled during payment */
 	createNewUserCheckoutSession: string,
+	/** Creates stripe customer portal (returns portal url) */
 	createCustomerPortal: string,
+	/** Create stripe connect external account for further transactions directly with banking account */
 	createConnectAccount: boolean,
 	/** Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements */
 	attachPaymentMethod: boolean,
@@ -1376,24 +1412,24 @@ export type ModelTypes = {
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
 };
-	["setDefaultPaymentMethodInput"]: {
+	["StripesetDefaultPaymentMethodInput"]: {
 	attachedPaymentMethodId: string,
 	customerId: string
 };
-	["AttachPaymentMethodInput"]: {
+	["StripeAttachPaymentMethodInput"]: {
 	paymentMethodId: string,
 	customerId: string
 };
-	["CreateConnectAccountInput"]: {
-	type: ModelTypes["ConnectAccountType"],
+	["StripeCreateConnectAccountInput"]: {
+	type: ModelTypes["StripeConnectAccountType"],
 	country: string,
 	email: string,
-	business_type: ModelTypes["ConnectAccountBusinessType"],
-	bankAccount: ModelTypes["BankAccountInput"]
+	business_type: ModelTypes["StripeConnectAccountBusinessType"],
+	bankAccount: ModelTypes["StripeBankAccountInput"]
 };
-	["ConnectAccountBusinessType"]:ConnectAccountBusinessType;
-	["ConnectAccountType"]:ConnectAccountType;
-	["BankAccountInput"]: {
+	["StripeConnectAccountBusinessType"]:StripeConnectAccountBusinessType;
+	["StripeConnectAccountType"]:StripeConnectAccountType;
+	["StripeBankAccountInput"]: {
 	country: string,
 	/** Required supported currency for the country https://stripe.com/docs/payouts */
 	currency: string,
@@ -1401,75 +1437,81 @@ export type ModelTypes = {
 	account_number: string,
 	/** Required when attaching the bank account to a Customer */
 	account_holder_name: string,
-	account_holder_type: ModelTypes["BankAccountHolderType"]
+	account_holder_type: ModelTypes["StripeBankAccountHolderType"]
 };
-	["BankAccountHolderType"]:BankAccountHolderType;
-	["SubscriptionFilter"]: {
+	["StripeBankAccountHolderType"]:StripeBankAccountHolderType;
+	["StripeSubscriptionFilter"]: {
 	customerId?: string | undefined
 };
-	["Subscription"]: {
+	["StripeSubscription"]: {
 		id: string,
 	cancel_at_period_end: boolean,
-	current_period_end: ModelTypes["Timestamp"],
-	current_period_start: ModelTypes["Timestamp"],
+	current_period_end: ModelTypes["StripeTimestamp"],
+	current_period_start: ModelTypes["StripeTimestamp"],
 	customer: string,
 	description?: string | undefined,
-	items: Array<ModelTypes["Item"]>,
+	items: ModelTypes["StripeSubscriptionItems"],
 	quantity: number,
-	start: ModelTypes["Timestamp"],
-	status: ModelTypes["SubStatus"]
+	status: ModelTypes["StripeSubStatus"]
 };
-	["SubStatus"]:SubStatus;
-	["Item"]: {
+	["StripeSubStatus"]:StripeSubStatus;
+	["StripeSubscriptionItems"]: {
+		data: Array<ModelTypes["StripeItem"]>,
+	has_more: boolean,
+	total_count: number,
+	url: string,
+	object: string
+};
+	["StripeItem"]: {
 		id: string,
-	created: ModelTypes["Timestamp"],
-	metadata?: ModelTypes["AnyObject"] | undefined,
-	price: ModelTypes["Price"],
+	created: ModelTypes["StripeTimestamp"],
+	metadata?: ModelTypes["StripeAnyObject"] | undefined,
+	price: ModelTypes["StripePrice"],
 	quantity: number,
 	subscription: string
 };
-	["User"]: {
+	["StripeUser"]: {
 		stripeId?: string | undefined,
 	email: string
 };
-	["InitStripeCustomerInput"]: {
+	["StripeInitStripeCustomerInput"]: {
 	email: string,
 	name?: string | undefined,
 	phone?: string | undefined,
-	address?: ModelTypes["AddressInput"] | undefined
+	address?: ModelTypes["StripeAddressInput"] | undefined
 };
-	["CreateNewUserCheckoutSessionInput"]: {
+	["StripeCreateNewUserCheckoutSessionInput"]: {
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<ModelTypes["ProductInput"]>,
+	products: Array<ModelTypes["StripeProductInput"]>,
 	/** Define amount to transfer into stripe connect account and set the rest for application fees */
-	applicationFee?: ModelTypes["ApplicationFeeInput"] | undefined
+	applicationFee?: ModelTypes["StripeApplicationFeeInput"] | undefined
 };
-	["CreateCheckoutSessionInput"]: {
-	userEmail: string,
+	["StripeCreateCheckoutSessionInput"]: {
+	username: string,
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<ModelTypes["ProductInput"]>,
+	products: Array<ModelTypes["StripeProductInput"]>,
 	/** Define amount to transfer into stripe connect account and set the rest for application fees */
-	applicationFee?: ModelTypes["ApplicationFeeInput"] | undefined
+	applicationFee?: ModelTypes["StripeApplicationFeeInput"] | undefined
 };
-	["ApplicationFeeInput"]: {
+	["StripeApplicationFeeInput"]: {
 	/** Value from 0-100 */
 	feePercentage: number,
 	/** Connect Account (not stripe customer) id */
 	connectAccountId: string
 };
-	["ProductInput"]: {
+	["StripeProductInput"]: {
 	productId: string,
 	quantity: number
 };
-	["CreateCustomerPortalInput"]: {
-	userEmail: string,
+	["StripeCreateCustomerPortalInput"]: {
+	username: string,
 	returnUrl: string
 };
-	["AddressInput"]: {
+	["StripeAddressInput"]: {
 	/** City, district, suburb, town, village, or ward. */
 	city: string,
 	/** Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). */
@@ -1483,13 +1525,13 @@ export type ModelTypes = {
 	/** State, county, province, prefecture, or region. */
 	state: string
 };
-	["Customer"]: {
+	["StripeCustomer"]: {
 		customerId: string,
 	email: string,
 	name?: string | undefined,
-	address?: ModelTypes["Address"] | undefined
+	address?: ModelTypes["StripeAddress"] | undefined
 };
-	["Address"]: {
+	["StripeAddress"]: {
 		city?: string | undefined,
 	country?: string | undefined,
 	line1?: string | undefined,
@@ -1497,9 +1539,9 @@ export type ModelTypes = {
 	postal_code?: string | undefined,
 	state?: string | undefined
 };
-	["ProductFilter"]: {
+	["StripeProductFilter"]: {
 	active?: boolean | undefined,
-	created?: ModelTypes["TimestampFilter"] | undefined,
+	created?: ModelTypes["StripeTimestampFilter"] | undefined,
 	limit?: number | undefined,
 	shippable?: boolean | undefined,
 	ids?: Array<string> | undefined,
@@ -1507,120 +1549,131 @@ export type ModelTypes = {
 	ending_before?: string | undefined,
 	url?: string | undefined
 };
-	["RecurringFilter"]: {
-	interval?: ModelTypes["Interval"] | undefined,
-	usageType?: ModelTypes["UsageType"] | undefined
+	["StripeRecurringFilter"]: {
+	interval?: ModelTypes["StripeInterval"] | undefined,
+	usageType?: ModelTypes["StripeUsageType"] | undefined
 };
-	["PriceFilter"]: {
+	["StripePriceFilter"]: {
 	active?: boolean | undefined,
 	currency?: string | undefined,
 	product?: string | undefined,
-	type?: ModelTypes["Type"] | undefined,
-	created?: ModelTypes["TimestampFilter"] | undefined,
+	type?: ModelTypes["StripeType"] | undefined,
+	created?: ModelTypes["StripeTimestampFilter"] | undefined,
 	limit?: number | undefined,
 	starting_after?: string | undefined,
 	ending_before?: string | undefined,
-	recurring?: ModelTypes["RecurringFilter"] | undefined
+	recurring?: ModelTypes["StripeRecurringFilter"] | undefined
 };
-	["Dimensions"]: {
+	["StripeDimensions"]: {
 		height?: number | undefined,
 	length?: number | undefined,
 	weight?: number | undefined,
 	width?: number | undefined
 };
-	["Product"]: {
+	["StripeProduct"]: {
 		id: string,
 	active: boolean,
-	created?: ModelTypes["Timestamp"] | undefined,
-	default_price?: ModelTypes["Price"] | undefined,
+	created?: ModelTypes["StripeTimestamp"] | undefined,
+	default_price?: ModelTypes["StripePrice"] | undefined,
 	description?: string | undefined,
 	images?: Array<string> | undefined,
 	livemode?: boolean | undefined,
-	metadata?: ModelTypes["AnyObject"] | undefined,
+	metadata?: ModelTypes["StripeAnyObject"] | undefined,
 	name?: string | undefined,
-	package_dimensions?: ModelTypes["Dimensions"] | undefined,
+	package_dimensions?: ModelTypes["StripeDimensions"] | undefined,
 	shippable?: boolean | undefined,
 	statement_descriptor?: string | undefined,
 	tax_code?: string | undefined,
 	unitLabel?: string | undefined,
-	updated?: ModelTypes["Timestamp"] | undefined,
+	updated?: ModelTypes["StripeTimestamp"] | undefined,
 	url?: string | undefined,
-	prices?: Array<ModelTypes["Price"]> | undefined
+	prices?: Array<ModelTypes["StripePrice"]> | undefined
 };
-	["BillingScheme"]:BillingScheme;
+	["StripeBillingScheme"]:StripeBillingScheme;
 	/** Offset measured in seconds since Unix epoch. */
-["Timestamp"]:any;
-	["TimestampFilter"]: {
-	Gt?: ModelTypes["Timestamp"] | undefined,
-	Gte?: ModelTypes["Timestamp"] | undefined,
-	Lt?: ModelTypes["Timestamp"] | undefined,
-	Lte?: ModelTypes["Timestamp"] | undefined
+["StripeTimestamp"]:any;
+	["StripeTimestampFilter"]: {
+	Gt?: ModelTypes["StripeTimestamp"] | undefined,
+	Gte?: ModelTypes["StripeTimestamp"] | undefined,
+	Lt?: ModelTypes["StripeTimestamp"] | undefined,
+	Lte?: ModelTypes["StripeTimestamp"] | undefined
 };
-	["CustomUnitAmount"]: {
+	["StripeCustomUnitAmount"]: {
 		maximum?: number | undefined,
 	minimum?: number | undefined,
 	preset?: number | undefined
 };
 	/** Any value that can be represented as JSON object */
-["AnyObject"]:any;
-	["AggregateUsage"]:AggregateUsage;
-	["Interval"]:Interval;
-	["UsageType"]:UsageType;
-	["PriceRecurring"]: {
-		aggregate_usage?: ModelTypes["AggregateUsage"] | undefined,
-	interval?: ModelTypes["Interval"] | undefined,
+["StripeAnyObject"]:any;
+	["StripeAggregateUsage"]:StripeAggregateUsage;
+	["StripeInterval"]:StripeInterval;
+	["StripeUsageType"]:StripeUsageType;
+	["StripePriceRecurring"]: {
+		aggregate_usage?: ModelTypes["StripeAggregateUsage"] | undefined,
+	interval?: ModelTypes["StripeInterval"] | undefined,
 	interval_count?: number | undefined,
-	usage_type?: ModelTypes["UsageType"] | undefined,
+	usage_type?: ModelTypes["StripeUsageType"] | undefined,
 	trial_period_days?: number | undefined
 };
-	["TaxBehaviour"]:TaxBehaviour;
-	["TiersMode"]:TiersMode;
-	["Round"]:Round;
-	["TransformQuantity"]: {
+	["StripeTaxBehaviour"]:StripeTaxBehaviour;
+	["StripeTiersMode"]:StripeTiersMode;
+	["StripeRound"]:StripeRound;
+	["StripeTransformQuantity"]: {
 		divideBy?: number | undefined,
-	round?: ModelTypes["Round"] | undefined
+	round?: ModelTypes["StripeRound"] | undefined
 };
-	["Type"]:Type;
-	["Price"]: {
+	["StripeType"]:StripeType;
+	["StripePrice"]: {
 		id: string,
 	active?: boolean | undefined,
-	billing_scheme?: ModelTypes["BillingScheme"] | undefined,
-	created?: ModelTypes["Timestamp"] | undefined,
+	billing_scheme?: ModelTypes["StripeBillingScheme"] | undefined,
+	created?: ModelTypes["StripeTimestamp"] | undefined,
 	currency?: string | undefined,
-	custom_unit_amount?: ModelTypes["CustomUnitAmount"] | undefined,
+	custom_unit_amount?: ModelTypes["StripeCustomUnitAmount"] | undefined,
 	livemode?: boolean | undefined,
 	lookup_key?: string | undefined,
-	metadata?: ModelTypes["AnyObject"] | undefined,
+	metadata?: ModelTypes["StripeAnyObject"] | undefined,
 	nickname?: string | undefined,
-	product?: ModelTypes["Product"] | undefined,
-	recurring?: ModelTypes["PriceRecurring"] | undefined,
-	tax_behavior?: ModelTypes["TaxBehaviour"] | undefined,
-	tiers_mode?: ModelTypes["TiersMode"] | undefined,
-	transform_quantity?: ModelTypes["TransformQuantity"] | undefined,
-	type?: ModelTypes["Type"] | undefined,
+	product?: ModelTypes["StripeProduct"] | undefined,
+	recurring?: ModelTypes["StripePriceRecurring"] | undefined,
+	tax_behavior?: ModelTypes["StripeTaxBehaviour"] | undefined,
+	tiers_mode?: ModelTypes["StripeTiersMode"] | undefined,
+	transform_quantity?: ModelTypes["StripeTransformQuantity"] | undefined,
+	type?: ModelTypes["StripeType"] | undefined,
 	unit_amount?: number | undefined,
 	unit_amount_decimal?: string | undefined
 };
-	["ProductsPage"]: {
-		products?: Array<ModelTypes["Product"]> | undefined,
+	["StripeProductsPage"]: {
+		products?: Array<ModelTypes["StripeProduct"]> | undefined,
 	startingAfter?: string | undefined,
 	endingBefore?: string | undefined
+};
+	["Mutation"]: {
+		webhook?: string | undefined,
+	StripeMutation: ModelTypes["StripeMutation"]
+};
+	["Query"]: {
+		StripeQuery: ModelTypes["StripeQuery"]
 }
     }
 
 export type GraphQLTypes = {
-    ["Query"]: {
-	__typename: "Query",
-	products?: GraphQLTypes["ProductsPage"] | undefined,
-	subscriptions?: Array<GraphQLTypes["Subscription"]> | undefined
+    ["StripeQuery"]: {
+	__typename: "StripeQuery",
+	products?: GraphQLTypes["StripeProductsPage"] | undefined,
+	subscriptions?: Array<GraphQLTypes["StripeSubscription"]> | undefined
 };
-	["Mutation"]: {
-	__typename: "Mutation",
+	["StripeMutation"]: {
+	__typename: "StripeMutation",
 	/** Creates stripe customer for further purchases, links with user "email" field in UserCollection */
 	initStripeCustomer: boolean,
+	/** Creates checkout for existing user (returns checkout url) */
 	createCheckoutSession: string,
+	/** Creates checkout without providing user data - it will be filled during payment */
 	createNewUserCheckoutSession: string,
+	/** Creates stripe customer portal (returns portal url) */
 	createCustomerPortal: string,
+	/** Create stripe connect external account for further transactions directly with banking account */
 	createConnectAccount: boolean,
 	/** Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements */
 	attachPaymentMethod: boolean,
@@ -1628,24 +1681,24 @@ export type GraphQLTypes = {
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
 };
-	["setDefaultPaymentMethodInput"]: {
+	["StripesetDefaultPaymentMethodInput"]: {
 		attachedPaymentMethodId: string,
 	customerId: string
 };
-	["AttachPaymentMethodInput"]: {
+	["StripeAttachPaymentMethodInput"]: {
 		paymentMethodId: string,
 	customerId: string
 };
-	["CreateConnectAccountInput"]: {
-		type: GraphQLTypes["ConnectAccountType"],
+	["StripeCreateConnectAccountInput"]: {
+		type: GraphQLTypes["StripeConnectAccountType"],
 	country: string,
 	email: string,
-	business_type: GraphQLTypes["ConnectAccountBusinessType"],
-	bankAccount: GraphQLTypes["BankAccountInput"]
+	business_type: GraphQLTypes["StripeConnectAccountBusinessType"],
+	bankAccount: GraphQLTypes["StripeBankAccountInput"]
 };
-	["ConnectAccountBusinessType"]: ConnectAccountBusinessType;
-	["ConnectAccountType"]: ConnectAccountType;
-	["BankAccountInput"]: {
+	["StripeConnectAccountBusinessType"]: StripeConnectAccountBusinessType;
+	["StripeConnectAccountType"]: StripeConnectAccountType;
+	["StripeBankAccountInput"]: {
 		country: string,
 	/** Required supported currency for the country https://stripe.com/docs/payouts */
 	currency: string,
@@ -1653,78 +1706,85 @@ export type GraphQLTypes = {
 	account_number: string,
 	/** Required when attaching the bank account to a Customer */
 	account_holder_name: string,
-	account_holder_type: GraphQLTypes["BankAccountHolderType"]
+	account_holder_type: GraphQLTypes["StripeBankAccountHolderType"]
 };
-	["BankAccountHolderType"]: BankAccountHolderType;
-	["SubscriptionFilter"]: {
+	["StripeBankAccountHolderType"]: StripeBankAccountHolderType;
+	["StripeSubscriptionFilter"]: {
 		customerId?: string | undefined
 };
-	["Subscription"]: {
-	__typename: "Subscription",
+	["StripeSubscription"]: {
+	__typename: "StripeSubscription",
 	id: string,
 	cancel_at_period_end: boolean,
-	current_period_end: GraphQLTypes["Timestamp"],
-	current_period_start: GraphQLTypes["Timestamp"],
+	current_period_end: GraphQLTypes["StripeTimestamp"],
+	current_period_start: GraphQLTypes["StripeTimestamp"],
 	customer: string,
 	description?: string | undefined,
-	items: Array<GraphQLTypes["Item"]>,
+	items: GraphQLTypes["StripeSubscriptionItems"],
 	quantity: number,
-	start: GraphQLTypes["Timestamp"],
-	status: GraphQLTypes["SubStatus"]
+	status: GraphQLTypes["StripeSubStatus"]
 };
-	["SubStatus"]: SubStatus;
-	["Item"]: {
-	__typename: "Item",
+	["StripeSubStatus"]: StripeSubStatus;
+	["StripeSubscriptionItems"]: {
+	__typename: "StripeSubscriptionItems",
+	data: Array<GraphQLTypes["StripeItem"]>,
+	has_more: boolean,
+	total_count: number,
+	url: string,
+	object: string
+};
+	["StripeItem"]: {
+	__typename: "StripeItem",
 	id: string,
-	created: GraphQLTypes["Timestamp"],
-	metadata?: GraphQLTypes["AnyObject"] | undefined,
-	price: GraphQLTypes["Price"],
+	created: GraphQLTypes["StripeTimestamp"],
+	metadata?: GraphQLTypes["StripeAnyObject"] | undefined,
+	price: GraphQLTypes["StripePrice"],
 	quantity: number,
 	subscription: string
 };
-	["User"]: {
-	__typename: "User",
+	["StripeUser"]: {
+	__typename: "StripeUser",
 	stripeId?: string | undefined,
 	email: string
 };
-	["InitStripeCustomerInput"]: {
+	["StripeInitStripeCustomerInput"]: {
 		email: string,
 	name?: string | undefined,
 	phone?: string | undefined,
-	address?: GraphQLTypes["AddressInput"] | undefined
+	address?: GraphQLTypes["StripeAddressInput"] | undefined
 };
-	["CreateNewUserCheckoutSessionInput"]: {
+	["StripeCreateNewUserCheckoutSessionInput"]: {
 		/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<GraphQLTypes["ProductInput"]>,
+	products: Array<GraphQLTypes["StripeProductInput"]>,
 	/** Define amount to transfer into stripe connect account and set the rest for application fees */
-	applicationFee?: GraphQLTypes["ApplicationFeeInput"] | undefined
+	applicationFee?: GraphQLTypes["StripeApplicationFeeInput"] | undefined
 };
-	["CreateCheckoutSessionInput"]: {
-		userEmail: string,
+	["StripeCreateCheckoutSessionInput"]: {
+		username: string,
 	/** Return url after successful transaction */
 	successUrl: string,
 	cancelUrl: string,
-	products: Array<GraphQLTypes["ProductInput"]>,
+	products: Array<GraphQLTypes["StripeProductInput"]>,
 	/** Define amount to transfer into stripe connect account and set the rest for application fees */
-	applicationFee?: GraphQLTypes["ApplicationFeeInput"] | undefined
+	applicationFee?: GraphQLTypes["StripeApplicationFeeInput"] | undefined
 };
-	["ApplicationFeeInput"]: {
+	["StripeApplicationFeeInput"]: {
 		/** Value from 0-100 */
 	feePercentage: number,
 	/** Connect Account (not stripe customer) id */
 	connectAccountId: string
 };
-	["ProductInput"]: {
+	["StripeProductInput"]: {
 		productId: string,
 	quantity: number
 };
-	["CreateCustomerPortalInput"]: {
-		userEmail: string,
+	["StripeCreateCustomerPortalInput"]: {
+		username: string,
 	returnUrl: string
 };
-	["AddressInput"]: {
+	["StripeAddressInput"]: {
 		/** City, district, suburb, town, village, or ward. */
 	city: string,
 	/** Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). */
@@ -1738,15 +1798,15 @@ export type GraphQLTypes = {
 	/** State, county, province, prefecture, or region. */
 	state: string
 };
-	["Customer"]: {
-	__typename: "Customer",
+	["StripeCustomer"]: {
+	__typename: "StripeCustomer",
 	customerId: string,
 	email: string,
 	name?: string | undefined,
-	address?: GraphQLTypes["Address"] | undefined
+	address?: GraphQLTypes["StripeAddress"] | undefined
 };
-	["Address"]: {
-	__typename: "Address",
+	["StripeAddress"]: {
+	__typename: "StripeAddress",
 	city?: string | undefined,
 	country?: string | undefined,
 	line1?: string | undefined,
@@ -1754,9 +1814,9 @@ export type GraphQLTypes = {
 	postal_code?: string | undefined,
 	state?: string | undefined
 };
-	["ProductFilter"]: {
+	["StripeProductFilter"]: {
 		active?: boolean | undefined,
-	created?: GraphQLTypes["TimestampFilter"] | undefined,
+	created?: GraphQLTypes["StripeTimestampFilter"] | undefined,
 	limit?: number | undefined,
 	shippable?: boolean | undefined,
 	ids?: Array<string> | undefined,
@@ -1764,129 +1824,138 @@ export type GraphQLTypes = {
 	ending_before?: string | undefined,
 	url?: string | undefined
 };
-	["RecurringFilter"]: {
-		interval?: GraphQLTypes["Interval"] | undefined,
-	usageType?: GraphQLTypes["UsageType"] | undefined
+	["StripeRecurringFilter"]: {
+		interval?: GraphQLTypes["StripeInterval"] | undefined,
+	usageType?: GraphQLTypes["StripeUsageType"] | undefined
 };
-	["PriceFilter"]: {
+	["StripePriceFilter"]: {
 		active?: boolean | undefined,
 	currency?: string | undefined,
 	product?: string | undefined,
-	type?: GraphQLTypes["Type"] | undefined,
-	created?: GraphQLTypes["TimestampFilter"] | undefined,
+	type?: GraphQLTypes["StripeType"] | undefined,
+	created?: GraphQLTypes["StripeTimestampFilter"] | undefined,
 	limit?: number | undefined,
 	starting_after?: string | undefined,
 	ending_before?: string | undefined,
-	recurring?: GraphQLTypes["RecurringFilter"] | undefined
+	recurring?: GraphQLTypes["StripeRecurringFilter"] | undefined
 };
-	["Dimensions"]: {
-	__typename: "Dimensions",
+	["StripeDimensions"]: {
+	__typename: "StripeDimensions",
 	height?: number | undefined,
 	length?: number | undefined,
 	weight?: number | undefined,
 	width?: number | undefined
 };
-	["Product"]: {
-	__typename: "Product",
+	["StripeProduct"]: {
+	__typename: "StripeProduct",
 	id: string,
 	active: boolean,
-	created?: GraphQLTypes["Timestamp"] | undefined,
-	default_price?: GraphQLTypes["Price"] | undefined,
+	created?: GraphQLTypes["StripeTimestamp"] | undefined,
+	default_price?: GraphQLTypes["StripePrice"] | undefined,
 	description?: string | undefined,
 	images?: Array<string> | undefined,
 	livemode?: boolean | undefined,
-	metadata?: GraphQLTypes["AnyObject"] | undefined,
+	metadata?: GraphQLTypes["StripeAnyObject"] | undefined,
 	name?: string | undefined,
-	package_dimensions?: GraphQLTypes["Dimensions"] | undefined,
+	package_dimensions?: GraphQLTypes["StripeDimensions"] | undefined,
 	shippable?: boolean | undefined,
 	statement_descriptor?: string | undefined,
 	tax_code?: string | undefined,
 	unitLabel?: string | undefined,
-	updated?: GraphQLTypes["Timestamp"] | undefined,
+	updated?: GraphQLTypes["StripeTimestamp"] | undefined,
 	url?: string | undefined,
-	prices?: Array<GraphQLTypes["Price"]> | undefined
+	prices?: Array<GraphQLTypes["StripePrice"]> | undefined
 };
-	["BillingScheme"]: BillingScheme;
+	["StripeBillingScheme"]: StripeBillingScheme;
 	/** Offset measured in seconds since Unix epoch. */
-["Timestamp"]: "scalar" & { name: "Timestamp" };
-	["TimestampFilter"]: {
-		Gt?: GraphQLTypes["Timestamp"] | undefined,
-	Gte?: GraphQLTypes["Timestamp"] | undefined,
-	Lt?: GraphQLTypes["Timestamp"] | undefined,
-	Lte?: GraphQLTypes["Timestamp"] | undefined
+["StripeTimestamp"]: "scalar" & { name: "StripeTimestamp" };
+	["StripeTimestampFilter"]: {
+		Gt?: GraphQLTypes["StripeTimestamp"] | undefined,
+	Gte?: GraphQLTypes["StripeTimestamp"] | undefined,
+	Lt?: GraphQLTypes["StripeTimestamp"] | undefined,
+	Lte?: GraphQLTypes["StripeTimestamp"] | undefined
 };
-	["CustomUnitAmount"]: {
-	__typename: "CustomUnitAmount",
+	["StripeCustomUnitAmount"]: {
+	__typename: "StripeCustomUnitAmount",
 	maximum?: number | undefined,
 	minimum?: number | undefined,
 	preset?: number | undefined
 };
 	/** Any value that can be represented as JSON object */
-["AnyObject"]: "scalar" & { name: "AnyObject" };
-	["AggregateUsage"]: AggregateUsage;
-	["Interval"]: Interval;
-	["UsageType"]: UsageType;
-	["PriceRecurring"]: {
-	__typename: "PriceRecurring",
-	aggregate_usage?: GraphQLTypes["AggregateUsage"] | undefined,
-	interval?: GraphQLTypes["Interval"] | undefined,
+["StripeAnyObject"]: "scalar" & { name: "StripeAnyObject" };
+	["StripeAggregateUsage"]: StripeAggregateUsage;
+	["StripeInterval"]: StripeInterval;
+	["StripeUsageType"]: StripeUsageType;
+	["StripePriceRecurring"]: {
+	__typename: "StripePriceRecurring",
+	aggregate_usage?: GraphQLTypes["StripeAggregateUsage"] | undefined,
+	interval?: GraphQLTypes["StripeInterval"] | undefined,
 	interval_count?: number | undefined,
-	usage_type?: GraphQLTypes["UsageType"] | undefined,
+	usage_type?: GraphQLTypes["StripeUsageType"] | undefined,
 	trial_period_days?: number | undefined
 };
-	["TaxBehaviour"]: TaxBehaviour;
-	["TiersMode"]: TiersMode;
-	["Round"]: Round;
-	["TransformQuantity"]: {
-	__typename: "TransformQuantity",
+	["StripeTaxBehaviour"]: StripeTaxBehaviour;
+	["StripeTiersMode"]: StripeTiersMode;
+	["StripeRound"]: StripeRound;
+	["StripeTransformQuantity"]: {
+	__typename: "StripeTransformQuantity",
 	divideBy?: number | undefined,
-	round?: GraphQLTypes["Round"] | undefined
+	round?: GraphQLTypes["StripeRound"] | undefined
 };
-	["Type"]: Type;
-	["Price"]: {
-	__typename: "Price",
+	["StripeType"]: StripeType;
+	["StripePrice"]: {
+	__typename: "StripePrice",
 	id: string,
 	active?: boolean | undefined,
-	billing_scheme?: GraphQLTypes["BillingScheme"] | undefined,
-	created?: GraphQLTypes["Timestamp"] | undefined,
+	billing_scheme?: GraphQLTypes["StripeBillingScheme"] | undefined,
+	created?: GraphQLTypes["StripeTimestamp"] | undefined,
 	currency?: string | undefined,
-	custom_unit_amount?: GraphQLTypes["CustomUnitAmount"] | undefined,
+	custom_unit_amount?: GraphQLTypes["StripeCustomUnitAmount"] | undefined,
 	livemode?: boolean | undefined,
 	lookup_key?: string | undefined,
-	metadata?: GraphQLTypes["AnyObject"] | undefined,
+	metadata?: GraphQLTypes["StripeAnyObject"] | undefined,
 	nickname?: string | undefined,
-	product?: GraphQLTypes["Product"] | undefined,
-	recurring?: GraphQLTypes["PriceRecurring"] | undefined,
-	tax_behavior?: GraphQLTypes["TaxBehaviour"] | undefined,
-	tiers_mode?: GraphQLTypes["TiersMode"] | undefined,
-	transform_quantity?: GraphQLTypes["TransformQuantity"] | undefined,
-	type?: GraphQLTypes["Type"] | undefined,
+	product?: GraphQLTypes["StripeProduct"] | undefined,
+	recurring?: GraphQLTypes["StripePriceRecurring"] | undefined,
+	tax_behavior?: GraphQLTypes["StripeTaxBehaviour"] | undefined,
+	tiers_mode?: GraphQLTypes["StripeTiersMode"] | undefined,
+	transform_quantity?: GraphQLTypes["StripeTransformQuantity"] | undefined,
+	type?: GraphQLTypes["StripeType"] | undefined,
 	unit_amount?: number | undefined,
 	unit_amount_decimal?: string | undefined
 };
-	["ProductsPage"]: {
-	__typename: "ProductsPage",
-	products?: Array<GraphQLTypes["Product"]> | undefined,
+	["StripeProductsPage"]: {
+	__typename: "StripeProductsPage",
+	products?: Array<GraphQLTypes["StripeProduct"]> | undefined,
 	startingAfter?: string | undefined,
 	endingBefore?: string | undefined
+};
+	["Mutation"]: {
+	__typename: "Mutation",
+	webhook?: string | undefined,
+	StripeMutation: GraphQLTypes["StripeMutation"]
+};
+	["Query"]: {
+	__typename: "Query",
+	StripeQuery: GraphQLTypes["StripeQuery"]
 }
     }
-export const enum ConnectAccountBusinessType {
+export const enum StripeConnectAccountBusinessType {
 	company = "company",
 	government_entity = "government_entity",
 	individual = "individual",
 	non_profit = "non_profit"
 }
-export const enum ConnectAccountType {
+export const enum StripeConnectAccountType {
 	standard = "standard",
 	express = "express",
 	custom = "custom"
 }
-export const enum BankAccountHolderType {
+export const enum StripeBankAccountHolderType {
 	individual = "individual",
 	company = "company"
 }
-export const enum SubStatus {
+export const enum StripeSubStatus {
 	incomplete = "incomplete",
 	incomplete_expired = "incomplete_expired",
 	trialing = "trialing",
@@ -1895,73 +1964,73 @@ export const enum SubStatus {
 	canceled = "canceled",
 	unpaid = "unpaid"
 }
-export const enum BillingScheme {
+export const enum StripeBillingScheme {
 	PER_UNIT = "PER_UNIT",
 	TIERED = "TIERED"
 }
-export const enum AggregateUsage {
+export const enum StripeAggregateUsage {
 	SUM = "SUM",
 	LAST_DURING_PERIOD = "LAST_DURING_PERIOD",
 	LAST_EVER = "LAST_EVER",
 	MAX = "MAX"
 }
-export const enum Interval {
+export const enum StripeInterval {
 	MONTH = "MONTH",
 	YEAR = "YEAR",
 	WEEK = "WEEK",
 	DAY = "DAY"
 }
-export const enum UsageType {
+export const enum StripeUsageType {
 	METERED = "METERED",
 	LICENSED = "LICENSED"
 }
-export const enum TaxBehaviour {
+export const enum StripeTaxBehaviour {
 	INCLUSIVE = "INCLUSIVE",
 	EXCLUSIVE = "EXCLUSIVE",
 	UNSPECIFIED = "UNSPECIFIED"
 }
-export const enum TiersMode {
+export const enum StripeTiersMode {
 	GRADUATED = "GRADUATED",
 	VOLUME = "VOLUME"
 }
-export const enum Round {
+export const enum StripeRound {
 	UP = "UP",
 	DOWN = "DOWN"
 }
-export const enum Type {
+export const enum StripeType {
 	RECURRING = "RECURRING",
 	ONE_TIME = "ONE_TIME"
 }
 
 type ZEUS_VARIABLES = {
-	["setDefaultPaymentMethodInput"]: ValueTypes["setDefaultPaymentMethodInput"];
-	["AttachPaymentMethodInput"]: ValueTypes["AttachPaymentMethodInput"];
-	["CreateConnectAccountInput"]: ValueTypes["CreateConnectAccountInput"];
-	["ConnectAccountBusinessType"]: ValueTypes["ConnectAccountBusinessType"];
-	["ConnectAccountType"]: ValueTypes["ConnectAccountType"];
-	["BankAccountInput"]: ValueTypes["BankAccountInput"];
-	["BankAccountHolderType"]: ValueTypes["BankAccountHolderType"];
-	["SubscriptionFilter"]: ValueTypes["SubscriptionFilter"];
-	["SubStatus"]: ValueTypes["SubStatus"];
-	["InitStripeCustomerInput"]: ValueTypes["InitStripeCustomerInput"];
-	["CreateNewUserCheckoutSessionInput"]: ValueTypes["CreateNewUserCheckoutSessionInput"];
-	["CreateCheckoutSessionInput"]: ValueTypes["CreateCheckoutSessionInput"];
-	["ApplicationFeeInput"]: ValueTypes["ApplicationFeeInput"];
-	["ProductInput"]: ValueTypes["ProductInput"];
-	["CreateCustomerPortalInput"]: ValueTypes["CreateCustomerPortalInput"];
-	["AddressInput"]: ValueTypes["AddressInput"];
-	["ProductFilter"]: ValueTypes["ProductFilter"];
-	["RecurringFilter"]: ValueTypes["RecurringFilter"];
-	["PriceFilter"]: ValueTypes["PriceFilter"];
-	["BillingScheme"]: ValueTypes["BillingScheme"];
-	["Timestamp"]: ValueTypes["Timestamp"];
-	["TimestampFilter"]: ValueTypes["TimestampFilter"];
-	["AnyObject"]: ValueTypes["AnyObject"];
-	["AggregateUsage"]: ValueTypes["AggregateUsage"];
-	["Interval"]: ValueTypes["Interval"];
-	["UsageType"]: ValueTypes["UsageType"];
-	["TaxBehaviour"]: ValueTypes["TaxBehaviour"];
-	["TiersMode"]: ValueTypes["TiersMode"];
-	["Round"]: ValueTypes["Round"];
-	["Type"]: ValueTypes["Type"];
+	["StripesetDefaultPaymentMethodInput"]: ValueTypes["StripesetDefaultPaymentMethodInput"];
+	["StripeAttachPaymentMethodInput"]: ValueTypes["StripeAttachPaymentMethodInput"];
+	["StripeCreateConnectAccountInput"]: ValueTypes["StripeCreateConnectAccountInput"];
+	["StripeConnectAccountBusinessType"]: ValueTypes["StripeConnectAccountBusinessType"];
+	["StripeConnectAccountType"]: ValueTypes["StripeConnectAccountType"];
+	["StripeBankAccountInput"]: ValueTypes["StripeBankAccountInput"];
+	["StripeBankAccountHolderType"]: ValueTypes["StripeBankAccountHolderType"];
+	["StripeSubscriptionFilter"]: ValueTypes["StripeSubscriptionFilter"];
+	["StripeSubStatus"]: ValueTypes["StripeSubStatus"];
+	["StripeInitStripeCustomerInput"]: ValueTypes["StripeInitStripeCustomerInput"];
+	["StripeCreateNewUserCheckoutSessionInput"]: ValueTypes["StripeCreateNewUserCheckoutSessionInput"];
+	["StripeCreateCheckoutSessionInput"]: ValueTypes["StripeCreateCheckoutSessionInput"];
+	["StripeApplicationFeeInput"]: ValueTypes["StripeApplicationFeeInput"];
+	["StripeProductInput"]: ValueTypes["StripeProductInput"];
+	["StripeCreateCustomerPortalInput"]: ValueTypes["StripeCreateCustomerPortalInput"];
+	["StripeAddressInput"]: ValueTypes["StripeAddressInput"];
+	["StripeProductFilter"]: ValueTypes["StripeProductFilter"];
+	["StripeRecurringFilter"]: ValueTypes["StripeRecurringFilter"];
+	["StripePriceFilter"]: ValueTypes["StripePriceFilter"];
+	["StripeBillingScheme"]: ValueTypes["StripeBillingScheme"];
+	["StripeTimestamp"]: ValueTypes["StripeTimestamp"];
+	["StripeTimestampFilter"]: ValueTypes["StripeTimestampFilter"];
+	["StripeAnyObject"]: ValueTypes["StripeAnyObject"];
+	["StripeAggregateUsage"]: ValueTypes["StripeAggregateUsage"];
+	["StripeInterval"]: ValueTypes["StripeInterval"];
+	["StripeUsageType"]: ValueTypes["StripeUsageType"];
+	["StripeTaxBehaviour"]: ValueTypes["StripeTaxBehaviour"];
+	["StripeTiersMode"]: ValueTypes["StripeTiersMode"];
+	["StripeRound"]: ValueTypes["StripeRound"];
+	["StripeType"]: ValueTypes["StripeType"];
 }
