@@ -44,7 +44,6 @@ export const handler = async (input: FieldResolveInput) =>
 
           const quantity = price.type === 'recurring' || price.recurring?.usage_type === 'metered' ? 1 : product.quantity;
           const item = { price: price.id, ...(quantity && { quantity }) };
-          console.log(price)
           totalAmount += (price.unit_amount || 0) * (quantity || 0);
 
           if (price.type === 'recurring') {
@@ -55,7 +54,6 @@ export const handler = async (input: FieldResolveInput) =>
         }),
       );
       const applicationFeeAmount = applicationFee ? Math.round((totalAmount * applicationFee.feePercentage) / 100) : 0;
-      console.log(`Total amount : ${totalAmount} app fee ${applicationFeeAmount}`)
 
       if (subscriptionItems.length > 0 && oneTimePaymentItems.length > 0) {
         throw new Error('Cannot handle subscription items and one-time payment items in the same request');
@@ -98,7 +96,6 @@ export const handler = async (input: FieldResolveInput) =>
           };
         }
 
-        console.log(sessionData)
         const session = await stripe.checkout.sessions.create(sessionData);
         return session.url;
       }

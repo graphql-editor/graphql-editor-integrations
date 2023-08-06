@@ -5,13 +5,9 @@ import { MongoOrb } from '../db/orm.js';
 
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'initStripeCustomer', async (args) => {
-    console.log("SS")
     const { email, name, phone, address } = args.initStripeCustomerInput;
-    console.log(args.initStripeCustomerInput)
     const existingCustomer = await MongoOrb('StripeCustomerCollection').collection.findOne({email: email});
-    console.log(existingCustomer)
     if(existingCustomer){
-      console.log("existing customer")
       await MongoOrb('UserCollection').collection.updateOne(
         { username: args.initStripeCustomerInput.email },
         { $set: { stripeId: existingCustomer.id } },
@@ -19,7 +15,6 @@ export const handler = async (input: FieldResolveInput) =>
       );
       return true;
     }else{
-      console.log("SDD" + " " + process.env.STRIPE_KEY)
       // Init customer with 'auto' data to allow further tax collection during payment
       const stripe = newStripe();
       const customerInput: any = {};
@@ -29,9 +24,7 @@ export const handler = async (input: FieldResolveInput) =>
       if(phone){
         customerInput.phone = phone;
       }
-      console.log(customerInput)
       const customer = await stripe.customers.create({email: "ughakai@gmail.com"});
-      console.log(customer)
       const res = await MongoOrb('UserCollection').collection.updateOne(
         { username: args.initStripeCustomerInput.email },
         { $set: { stripeId: customer.id } },
