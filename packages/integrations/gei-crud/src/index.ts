@@ -23,7 +23,7 @@ export const integration = NewIntegration({
         sourceFilterParameters: {
           name: 'Get only owned objects by parameters from source',
           description:
-            'Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys',
+            'Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys in format "teamId: team._id"',
           value: [],
         },
       },

@@ -20,6 +20,6 @@ export const handler = async (input: FieldResolveInput) =>
     const res = await db
     .collection(prepareModel(input))
     .updateOne(filterInput, { $set: { ...(setter[1] as object), updatedAt: new Date().toISOString() } })
-    if(res.matchedCount<1) throw new Error('Object for update not found')
+    if(res.matchedCount<1) throw new Error(`Object for update not found. Please check parameters: ${ JSON.stringify(filterInput)}`)
     return res.modifiedCount>=1
   });
