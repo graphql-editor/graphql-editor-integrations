@@ -13,6 +13,7 @@ type Object{
 type Query{
 	objects(fieldFilter: FieldFilterInput,
 	fieldRegexFilter: FieldFilterInput,
+	dateFilter: DateFilterInput,
 	sortByField: SortInput): [Object!]
 	oneById(
 		_id: String!
@@ -54,6 +55,14 @@ input SortInput {
   True for ASC, false for DESC
   """
   order: Boolean
+}
+
+input DateFilterInput { 
+	"""Basicly filter use createdAt,
+	 but you can to set other field"""
+	dateFieldName: String
+	from:String
+	to: String
 }
 
 enum SortField {
