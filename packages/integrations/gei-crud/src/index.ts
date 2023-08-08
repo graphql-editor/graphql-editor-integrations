@@ -106,6 +106,17 @@ export const integration = NewIntegration({
             'Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys',
           value: [],
         },
+        relatedModel: {
+          name: 'Related model',
+          description: 'Specify related model name',
+          value: 'Object',
+          required: true,
+        },
+        relatedField: {
+          name: 'Name of the field on related objects',
+          description: 'Related object has this field as an owner id.',
+          value: 'owner',
+        },
       },
       handler: deleteObject,
     },
@@ -143,7 +154,7 @@ export const integration = NewIntegration({
         },
         relatedField: {
           name: 'Name of the field on related objects',
-          description: 'Related object has this field as an owner id',
+          description: 'Related object has this field as an owner id.',
           value: 'owner',
         },
       },
