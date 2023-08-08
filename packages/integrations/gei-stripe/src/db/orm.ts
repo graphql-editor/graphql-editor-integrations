@@ -16,7 +16,8 @@ export const orm = async () => {
       StripeInvoiceCollection: Stripe.Invoice,
       UserCollection: UserModel
       StripeCustomerCollection: Stripe.Customer
-      StripeExternalAccount: ExternalAccount
+      StripeExternalAccountCollection: ExternalAccount
+      PaymentMethodCollection: Stripe.PaymentMethod
     },
     {
       _id: () => string;

@@ -837,7 +837,10 @@ type ZEUS_UNIONS = never
 export type ValueTypes = {
     ["Query"]: AliasType<{
 products?: [{	filter?: ValueTypes["ProductFilter"] | undefined | null | Variable<any, string>},ValueTypes["ProductsPage"]],
-subscriptions?: [{	filter?: ValueTypes["SubscriptionFilter"] | undefined | null | Variable<any, string>},ValueTypes["Subscription"]],
+subscriptions?: [{	filter: ValueTypes["SubscriptionFilter"] | Variable<any, string>},ValueTypes["Subscription"]],
+paymentIntents?: [{	filter: ValueTypes["PaymentIntentFilter"] | Variable<any, string>},ValueTypes["PaymentIntent"]],
+invoices?: [{	filter: ValueTypes["InvoiceFilter"] | Variable<any, string>},ValueTypes["Invoice"]],
+customer?: [{	customerId: string | Variable<any, string>},ValueTypes["Customer"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["Mutation"]: AliasType<{
@@ -848,10 +851,106 @@ createCustomerPortal?: [{	payload: ValueTypes["CreateCustomerPortalInput"] | Var
 createConnectAccount?: [{	payload: ValueTypes["CreateConnectAccountInput"] | Variable<any, string>},boolean | `@${string}`],
 attachPaymentMethod?: [{	payload: ValueTypes["AttachPaymentMethodInput"] | Variable<any, string>},boolean | `@${string}`],
 setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"] | Variable<any, string>},boolean | `@${string}`],
+createPayoutForConnectedAccount?: [{	payload: ValueTypes["createPayoutForConnectedAccountInput"] | Variable<any, string>},boolean | `@${string}`],
 	/** entry point for Weebhooks. */
 	webhook?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	["createPayoutForConnectedAccountInput"]: {
+	accountId: string | Variable<any, string>,
+	amount: number | Variable<any, string>,
+	currency: string | Variable<any, string>
+};
+	["PaymentIntentStatus"]:PaymentIntentStatus;
+	["Invoice"]: AliasType<{
+	id?:boolean | `@${string}`,
+	account_country?:boolean | `@${string}`,
+	account_name?:boolean | `@${string}`,
+	account_tax_id?:boolean | `@${string}`,
+	amount_due?:boolean | `@${string}`,
+	amount_paid?:boolean | `@${string}`,
+	amount_remaining?:boolean | `@${string}`,
+	amount_shipping?:boolean | `@${string}`,
+	application_fee_amount?:boolean | `@${string}`,
+	attempt_count?:boolean | `@${string}`,
+	attempted?:boolean | `@${string}`,
+	auto_advance?:boolean | `@${string}`,
+	billing_reason?:boolean | `@${string}`,
+	/** ID of the latest charge generated for this invoice */
+	charge?:boolean | `@${string}`,
+	collection_method?:boolean | `@${string}`,
+	created?:boolean | `@${string}`,
+	/** ISO 4217 Currency codes */
+	currency?:boolean | `@${string}`,
+	customer?:boolean | `@${string}`,
+	customer_address?:ValueTypes["Address"],
+	customer_email?:boolean | `@${string}`,
+	customer_name?:boolean | `@${string}`,
+	description?:boolean | `@${string}`,
+	hosted_invoice_url?:boolean | `@${string}`,
+	period_end?:boolean | `@${string}`,
+	period_start?:boolean | `@${string}`,
+	status?:boolean | `@${string}`,
+	subscription?:boolean | `@${string}`,
+	total?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["InvoiceStatus"]:InvoiceStatus;
+	["InvoiceCollectionMethod"]:InvoiceCollectionMethod;
+	["PaymentIntent"]: AliasType<{
+	id?:boolean | `@${string}`,
+	client_secret?:boolean | `@${string}`,
+	/** A positive integer representing how much to charge in the smallest currency unit (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). */
+	amount?:boolean | `@${string}`,
+	amount_capturable?:boolean | `@${string}`,
+	amount_received?:boolean | `@${string}`,
+	application_fee_amount?:boolean | `@${string}`,
+	capture_method?:boolean | `@${string}`,
+	confirmation_method?:boolean | `@${string}`,
+	created?:boolean | `@${string}`,
+	/** Three-letter ISO currency code, in lowercase. Must be a supported currency. */
+	currency?:boolean | `@${string}`,
+	/** ID of the Customer this PaymentIntent belongs to */
+	customer?:boolean | `@${string}`,
+	/** An arbitrary string attached to the object. Often useful for displaying to users. */
+	description?:boolean | `@${string}`,
+	/** ID of the invoice that created this PaymentIntent, if it exists. */
+	invoice?:boolean | `@${string}`,
+	latest_charge?:boolean | `@${string}`,
+	livemode?:boolean | `@${string}`,
+	payment_method?:boolean | `@${string}`,
+	setup_future_usage?:boolean | `@${string}`,
+	status?:boolean | `@${string}`,
+	/** A string that identifies the resulting payment as part of a group (for connected accounts).  */
+	transfer_group?:boolean | `@${string}`,
+	/** The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason. */
+	last_payment_error?:ValueTypes["PaymentIntentLastPaymentError"],
+	/** The account (if any) for which the funds of the PaymentIntent are intended.  */
+	on_behalf_of?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["PaymentIntentLastPaymentError"]: AliasType<{
+	type?:boolean | `@${string}`,
+	/** For card errors, the ID of the failed charge. */
+	charge?:boolean | `@${string}`,
+	/** For some errors that could be handled programmatically, a short string indicating the error code reported (https://stripe.com/docs/error-codes). */
+	code?:boolean | `@${string}`,
+	decline_code?:boolean | `@${string}`,
+	doc_url?:boolean | `@${string}`,
+	message?:boolean | `@${string}`,
+	param?:boolean | `@${string}`,
+	payment_method_type?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["PaymentIntentSetupFutureUsage"]:PaymentIntentSetupFutureUsage;
+	["InvoiceFilter"]: {
+	customerId: string | Variable<any, string>,
+	status?: ValueTypes["InvoiceStatus"] | undefined | null | Variable<any, string>
+};
+	["PaymentIntentFilter"]: {
+	customerId: string | Variable<any, string>,
+	status?: ValueTypes["PaymentIntentStatus"] | undefined | null | Variable<any, string>
+};
 	["setDefaultPaymentMethodInput"]: {
 	attachedPaymentMethodId: string | Variable<any, string>,
 	customerId: string | Variable<any, string>
@@ -881,7 +980,7 @@ setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"]
 };
 	["BankAccountHolderType"]:BankAccountHolderType;
 	["SubscriptionFilter"]: {
-	customerId?: string | undefined | null | Variable<any, string>
+	customerId: string | Variable<any, string>
 };
 	["Subscription"]: AliasType<{
 	id?:boolean | `@${string}`,
@@ -970,10 +1069,33 @@ setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"]
 	state: string | Variable<any, string>
 };
 	["Customer"]: AliasType<{
-	customerId?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
 	email?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
 	address?:ValueTypes["Address"],
+	phone?:boolean | `@${string}`,
+	created?:boolean | `@${string}`,
+	invoicePrefix?:boolean | `@${string}`,
+	paymentMethods?:ValueTypes["PaymentMethod"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** https://stripe.com/docs/api/payment_methods/object */
+["PaymentMethod"]: AliasType<{
+	id?:boolean | `@${string}`,
+	billing_details?:ValueTypes["PaymentBillingDetails"],
+	customer?:boolean | `@${string}`,
+	metadata?:boolean | `@${string}`,
+	type?:boolean | `@${string}`,
+	created?:boolean | `@${string}`,
+	livemode?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["PaymentMethodType"]:PaymentMethodType;
+	["PaymentBillingDetails"]: AliasType<{
+	address?:ValueTypes["Address"],
+	email?:boolean | `@${string}`,
+	name?:boolean | `@${string}`,
+	phone?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["Address"]: AliasType<{
@@ -1106,7 +1228,10 @@ setDefaultPaymentMethod?: [{	payload: ValueTypes["setDefaultPaymentMethodInput"]
 export type ResolverInputTypes = {
     ["Query"]: AliasType<{
 products?: [{	filter?: ResolverInputTypes["ProductFilter"] | undefined | null},ResolverInputTypes["ProductsPage"]],
-subscriptions?: [{	filter?: ResolverInputTypes["SubscriptionFilter"] | undefined | null},ResolverInputTypes["Subscription"]],
+subscriptions?: [{	filter: ResolverInputTypes["SubscriptionFilter"]},ResolverInputTypes["Subscription"]],
+paymentIntents?: [{	filter: ResolverInputTypes["PaymentIntentFilter"]},ResolverInputTypes["PaymentIntent"]],
+invoices?: [{	filter: ResolverInputTypes["InvoiceFilter"]},ResolverInputTypes["Invoice"]],
+customer?: [{	customerId: string},ResolverInputTypes["Customer"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["Mutation"]: AliasType<{
@@ -1117,10 +1242,106 @@ createCustomerPortal?: [{	payload: ResolverInputTypes["CreateCustomerPortalInput
 createConnectAccount?: [{	payload: ResolverInputTypes["CreateConnectAccountInput"]},boolean | `@${string}`],
 attachPaymentMethod?: [{	payload: ResolverInputTypes["AttachPaymentMethodInput"]},boolean | `@${string}`],
 setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMethodInput"]},boolean | `@${string}`],
+createPayoutForConnectedAccount?: [{	payload: ResolverInputTypes["createPayoutForConnectedAccountInput"]},boolean | `@${string}`],
 	/** entry point for Weebhooks. */
 	webhook?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	["createPayoutForConnectedAccountInput"]: {
+	accountId: string,
+	amount: number,
+	currency: string
+};
+	["PaymentIntentStatus"]:PaymentIntentStatus;
+	["Invoice"]: AliasType<{
+	id?:boolean | `@${string}`,
+	account_country?:boolean | `@${string}`,
+	account_name?:boolean | `@${string}`,
+	account_tax_id?:boolean | `@${string}`,
+	amount_due?:boolean | `@${string}`,
+	amount_paid?:boolean | `@${string}`,
+	amount_remaining?:boolean | `@${string}`,
+	amount_shipping?:boolean | `@${string}`,
+	application_fee_amount?:boolean | `@${string}`,
+	attempt_count?:boolean | `@${string}`,
+	attempted?:boolean | `@${string}`,
+	auto_advance?:boolean | `@${string}`,
+	billing_reason?:boolean | `@${string}`,
+	/** ID of the latest charge generated for this invoice */
+	charge?:boolean | `@${string}`,
+	collection_method?:boolean | `@${string}`,
+	created?:boolean | `@${string}`,
+	/** ISO 4217 Currency codes */
+	currency?:boolean | `@${string}`,
+	customer?:boolean | `@${string}`,
+	customer_address?:ResolverInputTypes["Address"],
+	customer_email?:boolean | `@${string}`,
+	customer_name?:boolean | `@${string}`,
+	description?:boolean | `@${string}`,
+	hosted_invoice_url?:boolean | `@${string}`,
+	period_end?:boolean | `@${string}`,
+	period_start?:boolean | `@${string}`,
+	status?:boolean | `@${string}`,
+	subscription?:boolean | `@${string}`,
+	total?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["InvoiceStatus"]:InvoiceStatus;
+	["InvoiceCollectionMethod"]:InvoiceCollectionMethod;
+	["PaymentIntent"]: AliasType<{
+	id?:boolean | `@${string}`,
+	client_secret?:boolean | `@${string}`,
+	/** A positive integer representing how much to charge in the smallest currency unit (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). */
+	amount?:boolean | `@${string}`,
+	amount_capturable?:boolean | `@${string}`,
+	amount_received?:boolean | `@${string}`,
+	application_fee_amount?:boolean | `@${string}`,
+	capture_method?:boolean | `@${string}`,
+	confirmation_method?:boolean | `@${string}`,
+	created?:boolean | `@${string}`,
+	/** Three-letter ISO currency code, in lowercase. Must be a supported currency. */
+	currency?:boolean | `@${string}`,
+	/** ID of the Customer this PaymentIntent belongs to */
+	customer?:boolean | `@${string}`,
+	/** An arbitrary string attached to the object. Often useful for displaying to users. */
+	description?:boolean | `@${string}`,
+	/** ID of the invoice that created this PaymentIntent, if it exists. */
+	invoice?:boolean | `@${string}`,
+	latest_charge?:boolean | `@${string}`,
+	livemode?:boolean | `@${string}`,
+	payment_method?:boolean | `@${string}`,
+	setup_future_usage?:boolean | `@${string}`,
+	status?:boolean | `@${string}`,
+	/** A string that identifies the resulting payment as part of a group (for connected accounts).  */
+	transfer_group?:boolean | `@${string}`,
+	/** The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason. */
+	last_payment_error?:ResolverInputTypes["PaymentIntentLastPaymentError"],
+	/** The account (if any) for which the funds of the PaymentIntent are intended.  */
+	on_behalf_of?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["PaymentIntentLastPaymentError"]: AliasType<{
+	type?:boolean | `@${string}`,
+	/** For card errors, the ID of the failed charge. */
+	charge?:boolean | `@${string}`,
+	/** For some errors that could be handled programmatically, a short string indicating the error code reported (https://stripe.com/docs/error-codes). */
+	code?:boolean | `@${string}`,
+	decline_code?:boolean | `@${string}`,
+	doc_url?:boolean | `@${string}`,
+	message?:boolean | `@${string}`,
+	param?:boolean | `@${string}`,
+	payment_method_type?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["PaymentIntentSetupFutureUsage"]:PaymentIntentSetupFutureUsage;
+	["InvoiceFilter"]: {
+	customerId: string,
+	status?: ResolverInputTypes["InvoiceStatus"] | undefined | null
+};
+	["PaymentIntentFilter"]: {
+	customerId: string,
+	status?: ResolverInputTypes["PaymentIntentStatus"] | undefined | null
+};
 	["setDefaultPaymentMethodInput"]: {
 	attachedPaymentMethodId: string,
 	customerId: string
@@ -1150,7 +1371,7 @@ setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMetho
 };
 	["BankAccountHolderType"]:BankAccountHolderType;
 	["SubscriptionFilter"]: {
-	customerId?: string | undefined | null
+	customerId: string
 };
 	["Subscription"]: AliasType<{
 	id?:boolean | `@${string}`,
@@ -1239,10 +1460,33 @@ setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMetho
 	state: string
 };
 	["Customer"]: AliasType<{
-	customerId?:boolean | `@${string}`,
+	id?:boolean | `@${string}`,
 	email?:boolean | `@${string}`,
 	name?:boolean | `@${string}`,
 	address?:ResolverInputTypes["Address"],
+	phone?:boolean | `@${string}`,
+	created?:boolean | `@${string}`,
+	invoicePrefix?:boolean | `@${string}`,
+	paymentMethods?:ResolverInputTypes["PaymentMethod"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** https://stripe.com/docs/api/payment_methods/object */
+["PaymentMethod"]: AliasType<{
+	id?:boolean | `@${string}`,
+	billing_details?:ResolverInputTypes["PaymentBillingDetails"],
+	customer?:boolean | `@${string}`,
+	metadata?:boolean | `@${string}`,
+	type?:boolean | `@${string}`,
+	created?:boolean | `@${string}`,
+	livemode?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["PaymentMethodType"]:PaymentMethodType;
+	["PaymentBillingDetails"]: AliasType<{
+	address?:ResolverInputTypes["Address"],
+	email?:boolean | `@${string}`,
+	name?:boolean | `@${string}`,
+	phone?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["Address"]: AliasType<{
@@ -1375,7 +1619,10 @@ setDefaultPaymentMethod?: [{	payload: ResolverInputTypes["setDefaultPaymentMetho
 export type ModelTypes = {
     ["Query"]: {
 		products?: ModelTypes["ProductsPage"] | undefined,
-	subscriptions?: Array<ModelTypes["Subscription"]> | undefined
+	subscriptions?: Array<ModelTypes["Subscription"]> | undefined,
+	paymentIntents?: Array<ModelTypes["PaymentIntent"]> | undefined,
+	invoices?: Array<ModelTypes["Invoice"]> | undefined,
+	customer?: ModelTypes["Customer"] | undefined
 };
 	["Mutation"]: {
 		/** Creates stripe customer for further purchases, links with user "email" field in UserCollection */
@@ -1391,8 +1638,101 @@ export type ModelTypes = {
 	/** Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements */
 	attachPaymentMethod: boolean,
 	setDefaultPaymentMethod: boolean,
+	createPayoutForConnectedAccount: boolean,
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
+};
+	["createPayoutForConnectedAccountInput"]: {
+	accountId: string,
+	amount: number,
+	currency: string
+};
+	["PaymentIntentStatus"]:PaymentIntentStatus;
+	["Invoice"]: {
+		id: string,
+	account_country: string,
+	account_name: string,
+	account_tax_id?: string | undefined,
+	amount_due: number,
+	amount_paid: number,
+	amount_remaining: number,
+	amount_shipping: number,
+	application_fee_amount: number,
+	attempt_count: number,
+	attempted: boolean,
+	auto_advance: boolean,
+	billing_reason: string,
+	/** ID of the latest charge generated for this invoice */
+	charge?: string | undefined,
+	collection_method: ModelTypes["InvoiceCollectionMethod"],
+	created: ModelTypes["Timestamp"],
+	/** ISO 4217 Currency codes */
+	currency: string,
+	customer: string,
+	customer_address?: ModelTypes["Address"] | undefined,
+	customer_email: string,
+	customer_name: string,
+	description?: string | undefined,
+	hosted_invoice_url: string,
+	period_end: ModelTypes["Timestamp"],
+	period_start: ModelTypes["Timestamp"],
+	status: ModelTypes["InvoiceStatus"],
+	subscription?: string | undefined,
+	total: number
+};
+	["InvoiceStatus"]:InvoiceStatus;
+	["InvoiceCollectionMethod"]:InvoiceCollectionMethod;
+	["PaymentIntent"]: {
+		id: string,
+	client_secret: string,
+	/** A positive integer representing how much to charge in the smallest currency unit (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). */
+	amount: number,
+	amount_capturable: number,
+	amount_received: number,
+	application_fee_amount: number,
+	capture_method: string,
+	confirmation_method: string,
+	created: ModelTypes["Timestamp"],
+	/** Three-letter ISO currency code, in lowercase. Must be a supported currency. */
+	currency: string,
+	/** ID of the Customer this PaymentIntent belongs to */
+	customer: string,
+	/** An arbitrary string attached to the object. Often useful for displaying to users. */
+	description: string,
+	/** ID of the invoice that created this PaymentIntent, if it exists. */
+	invoice?: string | undefined,
+	latest_charge: string,
+	livemode: boolean,
+	payment_method: string,
+	setup_future_usage: string,
+	status: ModelTypes["PaymentIntentStatus"],
+	/** A string that identifies the resulting payment as part of a group (for connected accounts).  */
+	transfer_group: string,
+	/** The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason. */
+	last_payment_error?: ModelTypes["PaymentIntentLastPaymentError"] | undefined,
+	/** The account (if any) for which the funds of the PaymentIntent are intended.  */
+	on_behalf_of?: string | undefined
+};
+	["PaymentIntentLastPaymentError"]: {
+		type: string,
+	/** For card errors, the ID of the failed charge. */
+	charge?: string | undefined,
+	/** For some errors that could be handled programmatically, a short string indicating the error code reported (https://stripe.com/docs/error-codes). */
+	code?: string | undefined,
+	decline_code?: string | undefined,
+	doc_url?: string | undefined,
+	message: string,
+	param?: string | undefined,
+	payment_method_type?: string | undefined
+};
+	["PaymentIntentSetupFutureUsage"]:PaymentIntentSetupFutureUsage;
+	["InvoiceFilter"]: {
+	customerId: string,
+	status?: ModelTypes["InvoiceStatus"] | undefined
+};
+	["PaymentIntentFilter"]: {
+	customerId: string,
+	status?: ModelTypes["PaymentIntentStatus"] | undefined
 };
 	["setDefaultPaymentMethodInput"]: {
 	attachedPaymentMethodId: string,
@@ -1423,7 +1763,7 @@ export type ModelTypes = {
 };
 	["BankAccountHolderType"]:BankAccountHolderType;
 	["SubscriptionFilter"]: {
-	customerId?: string | undefined
+	customerId: string
 };
 	["Subscription"]: {
 		id: string,
@@ -1508,10 +1848,31 @@ export type ModelTypes = {
 	state: string
 };
 	["Customer"]: {
-		customerId: string,
+		id: string,
 	email: string,
 	name?: string | undefined,
-	address?: ModelTypes["Address"] | undefined
+	address?: ModelTypes["Address"] | undefined,
+	phone?: string | undefined,
+	created: ModelTypes["Timestamp"],
+	invoicePrefix?: string | undefined,
+	paymentMethods?: Array<ModelTypes["PaymentMethod"]> | undefined
+};
+	/** https://stripe.com/docs/api/payment_methods/object */
+["PaymentMethod"]: {
+		id: string,
+	billing_details: ModelTypes["PaymentBillingDetails"],
+	customer: string,
+	metadata?: ModelTypes["AnyObject"] | undefined,
+	type: ModelTypes["PaymentMethodType"],
+	created: ModelTypes["Timestamp"],
+	livemode: boolean
+};
+	["PaymentMethodType"]:PaymentMethodType;
+	["PaymentBillingDetails"]: {
+		address?: ModelTypes["Address"] | undefined,
+	email: string,
+	name: string,
+	phone?: string | undefined
 };
 	["Address"]: {
 		city?: string | undefined,
@@ -1636,7 +1997,10 @@ export type GraphQLTypes = {
     ["Query"]: {
 	__typename: "Query",
 	products?: GraphQLTypes["ProductsPage"] | undefined,
-	subscriptions?: Array<GraphQLTypes["Subscription"]> | undefined
+	subscriptions?: Array<GraphQLTypes["Subscription"]> | undefined,
+	paymentIntents?: Array<GraphQLTypes["PaymentIntent"]> | undefined,
+	invoices?: Array<GraphQLTypes["Invoice"]> | undefined,
+	customer?: GraphQLTypes["Customer"] | undefined
 };
 	["Mutation"]: {
 	__typename: "Mutation",
@@ -1653,8 +2017,104 @@ export type GraphQLTypes = {
 	/** Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements */
 	attachPaymentMethod: boolean,
 	setDefaultPaymentMethod: boolean,
+	createPayoutForConnectedAccount: boolean,
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
+};
+	["createPayoutForConnectedAccountInput"]: {
+		accountId: string,
+	amount: number,
+	currency: string
+};
+	["PaymentIntentStatus"]: PaymentIntentStatus;
+	["Invoice"]: {
+	__typename: "Invoice",
+	id: string,
+	account_country: string,
+	account_name: string,
+	account_tax_id?: string | undefined,
+	amount_due: number,
+	amount_paid: number,
+	amount_remaining: number,
+	amount_shipping: number,
+	application_fee_amount: number,
+	attempt_count: number,
+	attempted: boolean,
+	auto_advance: boolean,
+	billing_reason: string,
+	/** ID of the latest charge generated for this invoice */
+	charge?: string | undefined,
+	collection_method: GraphQLTypes["InvoiceCollectionMethod"],
+	created: GraphQLTypes["Timestamp"],
+	/** ISO 4217 Currency codes */
+	currency: string,
+	customer: string,
+	customer_address?: GraphQLTypes["Address"] | undefined,
+	customer_email: string,
+	customer_name: string,
+	description?: string | undefined,
+	hosted_invoice_url: string,
+	period_end: GraphQLTypes["Timestamp"],
+	period_start: GraphQLTypes["Timestamp"],
+	status: GraphQLTypes["InvoiceStatus"],
+	subscription?: string | undefined,
+	total: number
+};
+	["InvoiceStatus"]: InvoiceStatus;
+	["InvoiceCollectionMethod"]: InvoiceCollectionMethod;
+	["PaymentIntent"]: {
+	__typename: "PaymentIntent",
+	id: string,
+	client_secret: string,
+	/** A positive integer representing how much to charge in the smallest currency unit (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). */
+	amount: number,
+	amount_capturable: number,
+	amount_received: number,
+	application_fee_amount: number,
+	capture_method: string,
+	confirmation_method: string,
+	created: GraphQLTypes["Timestamp"],
+	/** Three-letter ISO currency code, in lowercase. Must be a supported currency. */
+	currency: string,
+	/** ID of the Customer this PaymentIntent belongs to */
+	customer: string,
+	/** An arbitrary string attached to the object. Often useful for displaying to users. */
+	description: string,
+	/** ID of the invoice that created this PaymentIntent, if it exists. */
+	invoice?: string | undefined,
+	latest_charge: string,
+	livemode: boolean,
+	payment_method: string,
+	setup_future_usage: string,
+	status: GraphQLTypes["PaymentIntentStatus"],
+	/** A string that identifies the resulting payment as part of a group (for connected accounts).  */
+	transfer_group: string,
+	/** The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason. */
+	last_payment_error?: GraphQLTypes["PaymentIntentLastPaymentError"] | undefined,
+	/** The account (if any) for which the funds of the PaymentIntent are intended.  */
+	on_behalf_of?: string | undefined
+};
+	["PaymentIntentLastPaymentError"]: {
+	__typename: "PaymentIntentLastPaymentError",
+	type: string,
+	/** For card errors, the ID of the failed charge. */
+	charge?: string | undefined,
+	/** For some errors that could be handled programmatically, a short string indicating the error code reported (https://stripe.com/docs/error-codes). */
+	code?: string | undefined,
+	decline_code?: string | undefined,
+	doc_url?: string | undefined,
+	message: string,
+	param?: string | undefined,
+	payment_method_type?: string | undefined
+};
+	["PaymentIntentSetupFutureUsage"]: PaymentIntentSetupFutureUsage;
+	["InvoiceFilter"]: {
+		customerId: string,
+	status?: GraphQLTypes["InvoiceStatus"] | undefined
+};
+	["PaymentIntentFilter"]: {
+		customerId: string,
+	status?: GraphQLTypes["PaymentIntentStatus"] | undefined
 };
 	["setDefaultPaymentMethodInput"]: {
 		attachedPaymentMethodId: string,
@@ -1685,7 +2145,7 @@ export type GraphQLTypes = {
 };
 	["BankAccountHolderType"]: BankAccountHolderType;
 	["SubscriptionFilter"]: {
-		customerId?: string | undefined
+		customerId: string
 };
 	["Subscription"]: {
 	__typename: "Subscription",
@@ -1775,10 +2235,33 @@ export type GraphQLTypes = {
 };
 	["Customer"]: {
 	__typename: "Customer",
-	customerId: string,
+	id: string,
 	email: string,
 	name?: string | undefined,
-	address?: GraphQLTypes["Address"] | undefined
+	address?: GraphQLTypes["Address"] | undefined,
+	phone?: string | undefined,
+	created: GraphQLTypes["Timestamp"],
+	invoicePrefix?: string | undefined,
+	paymentMethods?: Array<GraphQLTypes["PaymentMethod"]> | undefined
+};
+	/** https://stripe.com/docs/api/payment_methods/object */
+["PaymentMethod"]: {
+	__typename: "PaymentMethod",
+	id: string,
+	billing_details: GraphQLTypes["PaymentBillingDetails"],
+	customer: string,
+	metadata?: GraphQLTypes["AnyObject"] | undefined,
+	type: GraphQLTypes["PaymentMethodType"],
+	created: GraphQLTypes["Timestamp"],
+	livemode: boolean
+};
+	["PaymentMethodType"]: PaymentMethodType;
+	["PaymentBillingDetails"]: {
+	__typename: "PaymentBillingDetails",
+	address?: GraphQLTypes["Address"] | undefined,
+	email: string,
+	name: string,
+	phone?: string | undefined
 };
 	["Address"]: {
 	__typename: "Address",
@@ -1906,6 +2389,30 @@ export type GraphQLTypes = {
 	endingBefore?: string | undefined
 }
     }
+export const enum PaymentIntentStatus {
+	requires_payment_method = "requires_payment_method",
+	requires_confirmation = "requires_confirmation",
+	requires_action = "requires_action",
+	processing = "processing",
+	requires_capture = "requires_capture",
+	canceled = "canceled",
+	succeeded = "succeeded"
+}
+export const enum InvoiceStatus {
+	draft = "draft",
+	open = "open",
+	paid = "paid",
+	uncollectible = "uncollectible",
+	void = "void"
+}
+export const enum InvoiceCollectionMethod {
+	charge_automatically = "charge_automatically",
+	send_invoice = "send_invoice"
+}
+export const enum PaymentIntentSetupFutureUsage {
+	on_session = "on_session",
+	off_session = "off_session"
+}
 export const enum ConnectAccountBusinessType {
 	company = "company",
 	government_entity = "government_entity",
@@ -1929,6 +2436,41 @@ export const enum SubStatus {
 	past_due = "past_due",
 	canceled = "canceled",
 	unpaid = "unpaid"
+}
+export const enum PaymentMethodType {
+	acss_debit = "acss_debit",
+	affirm = "affirm",
+	afterpay_clearpay = "afterpay_clearpay",
+	alipay = "alipay",
+	au_becs_debit = "au_becs_debit",
+	bacs_debit = "bacs_debit",
+	bancontact = "bancontact",
+	blik = "blik",
+	boleto = "boleto",
+	card = "card",
+	card_present = "card_present",
+	cashapp = "cashapp",
+	customer_balance = "customer_balance",
+	eps = "eps",
+	fpx = "fpx",
+	giropay = "giropay",
+	grabpay = "grabpay",
+	ideal = "ideal",
+	interac_present = "interac_present",
+	klarna = "klarna",
+	konbini = "konbini",
+	link = "link",
+	oxxo = "oxxo",
+	p24 = "p24",
+	paynow = "paynow",
+	paypal = "paypal",
+	pix = "pix",
+	promptpay = "promptpay",
+	sepa_debit = "sepa_debit",
+	sofort = "sofort",
+	us_bank_account = "us_bank_account",
+	wechat_pay = "wechat_pay",
+	zip = "zip"
 }
 export const enum BillingScheme {
 	PER_UNIT = "PER_UNIT",
@@ -1969,6 +2511,13 @@ export const enum Type {
 }
 
 type ZEUS_VARIABLES = {
+	["createPayoutForConnectedAccountInput"]: ValueTypes["createPayoutForConnectedAccountInput"];
+	["PaymentIntentStatus"]: ValueTypes["PaymentIntentStatus"];
+	["InvoiceStatus"]: ValueTypes["InvoiceStatus"];
+	["InvoiceCollectionMethod"]: ValueTypes["InvoiceCollectionMethod"];
+	["PaymentIntentSetupFutureUsage"]: ValueTypes["PaymentIntentSetupFutureUsage"];
+	["InvoiceFilter"]: ValueTypes["InvoiceFilter"];
+	["PaymentIntentFilter"]: ValueTypes["PaymentIntentFilter"];
 	["setDefaultPaymentMethodInput"]: ValueTypes["setDefaultPaymentMethodInput"];
 	["AttachPaymentMethodInput"]: ValueTypes["AttachPaymentMethodInput"];
 	["CreateConnectAccountInput"]: ValueTypes["CreateConnectAccountInput"];
@@ -1985,6 +2534,7 @@ type ZEUS_VARIABLES = {
 	["ProductInput"]: ValueTypes["ProductInput"];
 	["CreateCustomerPortalInput"]: ValueTypes["CreateCustomerPortalInput"];
 	["AddressInput"]: ValueTypes["AddressInput"];
+	["PaymentMethodType"]: ValueTypes["PaymentMethodType"];
 	["ProductFilter"]: ValueTypes["ProductFilter"];
 	["RecurringFilter"]: ValueTypes["RecurringFilter"];
 	["PriceFilter"]: ValueTypes["PriceFilter"];

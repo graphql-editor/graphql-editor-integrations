@@ -5,8 +5,17 @@ type Query{
 		filter: ProductFilter
 	): ProductsPage
 	subscriptions(  
-		filter: SubscriptionFilter
+		filter: SubscriptionFilter!
 	): [Subscription!]
+	paymentIntents(
+		filter: PaymentIntentFilter!
+	): [PaymentIntent!]
+	invoices(
+		filter: InvoiceFilter!
+	): [Invoice!]
+	customer(
+		customerId: String!
+	):Customer
 }
 
 type Mutation{
@@ -49,10 +58,168 @@ type Mutation{
 	setDefaultPaymentMethod(
 		payload: setDefaultPaymentMethodInput!
 	): Boolean!
+	createPayoutForConnectedAccount(
+		payload: createPayoutForConnectedAccountInput!
+	): Boolean!
 	"""
 	entry point for Weebhooks.
 	"""
 	webhook: String
+}
+
+input createPayoutForConnectedAccountInput {
+	accountId: String!
+	amount: Int!
+	currency: String!
+}
+
+enum PaymentIntentStatus {
+	requires_payment_method
+	requires_confirmation
+	requires_action
+	processing
+	requires_capture
+	canceled
+	succeeded
+}
+
+type Invoice {
+	id: String!
+	account_country: String!
+	account_name: String!
+	account_tax_id: String
+	amount_due: Int!
+	amount_paid: Int!
+	amount_remaining: Int!
+	amount_shipping: Int!
+	application_fee_amount: Int!
+	attempt_count: Int!
+	attempted: Boolean!
+	auto_advance: Boolean!
+	billing_reason: String!
+	"""
+	ID of the latest charge generated for this invoice
+	"""
+	charge: String
+	collection_method: InvoiceCollectionMethod!
+	created: Timestamp!
+	"""
+	ISO 4217 Currency codes
+	"""
+	currency: String!
+	customer: String!
+	customer_address: Address
+	customer_email: String!
+	customer_name: String!
+	description: String
+	hosted_invoice_url: String!
+	period_end: Timestamp!
+	period_start: Timestamp!
+	status: InvoiceStatus!
+	subscription: String
+	total: Int!
+}
+
+enum InvoiceStatus {
+	draft
+	open
+	paid
+	uncollectible
+	void
+}
+
+enum InvoiceCollectionMethod {
+	charge_automatically
+	"""
+	Email payment instructions to the customer.
+	"""
+	send_invoice
+}
+
+type PaymentIntent {
+	id: String!
+	client_secret: String!
+	"""
+	A positive integer representing how much to charge in the smallest currency unit (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency).
+	"""
+	amount: Int!
+	amount_capturable: Int!
+	amount_received: Int!
+	application_fee_amount: Int!
+	capture_method: String!
+	confirmation_method: String!
+	created: Timestamp!
+	"""
+	Three-letter ISO currency code, in lowercase. Must be a supported currency.
+	"""
+	currency: String!
+	"""
+	ID of the Customer this PaymentIntent belongs to
+	"""
+	customer: String!
+	"""
+	An arbitrary string attached to the object. Often useful for displaying to users.
+	"""
+	description: String!
+	"""
+	ID of the invoice that created this PaymentIntent, if it exists.
+	"""
+	invoice: String
+	latest_charge: String!
+	livemode: Boolean!
+	payment_method: String!
+	setup_future_usage: String!
+	status: PaymentIntentStatus!
+	"""
+	A string that identifies the resulting payment as part of a group (for connected accounts). 
+	"""
+	transfer_group: String!
+	"""
+	The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason.
+	"""
+	last_payment_error: PaymentIntentLastPaymentError
+	"""
+	The account (if any) for which the funds of the PaymentIntent are intended. 
+	"""
+	on_behalf_of: String
+}
+
+type PaymentIntentLastPaymentError {
+	type: String!
+	"""
+	For card errors, the ID of the failed charge.
+	"""
+	charge: String
+	"""
+	For some errors that could be handled programmatically, a short string indicating the error code reported (https://stripe.com/docs/error-codes).
+	"""
+	code: String
+	decline_code: String
+	doc_url: String
+	message: String!
+	param: String
+	payment_method_type: String
+}
+
+enum PaymentIntentSetupFutureUsage {
+	"""
+	Use on_session if you intend to only reuse the payment method when your customer is present in your checkout flow.
+	"""
+	on_session
+	"""
+	Use off_session if your customer may or may not be present in your checkout flow.
+	"""
+	off_session
+}
+
+input InvoiceFilter {
+	customerId: String!
+	status: InvoiceStatus
+}
+
+input PaymentIntentFilter {
+	customerId: String!
+	status: PaymentIntentStatus
 }
 
 input setDefaultPaymentMethodInput{
@@ -109,7 +276,7 @@ enum BankAccountHolderType {
 }
 
 input SubscriptionFilter {
-	customerId: String
+	customerId: String!
 }
 
 type Subscription {
@@ -239,10 +406,69 @@ input AddressInput{
 }
 
 type Customer{
-	customerId: String!
+	id: String!
 	email: String!
 	name: String
 	address: Address
+	phone: String
+	created: Timestamp!
+	invoicePrefix: String
+	paymentMethods: [PaymentMethod!]
+}
+"""
+https://stripe.com/docs/api/payment_methods/object
+"""
+type PaymentMethod {
+	id: String!
+	billing_details: PaymentBillingDetails!
+	customer: String!
+	metadata: AnyObject
+	type: PaymentMethodType!
+	created: Timestamp!
+	livemode: Boolean!
+}
+
+enum PaymentMethodType {
+	acss_debit
+	affirm
+	afterpay_clearpay
+	alipay
+	au_becs_debit
+	bacs_debit
+	bancontact
+	blik
+	boleto
+	card
+	card_present
+	cashapp
+	customer_balance
+	eps
+	fpx
+	giropay
+	grabpay
+	ideal
+	interac_present
+	klarna
+	konbini
+	link
+	oxxo
+	p24
+	paynow
+	paypal
+	pix
+	promptpay
+	sepa_debit
+	sofort
+	us_bank_account
+	wechat_pay
+	zip
+}
+
+type PaymentBillingDetails {
+	address: Address
+	email: String!
+	name: String!
+	phone: String
 }
 
 type Address{

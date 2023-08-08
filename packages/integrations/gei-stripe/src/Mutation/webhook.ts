@@ -25,13 +25,19 @@ import {
   invoicePaymentSucceeded,
   invoiceUpcoming,
 } from '../utils/invoiceEvents.js';
-import { customerDelete, customerInsert, customerUpdate } from '../utils/customerEvents.js';
+import {
+  customerDefaultSourceUpdated,
+  customerDelete,
+  customerInsert,
+  customerUpdate,
+} from '../utils/customerEvents.js';
 import {
   ExternalAccount,
   externalAccountDelete,
   externalAccountInsert,
   externalAccountUpdate,
 } from '../utils/externalAccountEvents.js';
+import { paymentMethodAttached, paymentMethodDetached } from '../utils/paymentMethodEvents.js';
 
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'webhook', async (args) => {
@@ -93,12 +99,18 @@ export const handler = async (input: FieldResolveInput) =>
               return customerDelete(ev.data.object as Stripe.Customer);
             case 'customer.updated':
               return customerUpdate(ev.data.object as Stripe.Customer);
+            case 'customer.default_source_updated':
+              return customerDefaultSourceUpdated(ev.data.object as Stripe.Customer);
             case 'account.external_account.created':
               return externalAccountInsert(ev.data.object as ExternalAccount);
             case 'account.external_account.deleted':
               return externalAccountDelete(ev.data.object as ExternalAccount);
             case 'account.external_account.updated':
               return externalAccountUpdate(ev.data.object as ExternalAccount);
+            case 'payment_method.attached':
+              return paymentMethodAttached(ev.data.object as Stripe.PaymentMethod);
+            case 'payment_method.detached':
+              return paymentMethodDetached(ev.data.object as Stripe.PaymentMethod);
           }
         } catch (e) {
           throw new Error('cannot authorize request');

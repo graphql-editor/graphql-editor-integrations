@@ -7,6 +7,15 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		subscriptions:{
 			filter:"SubscriptionFilter"
+		},
+		paymentIntents:{
+			filter:"PaymentIntentFilter"
+		},
+		invoices:{
+			filter:"InvoiceFilter"
+		},
+		customer:{
+
 		}
 	},
 	Mutation:{
@@ -30,7 +39,23 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		setDefaultPaymentMethod:{
 			payload:"setDefaultPaymentMethodInput"
+		},
+		createPayoutForConnectedAccount:{
+			payload:"createPayoutForConnectedAccountInput"
 		}
+	},
+	createPayoutForConnectedAccountInput:{
+
+	},
+	PaymentIntentStatus: "enum" as const,
+	InvoiceStatus: "enum" as const,
+	InvoiceCollectionMethod: "enum" as const,
+	PaymentIntentSetupFutureUsage: "enum" as const,
+	InvoiceFilter:{
+		status:"InvoiceStatus"
+	},
+	PaymentIntentFilter:{
+		status:"PaymentIntentStatus"
 	},
 	setDefaultPaymentMethodInput:{
 
@@ -76,6 +101,7 @@ export const AllTypesProps: Record<string,any> = {
 	AddressInput:{
 
 	},
+	PaymentMethodType: "enum" as const,
 	ProductFilter:{
 		created:"TimestampFilter"
 	},
@@ -109,7 +135,10 @@ export const AllTypesProps: Record<string,any> = {
 export const ReturnTypes: Record<string,any> = {
 	Query:{
 		products:"ProductsPage",
-		subscriptions:"Subscription"
+		subscriptions:"Subscription",
+		paymentIntents:"PaymentIntent",
+		invoices:"Invoice",
+		customer:"Customer"
 	},
 	Mutation:{
 		initStripeCustomer:"Boolean",
@@ -119,7 +148,71 @@ export const ReturnTypes: Record<string,any> = {
 		createConnectAccount:"Boolean",
 		attachPaymentMethod:"Boolean",
 		setDefaultPaymentMethod:"Boolean",
+		createPayoutForConnectedAccount:"Boolean",
 		webhook:"String"
+	},
+	Invoice:{
+		id:"String",
+		account_country:"String",
+		account_name:"String",
+		account_tax_id:"String",
+		amount_due:"Int",
+		amount_paid:"Int",
+		amount_remaining:"Int",
+		amount_shipping:"Int",
+		application_fee_amount:"Int",
+		attempt_count:"Int",
+		attempted:"Boolean",
+		auto_advance:"Boolean",
+		billing_reason:"String",
+		charge:"String",
+		collection_method:"InvoiceCollectionMethod",
+		created:"Timestamp",
+		currency:"String",
+		customer:"String",
+		customer_address:"Address",
+		customer_email:"String",
+		customer_name:"String",
+		description:"String",
+		hosted_invoice_url:"String",
+		period_end:"Timestamp",
+		period_start:"Timestamp",
+		status:"InvoiceStatus",
+		subscription:"String",
+		total:"Int"
+	},
+	PaymentIntent:{
+		id:"String",
+		client_secret:"String",
+		amount:"Int",
+		amount_capturable:"Int",
+		amount_received:"Int",
+		application_fee_amount:"Int",
+		capture_method:"String",
+		confirmation_method:"String",
+		created:"Timestamp",
+		currency:"String",
+		customer:"String",
+		description:"String",
+		invoice:"String",
+		latest_charge:"String",
+		livemode:"Boolean",
+		payment_method:"String",
+		setup_future_usage:"String",
+		status:"PaymentIntentStatus",
+		transfer_group:"String",
+		last_payment_error:"PaymentIntentLastPaymentError",
+		on_behalf_of:"String"
+	},
+	PaymentIntentLastPaymentError:{
+		type:"String",
+		charge:"String",
+		code:"String",
+		decline_code:"String",
+		doc_url:"String",
+		message:"String",
+		param:"String",
+		payment_method_type:"String"
 	},
 	Subscription:{
 		id:"String",
@@ -152,10 +245,29 @@ export const ReturnTypes: Record<string,any> = {
 		email:"String"
 	},
 	Customer:{
-		customerId:"String",
+		id:"String",
 		email:"String",
 		name:"String",
-		address:"Address"
+		address:"Address",
+		phone:"String",
+		created:"Timestamp",
+		invoicePrefix:"String",
+		paymentMethods:"PaymentMethod"
+	},
+	PaymentMethod:{
+		id:"String",
+		billing_details:"PaymentBillingDetails",
+		customer:"String",
+		metadata:"AnyObject",
+		type:"PaymentMethodType",
+		created:"Timestamp",
+		livemode:"Boolean"
+	},
+	PaymentBillingDetails:{
+		address:"Address",
+		email:"String",
+		name:"String",
+		phone:"String"
 	},
 	Address:{
 		city:"String",

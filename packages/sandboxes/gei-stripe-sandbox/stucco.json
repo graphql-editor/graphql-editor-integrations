@@ -60,6 +60,36 @@
                 "name": "gei-stripe@Query.subscriptions"
             }
         },
+        "StripeQuery.invoices": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.4.0",
+                "resolver": "invoices"
+            },
+            "resolve": {
+                "name": "gei-stripe@Query.invoices"
+            }
+        },
+        "StripeQuery.customer": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.4.0",
+                "resolver": "customer"
+            },
+            "resolve": {
+                "name": "gei-stripe@Query.customer"
+            }
+        },
+        "StripeQuery.paymentIntents": {
+            "noCode": {
+                "package": "gei-stripe",
+                "version": "0.4.0",
+                "resolver": "paymentIntents"
+            },
+            "resolve": {
+                "name": "gei-stripe@Query.paymentIntents"
+            }
+        },
         "StripeMutation.initStripeCustomer": {
             "noCode": {
                 "package": "gei-stripe",

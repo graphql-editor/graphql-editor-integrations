@@ -7,6 +7,15 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		subscriptions:{
 			filter:"StripeSubscriptionFilter"
+		},
+		paymentIntents:{
+			filter:"StripePaymentIntentFilter"
+		},
+		invoices:{
+			filter:"StripeInvoiceFilter"
+		},
+		customer:{
+
 		}
 	},
 	StripeMutation:{
@@ -30,7 +39,23 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		setDefaultPaymentMethod:{
 			payload:"StripesetDefaultPaymentMethodInput"
+		},
+		createPayoutForConnectedAccount:{
+			payload:"StripecreatePayoutForConnectedAccountInput"
 		}
+	},
+	StripecreatePayoutForConnectedAccountInput:{
+
+	},
+	StripePaymentIntentStatus: "enum" as const,
+	StripeInvoiceStatus: "enum" as const,
+	StripeInvoiceCollectionMethod: "enum" as const,
+	StripePaymentIntentSetupFutureUsage: "enum" as const,
+	StripeInvoiceFilter:{
+		status:"StripeInvoiceStatus"
+	},
+	StripePaymentIntentFilter:{
+		status:"StripePaymentIntentStatus"
 	},
 	StripesetDefaultPaymentMethodInput:{
 
@@ -76,6 +101,7 @@ export const AllTypesProps: Record<string,any> = {
 	StripeAddressInput:{
 
 	},
+	StripePaymentMethodType: "enum" as const,
 	StripeProductFilter:{
 		created:"StripeTimestampFilter"
 	},
@@ -109,7 +135,10 @@ export const AllTypesProps: Record<string,any> = {
 export const ReturnTypes: Record<string,any> = {
 	StripeQuery:{
 		products:"StripeProductsPage",
-		subscriptions:"StripeSubscription"
+		subscriptions:"StripeSubscription",
+		paymentIntents:"StripePaymentIntent",
+		invoices:"StripeInvoice",
+		customer:"StripeCustomer"
 	},
 	StripeMutation:{
 		initStripeCustomer:"Boolean",
@@ -119,7 +148,71 @@ export const ReturnTypes: Record<string,any> = {
 		createConnectAccount:"Boolean",
 		attachPaymentMethod:"Boolean",
 		setDefaultPaymentMethod:"Boolean",
+		createPayoutForConnectedAccount:"Boolean",
 		webhook:"String"
+	},
+	StripeInvoice:{
+		id:"String",
+		account_country:"String",
+		account_name:"String",
+		account_tax_id:"String",
+		amount_due:"Int",
+		amount_paid:"Int",
+		amount_remaining:"Int",
+		amount_shipping:"Int",
+		application_fee_amount:"Int",
+		attempt_count:"Int",
+		attempted:"Boolean",
+		auto_advance:"Boolean",
+		billing_reason:"String",
+		charge:"String",
+		collection_method:"StripeInvoiceCollectionMethod",
+		created:"StripeTimestamp",
+		currency:"String",
+		customer:"String",
+		customer_address:"StripeAddress",
+		customer_email:"String",
+		customer_name:"String",
+		description:"String",
+		hosted_invoice_url:"String",
+		period_end:"StripeTimestamp",
+		period_start:"StripeTimestamp",
+		status:"StripeInvoiceStatus",
+		subscription:"String",
+		total:"Int"
+	},
+	StripePaymentIntent:{
+		id:"String",
+		client_secret:"String",
+		amount:"Int",
+		amount_capturable:"Int",
+		amount_received:"Int",
+		application_fee_amount:"Int",
+		capture_method:"String",
+		confirmation_method:"String",
+		created:"StripeTimestamp",
+		currency:"String",
+		customer:"String",
+		description:"String",
+		invoice:"String",
+		latest_charge:"String",
+		livemode:"Boolean",
+		payment_method:"String",
+		setup_future_usage:"String",
+		status:"StripePaymentIntentStatus",
+		transfer_group:"String",
+		last_payment_error:"StripePaymentIntentLastPaymentError",
+		on_behalf_of:"String"
+	},
+	StripePaymentIntentLastPaymentError:{
+		type:"String",
+		charge:"String",
+		code:"String",
+		decline_code:"String",
+		doc_url:"String",
+		message:"String",
+		param:"String",
+		payment_method_type:"String"
 	},
 	StripeSubscription:{
 		id:"String",
@@ -152,10 +245,29 @@ export const ReturnTypes: Record<string,any> = {
 		email:"String"
 	},
 	StripeCustomer:{
-		customerId:"String",
+		id:"String",
 		email:"String",
 		name:"String",
-		address:"StripeAddress"
+		address:"StripeAddress",
+		phone:"String",
+		created:"StripeTimestamp",
+		invoicePrefix:"String",
+		paymentMethods:"StripePaymentMethod"
+	},
+	StripePaymentMethod:{
+		id:"String",
+		billing_details:"StripePaymentBillingDetails",
+		customer:"String",
+		metadata:"StripeAnyObject",
+		type:"StripePaymentMethodType",
+		created:"StripeTimestamp",
+		livemode:"Boolean"
+	},
+	StripePaymentBillingDetails:{
+		address:"StripeAddress",
+		email:"String",
+		name:"String",
+		phone:"String"
 	},
 	StripeAddress:{
 		city:"String",

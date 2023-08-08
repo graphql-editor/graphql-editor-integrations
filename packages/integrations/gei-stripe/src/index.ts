@@ -11,6 +11,10 @@ import { handler as subscriptionsHandler } from './Query/subscriptions.js';
 import { handler as attachPaymentMethodHandler } from './Mutation/attachPaymentMethod.js';
 import { handler as createConnectAccountHandler } from './Mutation/createConnectAccount.js';
 import { handler as setDefaultPaymentMethodHandler } from './Mutation/setDefaultPaymentMethod.js';
+import { handler as paymentIntentsHandler } from './Query/paymentIntents.js';
+import { handler as invoicesHandler } from './Query/invoices.js';
+import { handler as customerHandler } from './Query/customer.js';
+
 export const integration = NewIntegration({
   Query: {
     products: {
@@ -22,6 +26,21 @@ export const integration = NewIntegration({
       name: 'subscriptions',
       description: 'List stripe subscriptions with corresponding prices',
       handler: subscriptionsHandler,
+    },
+    paymentIntents: {
+      name: 'paymentIntents',
+      description: 'List stripe payment intents',
+      handler: paymentIntentsHandler,
+    },
+    invoices: {
+      name: 'invoices',
+      description: 'List stripe invoices for specific user',
+      handler: invoicesHandler,
+    },
+    customer: {
+      name: 'customer',
+      description: 'Show stripe customer object with payment methods',
+      handler: customerHandler,
     }
   },
   Mutation: {
