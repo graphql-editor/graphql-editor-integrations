@@ -4,8 +4,6 @@ import { DB } from '../db/mongo.js';
 
 export const handler = async (input: FieldResolveInput) => {
   return DB().then((db) => {
-    console.log(input.arguments);
-    
     const sortArg = input.arguments?.sortByField || input.arguments?.sort
     const sort = (typeof sortArg === 'object') ?  sortArg as {field: string, order?: boolean}   : undefined
     const field = snakeCaseToCamelCase(sort?.field as unknown as string)
@@ -19,10 +17,9 @@ export const handler = async (input: FieldResolveInput) => {
       ...prepareSourceParameters(input),
       ...convertDateFilter(dateFilter as QueryObject),
       ...(ifValueIsArray(fieldFilter as QueryObject)),
-      ...convertObjectToRegexFormat(fieldRegexFilter as QueryObject),
+      ...convertObjectToRegexFormat(ifValueIsArray(fieldRegexFilter) as QueryObject),
     };
    
-
     return db.collection(prepareModel(input)).find(filterInput).sort(field ? { [field]: sort?.order === false ? -1 : 1 } : { _id: 1 }).toArray();
   });
 };
