@@ -19,7 +19,7 @@ export const handler = async (input: FieldResolveInput) => {
       ...(ifValueIsArray(fieldFilter as QueryObject)),
       ...convertObjectToRegexFormat(ifValueIsArray(fieldRegexFilter) as QueryObject),
     };
-   
+  
     return db.collection(prepareModel(input)).find(filterInput).sort(field ? { [field]: sort?.order === false ? -1 : 1 } : { _id: 1 }).toArray();
   });
 };
@@ -56,7 +56,7 @@ function snakeCaseToCamelCase(input:  string | null | undefined) {
 
 function checkStringFields(obj: Record<string, unknown> | undefined): boolean {
   for (const key in obj) {
-    if (typeof obj[key] === 'string') {
+    if (typeof obj[key] === 'string' ||  Array.isArray(obj[key])) {
       return true; 
     }
   }

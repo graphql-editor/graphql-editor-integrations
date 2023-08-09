@@ -24,11 +24,21 @@ export const handler = async (input: FieldResolveInput) =>
     const prepareField = prepareRelatedField(input)?.replace(/[{ }]/g, '')?.split(":");
     if(prepareField ){
     const fieldForFounding = prepareField[0];
+    
     const fieldWithArray = prepareField[1] ? prepareField[1]  : undefined
-    if(fieldWithArray&&!s[fieldWithArray]?.length) return null
-    db.collection(prepareRelatedModel(input))
-      .deleteMany( { [fieldForFounding]: (fieldWithArray? { $in: s[fieldWithArray]}
-        :  s._id )})
+
+    if(!fieldWithArray){
+       db.collection(prepareRelatedModel(input)).updateMany(
+        {},
+        { $pull: { [fieldForFounding]:  s._id  } }
+      );
+      return !!res.deletedCount
+    }
+    if(fieldWithArray&&!s[fieldWithArray]?.length) !!res.deletedCount
+
+     db.collection(prepareRelatedModel(input))
+      .deleteMany( { [fieldForFounding]: { $in: s[fieldWithArray]}
+        })
       }
     return !!res.deletedCount
   });

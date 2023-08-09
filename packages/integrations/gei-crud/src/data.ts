@@ -58,7 +58,7 @@ export const prepareRelatedModel = (input: FieldResolveInput) => {
 
 export const prepareRelatedField = (input: FieldResolveInput) => {
   const { data } = getResolverData<{ relatedField: string }>(input);
-  const model = data?.relatedField.value;
+  const model = data?.relatedField?.value;
   if (!model) {
     throw new Error('Please specify a related field');
   }
