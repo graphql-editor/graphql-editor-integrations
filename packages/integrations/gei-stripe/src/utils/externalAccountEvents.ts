@@ -12,7 +12,8 @@ export const externalAccountInsert = async (subEvent: ExternalAccount) => {
     const { id, ...subEventWithoutId } = subEvent;
     return await MongoOrb('StripeExternalAccountCollection').collection.updateOne(
       { id: subEvent.id },
-      { $set: subEventWithoutId }
+      { $set: subEventWithoutId },
+      { upsert: true }
     );;
   };
   

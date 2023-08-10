@@ -12,6 +12,7 @@ export const customerUpdate = async (subEvent: Stripe.Customer) => {
   return await MongoOrb('StripeCustomerCollection').collection.updateOne(
     { id: subEvent.id },
     { $set: subEventWithoutId },
+    { upsert: true }
   );
 };
 

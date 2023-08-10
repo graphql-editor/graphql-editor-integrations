@@ -83,6 +83,27 @@
             "resolve": {
                 "name": "Mutation.setDefaultPaymentMethod.handler"
             }
+        },
+        "Query.paymentIntents": {
+            "name": "paymentIntents",
+            "description": "List stripe payment intents",
+            "resolve": {
+                "name": "Query.paymentIntents.handler"
+            }
+        },
+        "Query.invoices": {
+            "name": "invoices",
+            "description": "List stripe invoices for specific user",
+            "resolve": {
+                "name": "Query.invoices.handler"
+            }
+        },
+        "Query.customer": {
+            "name": "customer",
+            "description": "Show stripe customer object with payment methods",
+            "resolve": {
+                "name": "Query.customer.handler"
+            }
         }
     },
     "azureOpts": {

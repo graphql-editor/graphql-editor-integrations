@@ -5,7 +5,7 @@ const upsertInvoice = async (invoiceEvent: Stripe.Invoice) => {
     return await MongoOrb('StripeInvoiceCollection').collection.updateOne(
         { id: invoiceEvent.id },
         { $set: { ...invoiceEvent } },
-        { upsert: true } // creates a new document if no documents match the filter
+        { upsert: true }
     );
 };
 

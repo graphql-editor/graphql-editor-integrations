@@ -11,7 +11,8 @@ export const stripePriceInsert = async (subEvent: Stripe.Price) => {
     const { id, ...subEventWithoutId } = subEvent;
     return await MongoOrb('StripePriceCollection').collection.updateOne(
       { id: subEvent.id },
-      { $set: subEventWithoutId }
+      { $set: subEventWithoutId },
+      { upsert: true }
     );;
   };
   

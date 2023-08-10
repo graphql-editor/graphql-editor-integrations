@@ -11,7 +11,8 @@ export const taxRateUpdated = async (subEvent: Stripe.TaxRate) => {
 const { id, ...subEventWithoutId } = subEvent;
 return await MongoOrb('StripeTaxRateCollection').collection.updateOne(
     { id: subEvent.id },
-    { $set: subEventWithoutId }
+    { $set: subEventWithoutId },
+    { upsert: true }
 );;
 };
   
