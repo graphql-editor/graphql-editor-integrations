@@ -8,7 +8,7 @@ export const handler = async (input: FieldResolveInput) =>
     const { userId, username, fullName } = updatedUser;
     const userCollection = o('UserCollection').collection;
 
-    const user = await userCollection.findOne({ userId });
+    const user = await userCollection.findOne({ _id: userId });
     if (!user) {
       return { hasError: EditUserError.USER_DOES_NOT_EXIST };
     }
