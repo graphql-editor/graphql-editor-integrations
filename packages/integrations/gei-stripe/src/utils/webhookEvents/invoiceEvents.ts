@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { MongoOrb } from "../db/orm.js";
+import { MongoOrb } from "../../db/orm.js";
 
 const upsertInvoice = async (invoiceEvent: Stripe.Invoice) => {
     return await MongoOrb('StripeInvoiceCollection').collection.updateOne(

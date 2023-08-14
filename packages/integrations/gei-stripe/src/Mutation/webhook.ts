@@ -1,22 +1,22 @@
 import Stripe from 'stripe';
 import { FieldResolveInput } from 'stucco-js';
-import { newStripe } from '../utils/utils.js';
+import { newStripe } from '../utils/stripeInit.js';
 import {
   stripeSubscriptionDelete,
   stripeSubscriptionInsert,
   stripeSubscriptionUpdate,
-} from '../utils/stripeSubscriptionEvents.js';
+} from '../utils/webhookEvents/stripeSubscriptionEvents.js';
 import { resolverFor } from '../zeus/index.js';
-import { stripeProductDelete, stripeProductInsert, stripeProductUpdate } from '../utils/stripeProductEvents.js';
-import { stripePriceDelete, stripePriceInsert, stripePriceUpdate } from '../utils/stripePriceEvents.js';
-import { stripeCheckoutComplete } from '../utils/checkoutSessionEvents.js';
+import { stripeProductDelete, stripeProductInsert, stripeProductUpdate } from '../utils/webhookEvents/stripeProductEvents.js';
+import { stripePriceDelete, stripePriceInsert, stripePriceUpdate } from '../utils/webhookEvents/stripePriceEvents.js';
+import { stripeCheckoutComplete } from '../utils/webhookEvents/checkoutSessionEvents.js';
 import {
   paymentIntentCanceled,
   paymentIntentFailed,
   paymentIntentProcessing,
   paymentIntentSucceeded,
-} from '../utils/paymentIntentEvents.js';
-import { taxRateCreated, taxRateUpdated } from '../utils/tax_rateEvents.js';
+} from '../utils/webhookEvents/paymentIntentEvents.js';
+import { taxRateCreated, taxRateUpdated } from '../utils/webhookEvents/tax_rateEvents.js';
 import {
   invoiceMarkedUncollectible,
   invoicePaid,
@@ -24,20 +24,20 @@ import {
   invoicePaymentFailed,
   invoicePaymentSucceeded,
   invoiceUpcoming,
-} from '../utils/invoiceEvents.js';
+} from '../utils/webhookEvents/invoiceEvents.js';
 import {
   customerDefaultSourceUpdated,
   customerDelete,
   customerInsert,
   customerUpdate,
-} from '../utils/customerEvents.js';
+} from '../utils/webhookEvents/customerEvents.js';
 import {
-  ExternalAccount,
   externalAccountDelete,
   externalAccountInsert,
   externalAccountUpdate,
-} from '../utils/externalAccountEvents.js';
-import { paymentMethodAttached, paymentMethodDetached } from '../utils/paymentMethodEvents.js';
+} from '../utils/webhookEvents/externalAccountEvents.js';
+import { paymentMethodAttached, paymentMethodDetached } from '../utils/webhookEvents/paymentMethodEvents.js';
+import { ExternalAccount } from '../utils/customTypes/ExternalAccount.js';
 
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'webhook', async (args) => {

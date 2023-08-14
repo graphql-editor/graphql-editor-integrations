@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { MongoOrb } from "../db/orm.js";
+import { MongoOrb } from "../../db/orm.js";
 
 const upsertPaymentIntent = async (subEvent: Stripe.PaymentIntent) => {
     return await MongoOrb('StripePaymentIntentCollection').collection.updateOne(

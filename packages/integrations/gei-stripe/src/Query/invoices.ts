@@ -4,7 +4,6 @@ import { MongoOrb } from "../db/orm.js";
 
 export const handler = async (input: FieldResolveInput) => 
   resolverFor('Query', 'invoices', async (args) => {
-    console.log("JAZDA")
     const filter: any = { customer: args.filter.customerId };
     if(args.filter.status){
         filter.status = args.filter.status

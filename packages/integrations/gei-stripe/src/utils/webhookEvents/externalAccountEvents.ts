@@ -1,6 +1,6 @@
 import Stripe from "stripe";
-import { MongoOrb } from "../db/orm.js";
-export type ExternalAccount = Stripe.BankAccount | Stripe.Card;
+import { MongoOrb } from "../../db/orm.js";
+import { ExternalAccount } from "../customTypes/ExternalAccount.js";
 
 export const externalAccountInsert = async (subEvent: ExternalAccount) => {
     return await MongoOrb('StripeExternalAccountCollection').collection.insertOne({

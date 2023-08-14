@@ -1,6 +1,6 @@
 import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
-import { newStripe } from '../utils/utils.js';
+import { newStripe } from '../utils/stripeInit.js';
 import { MongoOrb } from '../db/orm.js';
 
 export const handler = async (input: FieldResolveInput) =>

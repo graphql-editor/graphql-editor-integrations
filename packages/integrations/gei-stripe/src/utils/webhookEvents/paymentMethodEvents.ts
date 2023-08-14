@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import { MongoOrb } from '../db/orm.js';
+import { MongoOrb } from "../../db/orm.js";
 
 export const paymentMethodAttached = async (subEvent: Stripe.PaymentMethod) => {
   return await MongoOrb('PaymentMethodCollection').collection.insertOne({

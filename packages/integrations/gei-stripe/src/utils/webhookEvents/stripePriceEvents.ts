@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { MongoOrb } from "../db/orm.js";
+import { MongoOrb } from "../../db/orm.js";
 
 export const stripePriceInsert = async (subEvent: Stripe.Price) => {
     return await MongoOrb('StripePriceCollection').collection.insertOne({

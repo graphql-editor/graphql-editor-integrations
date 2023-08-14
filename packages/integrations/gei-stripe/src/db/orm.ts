@@ -2,7 +2,7 @@ import { iGraphQL } from 'i-graphql';
 import { ObjectId } from 'mongodb';
 import Stripe from 'stripe';
 import { UserModel } from '../models/UserModel';
-import { ExternalAccount } from '../utils/externalAccountEvents';
+import { ExternalAccount } from '../utils/customTypes/ExternalAccount';
 
 export const orm = async () => {
   return iGraphQL<
