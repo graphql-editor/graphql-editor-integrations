@@ -1,7 +1,7 @@
 import { WithId } from "mongodb";
 import Stripe from "stripe";
-import { newStripe } from "../stripeInit";
-import { MongoOrb } from "../../db/orm";
+import { newStripe } from "../stripeInit.js";
+import { MongoOrb } from "../../db/orm.js";
 import { UserModel } from "../../models/UserModel";
 import { product, applicationFee, item } from "../customTypes/types";
 
