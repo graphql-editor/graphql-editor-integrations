@@ -37,7 +37,7 @@ import {
   externalAccountUpdate,
 } from '../utils/webhookEvents/externalAccountEvents.js';
 import { paymentMethodAttached, paymentMethodDetached } from '../utils/webhookEvents/paymentMethodEvents.js';
-import { ExternalAccount } from '../utils/customTypes/ExternalAccount.js';
+import { ExternalAccount } from '../utils/customTypes/types.js';
 
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'webhook', async (args) => {
