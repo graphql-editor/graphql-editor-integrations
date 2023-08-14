@@ -36,7 +36,7 @@ import {
   externalAccountInsert,
   externalAccountUpdate,
 } from '../utils/webhookEvents/externalAccountEvents.js';
-import { paymentMethodAttached, paymentMethodDetached } from '../utils/webhookEvents/paymentMethodEvents.js';
+import { paymentMethodAttached, paymentMethodDetached, paymentMethodUpdated } from '../utils/webhookEvents/paymentMethodEvents.js';
 import { ExternalAccount } from '../utils/customTypes/types.js';
 
 export const handler = async (input: FieldResolveInput) =>
@@ -111,6 +111,8 @@ export const handler = async (input: FieldResolveInput) =>
               return paymentMethodAttached(ev.data.object as Stripe.PaymentMethod);
             case 'payment_method.detached':
               return paymentMethodDetached(ev.data.object as Stripe.PaymentMethod);
+            case 'payment_method.updated':
+              return paymentMethodUpdated(ev.data.object as Stripe.PaymentMethod);
           }
         } catch (e) {
           throw new Error('cannot authorize request');

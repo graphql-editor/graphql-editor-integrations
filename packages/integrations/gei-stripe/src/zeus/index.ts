@@ -1088,6 +1088,36 @@ createPayoutForConnectedAccount?: [{	payload: ValueTypes["createPayoutForConnect
 	type?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
 	livemode?:boolean | `@${string}`,
+	card?:ValueTypes["Card"],
+		__typename?: boolean | `@${string}`
+}>;
+	["Card"]: AliasType<{
+	brand?:ValueTypes["Card"],
+	checks?:ValueTypes["CardChecks"],
+	country?:boolean | `@${string}`,
+	exp_month?:boolean | `@${string}`,
+	exp_year?:boolean | `@${string}`,
+	fingerprint?:boolean | `@${string}`,
+	funding?:boolean | `@${string}`,
+	last4?:boolean | `@${string}`,
+	created?:boolean | `@${string}`,
+	networks?:ValueTypes["CardNetworks"],
+	three_d_secure_usage?:ValueTypes["CardThreeDSecureUsage"],
+		__typename?: boolean | `@${string}`
+}>;
+	["CardThreeDSecureUsage"]: AliasType<{
+	supported?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["CardNetworks"]: AliasType<{
+	preferred?:boolean | `@${string}`,
+	available?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["CardChecks"]: AliasType<{
+	address_line1_check?:boolean | `@${string}`,
+	address_postal_code_check?:boolean | `@${string}`,
+	cvc_check?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["PaymentMethodType"]:PaymentMethodType;
@@ -1479,6 +1509,36 @@ createPayoutForConnectedAccount?: [{	payload: ResolverInputTypes["createPayoutFo
 	type?:boolean | `@${string}`,
 	created?:boolean | `@${string}`,
 	livemode?:boolean | `@${string}`,
+	card?:ResolverInputTypes["Card"],
+		__typename?: boolean | `@${string}`
+}>;
+	["Card"]: AliasType<{
+	brand?:ResolverInputTypes["Card"],
+	checks?:ResolverInputTypes["CardChecks"],
+	country?:boolean | `@${string}`,
+	exp_month?:boolean | `@${string}`,
+	exp_year?:boolean | `@${string}`,
+	fingerprint?:boolean | `@${string}`,
+	funding?:boolean | `@${string}`,
+	last4?:boolean | `@${string}`,
+	created?:boolean | `@${string}`,
+	networks?:ResolverInputTypes["CardNetworks"],
+	three_d_secure_usage?:ResolverInputTypes["CardThreeDSecureUsage"],
+		__typename?: boolean | `@${string}`
+}>;
+	["CardThreeDSecureUsage"]: AliasType<{
+	supported?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["CardNetworks"]: AliasType<{
+	preferred?:boolean | `@${string}`,
+	available?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["CardChecks"]: AliasType<{
+	address_line1_check?:boolean | `@${string}`,
+	address_postal_code_check?:boolean | `@${string}`,
+	cvc_check?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["PaymentMethodType"]:PaymentMethodType;
@@ -1862,10 +1922,36 @@ export type ModelTypes = {
 		id: string,
 	billing_details: ModelTypes["PaymentBillingDetails"],
 	customer: string,
-	metadata?: ModelTypes["AnyObject"] | undefined,
+	metadata: ModelTypes["AnyObject"],
 	type: ModelTypes["PaymentMethodType"],
 	created: ModelTypes["Timestamp"],
-	livemode: boolean
+	livemode: boolean,
+	card?: ModelTypes["Card"] | undefined
+};
+	["Card"]: {
+		brand: ModelTypes["Card"],
+	checks: ModelTypes["CardChecks"],
+	country: string,
+	exp_month: number,
+	exp_year: number,
+	fingerprint: string,
+	funding: string,
+	last4: string,
+	created: ModelTypes["Timestamp"],
+	networks: ModelTypes["CardNetworks"],
+	three_d_secure_usage: ModelTypes["CardThreeDSecureUsage"]
+};
+	["CardThreeDSecureUsage"]: {
+		supported: boolean
+};
+	["CardNetworks"]: {
+		preferred?: string | undefined,
+	available?: Array<string> | undefined
+};
+	["CardChecks"]: {
+		address_line1_check: string,
+	address_postal_code_check: string,
+	cvc_check: string
 };
 	["PaymentMethodType"]:PaymentMethodType;
 	["PaymentBillingDetails"]: {
@@ -2250,10 +2336,40 @@ export type GraphQLTypes = {
 	id: string,
 	billing_details: GraphQLTypes["PaymentBillingDetails"],
 	customer: string,
-	metadata?: GraphQLTypes["AnyObject"] | undefined,
+	metadata: GraphQLTypes["AnyObject"],
 	type: GraphQLTypes["PaymentMethodType"],
 	created: GraphQLTypes["Timestamp"],
-	livemode: boolean
+	livemode: boolean,
+	card?: GraphQLTypes["Card"] | undefined
+};
+	["Card"]: {
+	__typename: "Card",
+	brand: GraphQLTypes["Card"],
+	checks: GraphQLTypes["CardChecks"],
+	country: string,
+	exp_month: number,
+	exp_year: number,
+	fingerprint: string,
+	funding: string,
+	last4: string,
+	created: GraphQLTypes["Timestamp"],
+	networks: GraphQLTypes["CardNetworks"],
+	three_d_secure_usage: GraphQLTypes["CardThreeDSecureUsage"]
+};
+	["CardThreeDSecureUsage"]: {
+	__typename: "CardThreeDSecureUsage",
+	supported: boolean
+};
+	["CardNetworks"]: {
+	__typename: "CardNetworks",
+	preferred?: string | undefined,
+	available?: Array<string> | undefined
+};
+	["CardChecks"]: {
+	__typename: "CardChecks",
+	address_line1_check: string,
+	address_postal_code_check: string,
+	cvc_check: string
 };
 	["PaymentMethodType"]: PaymentMethodType;
 	["PaymentBillingDetails"]: {

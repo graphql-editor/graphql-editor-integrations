@@ -261,7 +261,33 @@ export const ReturnTypes: Record<string,any> = {
 		metadata:"AnyObject",
 		type:"PaymentMethodType",
 		created:"Timestamp",
-		livemode:"Boolean"
+		livemode:"Boolean",
+		card:"Card"
+	},
+	Card:{
+		brand:"Card",
+		checks:"CardChecks",
+		country:"String",
+		exp_month:"Int",
+		exp_year:"Int",
+		fingerprint:"String",
+		funding:"String",
+		last4:"String",
+		created:"Timestamp",
+		networks:"CardNetworks",
+		three_d_secure_usage:"CardThreeDSecureUsage"
+	},
+	CardThreeDSecureUsage:{
+		supported:"Boolean"
+	},
+	CardNetworks:{
+		preferred:"String",
+		available:"String"
+	},
+	CardChecks:{
+		address_line1_check:"String",
+		address_postal_code_check:"String",
+		cvc_check:"String"
 	},
 	PaymentBillingDetails:{
 		address:"Address",

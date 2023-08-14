@@ -14,6 +14,7 @@ import { handler as setDefaultPaymentMethodHandler } from './Mutation/setDefault
 import { handler as paymentIntentsHandler } from './Query/paymentIntents.js';
 import { handler as invoicesHandler } from './Query/invoices.js';
 import { handler as customerHandler } from './Query/customer.js';
+import { handler as paymentMethodHandler } from './Customer/paymentMethods.js';
 
 export const integration = NewIntegration({
   Query: {
@@ -95,6 +96,13 @@ export const integration = NewIntegration({
       name: 'prices',
       description: 'Resolver for querying prices objects',
       handler: productPricesHandler,
+    },
+  },
+  Customer: {
+    paymentMethods: {
+      name: 'paymentMethods',
+      description: 'Resolver for querying customer payment methods',
+      handler: paymentMethodHandler,
     },
   }
 });

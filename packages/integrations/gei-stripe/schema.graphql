@@ -422,10 +422,40 @@ type PaymentMethod {
 	id: String!
 	billing_details: PaymentBillingDetails!
 	customer: String!
-	metadata: AnyObject
+	metadata: AnyObject!
 	type: PaymentMethodType!
 	created: Timestamp!
 	livemode: Boolean!
+	card: Card
+}
+
+type Card {
+	brand: Card!
+	checks: CardChecks!
+	country: String!
+	exp_month: Int!
+	exp_year: Int!
+	fingerprint: String!
+	funding: String!
+	last4: String!
+	created: Timestamp!
+	networks: CardNetworks!
+	three_d_secure_usage: CardThreeDSecureUsage!
+}
+
+type CardThreeDSecureUsage {
+	supported: Boolean!
+}
+
+type CardNetworks {
+	preferred: String
+	available : [String!]
+}
+
+type CardChecks {
+	address_line1_check: String!
+	address_postal_code_check: String!
+	cvc_check: String!
 }
 
 enum PaymentMethodType {

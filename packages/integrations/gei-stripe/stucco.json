@@ -104,6 +104,13 @@
             "resolve": {
                 "name": "Query.customer.handler"
             }
+        },
+        "Customer.paymentMethods": {
+            "name": "paymentMethods",
+            "description": "Resolver for querying customer payment methods",
+            "resolve": {
+                "name": "Customer.paymentMethods.handler"
+            }
         }
     },
     "azureOpts": {
