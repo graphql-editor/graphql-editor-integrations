@@ -1,5 +1,8 @@
 
 
+
+
+
 type Query{
 	products(
 		filter: ProductFilter
@@ -438,7 +441,6 @@ type Card {
 	fingerprint: String!
 	funding: String!
 	last4: String!
-	created: Timestamp!
 	networks: CardNetworks!
 	three_d_secure_usage: CardThreeDSecureUsage!
 }
@@ -673,7 +675,8 @@ type ProductsPage{
 	endingBefore: ID
 }
 
+
 schema{
-	query: Query,
 	mutation: Mutation
+	query: Query
 }

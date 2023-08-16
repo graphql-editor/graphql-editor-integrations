@@ -1100,7 +1100,6 @@ createPayoutForConnectedAccount?: [{	payload: ValueTypes["createPayoutForConnect
 	fingerprint?:boolean | `@${string}`,
 	funding?:boolean | `@${string}`,
 	last4?:boolean | `@${string}`,
-	created?:boolean | `@${string}`,
 	networks?:ValueTypes["CardNetworks"],
 	three_d_secure_usage?:ValueTypes["CardThreeDSecureUsage"],
 		__typename?: boolean | `@${string}`
@@ -1521,7 +1520,6 @@ createPayoutForConnectedAccount?: [{	payload: ResolverInputTypes["createPayoutFo
 	fingerprint?:boolean | `@${string}`,
 	funding?:boolean | `@${string}`,
 	last4?:boolean | `@${string}`,
-	created?:boolean | `@${string}`,
 	networks?:ResolverInputTypes["CardNetworks"],
 	three_d_secure_usage?:ResolverInputTypes["CardThreeDSecureUsage"],
 		__typename?: boolean | `@${string}`
@@ -1937,7 +1935,6 @@ export type ModelTypes = {
 	fingerprint: string,
 	funding: string,
 	last4: string,
-	created: ModelTypes["Timestamp"],
 	networks: ModelTypes["CardNetworks"],
 	three_d_secure_usage: ModelTypes["CardThreeDSecureUsage"]
 };
@@ -2352,7 +2349,6 @@ export type GraphQLTypes = {
 	fingerprint: string,
 	funding: string,
 	last4: string,
-	created: GraphQLTypes["Timestamp"],
 	networks: GraphQLTypes["CardNetworks"],
 	three_d_secure_usage: GraphQLTypes["CardThreeDSecureUsage"]
 };

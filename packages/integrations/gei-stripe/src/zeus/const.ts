@@ -273,7 +273,6 @@ export const ReturnTypes: Record<string,any> = {
 		fingerprint:"String",
 		funding:"String",
 		last4:"String",
-		created:"Timestamp",
 		networks:"CardNetworks",
 		three_d_secure_usage:"CardThreeDSecureUsage"
 	},
