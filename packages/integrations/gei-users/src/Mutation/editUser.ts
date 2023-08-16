@@ -27,7 +27,7 @@ export const handler = async (input: FieldResolveInput) =>
       update.fullName = fullName;
     }
 
-    const res = await userCollection.updateOne({ userId }, { $set: update });
+    const res = await userCollection.updateOne({ _id: userId }, { $set: update });
     if (res.modifiedCount === 0) {
       return { hasError: EditUserError.FAILED_MONGO_UPDATE };
     }
