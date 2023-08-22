@@ -24,7 +24,7 @@ export const handler = async (input: FieldResolveInput) =>
       if(phone){
         customerInput.phone = phone;
       }
-      const customer = await stripe.customers.create({email: "ughakai@gmail.com"});
+      const customer = await stripe.customers.create({email: args.initStripeCustomerInput.email});
       const res = await MongoOrb('UserCollection').collection.updateOne(
         { username: args.initStripeCustomerInput.email },
         { $set: { stripeId: customer.id } },
