@@ -96,7 +96,7 @@
                     "value": []
                 },
                 "relatedModel": {
-                    "name": "Related model",
+                    "name": "Related model for delete objects",
                     "description": "Specify related model name",
                     "value": "Object",
                     "required": true

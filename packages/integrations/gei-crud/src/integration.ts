@@ -99,6 +99,8 @@ const integration: IntegrationSpecification = {
     data: {
       model,
       sourceFilterParameters,
+      relatedModel,
+      relatedField,
     },
     resolve: {
       name: 'lib/Mutation/delete',
