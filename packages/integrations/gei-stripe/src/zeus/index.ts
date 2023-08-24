@@ -837,7 +837,7 @@ type ZEUS_UNIONS = never
 export type ValueTypes = {
     ["Query"]: AliasType<{
 products?: [{	filter?: ValueTypes["ProductFilter"] | undefined | null | Variable<any, string>},ValueTypes["ProductsPage"]],
-subscriptions?: [{	filter: ValueTypes["SubscriptionFilter"] | Variable<any, string>},ValueTypes["Subscription"]],
+subscriptions?: [{	filter?: ValueTypes["SubscriptionFilter"] | undefined | null | Variable<any, string>},ValueTypes["Subscription"]],
 paymentIntents?: [{	filter: ValueTypes["PaymentIntentFilter"] | Variable<any, string>},ValueTypes["PaymentIntent"]],
 invoices?: [{	filter: ValueTypes["InvoiceFilter"] | Variable<any, string>},ValueTypes["Invoice"]],
 customer?: [{	customerId: string | Variable<any, string>},ValueTypes["Customer"]],
@@ -980,7 +980,15 @@ createPayoutForConnectedAccount?: [{	payload: ValueTypes["createPayoutForConnect
 };
 	["BankAccountHolderType"]:BankAccountHolderType;
 	["SubscriptionFilter"]: {
-	customerId: string | Variable<any, string>
+	id?: string | undefined | null | Variable<any, string>,
+	cancel_at_period_end?: boolean | undefined | null | Variable<any, string>,
+	current_period_end?: ValueTypes["TimestampFilter"] | undefined | null | Variable<any, string>,
+	current_period_start?: ValueTypes["TimestampFilter"] | undefined | null | Variable<any, string>,
+	customer?: string | undefined | null | Variable<any, string>,
+	description?: string | undefined | null | Variable<any, string>,
+	items?: Array<string> | undefined | null | Variable<any, string>,
+	quantity?: number | undefined | null | Variable<any, string>,
+	status?: ValueTypes["SubStatus"] | undefined | null | Variable<any, string>
 };
 	["Subscription"]: AliasType<{
 	id?:boolean | `@${string}`,
@@ -1257,7 +1265,7 @@ createPayoutForConnectedAccount?: [{	payload: ValueTypes["createPayoutForConnect
 export type ResolverInputTypes = {
     ["Query"]: AliasType<{
 products?: [{	filter?: ResolverInputTypes["ProductFilter"] | undefined | null},ResolverInputTypes["ProductsPage"]],
-subscriptions?: [{	filter: ResolverInputTypes["SubscriptionFilter"]},ResolverInputTypes["Subscription"]],
+subscriptions?: [{	filter?: ResolverInputTypes["SubscriptionFilter"] | undefined | null},ResolverInputTypes["Subscription"]],
 paymentIntents?: [{	filter: ResolverInputTypes["PaymentIntentFilter"]},ResolverInputTypes["PaymentIntent"]],
 invoices?: [{	filter: ResolverInputTypes["InvoiceFilter"]},ResolverInputTypes["Invoice"]],
 customer?: [{	customerId: string},ResolverInputTypes["Customer"]],
@@ -1400,7 +1408,15 @@ createPayoutForConnectedAccount?: [{	payload: ResolverInputTypes["createPayoutFo
 };
 	["BankAccountHolderType"]:BankAccountHolderType;
 	["SubscriptionFilter"]: {
-	customerId: string
+	id?: string | undefined | null,
+	cancel_at_period_end?: boolean | undefined | null,
+	current_period_end?: ResolverInputTypes["TimestampFilter"] | undefined | null,
+	current_period_start?: ResolverInputTypes["TimestampFilter"] | undefined | null,
+	customer?: string | undefined | null,
+	description?: string | undefined | null,
+	items?: Array<string> | undefined | null,
+	quantity?: number | undefined | null,
+	status?: ResolverInputTypes["SubStatus"] | undefined | null
 };
 	["Subscription"]: AliasType<{
 	id?:boolean | `@${string}`,
@@ -1821,7 +1837,15 @@ export type ModelTypes = {
 };
 	["BankAccountHolderType"]:BankAccountHolderType;
 	["SubscriptionFilter"]: {
-	customerId: string
+	id?: string | undefined,
+	cancel_at_period_end?: boolean | undefined,
+	current_period_end?: ModelTypes["TimestampFilter"] | undefined,
+	current_period_start?: ModelTypes["TimestampFilter"] | undefined,
+	customer?: string | undefined,
+	description?: string | undefined,
+	items?: Array<string> | undefined,
+	quantity?: number | undefined,
+	status?: ModelTypes["SubStatus"] | undefined
 };
 	["Subscription"]: {
 		id: string,
@@ -2228,7 +2252,15 @@ export type GraphQLTypes = {
 };
 	["BankAccountHolderType"]: BankAccountHolderType;
 	["SubscriptionFilter"]: {
-		customerId: string
+		id?: string | undefined,
+	cancel_at_period_end?: boolean | undefined,
+	current_period_end?: GraphQLTypes["TimestampFilter"] | undefined,
+	current_period_start?: GraphQLTypes["TimestampFilter"] | undefined,
+	customer?: string | undefined,
+	description?: string | undefined,
+	items?: Array<string> | undefined,
+	quantity?: number | undefined,
+	status?: GraphQLTypes["SubStatus"] | undefined
 };
 	["Subscription"]: {
 	__typename: "Subscription",

@@ -8,7 +8,7 @@ type Query{
 		filter: ProductFilter
 	): ProductsPage
 	subscriptions(  
-		filter: SubscriptionFilter!
+		filter: SubscriptionFilter
 	): [Subscription!]
 	paymentIntents(
 		filter: PaymentIntentFilter!
@@ -279,7 +279,15 @@ enum BankAccountHolderType {
 }
 
 input SubscriptionFilter {
-	customerId: String!
+	id: String
+	cancel_at_period_end: Boolean
+	current_period_end: TimestampFilter
+	current_period_start: TimestampFilter
+	customer: String
+	description: String
+	items: [String!]
+	quantity: Int
+	status: SubStatus
 }
 
 type Subscription {
@@ -289,7 +297,7 @@ type Subscription {
 	current_period_start: Timestamp!
 	customer: String!
 	description: String
-	items:SubscriptionItems!
+	items: SubscriptionItems!
 	quantity: Int!
 	status: SubStatus!
 }

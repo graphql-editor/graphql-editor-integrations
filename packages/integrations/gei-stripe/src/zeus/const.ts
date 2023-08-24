@@ -75,7 +75,9 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	BankAccountHolderType: "enum" as const,
 	SubscriptionFilter:{
-
+		current_period_end:"TimestampFilter",
+		current_period_start:"TimestampFilter",
+		status:"SubStatus"
 	},
 	SubStatus: "enum" as const,
 	InitStripeCustomerInput:{

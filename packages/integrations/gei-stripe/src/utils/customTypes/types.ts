@@ -16,3 +16,10 @@ export type applicationFee = {
   feePercentage: number;
   connectAccountId: string;
 };
+
+export const timestampMapping: { [key: string]: string } = {
+  'Gt': '$gt',
+  'Gte': '$gte',
+  'Lt': '$lt',
+  'Lte': '$lte'
+};
