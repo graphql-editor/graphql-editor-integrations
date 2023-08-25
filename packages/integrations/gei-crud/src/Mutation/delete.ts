@@ -10,6 +10,7 @@ import { DB } from '../db/mongo.js';
 
 export const handler = async (input: FieldResolveInput) => {
   const db = await DB();
+  
 
   const _id = prepare_id(input) || prepareSourceParameters(input)._id;
   if (!_id) throw new Error('_id not found');
@@ -27,19 +28,29 @@ export const handler = async (input: FieldResolveInput) => {
   }
 
   const s = object as Record<string, any>;
-  const prepareField = prepareRelatedField(input)?.replace(/[{ }]/g, '').split(':');
-  if (prepareField) {
-    const fieldForFounding = prepareField[0];
-    const fieldWithArray = prepareField[1] || undefined;
 
-    if (!fieldWithArray) {
-      await db.collection(prepareRelatedModel(input)).updateMany({}, { $pull: { [fieldForFounding]: s._id } });
-    } else if (!s[fieldWithArray]?.length) {
-      return !!res.deletedCount;
-    } else {
-      await db.collection(prepareRelatedModel(input)).deleteMany({ [fieldForFounding]: { $in: s[fieldWithArray] } });
-    }
-  }
+  const relatedCollections = prepareRelatedModel(input).replace(/["' ]/g, '').split(',')
+  const prepareFields = prepareRelatedField(input)?.replace(/[{ }]/g, '').split(',');
+  let i = 0
+  for (const rC of relatedCollections){
+   const prepareField = prepareFields[i]?.split(':') || prepareFields[0]?.split(':');
+   i++
+   if (prepareField) {
+     const fieldForFounding = prepareField[0];
+     const fieldWithIdOrArray = prepareField[1] || undefined;
 
+     if (!fieldWithIdOrArray) {
+       await db.collection(rC).deleteMany({ [fieldForFounding]: s._id });
+       await db.collection(rC).updateMany({}, { $pull: { [fieldForFounding]: s._id } });
+     } else if (!s[fieldWithIdOrArray]?.length) {
+       return !!res.deletedCount;
+     } else {
+      if(typeof(s[fieldWithIdOrArray]) === "string"){
+        await db.collection(rC).deleteMany({ [fieldForFounding]:  s[fieldWithIdOrArray]  })
+      }else
+       {await db.collection(rC).deleteMany({ [fieldForFounding]: { $in: s[fieldWithIdOrArray] } })};
+     }
+   }
+}
   return !!res.deletedCount;
 };

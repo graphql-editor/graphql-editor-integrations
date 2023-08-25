@@ -97,13 +97,13 @@
                 },
                 "relatedModel": {
                     "name": "Related model for delete objects",
-                    "description": "Specify related model name",
+                    "description": "You can delete related objects, or pull _id from all arrays in this collection. If you want to use more than one model, you can use a comma, but note that in this case you also need to use a comma for related fields.",
                     "value": "Object",
                     "required": true
                 },
                 "relatedField": {
                     "name": "Name of the field on related objects",
-                    "description": "Related object has this field as an owner id",
+                    "description": "Define here the field name for relate objects by _id of the remove object. If this field is an array, owner _id will be removed from it. If this field in the object is a string with the same value as owner _id, the entire object will be deleted.If you want to use a relation not by _id but by a other field from a remove object, you can write something like '_id:project' and this will remove all objects from the related collection that have an _id value of 'object.project'. For example, if you want to delete a team and write 'owner: members' here. This will remove all objects from the associated collection that has an 'owner' field with a value from the 'team.members' array.",
                     "value": "owner"
                 }
             },

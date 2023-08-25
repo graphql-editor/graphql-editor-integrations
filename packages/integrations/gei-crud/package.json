@@ -1,6 +1,6 @@
 {
   "name": "gei-crud",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "GraphQL Editor integration for stucco. Allows basic crud operations and relations.",
   "main": "lib/index.js",
   "private": false,
