@@ -1,0 +1,16 @@
+{
+    "namespace": "editor-integrations",
+    "project": "basic",
+    "version": "0.0.1",
+    "typingsEnv": "node",
+    "typingsHost": "http://localhost:8080/",
+    "typingsDir": "./src",
+    "backendSrc": "./src",
+    "backendLib": "./lib",
+    "schemaDir": "./",
+    "integrationPath": "src/index.ts",
+    "registry": "https://registry.npmjs.org/",
+    "npmPackage": "gei-basic",
+    "integrationName": "gei-basic",
+    "projectVersion": "latest"
+}

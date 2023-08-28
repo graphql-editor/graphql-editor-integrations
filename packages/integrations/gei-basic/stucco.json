@@ -1,0 +1,18 @@
+{
+    "resolvers": {
+        "Query.pipe": {
+            "name": "Pipe resolver",
+            "description": "Pass the resolver and go furhter",
+            "resolve": {
+                "name": "Query.pipe.handler"
+            }
+        },
+        "Query.passSource": {
+            "name": "Pass the source resolver",
+            "description": "Pass the resolver and go furhter. Pass the source to the next resolver",
+            "resolve": {
+                "name": "Query.passSource.handler"
+            }
+        }
+    }
+}
