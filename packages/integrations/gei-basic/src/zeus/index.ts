@@ -1,13 +1,11 @@
 /* eslint-disable */
 
-
 import { AllTypesProps, ReturnTypes, Ops } from './const.js';
 import fetch, { Response } from 'node-fetch';
 import WebSocket from 'ws';
-export const HOST = "http://localhost:8080/"
+export const HOST = 'http://localhost:8080/';
 
-
-export const HEADERS = {}
+export const HEADERS = {};
 export const apiSubscription = (options: chainOptions) => (query: string) => {
   try {
     const queryString = options[0] + '?query=' + encodeURIComponent(query);
@@ -405,7 +403,7 @@ export class GraphQLError extends Error {
     return 'GraphQL Response Error';
   }
 }
-export type GenericOperation<O> = O extends keyof typeof Ops ? typeof Ops[O] : never;
+export type GenericOperation<O> = O extends keyof typeof Ops ? (typeof Ops)[O] : never;
 export type ThunderGraphQLOptions<SCLR extends ScalarDefinition> = {
   scalars?: SCLR | ScalarCoders;
 };
@@ -827,41 +825,43 @@ export const GRAPHQL_TYPE_SEPARATOR = `__$GRAPHQL__`;
 export const $ = <Type extends GraphQLVariableType, Name extends string>(name: Name, graphqlType: Type) => {
   return (START_VAR_NAME + name + GRAPHQL_TYPE_SEPARATOR + graphqlType) as unknown as Variable<Type, Name>;
 };
-type ZEUS_INTERFACES = never
-export type ScalarCoders = {
-}
-type ZEUS_UNIONS = never
+type ZEUS_INTERFACES = never;
+export type ScalarCoders = {};
+type ZEUS_UNIONS = never;
 
 export type ValueTypes = {
-    ["Query"]: AliasType<{
-	pipe?:ValueTypes["Query"],
-	passSource?:ValueTypes["Query"],
-		__typename?: boolean | `@${string}`
-}>
-  }
+  ['Query']: AliasType<{
+    pipe?: ValueTypes['Query'];
+    passSource?: ValueTypes['Query'];
+    passSourceWithArgs?: ValueTypes['Query'];
+    __typename?: boolean | `@${string}`;
+  }>;
+};
 
 export type ResolverInputTypes = {
-    ["Query"]: AliasType<{
-	pipe?:ResolverInputTypes["Query"],
-	passSource?:ResolverInputTypes["Query"],
-		__typename?: boolean | `@${string}`
-}>
-  }
+  ['Query']: AliasType<{
+    pipe?: ResolverInputTypes['Query'];
+    passSource?: ResolverInputTypes['Query'];
+    passSourceWithArgs?: ResolverInputTypes['Query'];
+    __typename?: boolean | `@${string}`;
+  }>;
+};
 
 export type ModelTypes = {
-    ["Query"]: {
-		pipe?: ModelTypes["Query"] | undefined,
-	passSource?: ModelTypes["Query"] | undefined
-}
-    }
+  ['Query']: {
+    pipe?: ModelTypes['Query'] | undefined;
+    passSource?: ModelTypes['Query'] | undefined;
+    passSourceWithArgs?: ModelTypes['Query'] | undefined;
+  };
+};
 
 export type GraphQLTypes = {
-    ["Query"]: {
-	__typename: "Query",
-	pipe?: GraphQLTypes["Query"] | undefined,
-	passSource?: GraphQLTypes["Query"] | undefined
-}
-    }
+  ['Query']: {
+    __typename: 'Query';
+    pipe?: GraphQLTypes['Query'] | undefined;
+    passSourceWithArgs?: GraphQLTypes['Query'] | undefined;
+    passSource?: ModelTypes['Query'] | undefined;
+  };
+};
 
-
-type ZEUS_VARIABLES = {}
+type ZEUS_VARIABLES = {};

@@ -3,4 +3,5 @@
 type Query{
 	pipe: Query
 	passSource: Query
+	passSourceWithArgs: Query
 }

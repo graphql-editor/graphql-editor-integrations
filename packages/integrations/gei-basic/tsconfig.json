@@ -1,20 +1,17 @@
 {
-    "compilerOptions": {
-        "skipLibCheck": true,
-        "moduleResolution": "node",
-        "target": "es2020",
-        "module": "es2020",
-        "declaration": true,
-        "outDir": "./lib",
-        "rootDir": "./src",
-        "strict": true,
-        "strictNullChecks": true,
-        "esModuleInterop": true
-    },
-    "include": [
-        "./src/**/*"
-    ],
-    "exclude": [
-        "node_modules"
-    ]
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "target": "ESNext",
+    "module": "ESNext",
+    "declaration": true,
+    "outDir": "lib",
+    "rootDir": "src",
+    "strict": true,
+    "strictNullChecks": true,
+    "composite": true,
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

@@ -1,16 +1,15 @@
 /* eslint-disable */
 
-export const AllTypesProps: Record<string,any> = {
+export const AllTypesProps: Record<string, any> = {};
 
-}
-
-export const ReturnTypes: Record<string,any> = {
-	Query:{
-		pipe:"Query",
-		passSource:"Query"
-	}
-}
+export const ReturnTypes: Record<string, any> = {
+  Query: {
+    pipe: 'Query',
+    passSource: 'Query',
+    passSourceWithArgs: 'Query',
+  },
+};
 
 export const Ops = {
-query: "Query" as const
-}
+  query: 'Query' as const,
+};

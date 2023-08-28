@@ -32,6 +32,14 @@ const integration: IntegrationSpecification = {
       name: 'lib/Query/passSource',
     },
   },
+  ['Query.passSourceWithArgs']: {
+    data: {},
+    description: 'Pass the resolver and go furhter. Pass the source and arguments to the next resolver',
+    name: 'Pass the source and arguments resolver',
+    resolve: {
+      name: 'lib/Query/passSource',
+    },
+  },
 };
 
 export default integration;
