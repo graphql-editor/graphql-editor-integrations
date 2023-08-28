@@ -12,11 +12,12 @@ export const handler = async (input: FieldResolveInput) => {
     }
 
     const s = source as Record<string, any>;
-    const prepareField = prepareRelatedField(input).replace(/[{ }]/g, '').split(":");
+    const prepareField = prepareRelatedField(input).replace(/[{ }]/g, '').split(':');
     const fieldForFounding = prepareField[0];
     const fieldWithArray = prepareField[1] ? prepareField[1] : undefined;
 
     if (fieldWithArray) {
+      if (typeof s[fieldWithArray][0] !== 'string') return s[fieldWithArray];
       // Return an empty array if the fieldWithArray is either not an array or an empty array.
       if (!Array.isArray(s[fieldWithArray]) || s[fieldWithArray].length === 0) {
         return [];
@@ -26,7 +27,7 @@ export const handler = async (input: FieldResolveInput) => {
     return db
       .collection(prepareRelatedModel(input))
       .find({
-        [fieldForFounding]: (fieldWithArray ? { $in: s[fieldWithArray] } : s._id)
+        [fieldForFounding]: fieldWithArray ? { $in: s[fieldWithArray] } : s._id,
       })
       .toArray();
   });

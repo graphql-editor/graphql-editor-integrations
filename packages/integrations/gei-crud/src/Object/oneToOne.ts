@@ -11,8 +11,9 @@ export const handler = async (input: FieldResolveInput) =>
       );
     }
     const s = source as Record<string, any>;
-    const prepareField = prepareRelatedField(input).replace(/[{ }]/g, '').split(":");
-    const field = prepareField[0] ;
-    const arIds = prepareField[1] ?  prepareField[1] : undefined
-    return db.collection(prepareRelatedModel(input)).findOne({ [field]: arIds || s._id });
+    const prepareField = prepareRelatedField(input).replace(/[{ }]/g, '').split(':');
+    const field = prepareField[0];
+    const objectField = prepareField[1] ? prepareField[1] : undefined;
+    if (objectField && typeof s[objectField] !== 'string') return objectField;
+    return db.collection(prepareRelatedModel(input)).findOne({ [field]: objectField || s._id });
   });
