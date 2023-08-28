@@ -10,6 +10,12 @@
       "path": "./packages/integrations/gei-users"
     },
     {
+      "path": "./packages/integrations/gei-crud"
+    },
+    {
+      "path": "./packages/integrations/gei-basic"
+    },
+    {
       "path": "./packages/sandboxes/rest-users-s3"
     }
   ],
