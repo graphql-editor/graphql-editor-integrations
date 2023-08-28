@@ -15,7 +15,7 @@
       }
     },
     "Query.passSourceWithArgs": {
-      "name": "Pass the source resolver",
+      "name": "Pass the source with args resolver",
       "description": "Pass the resolver and go furhter. Pass the source and arguments to the next resolver",
       "resolve": {
         "name": "Query.passSourceWithArgs.handler"

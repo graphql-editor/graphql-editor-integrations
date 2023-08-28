@@ -17,7 +17,7 @@ export const integration = NewIntegration({
       handler: passSource,
     },
     passSourceWithArgs: {
-      name: 'Pass the source resolver',
+      name: 'Pass the source with args resolver',
       description: 'Pass the resolver and go furhter. Pass the source and arguments to the next resolver',
       handler: passSourceWithArgs,
     },
