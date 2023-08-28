@@ -14,7 +14,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm install
       - run: npm run build --ws --if-present
-      
+
       - name: Check if gei-users version has been updated
         id: check-users-version
         run: |
@@ -33,7 +33,7 @@ jobs:
         run: npm publish -w gei-users --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      
+
       - name: Check if gei-rest version has been updated
         id: check-rest-version
         run: |
@@ -107,5 +107,24 @@ jobs:
       - name: Publish gei-stripe
         if: env.stripe_updated == 'true'
         run: npm publish -w gei-stripe --access public --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: Check if gei-basic version has been updated
+        id: check-basic-version
+        run: |
+          PACKAGE_NAME="gei-basic"
+          CURRENT_VERSION=$(npm show "$PACKAGE_NAME" version || echo "0.0.0")
+          NEW_VERSION=$(node -p "require('./packages/integrations/gei-basic/package.json').version")
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
+          then
+            echo "basic_updated=true" >> $GITHUB_ENV
+          else
+            echo "basic_updated=false" >> $GITHUB_ENV
+          fi
+
+      - name: Publish gei-basic
+        if: env.basic_updated == 'true'
+        run: npm publish -w gei-basic --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
