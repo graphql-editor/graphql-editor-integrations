@@ -17,10 +17,12 @@ export const handler = async (input: FieldResolveInput) => {
     const fieldWithArray = prepareField[1] ? prepareField[1] : undefined;
 
     if (fieldWithArray) {
-      if (typeof s[fieldWithArray][0] !== 'string') return s[fieldWithArray];
       // Return an empty array if the fieldWithArray is either not an array or an empty array.
       if (!Array.isArray(s[fieldWithArray]) || s[fieldWithArray].length === 0) {
         return [];
+      }
+      if (typeof s[fieldWithArray][0] !== 'string') {
+        return s[fieldWithArray].filter((s: any) => s !== null);
       }
     }
 
