@@ -1,6 +1,6 @@
 import { FieldResolveInput } from 'stucco-js';
 import { prepareRelatedField, prepareRelatedModel } from '../data.js';
-import { DB } from '../db/mongo.js';
+import { DB } from '../db/orm.js';
 
 export const handler = async (input: FieldResolveInput) => {
   return DB().then(async (db) => {
@@ -26,9 +26,8 @@ export const handler = async (input: FieldResolveInput) => {
       }
     }
 
-    return db
-      .collection(prepareRelatedModel(input))
-      .find({
+    return db(prepareRelatedModel(input))
+      .collection.find({
         [fieldForFounding]: fieldWithArray ? { $in: s[fieldWithArray] } : s._id,
       })
       .toArray();

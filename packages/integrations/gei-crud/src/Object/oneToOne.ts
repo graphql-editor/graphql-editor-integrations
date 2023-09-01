@@ -1,6 +1,6 @@
 import { FieldResolveInput } from 'stucco-js';
 import { prepareRelatedField, prepareRelatedModel } from '../data.js';
-import { DB } from '../db/mongo.js';
+import { DB } from '../db/orm.js';
 
 export const handler = async (input: FieldResolveInput) =>
   DB().then(async (db) => {
@@ -15,5 +15,5 @@ export const handler = async (input: FieldResolveInput) =>
     const field = prepareField[0];
     const objectField = prepareField[1] ? prepareField[1] : undefined;
     if (objectField && typeof s[objectField] !== 'string') return objectField;
-    return db.collection(prepareRelatedModel(input)).findOne({ [field]: objectField || s._id });
+    return db(prepareRelatedModel(input)).collection.findOne({ [field]: objectField || s._id });
   });
