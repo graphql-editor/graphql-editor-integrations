@@ -4,9 +4,9 @@ import {
   prepare_id,
   prepareSourceParameters,
   prepareRelatedField,
-  prepareRelatedModel,
 } from '../data.js';
 import { DB } from '../db/mongo.js';
+import { getResolverData } from '../shared.js';
 
 export const handler = async (input: FieldResolveInput) => {
   const db = await DB();
@@ -26,9 +26,12 @@ export const handler = async (input: FieldResolveInput) => {
     );
   }
 
-  const s = object as Record<string, any>;
+  const { data } = getResolverData<{ relatedModel: string }>(input);
+  const relatedCollectionsField = data?.relatedModel.value;
+  if (relatedCollectionsField) {
 
-  const relatedCollections = prepareRelatedModel(input).replace(/["' ]/g, '').split(',');
+  const s = object as Record<string, any>;
+  const relatedCollections = relatedCollectionsField.replace(/["' ]/g, '').split(',');
   const prepareFields = prepareRelatedField(input)?.replace(/[{ }]/g, '').split(',');
   let i = 0;
   for (const rC of relatedCollections) {
@@ -53,5 +56,6 @@ export const handler = async (input: FieldResolveInput) => {
       }
     }
   }
+}
   return !!res.deletedCount;
 };
