@@ -14,7 +14,7 @@ export const handler = async (input: FieldResolveInput) =>
       throw new Error(`You need update input argument for this resolver to work`);
     }
 
-    if (typeof entriesWithOutId[0][1] === 'object') {
+    if (typeof entriesWithOutId[0][1] === 'object' && !Array.isArray(entriesWithOutId[0][1])) {
       if (entriesWithOutId[1])
         throw new Error(
           'There should be only string arguments or _id argument and one argument of "input" type to update this model',
@@ -25,7 +25,12 @@ export const handler = async (input: FieldResolveInput) =>
         reconstructedObject[key] = value;
       });
     }
-    const setter = typeof entriesWithOutId[0][1] === 'object' ? entriesWithOutId[0][1] : reconstructedObject;
+
+    const setter =
+      typeof entriesWithOutId[0][1] === 'object' && !Array.isArray(entriesWithOutId[0][1])
+        ? entriesWithOutId[0][1]
+        : reconstructedObject;
+    console.log(setter);
     const filterInput: Record<string, any> = { _id, ...prepareSourceParameters(input) };
     const res = await db(prepareModel(input)).collection.updateOne(filterInput, {
       $set: { ...setter, updatedAt: new Date().toISOString() },

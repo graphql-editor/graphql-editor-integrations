@@ -23,11 +23,8 @@ export const handler = async (input: FieldResolveInput) => {
 
   const { data } = getResolverData<{ relatedModel: string }>(input);
   const relatedCollectionsField = data?.relatedModel?.value;
-  console.log(relatedCollectionsField?.length);
-  console.log(relatedCollectionsField);
 
   if (relatedCollectionsField && relatedCollectionsField?.length > 2) {
-    console.log('kkdlckm');
     const s = object as Record<string, any>;
     const relatedCollections = relatedCollectionsField.replace(/["' ]/g, '').split(',');
     const prepareFields = prepareRelatedField(input)?.replace(/[{ }]/g, '').split(',');
