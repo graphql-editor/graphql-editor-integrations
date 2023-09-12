@@ -30,8 +30,8 @@ const initializeS3Client = (): S3ClientDetails => {
     'SPACES_SECRET',
   ]);
 
-  const endpoint = process.env.SPACES_ENDPOINT ? `${SPACES_REGION}.${process.env.SPACES_ENDPOINT}` : undefined;
-
+  const endpoint = process.env.SPACES_ENDPOINT ? `https://${SPACES_REGION}.${process.env.SPACES_ENDPOINT}` : undefined;
+  console.log(endpoint)
   s3 = {
     client: new S3Client({
       region: SPACES_REGION,
