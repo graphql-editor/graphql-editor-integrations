@@ -1,0 +1,69 @@
+{
+    "resolvers": {
+        "Query.user": {
+            "resolve": {
+                "name": "lib/Query/user"
+            }
+        },
+        "Query.public": {
+            "resolve": {
+                "name": "lib/Query/public"
+            }
+        },
+        "Mutation.user": {
+            "resolve": {
+                "name": "lib/Mutation/user"
+            }
+        },
+        "PublicQuery.listServices": {
+            "resolve": {
+                "name": "lib/PublicQuery/listServices"
+            }
+        },
+        "PublicQuery.getService": {
+            "resolve": {
+                "name": "lib/PublicQuery/getService"
+            }
+        },
+        "UserMutation.registerService": {
+            "resolve": {
+                "name": "lib/UserMutation/registerService"
+            }
+        },
+        "UserMutation.updateService": {
+            "resolve": {
+                "name": "lib/UserMutation/updateService"
+            }
+        },
+        "UserQuery.getBooks": {
+            "resolve": {
+                "name": "lib/UserQuery/getBooks"
+            }
+        },
+        "UserMutation.bookService": {
+            "resolve": {
+                "name": "lib/UserMutation/bookService"
+            }
+        },
+        "UserMutation.respondOnServiceRequest": {
+            "resolve": {
+                "name": "lib/UserMutation/respondOnServiceRequest"
+            }
+        },
+        "UserQuery.getBookingsForService": {
+            "resolve": {
+                "name": "lib/UserQuery/getBookingsForService"
+            }
+        },
+        "UserMutation.removeService": {
+            "resolve": {
+                "name": "lib/UserMutation/removeService"
+            }
+        },
+        "UserQuery.getSelfServices": {
+            "resolve": {
+                "name": "lib/UserQuery/getSelfServices"
+            }
+        }
+    }
+}
