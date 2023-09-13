@@ -1,68 +1,94 @@
 {
     "resolvers": {
         "Query.user": {
+            "name": "user",
+            "description": "Pipeline to user queries",
             "resolve": {
-                "name": "lib/Query/user"
+                "name": "Query.user.handler"
             }
         },
         "Query.public": {
+            "name": "public",
+            "description": "Pipeline to queries, without tracking and required logged user",
             "resolve": {
-                "name": "lib/Query/public"
+                "name": "Query.public.handler"
             }
         },
         "Mutation.user": {
+            "name": "user",
+            "description": "Pipeline to user mutations",
             "resolve": {
-                "name": "lib/Mutation/user"
+                "name": "Mutation.user.handler"
             }
         },
         "PublicQuery.listServices": {
+            "name": "listServices",
+            "description": "List available services",
             "resolve": {
-                "name": "lib/PublicQuery/listServices"
+                "name": "PublicQuery.listServices.handler"
             }
         },
         "PublicQuery.getService": {
+            "name": "getService",
+            "description": "Get single specific service",
             "resolve": {
-                "name": "lib/PublicQuery/getService"
+                "name": "PublicQuery.getService.handler"
             }
         },
         "UserMutation.registerService": {
+            "name": "registerService",
+            "description": "Register a new service",
             "resolve": {
-                "name": "lib/UserMutation/registerService"
+                "name": "UserMutation.registerService.handler"
             }
         },
         "UserMutation.updateService": {
+            "name": "updateService",
+            "description": "Update service information",
             "resolve": {
-                "name": "lib/UserMutation/updateService"
+                "name": "UserMutation.updateService.handler"
             }
         },
-        "UserQuery.getBooks": {
+        "UserQuery.getSelfBooks": {
+            "name": "getSelfBooks",
+            "description": "Get books associated with the user",
             "resolve": {
-                "name": "lib/UserQuery/getBooks"
+                "name": "UserQuery.getSelfBooks.handler"
             }
         },
         "UserMutation.bookService": {
+            "name": "bookService",
+            "description": "Book a service",
             "resolve": {
-                "name": "lib/UserMutation/bookService"
+                "name": "UserMutation.bookService.handler"
             }
         },
         "UserMutation.respondOnServiceRequest": {
+            "name": "respondOnServiceRequest",
+            "description": "Respond to a service request",
             "resolve": {
-                "name": "lib/UserMutation/respondOnServiceRequest"
+                "name": "UserMutation.respondOnServiceRequest.handler"
             }
         },
         "UserQuery.getBookingsForService": {
+            "name": "getBookingsForService",
+            "description": "Get bookings for a specific service",
             "resolve": {
-                "name": "lib/UserQuery/getBookingsForService"
+                "name": "UserQuery.getBookingsForService.handler"
             }
         },
         "UserMutation.removeService": {
+            "name": "removeService",
+            "description": "Remove a service",
             "resolve": {
-                "name": "lib/UserMutation/removeService"
+                "name": "UserMutation.removeService.handler"
             }
         },
         "UserQuery.getSelfServices": {
+            "name": "getSelfServices",
+            "description": "Get services associated with the user",
             "resolve": {
-                "name": "lib/UserQuery/getSelfServices"
+                "name": "UserQuery.getSelfServices.handler"
             }
         }
     }

@@ -1,12 +1,13 @@
 import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
-import { GlobalError, errMiddleware } from '../utils/middleware.js';
+import { GlobalError, errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
 import { mustFindOne, orm } from '../utils/db/orm.js';
 import { ServicesCollection } from '../utils/db/collections.js';
 
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('UserMutation', 'registerService', async (args, src) =>
     errMiddleware(async () => {
+      sourceContainUserIdOrThrow(src);
       if (new Date(String(args.input.startDate)) < new Date()) {
         throw new GlobalError('start date cannot start in past', import.meta.url);
       }

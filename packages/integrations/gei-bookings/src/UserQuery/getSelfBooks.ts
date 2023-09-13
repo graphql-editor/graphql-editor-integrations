@@ -1,11 +1,12 @@
 import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
 import { orm, preparePageOptions } from '../utils/db/orm.js';
-import { errMiddleware } from '../utils/middleware.js';
+import { errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
 
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('UserQuery', 'getSelfBooks', async (args, src) =>
     errMiddleware(async () => {
+      sourceContainUserIdOrThrow(src);
       const po = preparePageOptions(args.input?.page);
       return await orm().then((o) =>
         o('Bookings')

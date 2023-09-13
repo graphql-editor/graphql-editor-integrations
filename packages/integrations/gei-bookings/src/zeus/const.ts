@@ -1,11 +1,6 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string,any> = {
-	Query:{
-		user:{
-
-		}
-	},
 	UserQuery:{
 		getSelfBooks:{
 			input:"GetBooksInput"
@@ -15,11 +10,6 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		getSelfServices:{
 			input:"GetSelfServicesInput"
-		}
-	},
-	Mutation:{
-		user:{
-
 		}
 	},
 	PublicQuery:{

@@ -1,11 +1,12 @@
 import { FieldResolveInput } from 'stucco-js';
 import { BookStatus, resolverFor } from '../zeus/index.js';
-import { GlobalError, errMiddleware } from '../utils/middleware.js';
+import { GlobalError, errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
 import { orm } from '../utils/db/orm.js';
 
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('UserMutation', 'respondOnServiceRequest', async (args, src) =>
     errMiddleware(async () => {
+      sourceContainUserIdOrThrow(src);
       if (args.input?.answer === BookStatus.PENDING) {
         throw new GlobalError('answer cannot be pending', import.meta.url);
       }

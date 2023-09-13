@@ -1,11 +1,12 @@
 import { FieldResolveInput } from 'stucco-js';
 import { BookStatus, resolverFor } from '../zeus/index.js';
 import { orm } from '../utils/db/orm.js';
-import { GlobalError, errMiddleware } from '../utils/middleware.js';
+import { GlobalError, errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
 
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('UserMutation', 'bookService', async (args, src) =>
     errMiddleware(async () => {
+      sourceContainUserIdOrThrow(src);
       const o = await orm();
       const service = await o('Services').collection.findOneAndUpdate(
         { _id: args.input.serviceId, taken: { $ne: true } },

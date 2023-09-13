@@ -1,29 +1,43 @@
 type Query{
-	user(
-		userId: String!
-	): UserQuery
+	"""
+	if used user query endpoint, it should contain in source:
+	userId: String!
+	which will be unique identifier for every user in system
+	in otherwise any endpoint in UserQuery will throw error about malformed source
+	"""
+	user: UserQuery
 	public: PublicQuery
 }
 
 type UserQuery{
 	"""
-	this endpoint returns user books sorted by createdAt
+	This endpoint returns books owned by the user and sorted by the date of creation.
 	"""
 	getSelfBooks(
 		input: GetBooksInput
 	): GetBooksRepsond!
+	"""
+	This endpoint returns bookings for a specific service and sorted by the date of creation.
+	"""
 	getBookingsForService(
 		input: GetBookingsForServiceInput
 	): GetBookingsForServiceRespond!
+	"""
+	This endpoint returns services owned by the user and sorted by the date of creation.
+	"""
 	getSelfServices(
 		input: GetSelfServicesInput
 	): GetSelfServicesRespond!
 }
 
 type Mutation{
-	user(
-		userId: String!
-	): UserMutation
+	"""
+	if used user mutation endpoint, it should contain in source:
+	userId: String!
+	which will be unique identifier for every user in system
+	in otherwise any endpoint in UserMutation will throw error about malformed source
+	"""
+	user: UserMutation
 }
 
 type PublicQuery{

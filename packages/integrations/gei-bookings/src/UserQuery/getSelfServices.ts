@@ -1,6 +1,6 @@
 import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
-import { errMiddleware } from '../utils/middleware.js';
+import { errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
 import { orm, preparePageOptions } from '../utils/db/orm.js';
 import { ServicesCollection } from '../utils/db/collections.js';
 import { isScalarDate } from '../PublicQuery/listServices.js';
@@ -8,6 +8,7 @@ import { isScalarDate } from '../PublicQuery/listServices.js';
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('UserQuery', 'getSelfServices', async (args, src) =>
     errMiddleware(async () => {
+      sourceContainUserIdOrThrow(src);
       const po = preparePageOptions(args.input?.page);
       const pa =
         args.input?.filters &&

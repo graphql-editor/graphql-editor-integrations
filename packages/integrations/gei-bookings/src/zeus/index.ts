@@ -835,7 +835,11 @@ type ZEUS_UNIONS = never
 
 export type ValueTypes = {
     ["Query"]: AliasType<{
-user?: [{	userId: string | Variable<any, string>},ValueTypes["UserQuery"]],
+	/** if used user query endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserQuery will throw error about malformed source */
+	user?:ValueTypes["UserQuery"],
 	public?:ValueTypes["PublicQuery"],
 		__typename?: boolean | `@${string}`
 }>;
@@ -846,7 +850,11 @@ getSelfServices?: [{	input?: ValueTypes["GetSelfServicesInput"] | undefined | nu
 		__typename?: boolean | `@${string}`
 }>;
 	["Mutation"]: AliasType<{
-user?: [{	userId: string | Variable<any, string>},ValueTypes["UserMutation"]],
+	/** if used user mutation endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserMutation will throw error about malformed source */
+	user?:ValueTypes["UserMutation"],
 		__typename?: boolean | `@${string}`
 }>;
 	["PublicQuery"]: AliasType<{
@@ -1041,7 +1049,11 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 
 export type ResolverInputTypes = {
     ["Query"]: AliasType<{
-user?: [{	userId: string},ResolverInputTypes["UserQuery"]],
+	/** if used user query endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserQuery will throw error about malformed source */
+	user?:ResolverInputTypes["UserQuery"],
 	public?:ResolverInputTypes["PublicQuery"],
 		__typename?: boolean | `@${string}`
 }>;
@@ -1052,7 +1064,11 @@ getSelfServices?: [{	input?: ResolverInputTypes["GetSelfServicesInput"] | undefi
 		__typename?: boolean | `@${string}`
 }>;
 	["Mutation"]: AliasType<{
-user?: [{	userId: string},ResolverInputTypes["UserMutation"]],
+	/** if used user mutation endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserMutation will throw error about malformed source */
+	user?:ResolverInputTypes["UserMutation"],
 		__typename?: boolean | `@${string}`
 }>;
 	["PublicQuery"]: AliasType<{
@@ -1252,17 +1268,27 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 
 export type ModelTypes = {
     ["Query"]: {
-		user?: ModelTypes["UserQuery"] | undefined,
+		/** if used user query endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserQuery will throw error about malformed source */
+	user?: ModelTypes["UserQuery"] | undefined,
 	public?: ModelTypes["PublicQuery"] | undefined
 };
 	["UserQuery"]: {
-		/** this endpoint returns user books sorted by createdAt */
+		/** This endpoint returns books owned by the user and sorted by the date of creation. */
 	getSelfBooks: ModelTypes["GetBooksRepsond"],
+	/** This endpoint returns bookings for a specific service and sorted by the date of creation. */
 	getBookingsForService: ModelTypes["GetBookingsForServiceRespond"],
+	/** This endpoint returns services owned by the user and sorted by the date of creation. */
 	getSelfServices: ModelTypes["GetSelfServicesRespond"]
 };
 	["Mutation"]: {
-		user?: ModelTypes["UserMutation"] | undefined
+		/** if used user mutation endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserMutation will throw error about malformed source */
+	user?: ModelTypes["UserMutation"] | undefined
 };
 	["PublicQuery"]: {
 		listServices: ModelTypes["ListServicesRespond"],
@@ -1439,18 +1465,28 @@ export type ModelTypes = {
 export type GraphQLTypes = {
     ["Query"]: {
 	__typename: "Query",
+	/** if used user query endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserQuery will throw error about malformed source */
 	user?: GraphQLTypes["UserQuery"] | undefined,
 	public?: GraphQLTypes["PublicQuery"] | undefined
 };
 	["UserQuery"]: {
 	__typename: "UserQuery",
-	/** this endpoint returns user books sorted by createdAt */
+	/** This endpoint returns books owned by the user and sorted by the date of creation. */
 	getSelfBooks: GraphQLTypes["GetBooksRepsond"],
+	/** This endpoint returns bookings for a specific service and sorted by the date of creation. */
 	getBookingsForService: GraphQLTypes["GetBookingsForServiceRespond"],
+	/** This endpoint returns services owned by the user and sorted by the date of creation. */
 	getSelfServices: GraphQLTypes["GetSelfServicesRespond"]
 };
 	["Mutation"]: {
 	__typename: "Mutation",
+	/** if used user mutation endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserMutation will throw error about malformed source */
 	user?: GraphQLTypes["UserMutation"] | undefined
 };
 	["PublicQuery"]: {
