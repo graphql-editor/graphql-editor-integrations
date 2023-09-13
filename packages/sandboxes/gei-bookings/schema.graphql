@@ -1,0 +1,25 @@
+schema{
+	query: Query
+	mutation: Mutation
+}
+
+type UserQuery{
+	randomQuery: String!
+}
+
+type PublicQuery{
+	randomQuery: String!
+}
+
+type UserMutation{
+	randomMutation: String!
+}
+
+type Mutation{
+	user: UserMutation!
+}
+
+type Query{
+	user: UserQuery!
+	public: PublicQuery
+}

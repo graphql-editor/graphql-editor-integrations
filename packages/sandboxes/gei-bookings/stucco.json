@@ -1,0 +1,34 @@
+{
+  "resolvers": {
+    "Query.user": {
+      "resolve": {
+        "name": "lib/Query/user"
+      }
+    },
+    "Query.public": {
+      "resolve": {
+        "name": "lib/Query/public"
+      }
+    },
+    "Mutation.user": {
+      "resolve": {
+        "name": "lib/Mutation/user"
+      }
+    },
+    "UserMutation.randomMutation": {
+      "resolve": {
+        "name": "lib/UserMutation/randomMutation"
+      }
+    },
+    "PublicQuery.randomQuery": {
+      "resolve": {
+        "name": "lib/PublicQuery/randomQuery"
+      }
+    },
+    "UserQuery.randomQuery": {
+      "resolve": {
+        "name": "lib/UserQuery/randomQuery"
+      }
+    }
+  }
+}
