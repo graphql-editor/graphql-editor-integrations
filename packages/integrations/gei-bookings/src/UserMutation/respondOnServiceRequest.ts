@@ -12,7 +12,7 @@ export const handler = async (input: FieldResolveInput) =>
       }
       const o = await orm();
       await o('Bookings')
-        .collection.findOne({ _id: args.input.bookId })
+        .collection.findOne({ _id: args.input.bookId, answeredAt: { $exists: false } })
         .then(async (b) => {
           if (!b) {
             throw new GlobalError(`cannot find book with id: ${args.input.bookId}`, import.meta.url);

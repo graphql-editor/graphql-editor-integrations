@@ -15,7 +15,7 @@ export const handler = async (input: FieldResolveInput) =>
       if (!service.value) {
         throw new GlobalError(`service is already taken: ${args.input.serviceId}`, import.meta.url);
       }
-      let book = await o('Bookings')
+      const book = await o('Bookings')
         .createWithAutoFields(
           '_id',
           'createdAt',
@@ -23,7 +23,7 @@ export const handler = async (input: FieldResolveInput) =>
           bookerId: src.userId,
           service: args.input.serviceId,
           comments: args.input.comments ? args.input.comments : undefined,
-          status: BookStatus.PENDING,
+          status: service.value.neededAccept ? BookStatus.PENDING : BookStatus.ACCEPTED,
         })
         .then(async (c) => await o('Bookings').collection.findOne({ _id: c.insertedId }));
       if (!book) {
