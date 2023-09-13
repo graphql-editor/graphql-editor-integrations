@@ -129,12 +129,6 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
-      - name: Publish gei-bookings
-        if: env.bookings_updated == 'true'
-        run: npm publish -w gei-bookings --access public --tag latest
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-
       - name: Check if gei-bookings version has been updated
         id: check-bookings-version
         run: |
@@ -147,3 +141,9 @@ jobs:
           else
             echo "bookings_updated=false" >> $GITHUB_ENV
           fi
+
+      - name: Publish gei-bookings
+        if: env.bookings_updated == 'true'
+        run: npm publish -w gei-bookings --access public --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
