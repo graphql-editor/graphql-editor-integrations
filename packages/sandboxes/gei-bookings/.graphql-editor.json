@@ -1,6 +1,6 @@
 {
     "namespace": "editor-integrations",
-    "project": "bookings",
+    "project": "bookings-sandbox",
     "projectVersion": "latest",
     "typingsEnv": "node",
     "typingsHost": "http://localhost:8080/",

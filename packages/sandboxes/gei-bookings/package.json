@@ -11,7 +11,7 @@
     "schema": "gecli schema",
     "get-integration": "gecli cloud install",
     "update": "npm run schema && npm run get-integration",
-    "updateV2": "gecli codegen models && gecli codegen typings && gecli schema"
+    "updateV2": "gecli codegen models && gecli schema && gecli codegen typings "
   },
   "keywords": [],
   "author": "",
