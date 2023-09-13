@@ -13,7 +13,7 @@ import { handler as UserQueryGetBookingsForService } from './UserQuery/getBookin
 import { handler as UserMutationRemoveService } from './UserMutation/removeService.js';
 import { handler as UserQueryGetSelfServices } from './UserQuery/getSelfServices.js';
 
-const integration = NewIntegration({
+export const integration = NewIntegration({
   Query: {
     user: {
       name: 'user',
