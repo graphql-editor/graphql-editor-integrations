@@ -128,3 +128,22 @@ jobs:
         run: npm publish -w gei-basic --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: Publish gei-bookings
+        if: env.bookings_updated == 'true'
+        run: npm publish -w gei-bookings --access public --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: Check if gei-bookings version has been updated
+        id: check-bookings-version
+        run: |
+          PACKAGE_NAME="gei-bookings"
+          CURRENT_VERSION=$(npm show "$PACKAGE_NAME" version || echo "0.0.0")
+          NEW_VERSION=$(node -p "require('./packages/integrations/gei-bookings/package.json').version")
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]
+          then
+            echo "bookings_updated=true" >> $GITHUB_ENV
+          else
+            echo "bookings_updated=false" >> $GITHUB_ENV
+          fi
