@@ -1,0 +1,300 @@
+type Query{
+	"""
+	if used user query endpoint, it should contain in source:
+	userId: String!
+	which will be unique identifier for every user in system
+	in otherwise any endpoint in UserQuery will throw error about malformed source
+	"""
+	user: UserQuery
+	public: PublicQuery
+}
+
+type UserQuery{
+	"""
+	This endpoint returns books owned by the user and sorted by the date of creation.
+	"""
+	getSelfBooks(
+		input: GetBooksInput
+	): GetBooksRepsond!
+	"""
+	This endpoint returns bookings for a specific service and sorted by the date of creation.
+	"""
+	getBookingsForService(
+		input: GetBookingsForServiceInput
+	): GetBookingsForServiceRespond!
+	"""
+	This endpoint returns services owned by the user and sorted by the date of creation.
+	"""
+	getSelfServices(
+		input: GetSelfServicesInput
+	): GetSelfServicesRespond!
+}
+
+type Mutation{
+	"""
+	if used user mutation endpoint, it should contain in source:
+	userId: String!
+	which will be unique identifier for every user in system
+	in otherwise any endpoint in UserMutation will throw error about malformed source
+	"""
+	user: UserMutation
+}
+
+type PublicQuery{
+	listServices(
+		input: ListServicesInput
+	): ListServicesRespond!
+	getService(
+		serviceId: String!
+	): GetServiceRespond!
+}
+
+type UserMutation{
+	registerService(
+		input: RegisterServiceInput!
+	): RegisterServiceRespond
+	updateService(
+		input: UpdateServiceInput!
+		serviceId: String!
+	): UpdateServiceRespond!
+	removeService(
+		serviceId: String!
+	): RemoveServiceRespond!
+	bookService(
+		input: BookServiceInput!
+		serviceId: String!
+	): BookServiceRespond!
+	respondOnServiceRequest(
+		input: RespondOnServiceRequestInput!
+	): RespondOnServiceRequestRespond!
+}
+
+input GetBookingsForServiceInput{
+	page: PageOptionsInput
+	filters: GetBookingsForServiceFiltersInput
+}
+
+input GetBookingsForServiceFiltersInput{
+	fromDate: Date
+	toDate: Date
+	bookerId: String
+	status: BookStatus
+}
+
+type GetBookingsForServiceRespond{
+	books: [BookingRecord!]
+	error: GlobalError
+}
+
+input RespondOnServiceRequestInput{
+	bookId: String!
+	"""
+	answer field cannot be PENDING, otherwise it will throw error
+	"""
+	answer: BookStatus!
+}
+
+input GetSelfServicesInput{
+	page: PageOptionsInput
+	filters: GetSelfServicesFiltersInput
+}
+
+input GetSelfServicesFiltersInput{
+	"""
+	name is regex
+	"""
+	name: String
+	"""
+	description is regex
+	"""
+	description: String
+	fromDate: Date
+	toDate: Date
+}
+
+type GetSelfServicesRespond{
+	service: [Service!]
+	error: GlobalError
+}
+
+type RespondOnServiceRequestRespond{
+	status: Boolean!
+	error: GlobalError
+}
+
+input GetBooksInput{
+	page: PageOptionsInput
+	filters: GetBooksFiltersInput
+}
+
+input GetBooksFiltersInput{
+	startDate: String!
+}
+
+input ListServicesInput{
+	page: PageOptionsInput
+	filters: ListServicesFiltersInput
+}
+
+type GetBooksRepsond{
+	books: [BookingRecord!]
+	error: GlobalError
+}
+
+type ListServicesRespond{
+	services: [Service!]
+	error: GlobalError
+}
+
+type GetServiceRespond{
+	service: Service
+	error: GlobalError
+}
+
+input RegisterUserInput{
+	username: String!
+	email: String!
+	phone: String
+}
+
+input RegisterServiceInput{
+	name: String!
+	description: String!
+	startDate: Date!
+	time: Int!
+	neededAccept: Boolean
+	active: Boolean
+}
+
+type RegisterServiceRespond{
+	service: Service
+	error: GlobalError
+}
+
+input UpdateServiceInput{
+	name: String
+	description: String
+	startDate: Date
+	time: Int!
+	active: Boolean
+	neededAccept: Boolean
+}
+
+type UpdateServiceRespond{
+	service: Service
+	error: GlobalError
+}
+
+type RemoveServiceRespond{
+	removed: Boolean
+	error: GlobalError
+}
+
+input BookServiceInput{
+	serviceId: String!
+	comments: String
+}
+
+type BookServiceRespond{
+	book: BookingRecord
+	error: GlobalError
+}
+
+type UserServiceRespond{
+	service: [Service]
+	error: GlobalError
+}
+
+type Service implements dbEssentials{
+	name: String!
+	description: String!
+	ownerId: String!
+	"""
+	this field capture time, system does not recognize units, so be consent with your behavior
+	"""
+	time: Int
+	startDate: Date!
+	_id: String!
+	createdAt: Date!
+	updatedAt: Date
+	active: Boolean
+	taken: Boolean
+	neededAccept: Boolean
+}
+
+type BookingRecord implements dbEssentials{
+	bookerId: String!
+	service: Service!
+	comments: String
+	_id: String!
+	createdAt: Date!
+	status: BookStatus!
+	answeredAt: Date
+}
+
+type GlobalError{
+	"""
+	custom message of error
+	"""
+	message: String
+	"""
+	path is name of resolver on which we got error
+	"""
+	path: String
+}
+
+interface dbEssentials{
+	_id: String!
+	createdAt: Date!
+}
+
+input PageOptionsInput{
+	"""
+	default limit is 10
+	"""
+	limit: Int
+	"""
+	count stating from 0
+	"""
+	page: Int
+}
+
+input ListServicesFiltersInput{
+	"""
+	name is regex
+	"""
+	name: String
+	"""
+	description is regex
+	"""
+	description: String
+	fromDate: Date
+	toDate: Date
+	ownerId: String
+}
+
+scalar Date
+
+enum BookStatus{
+	PENDING
+	ACCEPTED
+	DECLINED
+}
+
+enum ServiceType{
+	"""
+	this type of service is calculated by time for ex. barbershop, mechanic etc.
+	"""
+	TIME
+	"""
+	this type of service is for books for days, for ex. rent car/house
+	when service own this type, must have expiration. In this case every booker,
+	can ask for "rent" service in suggested period of time
+	"""
+	EXPIRATION
+}
+
+schema{
+	query: Query
+	mutation: Mutation
+}
