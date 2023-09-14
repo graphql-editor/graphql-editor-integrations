@@ -18,7 +18,7 @@ export const errMiddleware = async <T>(handler: () => Promise<T>): Promise<T | {
         },
       };
     }
-    return { response: { error: { message: 'unknown' } } };
+    return { response: { error: { message: `unknown error: ${e}` } } };
   }
 };
 
