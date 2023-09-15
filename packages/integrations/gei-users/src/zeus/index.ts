@@ -1045,6 +1045,7 @@ editUser?: [{	updatedUser: ValueTypes["UpdateUserInput"] | Variable<any, string>
 	emailConfirmed?:boolean | `@${string}`,
 	createdAt?:boolean | `@${string}`,
 	fullName?:boolean | `@${string}`,
+	avatarUrl?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["UserAuthType"]: AliasType<{
@@ -1348,6 +1349,7 @@ editUser?: [{	updatedUser: ResolverInputTypes["UpdateUserInput"]},ResolverInputT
 	emailConfirmed?:boolean | `@${string}`,
 	createdAt?:boolean | `@${string}`,
 	fullName?:boolean | `@${string}`,
+	avatarUrl?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["UserAuthType"]: AliasType<{
@@ -1630,7 +1632,8 @@ export type ModelTypes = {
 	teams: Array<ModelTypes["Team"]>,
 	emailConfirmed: boolean,
 	createdAt?: string | undefined,
-	fullName?: string | undefined
+	fullName?: string | undefined,
+	avatarUrl?: string | undefined
 };
 	["UserAuthType"]: {
 		_id: string,
@@ -1914,7 +1917,8 @@ export type GraphQLTypes = {
 	teams: Array<GraphQLTypes["Team"]>,
 	emailConfirmed: boolean,
 	createdAt?: string | undefined,
-	fullName?: string | undefined
+	fullName?: string | undefined,
+	avatarUrl?: string | undefined
 };
 	["UserAuthType"]: {
 	__typename: "UserAuthType",

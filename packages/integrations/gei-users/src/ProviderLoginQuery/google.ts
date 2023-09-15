@@ -33,6 +33,8 @@ export const handler = async (input: FieldResolveInput) =>
       id: googleProfile.id,
       username: googleProfile.email,
       social: SocialKind.Google,
+      fullName: googleProfile.login || googleProfile.name,
+      avatarUrl: googleProfile.avatar_url || googleProfile.picture,
     });
 
     const { jwtToken, refreshToken } = getJwtAndRefreshToken(id, refreshTokenId);

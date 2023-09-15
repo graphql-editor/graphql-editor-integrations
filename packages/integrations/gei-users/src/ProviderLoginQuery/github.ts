@@ -37,6 +37,8 @@ export const handler = async (input: FieldResolveInput) =>
       id: githubProfile.id,
       username: email,
       social: SocialKind.Github,
+      fullName: githubProfile.name || githubProfile.login,
+      avatarUrl: githubProfile.avatar_url,
     });
 
     const { jwtToken, refreshToken } = getJwtAndRefreshToken(id, refreshTokenId);

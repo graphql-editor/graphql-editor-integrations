@@ -19,11 +19,15 @@ export const addUserAndConnectSocial = async ({
   o,
   social,
   username,
+  fullName,
+  avatarUrl,
 }: {
   o: Awaited<ReturnType<typeof orm>>;
   id: string;
   username: string | null;
   social: SocialKind;
+  fullName: string;
+  avatarUrl: string;
 }) => {
   if (!username) throw new Error('username and email both cannot be null');
 
@@ -46,6 +50,8 @@ export const addUserAndConnectSocial = async ({
       username,
       emailConfirmed: true,
       teams: [],
+      fullName,
+      avatarUrl,
     });
     await o(SocialCollection).createWithAutoFields(
       '_id',

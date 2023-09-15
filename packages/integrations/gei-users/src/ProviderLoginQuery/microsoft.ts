@@ -36,6 +36,8 @@ export const handler = async (input: FieldResolveInput) =>
       id: profile.id,
       username: profile.mail,
       social: SocialKind.Microsoft,
+      fullName: profile.login || profile.displayName || profile.userPrincipalName,
+      avatarUrl: profile.avatar_url,
     });
 
     const { jwtToken, refreshToken } = getJwtAndRefreshToken(id, refreshTokenId);

@@ -267,7 +267,8 @@ export const ReturnTypes: Record<string,any> = {
 		teams:"Team",
 		emailConfirmed:"Boolean",
 		createdAt:"String",
-		fullName:"String"
+		fullName:"String",
+		avatarUrl:"String"
 	},
 	UserAuthType:{
 		_id:"String",

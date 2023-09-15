@@ -345,6 +345,7 @@ type User implements Node{
 	emailConfirmed: Boolean!
 	createdAt: String
 	fullName: String
+    avatarUrl: String
 }
 
 type UserAuthType{

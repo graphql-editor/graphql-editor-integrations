@@ -31,6 +31,8 @@ export const handler = async (input: FieldResolveInput) =>
       id: appleProfile.sub,
       username: appleProfile.email || 'AppleHideProfile_' + appleProfile.sub.slice(0, 6),
       social: SocialKind.Apple,
+      fullName: appleProfile.login || appleProfile.name,
+      avatarUrl: appleProfile.avatar_url,
     });
 
     const { jwtToken, refreshToken } = getJwtAndRefreshToken(id, refreshTokenId);
