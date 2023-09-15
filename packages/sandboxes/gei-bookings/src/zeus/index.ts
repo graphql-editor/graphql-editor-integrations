@@ -827,18 +827,16 @@ export const GRAPHQL_TYPE_SEPARATOR = `__$GRAPHQL__`;
 export const $ = <Type extends GraphQLVariableType, Name extends string>(name: Name, graphqlType: Type) => {
   return (START_VAR_NAME + name + GRAPHQL_TYPE_SEPARATOR + graphqlType) as unknown as Variable<Type, Name>;
 };
-type ZEUS_INTERFACES = never
+type ZEUS_INTERFACES = GraphQLTypes["BookingsdbEssentials"]
 export type ScalarCoders = {
+	BookingsDate?: ScalarResolver;
 }
 type ZEUS_UNIONS = never
 
 export type ValueTypes = {
     ["UserQuery"]: AliasType<{
 	randomQuery?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["PublicQuery"]: AliasType<{
-	randomQuery?:boolean | `@${string}`,
+	bookingUserQuery?:ValueTypes["BookingsUserQuery"],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserMutation"]: AliasType<{
@@ -849,25 +847,232 @@ export type ValueTypes = {
 	user?:ValueTypes["UserMutation"],
 		__typename?: boolean | `@${string}`
 }>;
+	["PublicQuery"]: AliasType<{
+	bookingPublicQuery?:ValueTypes["BookingsPublicQuery"],
+		__typename?: boolean | `@${string}`
+}>;
 	["Query"]: AliasType<{
 	user?:ValueTypes["UserQuery"],
 	public?:ValueTypes["PublicQuery"],
 		__typename?: boolean | `@${string}`
-}>
+}>;
+	["BookingsQuery"]: AliasType<{
+	/** if used user query endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserQuery will throw error about malformed source */
+	user?:ValueTypes["BookingsUserQuery"],
+	public?:ValueTypes["BookingsPublicQuery"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsUserQuery"]: AliasType<{
+getSelfBooks?: [{	input?: ValueTypes["BookingsGetBooksInput"] | undefined | null | Variable<any, string>},ValueTypes["BookingsGetBooksRepsond"]],
+getBookingsForService?: [{	input?: ValueTypes["BookingsGetBookingsForServiceInput"] | undefined | null | Variable<any, string>},ValueTypes["BookingsGetBookingsForServiceRespond"]],
+getSelfServices?: [{	input?: ValueTypes["BookingsGetSelfServicesInput"] | undefined | null | Variable<any, string>},ValueTypes["BookingsGetSelfServicesRespond"]],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsMutation"]: AliasType<{
+	/** if used user mutation endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserMutation will throw error about malformed source */
+	user?:ValueTypes["BookingsUserMutation"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsPublicQuery"]: AliasType<{
+listServices?: [{	input?: ValueTypes["BookingsListServicesInput"] | undefined | null | Variable<any, string>},ValueTypes["BookingsListServicesRespond"]],
+getService?: [{	serviceId: string | Variable<any, string>},ValueTypes["BookingsGetServiceRespond"]],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsUserMutation"]: AliasType<{
+registerService?: [{	input: ValueTypes["BookingsRegisterServiceInput"] | Variable<any, string>},ValueTypes["BookingsRegisterServiceRespond"]],
+updateService?: [{	input: ValueTypes["BookingsUpdateServiceInput"] | Variable<any, string>,	serviceId: string | Variable<any, string>},ValueTypes["BookingsUpdateServiceRespond"]],
+removeService?: [{	serviceId: string | Variable<any, string>},ValueTypes["BookingsRemoveServiceRespond"]],
+bookService?: [{	input: ValueTypes["BookingsBookServiceInput"] | Variable<any, string>,	serviceId: string | Variable<any, string>},ValueTypes["BookingsBookServiceRespond"]],
+respondOnServiceRequest?: [{	input: ValueTypes["BookingsRespondOnServiceRequestInput"] | Variable<any, string>},ValueTypes["BookingsRespondOnServiceRequestRespond"]],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsGetBookingsForServiceInput"]: {
+	page?: ValueTypes["BookingsPageOptionsInput"] | undefined | null | Variable<any, string>,
+	filters?: ValueTypes["BookingsGetBookingsForServiceFiltersInput"] | undefined | null | Variable<any, string>
+};
+	["BookingsGetBookingsForServiceFiltersInput"]: {
+	fromDate?: ValueTypes["BookingsDate"] | undefined | null | Variable<any, string>,
+	toDate?: ValueTypes["BookingsDate"] | undefined | null | Variable<any, string>,
+	bookerId?: string | undefined | null | Variable<any, string>,
+	status?: ValueTypes["BookingsBookStatus"] | undefined | null | Variable<any, string>
+};
+	["BookingsGetBookingsForServiceRespond"]: AliasType<{
+	books?:ValueTypes["BookingsBookingRecord"],
+	error?:ValueTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsRespondOnServiceRequestInput"]: {
+	bookId: string | Variable<any, string>,
+	/** answer field cannot be PENDING, otherwise it will throw error */
+	answer: ValueTypes["BookingsBookStatus"] | Variable<any, string>
+};
+	["BookingsGetSelfServicesInput"]: {
+	page?: ValueTypes["BookingsPageOptionsInput"] | undefined | null | Variable<any, string>,
+	filters?: ValueTypes["BookingsGetSelfServicesFiltersInput"] | undefined | null | Variable<any, string>
+};
+	["BookingsGetSelfServicesFiltersInput"]: {
+	/** name is regex */
+	name?: string | undefined | null | Variable<any, string>,
+	/** description is regex */
+	description?: string | undefined | null | Variable<any, string>,
+	fromDate?: ValueTypes["BookingsDate"] | undefined | null | Variable<any, string>,
+	toDate?: ValueTypes["BookingsDate"] | undefined | null | Variable<any, string>
+};
+	["BookingsGetSelfServicesRespond"]: AliasType<{
+	service?:ValueTypes["BookingsService"],
+	error?:ValueTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsRespondOnServiceRequestRespond"]: AliasType<{
+	status?:boolean | `@${string}`,
+	error?:ValueTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsGetBooksInput"]: {
+	page?: ValueTypes["BookingsPageOptionsInput"] | undefined | null | Variable<any, string>,
+	filters?: ValueTypes["BookingsGetBooksFiltersInput"] | undefined | null | Variable<any, string>
+};
+	["BookingsGetBooksFiltersInput"]: {
+	startDate: string | Variable<any, string>
+};
+	["BookingsListServicesInput"]: {
+	page?: ValueTypes["BookingsPageOptionsInput"] | undefined | null | Variable<any, string>,
+	filters?: ValueTypes["BookingsListServicesFiltersInput"] | undefined | null | Variable<any, string>
+};
+	["BookingsGetBooksRepsond"]: AliasType<{
+	books?:ValueTypes["BookingsBookingRecord"],
+	error?:ValueTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsListServicesRespond"]: AliasType<{
+	services?:ValueTypes["BookingsService"],
+	error?:ValueTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsGetServiceRespond"]: AliasType<{
+	service?:ValueTypes["BookingsService"],
+	error?:ValueTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsRegisterUserInput"]: {
+	username: string | Variable<any, string>,
+	email: string | Variable<any, string>,
+	phone?: string | undefined | null | Variable<any, string>
+};
+	["BookingsRegisterServiceInput"]: {
+	name: string | Variable<any, string>,
+	description: string | Variable<any, string>,
+	startDate: ValueTypes["BookingsDate"] | Variable<any, string>,
+	time: number | Variable<any, string>,
+	neededAccept?: boolean | undefined | null | Variable<any, string>,
+	active?: boolean | undefined | null | Variable<any, string>
+};
+	["BookingsRegisterServiceRespond"]: AliasType<{
+	service?:ValueTypes["BookingsService"],
+	error?:ValueTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsUpdateServiceInput"]: {
+	name?: string | undefined | null | Variable<any, string>,
+	description?: string | undefined | null | Variable<any, string>,
+	startDate?: ValueTypes["BookingsDate"] | undefined | null | Variable<any, string>,
+	time: number | Variable<any, string>,
+	active?: boolean | undefined | null | Variable<any, string>,
+	neededAccept?: boolean | undefined | null | Variable<any, string>
+};
+	["BookingsUpdateServiceRespond"]: AliasType<{
+	service?:ValueTypes["BookingsService"],
+	error?:ValueTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsRemoveServiceRespond"]: AliasType<{
+	removed?:boolean | `@${string}`,
+	error?:ValueTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsBookServiceInput"]: {
+	serviceId: string | Variable<any, string>,
+	comments?: string | undefined | null | Variable<any, string>
+};
+	["BookingsBookServiceRespond"]: AliasType<{
+	book?:ValueTypes["BookingsBookingRecord"],
+	error?:ValueTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsUserServiceRespond"]: AliasType<{
+	service?:ValueTypes["BookingsService"],
+	error?:ValueTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsService"]: AliasType<{
+	name?:boolean | `@${string}`,
+	description?:boolean | `@${string}`,
+	ownerId?:boolean | `@${string}`,
+	/** this field capture time, system does not recognize units, so be consent with your behavior */
+	time?:boolean | `@${string}`,
+	startDate?:boolean | `@${string}`,
+	_id?:boolean | `@${string}`,
+	createdAt?:boolean | `@${string}`,
+	updatedAt?:boolean | `@${string}`,
+	active?:boolean | `@${string}`,
+	taken?:boolean | `@${string}`,
+	neededAccept?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsBookingRecord"]: AliasType<{
+	bookerId?:boolean | `@${string}`,
+	service?:ValueTypes["BookingsService"],
+	comments?:boolean | `@${string}`,
+	_id?:boolean | `@${string}`,
+	createdAt?:boolean | `@${string}`,
+	status?:boolean | `@${string}`,
+	answeredAt?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsGlobalError"]: AliasType<{
+	/** custom message of error */
+	message?:boolean | `@${string}`,
+	/** path is name of resolver on which we got error */
+	path?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsdbEssentials"]:AliasType<{
+		_id?:boolean | `@${string}`,
+	createdAt?:boolean | `@${string}`;
+		['...on BookingsService']?: Omit<ValueTypes["BookingsService"],keyof ValueTypes["BookingsdbEssentials"]>;
+		['...on BookingsBookingRecord']?: Omit<ValueTypes["BookingsBookingRecord"],keyof ValueTypes["BookingsdbEssentials"]>;
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsPageOptionsInput"]: {
+	/** default limit is 10 */
+	limit?: number | undefined | null | Variable<any, string>,
+	/** count stating from 0 */
+	page?: number | undefined | null | Variable<any, string>
+};
+	["BookingsListServicesFiltersInput"]: {
+	/** name is regex */
+	name?: string | undefined | null | Variable<any, string>,
+	/** description is regex */
+	description?: string | undefined | null | Variable<any, string>,
+	fromDate?: ValueTypes["BookingsDate"] | undefined | null | Variable<any, string>,
+	toDate?: ValueTypes["BookingsDate"] | undefined | null | Variable<any, string>,
+	ownerId?: string | undefined | null | Variable<any, string>
+};
+	["BookingsDate"]:unknown;
+	["BookingsBookStatus"]:BookingsBookStatus;
+	["BookingsServiceType"]:BookingsServiceType
   }
 
 export type ResolverInputTypes = {
-    ["schema"]: AliasType<{
-	query?:ResolverInputTypes["Query"],
-	mutation?:ResolverInputTypes["Mutation"],
-		__typename?: boolean | `@${string}`
-}>;
-	["UserQuery"]: AliasType<{
+    ["UserQuery"]: AliasType<{
 	randomQuery?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["PublicQuery"]: AliasType<{
-	randomQuery?:boolean | `@${string}`,
+	bookingUserQuery?:ResolverInputTypes["BookingsUserQuery"],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserMutation"]: AliasType<{
@@ -878,23 +1083,237 @@ export type ResolverInputTypes = {
 	user?:ResolverInputTypes["UserMutation"],
 		__typename?: boolean | `@${string}`
 }>;
+	["PublicQuery"]: AliasType<{
+	bookingPublicQuery?:ResolverInputTypes["BookingsPublicQuery"],
+		__typename?: boolean | `@${string}`
+}>;
 	["Query"]: AliasType<{
 	user?:ResolverInputTypes["UserQuery"],
 	public?:ResolverInputTypes["PublicQuery"],
 		__typename?: boolean | `@${string}`
-}>
+}>;
+	["schema"]: AliasType<{
+	query?:ResolverInputTypes["Query"],
+	mutation?:ResolverInputTypes["Mutation"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsQuery"]: AliasType<{
+	/** if used user query endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserQuery will throw error about malformed source */
+	user?:ResolverInputTypes["BookingsUserQuery"],
+	public?:ResolverInputTypes["BookingsPublicQuery"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsUserQuery"]: AliasType<{
+getSelfBooks?: [{	input?: ResolverInputTypes["BookingsGetBooksInput"] | undefined | null},ResolverInputTypes["BookingsGetBooksRepsond"]],
+getBookingsForService?: [{	input?: ResolverInputTypes["BookingsGetBookingsForServiceInput"] | undefined | null},ResolverInputTypes["BookingsGetBookingsForServiceRespond"]],
+getSelfServices?: [{	input?: ResolverInputTypes["BookingsGetSelfServicesInput"] | undefined | null},ResolverInputTypes["BookingsGetSelfServicesRespond"]],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsMutation"]: AliasType<{
+	/** if used user mutation endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserMutation will throw error about malformed source */
+	user?:ResolverInputTypes["BookingsUserMutation"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsPublicQuery"]: AliasType<{
+listServices?: [{	input?: ResolverInputTypes["BookingsListServicesInput"] | undefined | null},ResolverInputTypes["BookingsListServicesRespond"]],
+getService?: [{	serviceId: string},ResolverInputTypes["BookingsGetServiceRespond"]],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsUserMutation"]: AliasType<{
+registerService?: [{	input: ResolverInputTypes["BookingsRegisterServiceInput"]},ResolverInputTypes["BookingsRegisterServiceRespond"]],
+updateService?: [{	input: ResolverInputTypes["BookingsUpdateServiceInput"],	serviceId: string},ResolverInputTypes["BookingsUpdateServiceRespond"]],
+removeService?: [{	serviceId: string},ResolverInputTypes["BookingsRemoveServiceRespond"]],
+bookService?: [{	input: ResolverInputTypes["BookingsBookServiceInput"],	serviceId: string},ResolverInputTypes["BookingsBookServiceRespond"]],
+respondOnServiceRequest?: [{	input: ResolverInputTypes["BookingsRespondOnServiceRequestInput"]},ResolverInputTypes["BookingsRespondOnServiceRequestRespond"]],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsGetBookingsForServiceInput"]: {
+	page?: ResolverInputTypes["BookingsPageOptionsInput"] | undefined | null,
+	filters?: ResolverInputTypes["BookingsGetBookingsForServiceFiltersInput"] | undefined | null
+};
+	["BookingsGetBookingsForServiceFiltersInput"]: {
+	fromDate?: ResolverInputTypes["BookingsDate"] | undefined | null,
+	toDate?: ResolverInputTypes["BookingsDate"] | undefined | null,
+	bookerId?: string | undefined | null,
+	status?: ResolverInputTypes["BookingsBookStatus"] | undefined | null
+};
+	["BookingsGetBookingsForServiceRespond"]: AliasType<{
+	books?:ResolverInputTypes["BookingsBookingRecord"],
+	error?:ResolverInputTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsRespondOnServiceRequestInput"]: {
+	bookId: string,
+	/** answer field cannot be PENDING, otherwise it will throw error */
+	answer: ResolverInputTypes["BookingsBookStatus"]
+};
+	["BookingsGetSelfServicesInput"]: {
+	page?: ResolverInputTypes["BookingsPageOptionsInput"] | undefined | null,
+	filters?: ResolverInputTypes["BookingsGetSelfServicesFiltersInput"] | undefined | null
+};
+	["BookingsGetSelfServicesFiltersInput"]: {
+	/** name is regex */
+	name?: string | undefined | null,
+	/** description is regex */
+	description?: string | undefined | null,
+	fromDate?: ResolverInputTypes["BookingsDate"] | undefined | null,
+	toDate?: ResolverInputTypes["BookingsDate"] | undefined | null
+};
+	["BookingsGetSelfServicesRespond"]: AliasType<{
+	service?:ResolverInputTypes["BookingsService"],
+	error?:ResolverInputTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsRespondOnServiceRequestRespond"]: AliasType<{
+	status?:boolean | `@${string}`,
+	error?:ResolverInputTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsGetBooksInput"]: {
+	page?: ResolverInputTypes["BookingsPageOptionsInput"] | undefined | null,
+	filters?: ResolverInputTypes["BookingsGetBooksFiltersInput"] | undefined | null
+};
+	["BookingsGetBooksFiltersInput"]: {
+	startDate: string
+};
+	["BookingsListServicesInput"]: {
+	page?: ResolverInputTypes["BookingsPageOptionsInput"] | undefined | null,
+	filters?: ResolverInputTypes["BookingsListServicesFiltersInput"] | undefined | null
+};
+	["BookingsGetBooksRepsond"]: AliasType<{
+	books?:ResolverInputTypes["BookingsBookingRecord"],
+	error?:ResolverInputTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsListServicesRespond"]: AliasType<{
+	services?:ResolverInputTypes["BookingsService"],
+	error?:ResolverInputTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsGetServiceRespond"]: AliasType<{
+	service?:ResolverInputTypes["BookingsService"],
+	error?:ResolverInputTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsRegisterUserInput"]: {
+	username: string,
+	email: string,
+	phone?: string | undefined | null
+};
+	["BookingsRegisterServiceInput"]: {
+	name: string,
+	description: string,
+	startDate: ResolverInputTypes["BookingsDate"],
+	time: number,
+	neededAccept?: boolean | undefined | null,
+	active?: boolean | undefined | null
+};
+	["BookingsRegisterServiceRespond"]: AliasType<{
+	service?:ResolverInputTypes["BookingsService"],
+	error?:ResolverInputTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsUpdateServiceInput"]: {
+	name?: string | undefined | null,
+	description?: string | undefined | null,
+	startDate?: ResolverInputTypes["BookingsDate"] | undefined | null,
+	time: number,
+	active?: boolean | undefined | null,
+	neededAccept?: boolean | undefined | null
+};
+	["BookingsUpdateServiceRespond"]: AliasType<{
+	service?:ResolverInputTypes["BookingsService"],
+	error?:ResolverInputTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsRemoveServiceRespond"]: AliasType<{
+	removed?:boolean | `@${string}`,
+	error?:ResolverInputTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsBookServiceInput"]: {
+	serviceId: string,
+	comments?: string | undefined | null
+};
+	["BookingsBookServiceRespond"]: AliasType<{
+	book?:ResolverInputTypes["BookingsBookingRecord"],
+	error?:ResolverInputTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsUserServiceRespond"]: AliasType<{
+	service?:ResolverInputTypes["BookingsService"],
+	error?:ResolverInputTypes["BookingsGlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsService"]: AliasType<{
+	name?:boolean | `@${string}`,
+	description?:boolean | `@${string}`,
+	ownerId?:boolean | `@${string}`,
+	/** this field capture time, system does not recognize units, so be consent with your behavior */
+	time?:boolean | `@${string}`,
+	startDate?:boolean | `@${string}`,
+	_id?:boolean | `@${string}`,
+	createdAt?:boolean | `@${string}`,
+	updatedAt?:boolean | `@${string}`,
+	active?:boolean | `@${string}`,
+	taken?:boolean | `@${string}`,
+	neededAccept?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsBookingRecord"]: AliasType<{
+	bookerId?:boolean | `@${string}`,
+	service?:ResolverInputTypes["BookingsService"],
+	comments?:boolean | `@${string}`,
+	_id?:boolean | `@${string}`,
+	createdAt?:boolean | `@${string}`,
+	status?:boolean | `@${string}`,
+	answeredAt?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsGlobalError"]: AliasType<{
+	/** custom message of error */
+	message?:boolean | `@${string}`,
+	/** path is name of resolver on which we got error */
+	path?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsdbEssentials"]:AliasType<{
+		_id?:boolean | `@${string}`,
+	createdAt?:boolean | `@${string}`;
+		['...on BookingsService']?: Omit<ResolverInputTypes["BookingsService"],keyof ResolverInputTypes["BookingsdbEssentials"]>;
+		['...on BookingsBookingRecord']?: Omit<ResolverInputTypes["BookingsBookingRecord"],keyof ResolverInputTypes["BookingsdbEssentials"]>;
+		__typename?: boolean | `@${string}`
+}>;
+	["BookingsPageOptionsInput"]: {
+	/** default limit is 10 */
+	limit?: number | undefined | null,
+	/** count stating from 0 */
+	page?: number | undefined | null
+};
+	["BookingsListServicesFiltersInput"]: {
+	/** name is regex */
+	name?: string | undefined | null,
+	/** description is regex */
+	description?: string | undefined | null,
+	fromDate?: ResolverInputTypes["BookingsDate"] | undefined | null,
+	toDate?: ResolverInputTypes["BookingsDate"] | undefined | null,
+	ownerId?: string | undefined | null
+};
+	["BookingsDate"]:unknown;
+	["BookingsBookStatus"]:BookingsBookStatus;
+	["BookingsServiceType"]:BookingsServiceType
   }
 
 export type ModelTypes = {
-    ["schema"]: {
-	query?: ModelTypes["Query"] | undefined,
-	mutation?: ModelTypes["Mutation"] | undefined
-};
-	["UserQuery"]: {
-		randomQuery: string
-};
-	["PublicQuery"]: {
-		randomQuery: string
+    ["UserQuery"]: {
+		randomQuery: string,
+	bookingUserQuery: ModelTypes["BookingsUserQuery"]
 };
 	["UserMutation"]: {
 		randomMutation: string
@@ -902,20 +1321,213 @@ export type ModelTypes = {
 	["Mutation"]: {
 		user: ModelTypes["UserMutation"]
 };
+	["PublicQuery"]: {
+		bookingPublicQuery: ModelTypes["BookingsPublicQuery"]
+};
 	["Query"]: {
 		user: ModelTypes["UserQuery"],
-	public?: ModelTypes["PublicQuery"] | undefined
-}
+	public: ModelTypes["PublicQuery"]
+};
+	["schema"]: {
+	query?: ModelTypes["Query"] | undefined,
+	mutation?: ModelTypes["Mutation"] | undefined
+};
+	["BookingsQuery"]: {
+		/** if used user query endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserQuery will throw error about malformed source */
+	user?: ModelTypes["BookingsUserQuery"] | undefined,
+	public?: ModelTypes["BookingsPublicQuery"] | undefined
+};
+	["BookingsUserQuery"]: {
+		/** This endpoint returns books owned by the user and sorted by the date of creation. */
+	getSelfBooks: ModelTypes["BookingsGetBooksRepsond"],
+	/** This endpoint returns bookings for a specific service and sorted by the date of creation. */
+	getBookingsForService: ModelTypes["BookingsGetBookingsForServiceRespond"],
+	/** This endpoint returns services owned by the user and sorted by the date of creation. */
+	getSelfServices: ModelTypes["BookingsGetSelfServicesRespond"]
+};
+	["BookingsMutation"]: {
+		/** if used user mutation endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserMutation will throw error about malformed source */
+	user?: ModelTypes["BookingsUserMutation"] | undefined
+};
+	["BookingsPublicQuery"]: {
+		listServices: ModelTypes["BookingsListServicesRespond"],
+	getService: ModelTypes["BookingsGetServiceRespond"]
+};
+	["BookingsUserMutation"]: {
+		registerService?: ModelTypes["BookingsRegisterServiceRespond"] | undefined,
+	updateService: ModelTypes["BookingsUpdateServiceRespond"],
+	removeService: ModelTypes["BookingsRemoveServiceRespond"],
+	bookService: ModelTypes["BookingsBookServiceRespond"],
+	respondOnServiceRequest: ModelTypes["BookingsRespondOnServiceRequestRespond"]
+};
+	["BookingsGetBookingsForServiceInput"]: {
+	page?: ModelTypes["BookingsPageOptionsInput"] | undefined,
+	filters?: ModelTypes["BookingsGetBookingsForServiceFiltersInput"] | undefined
+};
+	["BookingsGetBookingsForServiceFiltersInput"]: {
+	fromDate?: ModelTypes["BookingsDate"] | undefined,
+	toDate?: ModelTypes["BookingsDate"] | undefined,
+	bookerId?: string | undefined,
+	status?: ModelTypes["BookingsBookStatus"] | undefined
+};
+	["BookingsGetBookingsForServiceRespond"]: {
+		books?: Array<ModelTypes["BookingsBookingRecord"]> | undefined,
+	error?: ModelTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsRespondOnServiceRequestInput"]: {
+	bookId: string,
+	/** answer field cannot be PENDING, otherwise it will throw error */
+	answer: ModelTypes["BookingsBookStatus"]
+};
+	["BookingsGetSelfServicesInput"]: {
+	page?: ModelTypes["BookingsPageOptionsInput"] | undefined,
+	filters?: ModelTypes["BookingsGetSelfServicesFiltersInput"] | undefined
+};
+	["BookingsGetSelfServicesFiltersInput"]: {
+	/** name is regex */
+	name?: string | undefined,
+	/** description is regex */
+	description?: string | undefined,
+	fromDate?: ModelTypes["BookingsDate"] | undefined,
+	toDate?: ModelTypes["BookingsDate"] | undefined
+};
+	["BookingsGetSelfServicesRespond"]: {
+		service?: Array<ModelTypes["BookingsService"]> | undefined,
+	error?: ModelTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsRespondOnServiceRequestRespond"]: {
+		status: boolean,
+	error?: ModelTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsGetBooksInput"]: {
+	page?: ModelTypes["BookingsPageOptionsInput"] | undefined,
+	filters?: ModelTypes["BookingsGetBooksFiltersInput"] | undefined
+};
+	["BookingsGetBooksFiltersInput"]: {
+	startDate: string
+};
+	["BookingsListServicesInput"]: {
+	page?: ModelTypes["BookingsPageOptionsInput"] | undefined,
+	filters?: ModelTypes["BookingsListServicesFiltersInput"] | undefined
+};
+	["BookingsGetBooksRepsond"]: {
+		books?: Array<ModelTypes["BookingsBookingRecord"]> | undefined,
+	error?: ModelTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsListServicesRespond"]: {
+		services?: Array<ModelTypes["BookingsService"]> | undefined,
+	error?: ModelTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsGetServiceRespond"]: {
+		service?: ModelTypes["BookingsService"] | undefined,
+	error?: ModelTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsRegisterUserInput"]: {
+	username: string,
+	email: string,
+	phone?: string | undefined
+};
+	["BookingsRegisterServiceInput"]: {
+	name: string,
+	description: string,
+	startDate: ModelTypes["BookingsDate"],
+	time: number,
+	neededAccept?: boolean | undefined,
+	active?: boolean | undefined
+};
+	["BookingsRegisterServiceRespond"]: {
+		service?: ModelTypes["BookingsService"] | undefined,
+	error?: ModelTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsUpdateServiceInput"]: {
+	name?: string | undefined,
+	description?: string | undefined,
+	startDate?: ModelTypes["BookingsDate"] | undefined,
+	time: number,
+	active?: boolean | undefined,
+	neededAccept?: boolean | undefined
+};
+	["BookingsUpdateServiceRespond"]: {
+		service?: ModelTypes["BookingsService"] | undefined,
+	error?: ModelTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsRemoveServiceRespond"]: {
+		removed?: boolean | undefined,
+	error?: ModelTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsBookServiceInput"]: {
+	serviceId: string,
+	comments?: string | undefined
+};
+	["BookingsBookServiceRespond"]: {
+		book?: ModelTypes["BookingsBookingRecord"] | undefined,
+	error?: ModelTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsUserServiceRespond"]: {
+		service?: Array<ModelTypes["BookingsService"] | undefined> | undefined,
+	error?: ModelTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsService"]: {
+		name: string,
+	description: string,
+	ownerId: string,
+	/** this field capture time, system does not recognize units, so be consent with your behavior */
+	time?: number | undefined,
+	startDate: ModelTypes["BookingsDate"],
+	_id: string,
+	createdAt: ModelTypes["BookingsDate"],
+	updatedAt?: ModelTypes["BookingsDate"] | undefined,
+	active?: boolean | undefined,
+	taken?: boolean | undefined,
+	neededAccept?: boolean | undefined
+};
+	["BookingsBookingRecord"]: {
+		bookerId: string,
+	service: ModelTypes["BookingsService"],
+	comments?: string | undefined,
+	_id: string,
+	createdAt: ModelTypes["BookingsDate"],
+	status: ModelTypes["BookingsBookStatus"],
+	answeredAt?: ModelTypes["BookingsDate"] | undefined
+};
+	["BookingsGlobalError"]: {
+		/** custom message of error */
+	message?: string | undefined,
+	/** path is name of resolver on which we got error */
+	path?: string | undefined
+};
+	["BookingsdbEssentials"]: ModelTypes["BookingsService"] | ModelTypes["BookingsBookingRecord"];
+	["BookingsPageOptionsInput"]: {
+	/** default limit is 10 */
+	limit?: number | undefined,
+	/** count stating from 0 */
+	page?: number | undefined
+};
+	["BookingsListServicesFiltersInput"]: {
+	/** name is regex */
+	name?: string | undefined,
+	/** description is regex */
+	description?: string | undefined,
+	fromDate?: ModelTypes["BookingsDate"] | undefined,
+	toDate?: ModelTypes["BookingsDate"] | undefined,
+	ownerId?: string | undefined
+};
+	["BookingsDate"]:any;
+	["BookingsBookStatus"]:BookingsBookStatus;
+	["BookingsServiceType"]:BookingsServiceType
     }
 
 export type GraphQLTypes = {
     ["UserQuery"]: {
 	__typename: "UserQuery",
-	randomQuery: string
-};
-	["PublicQuery"]: {
-	__typename: "PublicQuery",
-	randomQuery: string
+	randomQuery: string,
+	bookingUserQuery: GraphQLTypes["BookingsUserQuery"]
 };
 	["UserMutation"]: {
 	__typename: "UserMutation",
@@ -925,12 +1537,256 @@ export type GraphQLTypes = {
 	__typename: "Mutation",
 	user: GraphQLTypes["UserMutation"]
 };
+	["PublicQuery"]: {
+	__typename: "PublicQuery",
+	bookingPublicQuery: GraphQLTypes["BookingsPublicQuery"]
+};
 	["Query"]: {
 	__typename: "Query",
 	user: GraphQLTypes["UserQuery"],
-	public?: GraphQLTypes["PublicQuery"] | undefined
-}
+	public: GraphQLTypes["PublicQuery"]
+};
+	["BookingsQuery"]: {
+	__typename: "BookingsQuery",
+	/** if used user query endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserQuery will throw error about malformed source */
+	user?: GraphQLTypes["BookingsUserQuery"] | undefined,
+	public?: GraphQLTypes["BookingsPublicQuery"] | undefined
+};
+	["BookingsUserQuery"]: {
+	__typename: "BookingsUserQuery",
+	/** This endpoint returns books owned by the user and sorted by the date of creation. */
+	getSelfBooks: GraphQLTypes["BookingsGetBooksRepsond"],
+	/** This endpoint returns bookings for a specific service and sorted by the date of creation. */
+	getBookingsForService: GraphQLTypes["BookingsGetBookingsForServiceRespond"],
+	/** This endpoint returns services owned by the user and sorted by the date of creation. */
+	getSelfServices: GraphQLTypes["BookingsGetSelfServicesRespond"]
+};
+	["BookingsMutation"]: {
+	__typename: "BookingsMutation",
+	/** if used user mutation endpoint, it should contain in source:
+userId: String!
+which will be unique identifier for every user in system
+in otherwise any endpoint in UserMutation will throw error about malformed source */
+	user?: GraphQLTypes["BookingsUserMutation"] | undefined
+};
+	["BookingsPublicQuery"]: {
+	__typename: "BookingsPublicQuery",
+	listServices: GraphQLTypes["BookingsListServicesRespond"],
+	getService: GraphQLTypes["BookingsGetServiceRespond"]
+};
+	["BookingsUserMutation"]: {
+	__typename: "BookingsUserMutation",
+	registerService?: GraphQLTypes["BookingsRegisterServiceRespond"] | undefined,
+	updateService: GraphQLTypes["BookingsUpdateServiceRespond"],
+	removeService: GraphQLTypes["BookingsRemoveServiceRespond"],
+	bookService: GraphQLTypes["BookingsBookServiceRespond"],
+	respondOnServiceRequest: GraphQLTypes["BookingsRespondOnServiceRequestRespond"]
+};
+	["BookingsGetBookingsForServiceInput"]: {
+		page?: GraphQLTypes["BookingsPageOptionsInput"] | undefined,
+	filters?: GraphQLTypes["BookingsGetBookingsForServiceFiltersInput"] | undefined
+};
+	["BookingsGetBookingsForServiceFiltersInput"]: {
+		fromDate?: GraphQLTypes["BookingsDate"] | undefined,
+	toDate?: GraphQLTypes["BookingsDate"] | undefined,
+	bookerId?: string | undefined,
+	status?: GraphQLTypes["BookingsBookStatus"] | undefined
+};
+	["BookingsGetBookingsForServiceRespond"]: {
+	__typename: "BookingsGetBookingsForServiceRespond",
+	books?: Array<GraphQLTypes["BookingsBookingRecord"]> | undefined,
+	error?: GraphQLTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsRespondOnServiceRequestInput"]: {
+		bookId: string,
+	/** answer field cannot be PENDING, otherwise it will throw error */
+	answer: GraphQLTypes["BookingsBookStatus"]
+};
+	["BookingsGetSelfServicesInput"]: {
+		page?: GraphQLTypes["BookingsPageOptionsInput"] | undefined,
+	filters?: GraphQLTypes["BookingsGetSelfServicesFiltersInput"] | undefined
+};
+	["BookingsGetSelfServicesFiltersInput"]: {
+		/** name is regex */
+	name?: string | undefined,
+	/** description is regex */
+	description?: string | undefined,
+	fromDate?: GraphQLTypes["BookingsDate"] | undefined,
+	toDate?: GraphQLTypes["BookingsDate"] | undefined
+};
+	["BookingsGetSelfServicesRespond"]: {
+	__typename: "BookingsGetSelfServicesRespond",
+	service?: Array<GraphQLTypes["BookingsService"]> | undefined,
+	error?: GraphQLTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsRespondOnServiceRequestRespond"]: {
+	__typename: "BookingsRespondOnServiceRequestRespond",
+	status: boolean,
+	error?: GraphQLTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsGetBooksInput"]: {
+		page?: GraphQLTypes["BookingsPageOptionsInput"] | undefined,
+	filters?: GraphQLTypes["BookingsGetBooksFiltersInput"] | undefined
+};
+	["BookingsGetBooksFiltersInput"]: {
+		startDate: string
+};
+	["BookingsListServicesInput"]: {
+		page?: GraphQLTypes["BookingsPageOptionsInput"] | undefined,
+	filters?: GraphQLTypes["BookingsListServicesFiltersInput"] | undefined
+};
+	["BookingsGetBooksRepsond"]: {
+	__typename: "BookingsGetBooksRepsond",
+	books?: Array<GraphQLTypes["BookingsBookingRecord"]> | undefined,
+	error?: GraphQLTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsListServicesRespond"]: {
+	__typename: "BookingsListServicesRespond",
+	services?: Array<GraphQLTypes["BookingsService"]> | undefined,
+	error?: GraphQLTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsGetServiceRespond"]: {
+	__typename: "BookingsGetServiceRespond",
+	service?: GraphQLTypes["BookingsService"] | undefined,
+	error?: GraphQLTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsRegisterUserInput"]: {
+		username: string,
+	email: string,
+	phone?: string | undefined
+};
+	["BookingsRegisterServiceInput"]: {
+		name: string,
+	description: string,
+	startDate: GraphQLTypes["BookingsDate"],
+	time: number,
+	neededAccept?: boolean | undefined,
+	active?: boolean | undefined
+};
+	["BookingsRegisterServiceRespond"]: {
+	__typename: "BookingsRegisterServiceRespond",
+	service?: GraphQLTypes["BookingsService"] | undefined,
+	error?: GraphQLTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsUpdateServiceInput"]: {
+		name?: string | undefined,
+	description?: string | undefined,
+	startDate?: GraphQLTypes["BookingsDate"] | undefined,
+	time: number,
+	active?: boolean | undefined,
+	neededAccept?: boolean | undefined
+};
+	["BookingsUpdateServiceRespond"]: {
+	__typename: "BookingsUpdateServiceRespond",
+	service?: GraphQLTypes["BookingsService"] | undefined,
+	error?: GraphQLTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsRemoveServiceRespond"]: {
+	__typename: "BookingsRemoveServiceRespond",
+	removed?: boolean | undefined,
+	error?: GraphQLTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsBookServiceInput"]: {
+		serviceId: string,
+	comments?: string | undefined
+};
+	["BookingsBookServiceRespond"]: {
+	__typename: "BookingsBookServiceRespond",
+	book?: GraphQLTypes["BookingsBookingRecord"] | undefined,
+	error?: GraphQLTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsUserServiceRespond"]: {
+	__typename: "BookingsUserServiceRespond",
+	service?: Array<GraphQLTypes["BookingsService"] | undefined> | undefined,
+	error?: GraphQLTypes["BookingsGlobalError"] | undefined
+};
+	["BookingsService"]: {
+	__typename: "BookingsService",
+	name: string,
+	description: string,
+	ownerId: string,
+	/** this field capture time, system does not recognize units, so be consent with your behavior */
+	time?: number | undefined,
+	startDate: GraphQLTypes["BookingsDate"],
+	_id: string,
+	createdAt: GraphQLTypes["BookingsDate"],
+	updatedAt?: GraphQLTypes["BookingsDate"] | undefined,
+	active?: boolean | undefined,
+	taken?: boolean | undefined,
+	neededAccept?: boolean | undefined
+};
+	["BookingsBookingRecord"]: {
+	__typename: "BookingsBookingRecord",
+	bookerId: string,
+	service: GraphQLTypes["BookingsService"],
+	comments?: string | undefined,
+	_id: string,
+	createdAt: GraphQLTypes["BookingsDate"],
+	status: GraphQLTypes["BookingsBookStatus"],
+	answeredAt?: GraphQLTypes["BookingsDate"] | undefined
+};
+	["BookingsGlobalError"]: {
+	__typename: "BookingsGlobalError",
+	/** custom message of error */
+	message?: string | undefined,
+	/** path is name of resolver on which we got error */
+	path?: string | undefined
+};
+	["BookingsdbEssentials"]: {
+	__typename:"BookingsService" | "BookingsBookingRecord",
+	_id: string,
+	createdAt: GraphQLTypes["BookingsDate"]
+	['...on BookingsService']: '__union' & GraphQLTypes["BookingsService"];
+	['...on BookingsBookingRecord']: '__union' & GraphQLTypes["BookingsBookingRecord"];
+};
+	["BookingsPageOptionsInput"]: {
+		/** default limit is 10 */
+	limit?: number | undefined,
+	/** count stating from 0 */
+	page?: number | undefined
+};
+	["BookingsListServicesFiltersInput"]: {
+		/** name is regex */
+	name?: string | undefined,
+	/** description is regex */
+	description?: string | undefined,
+	fromDate?: GraphQLTypes["BookingsDate"] | undefined,
+	toDate?: GraphQLTypes["BookingsDate"] | undefined,
+	ownerId?: string | undefined
+};
+	["BookingsDate"]: "scalar" & { name: "BookingsDate" };
+	["BookingsBookStatus"]: BookingsBookStatus;
+	["BookingsServiceType"]: BookingsServiceType
     }
+export const enum BookingsBookStatus {
+	PENDING = "PENDING",
+	ACCEPTED = "ACCEPTED",
+	DECLINED = "DECLINED"
+}
+export const enum BookingsServiceType {
+	TIME = "TIME",
+	EXPIRATION = "EXPIRATION"
+}
 
-
-type ZEUS_VARIABLES = {}
+type ZEUS_VARIABLES = {
+	["BookingsGetBookingsForServiceInput"]: ValueTypes["BookingsGetBookingsForServiceInput"];
+	["BookingsGetBookingsForServiceFiltersInput"]: ValueTypes["BookingsGetBookingsForServiceFiltersInput"];
+	["BookingsRespondOnServiceRequestInput"]: ValueTypes["BookingsRespondOnServiceRequestInput"];
+	["BookingsGetSelfServicesInput"]: ValueTypes["BookingsGetSelfServicesInput"];
+	["BookingsGetSelfServicesFiltersInput"]: ValueTypes["BookingsGetSelfServicesFiltersInput"];
+	["BookingsGetBooksInput"]: ValueTypes["BookingsGetBooksInput"];
+	["BookingsGetBooksFiltersInput"]: ValueTypes["BookingsGetBooksFiltersInput"];
+	["BookingsListServicesInput"]: ValueTypes["BookingsListServicesInput"];
+	["BookingsRegisterUserInput"]: ValueTypes["BookingsRegisterUserInput"];
+	["BookingsRegisterServiceInput"]: ValueTypes["BookingsRegisterServiceInput"];
+	["BookingsUpdateServiceInput"]: ValueTypes["BookingsUpdateServiceInput"];
+	["BookingsBookServiceInput"]: ValueTypes["BookingsBookServiceInput"];
+	["BookingsPageOptionsInput"]: ValueTypes["BookingsPageOptionsInput"];
+	["BookingsListServicesFiltersInput"]: ValueTypes["BookingsListServicesFiltersInput"];
+	["BookingsDate"]: ValueTypes["BookingsDate"];
+	["BookingsBookStatus"]: ValueTypes["BookingsBookStatus"];
+	["BookingsServiceType"]: ValueTypes["BookingsServiceType"];
+}

@@ -1,14 +1,6 @@
-schema{
-	query: Query
-	mutation: Mutation
-}
-
 type UserQuery{
 	randomQuery: String!
-}
-
-type PublicQuery{
-	randomQuery: String!
+	bookingUserQuery: BookingsUserQuery!
 }
 
 type UserMutation{
@@ -19,7 +11,312 @@ type Mutation{
 	user: UserMutation!
 }
 
+type PublicQuery{
+	bookingPublicQuery: BookingsPublicQuery!
+}
+
 type Query{
 	user: UserQuery!
-	public: PublicQuery
+	public: PublicQuery!
+}
+
+schema{
+	query: Query
+	mutation: Mutation
+}
+
+type BookingsQuery{
+	"""
+	if used user query endpoint, it should contain in source:
+	userId: String!
+	which will be unique identifier for every user in system
+	in otherwise any endpoint in UserQuery will throw error about malformed source
+	"""
+	user: BookingsUserQuery
+	public: BookingsPublicQuery
+}
+
+type BookingsUserQuery{
+	"""
+	This endpoint returns books owned by the user and sorted by the date of creation.
+	"""
+	getSelfBooks(
+		input: BookingsGetBooksInput
+	): BookingsGetBooksRepsond!
+	"""
+	This endpoint returns bookings for a specific service and sorted by the date of creation.
+	"""
+	getBookingsForService(
+		input: BookingsGetBookingsForServiceInput
+	): BookingsGetBookingsForServiceRespond!
+	"""
+	This endpoint returns services owned by the user and sorted by the date of creation.
+	"""
+	getSelfServices(
+		input: BookingsGetSelfServicesInput
+	): BookingsGetSelfServicesRespond!
+}
+
+type BookingsMutation{
+	"""
+	if used user mutation endpoint, it should contain in source:
+	userId: String!
+	which will be unique identifier for every user in system
+	in otherwise any endpoint in UserMutation will throw error about malformed source
+	"""
+	user: BookingsUserMutation
+}
+
+type BookingsPublicQuery{
+	listServices(
+		input: BookingsListServicesInput
+	): BookingsListServicesRespond!
+	getService(
+		serviceId: String!
+	): BookingsGetServiceRespond!
+}
+
+type BookingsUserMutation{
+	registerService(
+		input: BookingsRegisterServiceInput!
+	): BookingsRegisterServiceRespond
+	updateService(
+		input: BookingsUpdateServiceInput!
+		serviceId: String!
+	): BookingsUpdateServiceRespond!
+	removeService(
+		serviceId: String!
+	): BookingsRemoveServiceRespond!
+	bookService(
+		input: BookingsBookServiceInput!
+		serviceId: String!
+	): BookingsBookServiceRespond!
+	respondOnServiceRequest(
+		input: BookingsRespondOnServiceRequestInput!
+	): BookingsRespondOnServiceRequestRespond!
+}
+
+input BookingsGetBookingsForServiceInput{
+	page: BookingsPageOptionsInput
+	filters: BookingsGetBookingsForServiceFiltersInput
+}
+
+input BookingsGetBookingsForServiceFiltersInput{
+	fromDate: BookingsDate
+	toDate: BookingsDate
+	bookerId: String
+	status: BookingsBookStatus
+}
+
+type BookingsGetBookingsForServiceRespond{
+	books: [BookingsBookingRecord!]
+	error: BookingsGlobalError
+}
+
+input BookingsRespondOnServiceRequestInput{
+	bookId: String!
+	"""
+	answer field cannot be PENDING, otherwise it will throw error
+	"""
+	answer: BookingsBookStatus!
+}
+
+input BookingsGetSelfServicesInput{
+	page: BookingsPageOptionsInput
+	filters: BookingsGetSelfServicesFiltersInput
+}
+
+input BookingsGetSelfServicesFiltersInput{
+	"""
+	name is regex
+	"""
+	name: String
+	"""
+	description is regex
+	"""
+	description: String
+	fromDate: BookingsDate
+	toDate: BookingsDate
+}
+
+type BookingsGetSelfServicesRespond{
+	service: [BookingsService!]
+	error: BookingsGlobalError
+}
+
+type BookingsRespondOnServiceRequestRespond{
+	status: Boolean!
+	error: BookingsGlobalError
+}
+
+input BookingsGetBooksInput{
+	page: BookingsPageOptionsInput
+	filters: BookingsGetBooksFiltersInput
+}
+
+input BookingsGetBooksFiltersInput{
+	startDate: String!
+}
+
+input BookingsListServicesInput{
+	page: BookingsPageOptionsInput
+	filters: BookingsListServicesFiltersInput
+}
+
+type BookingsGetBooksRepsond{
+	books: [BookingsBookingRecord!]
+	error: BookingsGlobalError
+}
+
+type BookingsListServicesRespond{
+	services: [BookingsService!]
+	error: BookingsGlobalError
+}
+
+type BookingsGetServiceRespond{
+	service: BookingsService
+	error: BookingsGlobalError
+}
+
+input BookingsRegisterUserInput{
+	username: String!
+	email: String!
+	phone: String
+}
+
+input BookingsRegisterServiceInput{
+	name: String!
+	description: String!
+	startDate: BookingsDate!
+	time: Int!
+	neededAccept: Boolean
+	active: Boolean
+}
+
+type BookingsRegisterServiceRespond{
+	service: BookingsService
+	error: BookingsGlobalError
+}
+
+input BookingsUpdateServiceInput{
+	name: String
+	description: String
+	startDate: BookingsDate
+	time: Int!
+	active: Boolean
+	neededAccept: Boolean
+}
+
+type BookingsUpdateServiceRespond{
+	service: BookingsService
+	error: BookingsGlobalError
+}
+
+type BookingsRemoveServiceRespond{
+	removed: Boolean
+	error: BookingsGlobalError
+}
+
+input BookingsBookServiceInput{
+	serviceId: String!
+	comments: String
+}
+
+type BookingsBookServiceRespond{
+	book: BookingsBookingRecord
+	error: BookingsGlobalError
+}
+
+type BookingsUserServiceRespond{
+	service: [BookingsService]
+	error: BookingsGlobalError
+}
+
+type BookingsService implements BookingsdbEssentials{
+	name: String!
+	description: String!
+	ownerId: String!
+	"""
+	this field capture time, system does not recognize units, so be consent with your behavior
+	"""
+	time: Int
+	startDate: BookingsDate!
+	_id: String!
+	createdAt: BookingsDate!
+	updatedAt: BookingsDate
+	active: Boolean
+	taken: Boolean
+	neededAccept: Boolean
+}
+
+type BookingsBookingRecord implements BookingsdbEssentials{
+	bookerId: String!
+	service: BookingsService!
+	comments: String
+	_id: String!
+	createdAt: BookingsDate!
+	status: BookingsBookStatus!
+	answeredAt: BookingsDate
+}
+
+type BookingsGlobalError{
+	"""
+	custom message of error
+	"""
+	message: String
+	"""
+	path is name of resolver on which we got error
+	"""
+	path: String
+}
+
+interface BookingsdbEssentials{
+	_id: String!
+	createdAt: BookingsDate!
+}
+
+input BookingsPageOptionsInput{
+	"""
+	default limit is 10
+	"""
+	limit: Int
+	"""
+	count stating from 0
+	"""
+	page: Int
+}
+
+input BookingsListServicesFiltersInput{
+	"""
+	name is regex
+	"""
+	name: String
+	"""
+	description is regex
+	"""
+	description: String
+	fromDate: BookingsDate
+	toDate: BookingsDate
+	ownerId: String
+}
+
+scalar BookingsDate
+
+enum BookingsBookStatus{
+	PENDING
+	ACCEPTED
+	DECLINED
+}
+
+enum BookingsServiceType{
+	"""
+	this type of service is calculated by time for ex. barbershop, mechanic etc.
+	"""
+	TIME
+	"""
+	this type of service is for books for days, for ex. rent car/house
+	when service own this type, must have expiration. In this case every booker,
+	can ask for "rent" service in suggested period of time
+	"""
+	EXPIRATION
 }

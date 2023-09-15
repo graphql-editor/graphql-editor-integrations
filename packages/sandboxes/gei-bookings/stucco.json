@@ -1,34 +1,79 @@
 {
-  "resolvers": {
-    "Query.user": {
-      "resolve": {
-        "name": "lib/Query/user"
-      }
-    },
-    "Query.public": {
-      "resolve": {
-        "name": "lib/Query/public"
-      }
-    },
-    "Mutation.user": {
-      "resolve": {
-        "name": "lib/Mutation/user"
-      }
-    },
-    "UserMutation.randomMutation": {
-      "resolve": {
-        "name": "lib/UserMutation/randomMutation"
-      }
-    },
-    "PublicQuery.randomQuery": {
-      "resolve": {
-        "name": "lib/PublicQuery/randomQuery"
-      }
-    },
-    "UserQuery.randomQuery": {
-      "resolve": {
-        "name": "lib/UserQuery/randomQuery"
-      }
+    "resolvers": {
+        "Query.user": {
+            "resolve": {
+                "name": "lib/Query/user"
+            }
+        },
+        "Query.public": {
+            "resolve": {
+                "name": "lib/Query/public"
+            }
+        },
+        "Mutation.user": {
+            "resolve": {
+                "name": "lib/Mutation/user"
+            }
+        },
+        "BookingsUserQuery.getSelfServices": {
+            "noCode": {
+                "package": "gei-bookings",
+                "version": "0.0.3",
+                "resolver": "getSelfServices"
+            },
+            "resolve": {
+                "name": "gei-bookings@UserQuery.getSelfServices"
+            }
+        },
+        "BookingsUserQuery.getBookingsForService": {
+            "noCode": {
+                "package": "gei-bookings",
+                "version": "0.0.3",
+                "resolver": "getBookingsForService"
+            },
+            "resolve": {
+                "name": "gei-bookings@UserQuery.getBookingsForService"
+            }
+        },
+        "BookingsUserQuery.getSelfBooks": {
+            "noCode": {
+                "package": "gei-bookings",
+                "version": "0.0.3",
+                "resolver": "getSelfBooks"
+            },
+            "resolve": {
+                "name": "gei-bookings@UserQuery.getSelfBooks"
+            }
+        },
+        "BookingsPublicQuery.listServices": {
+            "noCode": {
+                "package": "gei-bookings",
+                "version": "0.0.3",
+                "resolver": "listServices"
+            },
+            "resolve": {
+                "name": "gei-bookings@PublicQuery.listServices"
+            }
+        },
+        "BookingsPublicQuery.getService": {
+            "noCode": {
+                "package": "gei-bookings",
+                "version": "0.0.3",
+                "resolver": "getService"
+            },
+            "resolve": {
+                "name": "gei-bookings@PublicQuery.getService"
+            }
+        },
+        "UserQuery.bookingUserQuery": {
+            "resolve": {
+                "name": "lib/UserQuery/bookingUserQuery"
+            }
+        },
+        "PublicQuery.bookingPublicQuery": {
+            "resolve": {
+                "name": "lib/PublicQuery/bookingPublicQuery"
+            }
+        }
     }
-  }
 }
