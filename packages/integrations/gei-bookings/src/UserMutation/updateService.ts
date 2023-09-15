@@ -8,7 +8,7 @@ export const handler = async (input: FieldResolveInput) =>
     errMiddleware(
       async () => (
         sourceContainUserIdOrThrow(src),
-        orm().then((o) =>
+        await orm().then((o) =>
           o('Services')
             .collection.updateOne(
               { _id: args.serviceId, ownerId: src.userId, taken: { $ne: true }, active: { $ne: true } },

@@ -7,7 +7,9 @@ export const handler = async (input: FieldResolveInput) =>
   resolverFor('PublicQuery', 'getService', async (args) =>
     errMiddleware(async () => {
       return await orm()
-        .then((o) => ({ service: o('Services').collection.findOne({ _id: args.serviceId, active: { $ne: false } }) }))
+        .then(async (o) => ({
+          service: await o('Services').collection.findOne({ _id: args.serviceId, active: { $ne: false } }),
+        }))
         .catch((r) => {
           throw new GlobalError(r, import.meta.url);
         });

@@ -25,7 +25,7 @@ export const handler = async (input: FieldResolveInput) =>
               }
             });
         });
-      return orm().then((o) =>
+      return await orm().then((o) =>
         o('Bookings')
           .collection.updateOne(
             { _id: args.input.bookId },
