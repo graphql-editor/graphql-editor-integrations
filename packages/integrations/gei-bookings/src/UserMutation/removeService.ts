@@ -16,6 +16,6 @@ export const handler = async (input: FieldResolveInput) =>
             { $set: { active: false } },
           ),
         )
-        .then((r) => r.modifiedCount !== 0)
+        .then((r) => ({ removed: r.modifiedCount !== 0 }))
     ),
   )(input.arguments, input.source);

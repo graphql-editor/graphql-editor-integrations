@@ -9,24 +9,26 @@ export const handler = async (input: FieldResolveInput) =>
   resolverFor('UserQuery', 'getSelfServices', async (args, src) =>
     errMiddleware(async () => {
       sourceContainUserIdOrThrow(src);
-      const po = preparePageOptions(args.input?.page);
+      const po = preparePageOptions(args?.input?.page);
       const pa =
-        args.input?.filters &&
-        Object.fromEntries(Object.entries(args.input?.filters).filter((v) => v !== null && v !== undefined));
-      const fromDate = isScalarDate(args.input?.filters?.fromDate)
-        ? isScalarDate(args.input?.filters?.fromDate)
+        args?.input?.filters &&
+        Object.fromEntries(Object.entries(args?.input?.filters).filter((v) => v !== null && v !== undefined));
+      const fromDate = isScalarDate(args?.input?.filters?.fromDate)
+        ? isScalarDate(args?.input?.filters?.fromDate)
         : undefined;
 
-      const toDate = isScalarDate(args.input?.filters?.toDate) ? isScalarDate(args.input?.filters?.toDate) : undefined;
+      const toDate = isScalarDate(args?.input?.filters?.toDate)
+        ? isScalarDate(args?.input?.filters?.toDate)
+        : undefined;
       return await orm().then(async (o) => ({
-        services: await o(ServicesCollection)
+        service: await o(ServicesCollection)
           .collection.find({
             ...pa,
-            ...(fromDate && { createdAt: { $gte: new Date(args.input?.filters?.fromDate as string) } }),
-            ...(toDate && { createdAt: { $lte: new Date(args.input?.filters?.toDate as string) } }),
-            ...(args.input?.filters?.name && { name: { $regex: args.input.filters.name, $options: 'i' } }),
-            ...(args.input?.filters?.description && {
-              description: { $regex: args.input.filters.description, $options: 'i' },
+            ...(fromDate && { createdAt: { $gte: new Date(args?.input?.filters?.fromDate as string) } }),
+            ...(toDate && { createdAt: { $lte: new Date(args?.input?.filters?.toDate as string) } }),
+            ...(args?.input?.filters?.name && { name: { $regex: args?.input.filters.name, $options: 'i' } }),
+            ...(args?.input?.filters?.description && {
+              description: { $regex: args?.input.filters.description, $options: 'i' },
             }),
             ownerId: src.userId,
           })

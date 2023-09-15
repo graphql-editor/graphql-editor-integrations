@@ -26,10 +26,12 @@ export const handler = async (input: FieldResolveInput) =>
             });
         });
       return orm().then((o) =>
-        o('Bookings').collection.updateOne(
-          { _id: args.input.bookId },
-          { $set: { answeredAt: new Date(), status: args.input.answer } },
-        ),
+        o('Bookings')
+          .collection.updateOne(
+            { _id: args.input.bookId },
+            { $set: { answeredAt: new Date(), status: args.input.answer } },
+          )
+          .then((r) => ({ status: r.modifiedCount !== 0 })),
       );
     }),
   )(input.arguments, input.source);

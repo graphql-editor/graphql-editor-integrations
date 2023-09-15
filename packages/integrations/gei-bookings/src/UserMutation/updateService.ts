@@ -9,13 +9,15 @@ export const handler = async (input: FieldResolveInput) =>
       async () => (
         sourceContainUserIdOrThrow(src),
         orm().then((o) =>
-          o('Services').collection.updateOne(
-            { _id: args.serviceId, ownerId: src.userId, taken: { $ne: true }, active: { $ne: true } },
-            {
-              ...Object.fromEntries(Object.entries(args.input).filter((e) => e !== null)),
-              startDate: new Date(String(args.input.startDate)),
-            },
-          ),
+          o('Services')
+            .collection.updateOne(
+              { _id: args.serviceId, ownerId: src.userId, taken: { $ne: true }, active: { $ne: true } },
+              {
+                ...Object.fromEntries(Object.entries(args.input).filter((e) => e !== null)),
+                startDate: new Date(String(args.input.startDate)),
+              },
+            )
+            .then((u) => u && { service: o('Services').collection.findOne({ _id: args.serviceId }) }),
         )
       ),
     ),
