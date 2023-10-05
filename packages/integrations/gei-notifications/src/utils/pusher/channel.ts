@@ -1,8 +1,8 @@
 import Pusher from 'pusher';
-import { getEnv } from '../envs';
-import { GlobalError } from '../middleware';
+import { getEnv } from '../envs.js';
+import { GlobalError } from '../middleware.js';
 
-const channelsClient = new Pusher({
+export const channelsClient = new Pusher({
   appId: getEnv('PUSHER_CHANNEL_APP_ID'),
   key: getEnv('PUSHER_CHANNEL_KEY'),
   secret: getEnv('PUSHER_CHANNEL_SECRET'),

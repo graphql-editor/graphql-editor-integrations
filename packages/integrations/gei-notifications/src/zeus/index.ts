@@ -852,6 +852,7 @@ userMutation?: [{	userId: string | Variable<any, string>},ValueTypes["UserMutati
 	["UserMutation"]: AliasType<{
 markNotificationReaded?: [{	input: ValueTypes["MarkNotificationReadedInput"] | Variable<any, string>},ValueTypes["MarkNotificationReadedResult"]],
 sendStaticNotification?: [{	input: ValueTypes["SendStaticNotificationInput"] | Variable<any, string>},ValueTypes["SendStaticNotificationResult"]],
+getChannelAuthorization?: [{	input: ValueTypes["GetChannelAuthorizationInput"] | Variable<any, string>},ValueTypes["GetChannelAuthorizationResult"]],
 createNotificationGroup?: [{	input: ValueTypes["CreateNotificationGroupInput"] | Variable<any, string>},ValueTypes["CreateNotificationGroupResult"]],
 modifyNotifactionGroup?: [{	groupId: string | Variable<any, string>},ValueTypes["NotificationGroupOps"]],
 		__typename?: boolean | `@${string}`
@@ -871,6 +872,17 @@ editNotificationGroup?: [{	input: ValueTypes["EditNotificationGroupInput"] | Var
 	error?:ValueTypes["GlobalError"],
 	token?:boolean | `@${string}`,
 	exp?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["GetChannelAuthorizationInput"]: {
+	targetId: string | Variable<any, string>,
+	socketId: string | Variable<any, string>
+};
+	["GetChannelAuthorizationResult"]: AliasType<{
+	error?:ValueTypes["GlobalError"],
+	auth?:boolean | `@${string}`,
+	channel_data?:boolean | `@${string}`,
+	shared_secret?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["ListChannelsInput"]: {
@@ -1056,6 +1068,7 @@ userMutation?: [{	userId: string},ResolverInputTypes["UserMutation"]],
 	["UserMutation"]: AliasType<{
 markNotificationReaded?: [{	input: ResolverInputTypes["MarkNotificationReadedInput"]},ResolverInputTypes["MarkNotificationReadedResult"]],
 sendStaticNotification?: [{	input: ResolverInputTypes["SendStaticNotificationInput"]},ResolverInputTypes["SendStaticNotificationResult"]],
+getChannelAuthorization?: [{	input: ResolverInputTypes["GetChannelAuthorizationInput"]},ResolverInputTypes["GetChannelAuthorizationResult"]],
 createNotificationGroup?: [{	input: ResolverInputTypes["CreateNotificationGroupInput"]},ResolverInputTypes["CreateNotificationGroupResult"]],
 modifyNotifactionGroup?: [{	groupId: string},ResolverInputTypes["NotificationGroupOps"]],
 		__typename?: boolean | `@${string}`
@@ -1075,6 +1088,17 @@ editNotificationGroup?: [{	input: ResolverInputTypes["EditNotificationGroupInput
 	error?:ResolverInputTypes["GlobalError"],
 	token?:boolean | `@${string}`,
 	exp?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["GetChannelAuthorizationInput"]: {
+	targetId: string,
+	socketId: string
+};
+	["GetChannelAuthorizationResult"]: AliasType<{
+	error?:ResolverInputTypes["GlobalError"],
+	auth?:boolean | `@${string}`,
+	channel_data?:boolean | `@${string}`,
+	shared_secret?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["ListChannelsInput"]: {
@@ -1262,6 +1286,7 @@ export type ModelTypes = {
 	["UserMutation"]: {
 		markNotificationReaded: ModelTypes["MarkNotificationReadedResult"],
 	sendStaticNotification: ModelTypes["SendStaticNotificationResult"],
+	getChannelAuthorization: ModelTypes["GetChannelAuthorizationResult"],
 	createNotificationGroup: ModelTypes["CreateNotificationGroupResult"],
 	modifyNotifactionGroup?: ModelTypes["NotificationGroupOps"] | undefined
 };
@@ -1279,6 +1304,16 @@ export type ModelTypes = {
 		error?: ModelTypes["GlobalError"] | undefined,
 	token: string,
 	exp?: ModelTypes["Date"] | undefined
+};
+	["GetChannelAuthorizationInput"]: {
+	targetId: string,
+	socketId: string
+};
+	["GetChannelAuthorizationResult"]: {
+		error?: ModelTypes["GlobalError"] | undefined,
+	auth?: string | undefined,
+	channel_data?: string | undefined,
+	shared_secret?: string | undefined
 };
 	["ListChannelsInput"]: {
 	page?: ModelTypes["PageOptionsInput"] | undefined
@@ -1438,6 +1473,7 @@ export type GraphQLTypes = {
 	__typename: "UserMutation",
 	markNotificationReaded: GraphQLTypes["MarkNotificationReadedResult"],
 	sendStaticNotification: GraphQLTypes["SendStaticNotificationResult"],
+	getChannelAuthorization: GraphQLTypes["GetChannelAuthorizationResult"],
 	createNotificationGroup: GraphQLTypes["CreateNotificationGroupResult"],
 	modifyNotifactionGroup?: GraphQLTypes["NotificationGroupOps"] | undefined
 };
@@ -1458,6 +1494,17 @@ export type GraphQLTypes = {
 	error?: GraphQLTypes["GlobalError"] | undefined,
 	token: string,
 	exp?: GraphQLTypes["Date"] | undefined
+};
+	["GetChannelAuthorizationInput"]: {
+		targetId: string,
+	socketId: string
+};
+	["GetChannelAuthorizationResult"]: {
+	__typename: "GetChannelAuthorizationResult",
+	error?: GraphQLTypes["GlobalError"] | undefined,
+	auth?: string | undefined,
+	channel_data?: string | undefined,
+	shared_secret?: string | undefined
 };
 	["ListChannelsInput"]: {
 		page?: GraphQLTypes["PageOptionsInput"] | undefined
@@ -1636,6 +1683,7 @@ export const enum NotificationType {
 }
 
 type ZEUS_VARIABLES = {
+	["GetChannelAuthorizationInput"]: ValueTypes["GetChannelAuthorizationInput"];
 	["ListChannelsInput"]: ValueTypes["ListChannelsInput"];
 	["ListNotificationGroupsInput"]: ValueTypes["ListNotificationGroupsInput"];
 	["ListNotificationGroupsInputFilter"]: ValueTypes["ListNotificationGroupsInputFilter"];

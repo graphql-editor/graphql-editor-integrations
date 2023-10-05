@@ -1,232 +1,271 @@
-type Query {
-  userQuery(userId: String!): UserQuery
-  publicQuery: PublicQuery!
+type Query{
+	userQuery(
+		userId: String!
+	): UserQuery
+	publicQuery: PublicQuery!
 }
 
-type UserQuery {
-  listNotifications(input: ListNotificationsInput): ListNotificationsResult!
-  listChannels(input: ListChannelsInput): ListChannelsResult!
-  generatePushNotificationToken: GeneratePushNotificationTokenResult!
+type UserQuery{
+	listNotifications(
+		input: ListNotificationsInput
+	): ListNotificationsResult!
+	listChannels(
+		input: ListChannelsInput
+	): ListChannelsResult!
+	generatePushNotificationToken: GeneratePushNotificationTokenResult!
 }
 
-type Mutation {
-  userMutation(userId: String!): UserMutation
+type Mutation{
+	userMutation(
+		userId: String!
+	): UserMutation
 }
 
-type UserMutation {
-  markNotificationReaded(input: MarkNotificationReadedInput!): MarkNotificationReadedResult!
-  sendStaticNotification(input: SendStaticNotificationInput!): SendStaticNotificationResult!
-  createNotificationGroup(input: CreateNotificationGroupInput!): CreateNotificationGroupResult!
-  modifyNotifactionGroup(groupId: String!): NotificationGroupOps
+type UserMutation{
+	markNotificationReaded(
+		input: MarkNotificationReadedInput!
+	): MarkNotificationReadedResult!
+	sendStaticNotification(
+		input: SendStaticNotificationInput!
+	): SendStaticNotificationResult!
+	getChannelAuthorization(
+		input: GetChannelAuthorizationInput!
+	): GetChannelAuthorizationResult!
+	createNotificationGroup(
+		input: CreateNotificationGroupInput!
+	): CreateNotificationGroupResult!
+	modifyNotifactionGroup(
+		groupId: String!
+	): NotificationGroupOps
 }
 
-type PublicQuery {
-  listNotificationGroups(input: ListNotificationGroupsInput): ListNotificationGroupsResult!
+type PublicQuery{
+	listNotificationGroups(
+		input: ListNotificationGroupsInput
+	): ListNotificationGroupsResult!
 }
 
-type NotificationGroupOps {
-  """
-  if we adding or removing users, duplicates will be reduced
-  """
-  addUserToGroup(userIds: [String!]): AddUserToGroupResult!
-  removeUserFromGroup(userIds: [String!]): RemoveUserToGroupResult!
-  editNotificationGroup(input: EditNotificationGroupInput!): EditNotificationGroupResult
-  deleteNotificationGroup: DeleteNotificationGroupResult!
+type NotificationGroupOps{
+	"""
+	if we adding or removing users, duplicates will be reduced
+	"""
+	addUserToGroup(
+		userIds: [String!]
+	): AddUserToGroupResult!
+	removeUserFromGroup(
+		userIds: [String!]
+	): RemoveUserToGroupResult!
+	editNotificationGroup(
+		input: EditNotificationGroupInput!
+	): EditNotificationGroupResult
+	deleteNotificationGroup: DeleteNotificationGroupResult!
 }
 
-type GeneratePushNotificationTokenResult {
-  error: GlobalError
-  token: String!
-  exp: Date
+type GeneratePushNotificationTokenResult{
+	error: GlobalError
+	token: String!
+	exp: Date
 }
 
-input ListChannelsInput {
-  page: PageOptionsInput
+input GetChannelAuthorizationInput{
+	targetId: String!
+	socketId: String!
 }
 
-input ListNotificationGroupsInput {
-  page: PageOptionsInput
-  filter: ListNotificationGroupsInputFilter
+type GetChannelAuthorizationResult{
+	error: GlobalError
+	auth: String
+	channel_data: String
+	shared_secret: String
 }
 
-input ListNotificationGroupsInputFilter {
-  """
-  this is a regex searching
-  """
-  name: String
-  """
-  if targetId is filled, this filter will return Notification groups that contains inside specific target
-  """
-  targetId: String
-  sortDirection: SortDirection
-  notificationType: NotificationType
-  startDate: Date
-  endDate: Date
+input ListChannelsInput{
+	page: PageOptionsInput
 }
 
-input ListNotificationsInput {
-  filter: ListNotificationsInputFilter
-  page: PageOptionsInput
+input ListNotificationGroupsInput{
+	page: PageOptionsInput
+	filter: ListNotificationGroupsInputFilter
 }
 
-input ListNotificationsInputFilter {
-  notificationType: NotificationType
-  sortDirection: SortDirection
-  isReaded: Boolean
-  startDate: Date
-  endDate: Date
+input ListNotificationGroupsInputFilter{
+	"""
+	this is a regex searching
+	"""
+	name: String
+	"""
+	if targetId is filled, this filter will return Notification groups that contains inside specific target
+	"""
+	targetId: String
+	sortDirection: SortDirection
+	notificationType: NotificationType
+	startDate: Date
+	endDate: Date
 }
 
-input SendStaticNotificationInput {
-  channelsId: [String!]!
-  message: String!
-  event: String!
+input ListNotificationsInput{
+	filter: ListNotificationsInputFilter
+	page: PageOptionsInput
 }
 
-type ListChannelsResult {
-  error: GlobalError
-  result: [Channel!]
-  page: PageOptionsResult
+input ListNotificationsInputFilter{
+	notificationType: NotificationType
+	sortDirection: SortDirection
+	isReaded: Boolean
+	startDate: Date
+	endDate: Date
 }
 
-type DeleteNotificationGroupResult {
-  error: GlobalError
-  result: Boolean
+input SendStaticNotificationInput{
+	channelsId: [String!]!
+	message: String!
+	event: String!
 }
 
-type SendStaticNotificationResult {
-  error: GlobalError
-  result: Boolean
+type ListChannelsResult{
+	error: GlobalError
+	result: [Channel!]
+	page: PageOptionsResult
 }
 
-type EditNotificationGroupResult {
-  error: GlobalError
-  result: Boolean
+type DeleteNotificationGroupResult{
+	error: GlobalError
+	result: Boolean
 }
 
-input EditNotificationGroupInput {
-  name: String
-  users: [String!]
+type SendStaticNotificationResult{
+	error: GlobalError
+	result: Boolean
 }
 
-type AddUserToGroupResult implements error {
-  result: Boolean
-  error: GlobalError
+type EditNotificationGroupResult{
+	error: GlobalError
+	result: Boolean
 }
 
-type RemoveUserToGroupResult implements error {
-  result: Boolean
-  error: GlobalError
+input EditNotificationGroupInput{
+	name: String
+	users: [String!]
 }
 
-type CreateNotificationGroupResult implements error {
-  error: GlobalError
-  result: Boolean
+type AddUserToGroupResult implements error{
+	result: Boolean
+	error: GlobalError
 }
 
-input CreateNotificationGroupInput {
-  name: String!
-  users: [String!]!
-  notificationType: NotificationType!
+type RemoveUserToGroupResult implements error{
+	result: Boolean
+	error: GlobalError
 }
 
-type MarkNotificationReadedResult {
-  error: GlobalError
-  result: Boolean
+type CreateNotificationGroupResult implements error{
+	error: GlobalError
+	result: Boolean
 }
 
-input MarkNotificationReadedInput {
-  state: Boolean!
-  notificationId: String!
+input CreateNotificationGroupInput{
+	name: String!
+	users: [String!]!
+	notificationType: NotificationType!
 }
 
-type ListNotificationGroupsResult implements error {
-  error: GlobalError
-  notificationGroup: [NotificationGroup!]
+type MarkNotificationReadedResult{
+	error: GlobalError
+	result: Boolean
 }
 
-type ListNotificationsResult implements error {
-  error: GlobalError
-  notification: [Notification!]
-  page: PageOptionsResult
+input MarkNotificationReadedInput{
+	state: Boolean!
+	notificationId: String!
 }
 
-type GlobalError {
-  message: String!
-  path: String!
+type ListNotificationGroupsResult implements error{
+	error: GlobalError
+	notificationGroup: [NotificationGroup!]
 }
 
-type Notification implements DbEssentials {
-  body: String!
-  targetIds: [String!]!
-  _id: String!
-  createdAt: Date!
-  isReaded: Boolean!
-  notificationType: NotificationType!
+type ListNotificationsResult implements error{
+	error: GlobalError
+	notification: [Notification!]
+	page: PageOptionsResult
 }
 
-type NotificationGroup implements DbEssentials {
-  targets: [String!]!
-  notificationType: NotificationType!
-  name: String!
-  _id: String!
-  createdAt: Date!
+type GlobalError{
+	message: String!
+	path: String!
 }
 
-type NotificationReaded {
-  userId: String!
-  notificationId: String!
-  createdAt: Date!
+type Notification implements DbEssentials{
+	body: String!
+	targetIds: [String!]!
+	_id: String!
+	createdAt: Date!
+	isReaded: Boolean!
+	notificationType: NotificationType!
 }
 
-type Channel {
-  channelId: String!
-  createdAt: Date
+type NotificationGroup implements DbEssentials{
+	targets: [String!]!
+	notificationType: NotificationType!
+	name: String!
+	_id: String!
+	createdAt: Date!
 }
 
-input PageOptionsInput {
-  """
-  default limit is 10
-  """
-  limit: Int
-  """
-  count stating from 0
-  """
-  page: Int
+type NotificationReaded{
+	userId: String!
+	notificationId: String!
+	createdAt: Date!
 }
 
-type PageOptionsResult {
-  count: Int
-  hasNext: Boolean
+type Channel{
+	channelId: String!
+	createdAt: Date
 }
 
-interface DbEssentials {
-  _id: String!
-  createdAt: Date!
+input PageOptionsInput{
+	"""
+	default limit is 10
+	"""
+	limit: Int
+	"""
+	count stating from 0
+	"""
+	page: Int
 }
 
-interface error {
-  error: GlobalError
+type PageOptionsResult{
+	count: Int
+	hasNext: Boolean
 }
 
-enum NotificationTargetType {
-  USER
-  GROUP
+interface DbEssentials{
+	_id: String!
+	createdAt: Date!
 }
 
-enum SortDirection {
-  asc
-  desc
+interface error{
+	error: GlobalError
 }
 
-enum NotificationType {
-  STATIC
-  PUSH
+enum NotificationTargetType{
+	USER
+	GROUP
+}
+
+enum SortDirection{
+	asc
+	desc
+}
+
+enum NotificationType{
+	STATIC
+	PUSH
 }
 
 scalar Date
 
-schema {
-  query: Query
-  mutation: Mutation
+schema{
+	query: Query
+	mutation: Mutation
 }

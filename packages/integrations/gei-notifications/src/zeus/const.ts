@@ -26,6 +26,9 @@ export const AllTypesProps: Record<string,any> = {
 		sendStaticNotification:{
 			input:"SendStaticNotificationInput"
 		},
+		getChannelAuthorization:{
+			input:"GetChannelAuthorizationInput"
+		},
 		createNotificationGroup:{
 			input:"CreateNotificationGroupInput"
 		},
@@ -48,6 +51,9 @@ export const AllTypesProps: Record<string,any> = {
 		editNotificationGroup:{
 			input:"EditNotificationGroupInput"
 		}
+	},
+	GetChannelAuthorizationInput:{
+
 	},
 	ListChannelsInput:{
 		page:"PageOptionsInput"
@@ -109,6 +115,7 @@ export const ReturnTypes: Record<string,any> = {
 	UserMutation:{
 		markNotificationReaded:"MarkNotificationReadedResult",
 		sendStaticNotification:"SendStaticNotificationResult",
+		getChannelAuthorization:"GetChannelAuthorizationResult",
 		createNotificationGroup:"CreateNotificationGroupResult",
 		modifyNotifactionGroup:"NotificationGroupOps"
 	},
@@ -125,6 +132,12 @@ export const ReturnTypes: Record<string,any> = {
 		error:"GlobalError",
 		token:"String",
 		exp:"Date"
+	},
+	GetChannelAuthorizationResult:{
+		error:"GlobalError",
+		auth:"String",
+		channel_data:"String",
+		shared_secret:"String"
 	},
 	ListChannelsResult:{
 		error:"GlobalError",

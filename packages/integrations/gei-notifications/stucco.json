@@ -44,6 +44,14 @@
       "resolve": {
         "name": "lib/UserMutation/sendStaticNotification"
       }
+    },
+    "UserMutation.getChannelAuthorization": {
+      "resolve": {
+        "name": "lib/UserMutation/getChannelAuthorization"
+      }
     }
+  },
+  "azureOpts": {
+    "": ["webhook/Mutation/webhook"]
   }
 }

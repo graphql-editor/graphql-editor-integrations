@@ -5,6 +5,7 @@ import { UserMutationModel } from './UserMutationModel.js'
 import { PublicQueryModel } from './PublicQueryModel.js'
 import { NotificationGroupOpsModel } from './NotificationGroupOpsModel.js'
 import { GeneratePushNotificationTokenResultModel } from './GeneratePushNotificationTokenResultModel.js'
+import { GetChannelAuthorizationResultModel } from './GetChannelAuthorizationResultModel.js'
 import { ListChannelsResultModel } from './ListChannelsResultModel.js'
 import { DeleteNotificationGroupResultModel } from './DeleteNotificationGroupResultModel.js'
 import { SendStaticNotificationResultModel } from './SendStaticNotificationResultModel.js'
@@ -31,6 +32,7 @@ export type Models = {
 	PublicQueryModel: PublicQueryModel;
 	NotificationGroupOpsModel: NotificationGroupOpsModel;
 	GeneratePushNotificationTokenResultModel: GeneratePushNotificationTokenResultModel;
+	GetChannelAuthorizationResultModel: GetChannelAuthorizationResultModel;
 	ListChannelsResultModel: ListChannelsResultModel;
 	DeleteNotificationGroupResultModel: DeleteNotificationGroupResultModel;
 	SendStaticNotificationResultModel: SendStaticNotificationResultModel;
