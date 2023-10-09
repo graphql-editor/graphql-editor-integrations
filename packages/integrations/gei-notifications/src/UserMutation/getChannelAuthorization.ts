@@ -8,10 +8,7 @@ export const handler = async (input: FieldResolveInput) =>
     errMiddleware(async () => {
       const socketId = args.input.socketId;
       const channel = args.input.targetId;
-
       const auth = channelsClient.authorizeChannel(socketId, channel);
-      //channelsClient.config.auth = auth
-
       return auth;
     }),
   )(input.arguments);
