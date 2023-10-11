@@ -26,6 +26,9 @@ export const AllTypesProps: Record<string,any> = {
 		sendStaticNotification:{
 			input:"SendStaticNotificationInput"
 		},
+		sendPushNotification:{
+			input:"SendPushNotificationInput"
+		},
 		getChannelAuthorization:{
 			input:"GetChannelAuthorizationInput"
 		},
@@ -81,6 +84,12 @@ export const AllTypesProps: Record<string,any> = {
 	SendStaticNotificationInput:{
 
 	},
+	SendPushNotificationInput:{
+		notification:"NotificationPayloadInput"
+	},
+	NotificationPayloadInput:{
+
+	},
 	EditNotificationGroupInput:{
 
 	},
@@ -115,6 +124,7 @@ export const ReturnTypes: Record<string,any> = {
 	UserMutation:{
 		markNotificationReaded:"MarkNotificationReadedResult",
 		sendStaticNotification:"SendStaticNotificationResult",
+		sendPushNotification:"SendStaticNotificationResult",
 		getChannelAuthorization:"GetChannelAuthorizationResult",
 		createNotificationGroup:"CreateNotificationGroupResult",
 		modifyNotifactionGroup:"NotificationGroupOps"

@@ -28,6 +28,9 @@ type UserMutation{
 	sendStaticNotification(
 		input: SendStaticNotificationInput!
 	): SendStaticNotificationResult!
+	sendPushNotification(
+		input: SendPushNotificationInput!
+	): SendStaticNotificationResult!
 	getChannelAuthorization(
 		input: GetChannelAuthorizationInput!
 	): GetChannelAuthorizationResult!
@@ -120,6 +123,16 @@ input SendStaticNotificationInput{
 	channelsId: [String!]!
 	message: String!
 	event: String!
+}
+
+input SendPushNotificationInput{
+	targets: [String!]!
+	notification: NotificationPayloadInput!
+}
+
+input NotificationPayloadInput{
+	title: String!
+	body: String!
 }
 
 type ListChannelsResult{

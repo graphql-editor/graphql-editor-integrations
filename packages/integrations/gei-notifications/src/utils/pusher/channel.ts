@@ -10,7 +10,11 @@ export const channelsClient = new Pusher({
   useTLS: true,
 });
 
-export const sendStaticNotification = async (targets: string[], event: string, message: string): Promise<boolean> => {
+export const sendStaticNotification = async (
+  targets: string[],
+  event: string,
+  message: string,
+): Promise<{ result: boolean }> => {
   await Promise.all(
     targets.map((target) =>
       channelsClient
@@ -22,5 +26,5 @@ export const sendStaticNotification = async (targets: string[], event: string, m
         }),
     ),
   );
-  return true;
+  return { result: true };
 };
