@@ -1,7 +1,7 @@
 import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
 import { errMiddleware } from '../utils/middleware.js';
-import { sendPushNotificationToInterests } from '../utils/pusher/beam.js';
+import { sendPushNotificationToInterests } from '../utils/beam.js';
 
 export const handler = async (input: FieldResolveInput) =>
   resolverFor('UserMutation', 'sendPushNotificationToInterests', async (args) =>

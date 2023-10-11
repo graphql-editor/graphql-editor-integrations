@@ -1,79 +1,44 @@
 {
-    "resolvers": {
-        "Query.userQuery": {
-            "resolve": {
-                "name": "lib/Query/userQuery.js"
-            }
-        },
-        "UserQuery.listNotifications": {
-            "resolve": {
-                "name": "lib/UserQuery/listNotifications"
-            }
-        },
-        "Mutation.userMutation": {
-            "resolve": {
-                "name": "lib/Mutation/userMutation"
-            }
-        },
-        "UserMutation.createNotificationGroup": {
-            "resolve": {
-                "name": "lib/UserMutation/createNotificationGroup.js"
-            }
-        },
-        "UserQuery.listNotificationGroups": {
-            "resolve": {
-                "name": "lib/UserQuery/listNotificationGroups"
-            }
-        },
-        "Query.publicQuery": {
-            "resolve": {
-                "name": "lib/Query/publicQuery"
-            }
-        },
-        "PublicQuery.listNotificationGroups": {
-            "resolve": {
-                "name": "lib/PublicQuery/listNotificationGroups"
-            }
-        },
-        "UserQuery.listChannels": {
-            "resolve": {
-                "name": "lib/UserQuery/listChannels"
-            }
-        },
-        "UserMutation.sendStaticNotification": {
-            "resolve": {
-                "name": "lib/UserMutation/sendStaticNotification"
-            }
-        },
-        "UserMutation.getChannelAuthorization": {
-            "resolve": {
-                "name": "lib/UserMutation/getChannelAuthorization"
-            }
-        },
-        "UserMutation.sendPushNotification": {
-            "resolve": {
-                "name": "lib/UserMutation/sendPushNotification"
-            }
-        },
-        "UserMutation.getBeamAuthorization": {
-            "resolve": {
-                "name": "lib/UserMutation/getBeamAuthorization"
-            }
-        },
-        "UserMutation.sendPushNotificationToUsers": {
-            "resolve": {
-                "name": "lib/UserMutation/sendPushNotificationToUsers"
-            }
-        },
-        "UserMutation.sendPushNotificationToInterests": {
-            "resolve": {
-                "name": "lib/UserMutation/sendPushNotificationToInterests"
-            }
-        }
+  "resolvers": {
+    "Query.userQuery": {
+      "resolve": {
+        "name": "lib/Query/userQuery.js"
+      }
     },
-    "azureOpts": {
-        "": [
-            "webhook/Mutation/webhook"
-        ]
+    "Mutation.userMutation": {
+      "resolve": {
+        "name": "lib/Mutation/userMutation"
+      }
+    },
+    "UserMutation.sendStaticNotification": {
+      "resolve": {
+        "name": "lib/UserMutation/sendStaticNotification"
+      }
+    },
+    "UserMutation.getChannelAuthorization": {
+      "resolve": {
+        "name": "lib/UserMutation/getChannelAuthorization"
+      }
+    },
+    "UserMutation.sendPushNotificationToUsers": {
+      "resolve": {
+        "name": "lib/UserMutation/sendPushNotificationToUsers"
+      }
+    },
+    "UserMutation.sendPushNotificationToInterests": {
+      "resolve": {
+        "name": "lib/UserMutation/sendPushNotificationToInterests"
+      }
+    },
+    "UserQuery.getChannelAuthorization": {
+      "resolve": {
+        "name": "lib/UserQuery/getChannelAuthorization"
+      }
+    },
+    "UserQuery.generatePushNotificationToken": {
+      "resolve": {
+        "name": "lib/UserQuery/generatePushNotificationToken"
+      }
     }
+  }
 }

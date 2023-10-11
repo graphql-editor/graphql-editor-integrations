@@ -1,6 +1,6 @@
 import PushNotifications from '@pusher/push-notifications-server';
-import { getEnv } from '../envs.js';
-import { GlobalError } from '../middleware.js';
+import { getEnv } from './envs.js';
+import { GlobalError } from './middleware.js';
 
 export type NotificationPayload = {
   title: string;

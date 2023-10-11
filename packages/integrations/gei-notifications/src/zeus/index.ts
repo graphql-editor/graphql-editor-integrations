@@ -827,21 +827,18 @@ export const GRAPHQL_TYPE_SEPARATOR = `__$GRAPHQL__`;
 export const $ = <Type extends GraphQLVariableType, Name extends string>(name: Name, graphqlType: Type) => {
   return (START_VAR_NAME + name + GRAPHQL_TYPE_SEPARATOR + graphqlType) as unknown as Variable<Type, Name>;
 };
-type ZEUS_INTERFACES = GraphQLTypes["DbEssentials"] | GraphQLTypes["error"]
+type ZEUS_INTERFACES = GraphQLTypes["error"]
 export type ScalarCoders = {
-	Date?: ScalarResolver;
 }
 type ZEUS_UNIONS = never
 
 export type ValueTypes = {
     ["Query"]: AliasType<{
 userQuery?: [{	userId: string | Variable<any, string>},ValueTypes["UserQuery"]],
-	publicQuery?:ValueTypes["PublicQuery"],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserQuery"]: AliasType<{
-listNotifications?: [{	input?: ValueTypes["ListNotificationsInput"] | undefined | null | Variable<any, string>},ValueTypes["ListNotificationsResult"]],
-listChannels?: [{	input?: ValueTypes["ListChannelsInput"] | undefined | null | Variable<any, string>},ValueTypes["ListChannelsResult"]],
+getChannelAuthorization?: [{	input: ValueTypes["GetChannelAuthorizationInput"] | Variable<any, string>},ValueTypes["GetChannelAuthorizationResult"]],
 	generatePushNotificationToken?:ValueTypes["GeneratePushNotificationTokenResult"],
 		__typename?: boolean | `@${string}`
 }>;
@@ -850,28 +847,14 @@ userMutation?: [{	userId: string | Variable<any, string>},ValueTypes["UserMutati
 		__typename?: boolean | `@${string}`
 }>;
 	["UserMutation"]: AliasType<{
-sendStaticNotification?: [{	input: ValueTypes["SendStaticNotificationInput"] | Variable<any, string>},ValueTypes["SendStaticNotificationResult"]],
-sendPushNotificationToUsers?: [{	input: ValueTypes["SendPushNotificationInput"] | Variable<any, string>},ValueTypes["SendStaticNotificationResult"]],
-sendPushNotificationToInterests?: [{	input: ValueTypes["SendPushNotificationInput"] | Variable<any, string>},ValueTypes["SendStaticNotificationResult"]],
-getChannelAuthorization?: [{	input: ValueTypes["GetChannelAuthorizationInput"] | Variable<any, string>},ValueTypes["GetChannelAuthorizationResult"]],
-getBeamAuthorization?: [{	userId?: string | undefined | null | Variable<any, string>},ValueTypes["GetChannelAuthorizationResult"]],
-		__typename?: boolean | `@${string}`
-}>;
-	["PublicQuery"]: AliasType<{
-listNotificationGroups?: [{	input?: ValueTypes["ListNotificationGroupsInput"] | undefined | null | Variable<any, string>},ValueTypes["ListNotificationGroupsResult"]],
-		__typename?: boolean | `@${string}`
-}>;
-	["NotificationGroupOps"]: AliasType<{
-addUserToGroup?: [{	userIds?: Array<string> | undefined | null | Variable<any, string>},ValueTypes["AddUserToGroupResult"]],
-removeUserFromGroup?: [{	userIds?: Array<string> | undefined | null | Variable<any, string>},ValueTypes["RemoveUserToGroupResult"]],
-editNotificationGroup?: [{	input: ValueTypes["EditNotificationGroupInput"] | Variable<any, string>},ValueTypes["EditNotificationGroupResult"]],
-	deleteNotificationGroup?:ValueTypes["DeleteNotificationGroupResult"],
+sendStaticNotification?: [{	input: ValueTypes["SendStaticNotificationInput"] | Variable<any, string>},ValueTypes["SendNotificationResult"]],
+sendPushNotificationToUsers?: [{	input: ValueTypes["SendPushNotificationInput"] | Variable<any, string>},ValueTypes["SendNotificationResult"]],
+sendPushNotificationToInterests?: [{	input: ValueTypes["SendPushNotificationInput"] | Variable<any, string>},ValueTypes["SendNotificationResult"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["GeneratePushNotificationTokenResult"]: AliasType<{
 	error?:ValueTypes["GlobalError"],
 	token?:boolean | `@${string}`,
-	exp?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["GetChannelAuthorizationInput"]: {
@@ -885,34 +868,6 @@ editNotificationGroup?: [{	input: ValueTypes["EditNotificationGroupInput"] | Var
 	shared_secret?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["ListChannelsInput"]: {
-	page?: ValueTypes["PageOptionsInput"] | undefined | null | Variable<any, string>
-};
-	["ListNotificationGroupsInput"]: {
-	page?: ValueTypes["PageOptionsInput"] | undefined | null | Variable<any, string>,
-	filter?: ValueTypes["ListNotificationGroupsInputFilter"] | undefined | null | Variable<any, string>
-};
-	["ListNotificationGroupsInputFilter"]: {
-	/** this is a regex searching */
-	name?: string | undefined | null | Variable<any, string>,
-	/** if targetId is filled, this filter will return Notification groups that contains inside specific target */
-	targetId?: string | undefined | null | Variable<any, string>,
-	sortDirection?: ValueTypes["SortDirection"] | undefined | null | Variable<any, string>,
-	notificationType?: ValueTypes["NotificationType"] | undefined | null | Variable<any, string>,
-	startDate?: ValueTypes["Date"] | undefined | null | Variable<any, string>,
-	endDate?: ValueTypes["Date"] | undefined | null | Variable<any, string>
-};
-	["ListNotificationsInput"]: {
-	filter?: ValueTypes["ListNotificationsInputFilter"] | undefined | null | Variable<any, string>,
-	page?: ValueTypes["PageOptionsInput"] | undefined | null | Variable<any, string>
-};
-	["ListNotificationsInputFilter"]: {
-	notificationType?: ValueTypes["NotificationType"] | undefined | null | Variable<any, string>,
-	sortDirection?: ValueTypes["SortDirection"] | undefined | null | Variable<any, string>,
-	isReaded?: boolean | undefined | null | Variable<any, string>,
-	startDate?: ValueTypes["Date"] | undefined | null | Variable<any, string>,
-	endDate?: ValueTypes["Date"] | undefined | null | Variable<any, string>
-};
 	["SendStaticNotificationInput"]: {
 	channelsId: Array<string> | Variable<any, string>,
 	message: string | Variable<any, string>,
@@ -926,69 +881,9 @@ editNotificationGroup?: [{	input: ValueTypes["EditNotificationGroupInput"] | Var
 	title: string | Variable<any, string>,
 	body: string | Variable<any, string>
 };
-	["ListChannelsResult"]: AliasType<{
-	error?:ValueTypes["GlobalError"],
-	result?:ValueTypes["Channel"],
-	page?:ValueTypes["PageOptionsResult"],
-		__typename?: boolean | `@${string}`
-}>;
-	["DeleteNotificationGroupResult"]: AliasType<{
+	["SendNotificationResult"]: AliasType<{
 	error?:ValueTypes["GlobalError"],
 	result?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["SendStaticNotificationResult"]: AliasType<{
-	error?:ValueTypes["GlobalError"],
-	result?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["EditNotificationGroupResult"]: AliasType<{
-	error?:ValueTypes["GlobalError"],
-	result?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["EditNotificationGroupInput"]: {
-	name?: string | undefined | null | Variable<any, string>,
-	users?: Array<string> | undefined | null | Variable<any, string>
-};
-	["AddUserToGroupResult"]: AliasType<{
-	result?:boolean | `@${string}`,
-	error?:ValueTypes["GlobalError"],
-		__typename?: boolean | `@${string}`
-}>;
-	["RemoveUserToGroupResult"]: AliasType<{
-	result?:boolean | `@${string}`,
-	error?:ValueTypes["GlobalError"],
-		__typename?: boolean | `@${string}`
-}>;
-	["CreateNotificationGroupResult"]: AliasType<{
-	error?:ValueTypes["GlobalError"],
-	result?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["CreateNotificationGroupInput"]: {
-	name: string | Variable<any, string>,
-	users: Array<string> | Variable<any, string>,
-	notificationType: ValueTypes["NotificationType"] | Variable<any, string>
-};
-	["MarkNotificationReadedResult"]: AliasType<{
-	error?:ValueTypes["GlobalError"],
-	result?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["MarkNotificationReadedInput"]: {
-	state: boolean | Variable<any, string>,
-	notificationId: string | Variable<any, string>
-};
-	["ListNotificationGroupsResult"]: AliasType<{
-	error?:ValueTypes["GlobalError"],
-	notificationGroup?:ValueTypes["NotificationGroup"],
-		__typename?: boolean | `@${string}`
-}>;
-	["ListNotificationsResult"]: AliasType<{
-	error?:ValueTypes["GlobalError"],
-	notification?:ValueTypes["Notification"],
-	page?:ValueTypes["PageOptionsResult"],
 		__typename?: boolean | `@${string}`
 }>;
 	["GlobalError"]: AliasType<{
@@ -996,76 +891,20 @@ editNotificationGroup?: [{	input: ValueTypes["EditNotificationGroupInput"] | Var
 	path?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["Notification"]: AliasType<{
-	body?:boolean | `@${string}`,
-	targetIds?:boolean | `@${string}`,
-	_id?:boolean | `@${string}`,
-	createdAt?:boolean | `@${string}`,
-	isReaded?:boolean | `@${string}`,
-	notificationType?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["NotificationGroup"]: AliasType<{
-	targets?:boolean | `@${string}`,
-	notificationType?:boolean | `@${string}`,
-	name?:boolean | `@${string}`,
-	_id?:boolean | `@${string}`,
-	createdAt?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["NotificationReaded"]: AliasType<{
-	userId?:boolean | `@${string}`,
-	notificationId?:boolean | `@${string}`,
-	createdAt?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["Channel"]: AliasType<{
-	channelId?:boolean | `@${string}`,
-	createdAt?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["PageOptionsInput"]: {
-	/** default limit is 10 */
-	limit?: number | undefined | null | Variable<any, string>,
-	/** count stating from 0 */
-	page?: number | undefined | null | Variable<any, string>
-};
-	["PageOptionsResult"]: AliasType<{
-	count?:boolean | `@${string}`,
-	hasNext?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["DbEssentials"]:AliasType<{
-		_id?:boolean | `@${string}`,
-	createdAt?:boolean | `@${string}`;
-		['...on Notification']?: Omit<ValueTypes["Notification"],keyof ValueTypes["DbEssentials"]>;
-		['...on NotificationGroup']?: Omit<ValueTypes["NotificationGroup"],keyof ValueTypes["DbEssentials"]>;
-		__typename?: boolean | `@${string}`
-}>;
 	["error"]:AliasType<{
 		error?:ValueTypes["GlobalError"];
-		['...on AddUserToGroupResult']?: Omit<ValueTypes["AddUserToGroupResult"],keyof ValueTypes["error"]>;
-		['...on RemoveUserToGroupResult']?: Omit<ValueTypes["RemoveUserToGroupResult"],keyof ValueTypes["error"]>;
-		['...on CreateNotificationGroupResult']?: Omit<ValueTypes["CreateNotificationGroupResult"],keyof ValueTypes["error"]>;
-		['...on ListNotificationGroupsResult']?: Omit<ValueTypes["ListNotificationGroupsResult"],keyof ValueTypes["error"]>;
-		['...on ListNotificationsResult']?: Omit<ValueTypes["ListNotificationsResult"],keyof ValueTypes["error"]>;
+		
 		__typename?: boolean | `@${string}`
-}>;
-	["NotificationTargetType"]:NotificationTargetType;
-	["SortDirection"]:SortDirection;
-	["NotificationType"]:NotificationType;
-	["Date"]:unknown
+}>
   }
 
 export type ResolverInputTypes = {
     ["Query"]: AliasType<{
 userQuery?: [{	userId: string},ResolverInputTypes["UserQuery"]],
-	publicQuery?:ResolverInputTypes["PublicQuery"],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserQuery"]: AliasType<{
-listNotifications?: [{	input?: ResolverInputTypes["ListNotificationsInput"] | undefined | null},ResolverInputTypes["ListNotificationsResult"]],
-listChannels?: [{	input?: ResolverInputTypes["ListChannelsInput"] | undefined | null},ResolverInputTypes["ListChannelsResult"]],
+getChannelAuthorization?: [{	input: ResolverInputTypes["GetChannelAuthorizationInput"]},ResolverInputTypes["GetChannelAuthorizationResult"]],
 	generatePushNotificationToken?:ResolverInputTypes["GeneratePushNotificationTokenResult"],
 		__typename?: boolean | `@${string}`
 }>;
@@ -1074,28 +913,14 @@ userMutation?: [{	userId: string},ResolverInputTypes["UserMutation"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserMutation"]: AliasType<{
-sendStaticNotification?: [{	input: ResolverInputTypes["SendStaticNotificationInput"]},ResolverInputTypes["SendStaticNotificationResult"]],
-sendPushNotificationToUsers?: [{	input: ResolverInputTypes["SendPushNotificationInput"]},ResolverInputTypes["SendStaticNotificationResult"]],
-sendPushNotificationToInterests?: [{	input: ResolverInputTypes["SendPushNotificationInput"]},ResolverInputTypes["SendStaticNotificationResult"]],
-getChannelAuthorization?: [{	input: ResolverInputTypes["GetChannelAuthorizationInput"]},ResolverInputTypes["GetChannelAuthorizationResult"]],
-getBeamAuthorization?: [{	userId?: string | undefined | null},ResolverInputTypes["GetChannelAuthorizationResult"]],
-		__typename?: boolean | `@${string}`
-}>;
-	["PublicQuery"]: AliasType<{
-listNotificationGroups?: [{	input?: ResolverInputTypes["ListNotificationGroupsInput"] | undefined | null},ResolverInputTypes["ListNotificationGroupsResult"]],
-		__typename?: boolean | `@${string}`
-}>;
-	["NotificationGroupOps"]: AliasType<{
-addUserToGroup?: [{	userIds?: Array<string> | undefined | null},ResolverInputTypes["AddUserToGroupResult"]],
-removeUserFromGroup?: [{	userIds?: Array<string> | undefined | null},ResolverInputTypes["RemoveUserToGroupResult"]],
-editNotificationGroup?: [{	input: ResolverInputTypes["EditNotificationGroupInput"]},ResolverInputTypes["EditNotificationGroupResult"]],
-	deleteNotificationGroup?:ResolverInputTypes["DeleteNotificationGroupResult"],
+sendStaticNotification?: [{	input: ResolverInputTypes["SendStaticNotificationInput"]},ResolverInputTypes["SendNotificationResult"]],
+sendPushNotificationToUsers?: [{	input: ResolverInputTypes["SendPushNotificationInput"]},ResolverInputTypes["SendNotificationResult"]],
+sendPushNotificationToInterests?: [{	input: ResolverInputTypes["SendPushNotificationInput"]},ResolverInputTypes["SendNotificationResult"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["GeneratePushNotificationTokenResult"]: AliasType<{
 	error?:ResolverInputTypes["GlobalError"],
 	token?:boolean | `@${string}`,
-	exp?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["GetChannelAuthorizationInput"]: {
@@ -1109,34 +934,6 @@ editNotificationGroup?: [{	input: ResolverInputTypes["EditNotificationGroupInput
 	shared_secret?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["ListChannelsInput"]: {
-	page?: ResolverInputTypes["PageOptionsInput"] | undefined | null
-};
-	["ListNotificationGroupsInput"]: {
-	page?: ResolverInputTypes["PageOptionsInput"] | undefined | null,
-	filter?: ResolverInputTypes["ListNotificationGroupsInputFilter"] | undefined | null
-};
-	["ListNotificationGroupsInputFilter"]: {
-	/** this is a regex searching */
-	name?: string | undefined | null,
-	/** if targetId is filled, this filter will return Notification groups that contains inside specific target */
-	targetId?: string | undefined | null,
-	sortDirection?: ResolverInputTypes["SortDirection"] | undefined | null,
-	notificationType?: ResolverInputTypes["NotificationType"] | undefined | null,
-	startDate?: ResolverInputTypes["Date"] | undefined | null,
-	endDate?: ResolverInputTypes["Date"] | undefined | null
-};
-	["ListNotificationsInput"]: {
-	filter?: ResolverInputTypes["ListNotificationsInputFilter"] | undefined | null,
-	page?: ResolverInputTypes["PageOptionsInput"] | undefined | null
-};
-	["ListNotificationsInputFilter"]: {
-	notificationType?: ResolverInputTypes["NotificationType"] | undefined | null,
-	sortDirection?: ResolverInputTypes["SortDirection"] | undefined | null,
-	isReaded?: boolean | undefined | null,
-	startDate?: ResolverInputTypes["Date"] | undefined | null,
-	endDate?: ResolverInputTypes["Date"] | undefined | null
-};
 	["SendStaticNotificationInput"]: {
 	channelsId: Array<string>,
 	message: string,
@@ -1150,69 +947,9 @@ editNotificationGroup?: [{	input: ResolverInputTypes["EditNotificationGroupInput
 	title: string,
 	body: string
 };
-	["ListChannelsResult"]: AliasType<{
-	error?:ResolverInputTypes["GlobalError"],
-	result?:ResolverInputTypes["Channel"],
-	page?:ResolverInputTypes["PageOptionsResult"],
-		__typename?: boolean | `@${string}`
-}>;
-	["DeleteNotificationGroupResult"]: AliasType<{
+	["SendNotificationResult"]: AliasType<{
 	error?:ResolverInputTypes["GlobalError"],
 	result?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["SendStaticNotificationResult"]: AliasType<{
-	error?:ResolverInputTypes["GlobalError"],
-	result?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["EditNotificationGroupResult"]: AliasType<{
-	error?:ResolverInputTypes["GlobalError"],
-	result?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["EditNotificationGroupInput"]: {
-	name?: string | undefined | null,
-	users?: Array<string> | undefined | null
-};
-	["AddUserToGroupResult"]: AliasType<{
-	result?:boolean | `@${string}`,
-	error?:ResolverInputTypes["GlobalError"],
-		__typename?: boolean | `@${string}`
-}>;
-	["RemoveUserToGroupResult"]: AliasType<{
-	result?:boolean | `@${string}`,
-	error?:ResolverInputTypes["GlobalError"],
-		__typename?: boolean | `@${string}`
-}>;
-	["CreateNotificationGroupResult"]: AliasType<{
-	error?:ResolverInputTypes["GlobalError"],
-	result?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["CreateNotificationGroupInput"]: {
-	name: string,
-	users: Array<string>,
-	notificationType: ResolverInputTypes["NotificationType"]
-};
-	["MarkNotificationReadedResult"]: AliasType<{
-	error?:ResolverInputTypes["GlobalError"],
-	result?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["MarkNotificationReadedInput"]: {
-	state: boolean,
-	notificationId: string
-};
-	["ListNotificationGroupsResult"]: AliasType<{
-	error?:ResolverInputTypes["GlobalError"],
-	notificationGroup?:ResolverInputTypes["NotificationGroup"],
-		__typename?: boolean | `@${string}`
-}>;
-	["ListNotificationsResult"]: AliasType<{
-	error?:ResolverInputTypes["GlobalError"],
-	notification?:ResolverInputTypes["Notification"],
-	page?:ResolverInputTypes["PageOptionsResult"],
 		__typename?: boolean | `@${string}`
 }>;
 	["GlobalError"]: AliasType<{
@@ -1220,65 +957,11 @@ editNotificationGroup?: [{	input: ResolverInputTypes["EditNotificationGroupInput
 	path?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	["Notification"]: AliasType<{
-	body?:boolean | `@${string}`,
-	targetIds?:boolean | `@${string}`,
-	_id?:boolean | `@${string}`,
-	createdAt?:boolean | `@${string}`,
-	isReaded?:boolean | `@${string}`,
-	notificationType?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["NotificationGroup"]: AliasType<{
-	targets?:boolean | `@${string}`,
-	notificationType?:boolean | `@${string}`,
-	name?:boolean | `@${string}`,
-	_id?:boolean | `@${string}`,
-	createdAt?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["NotificationReaded"]: AliasType<{
-	userId?:boolean | `@${string}`,
-	notificationId?:boolean | `@${string}`,
-	createdAt?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["Channel"]: AliasType<{
-	channelId?:boolean | `@${string}`,
-	createdAt?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["PageOptionsInput"]: {
-	/** default limit is 10 */
-	limit?: number | undefined | null,
-	/** count stating from 0 */
-	page?: number | undefined | null
-};
-	["PageOptionsResult"]: AliasType<{
-	count?:boolean | `@${string}`,
-	hasNext?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["DbEssentials"]:AliasType<{
-		_id?:boolean | `@${string}`,
-	createdAt?:boolean | `@${string}`;
-		['...on Notification']?: Omit<ResolverInputTypes["Notification"],keyof ResolverInputTypes["DbEssentials"]>;
-		['...on NotificationGroup']?: Omit<ResolverInputTypes["NotificationGroup"],keyof ResolverInputTypes["DbEssentials"]>;
-		__typename?: boolean | `@${string}`
-}>;
 	["error"]:AliasType<{
 		error?:ResolverInputTypes["GlobalError"];
-		['...on AddUserToGroupResult']?: Omit<ResolverInputTypes["AddUserToGroupResult"],keyof ResolverInputTypes["error"]>;
-		['...on RemoveUserToGroupResult']?: Omit<ResolverInputTypes["RemoveUserToGroupResult"],keyof ResolverInputTypes["error"]>;
-		['...on CreateNotificationGroupResult']?: Omit<ResolverInputTypes["CreateNotificationGroupResult"],keyof ResolverInputTypes["error"]>;
-		['...on ListNotificationGroupsResult']?: Omit<ResolverInputTypes["ListNotificationGroupsResult"],keyof ResolverInputTypes["error"]>;
-		['...on ListNotificationsResult']?: Omit<ResolverInputTypes["ListNotificationsResult"],keyof ResolverInputTypes["error"]>;
+		
 		__typename?: boolean | `@${string}`
 }>;
-	["NotificationTargetType"]:NotificationTargetType;
-	["SortDirection"]:SortDirection;
-	["NotificationType"]:NotificationType;
-	["Date"]:unknown;
 	["schema"]: AliasType<{
 	query?:ResolverInputTypes["Query"],
 	mutation?:ResolverInputTypes["Mutation"],
@@ -1288,38 +971,23 @@ editNotificationGroup?: [{	input: ResolverInputTypes["EditNotificationGroupInput
 
 export type ModelTypes = {
     ["Query"]: {
-		userQuery?: ModelTypes["UserQuery"] | undefined,
-	publicQuery: ModelTypes["PublicQuery"]
+		userQuery?: ModelTypes["UserQuery"] | undefined
 };
 	["UserQuery"]: {
-		listNotifications: ModelTypes["ListNotificationsResult"],
-	listChannels: ModelTypes["ListChannelsResult"],
+		getChannelAuthorization: ModelTypes["GetChannelAuthorizationResult"],
 	generatePushNotificationToken: ModelTypes["GeneratePushNotificationTokenResult"]
 };
 	["Mutation"]: {
 		userMutation?: ModelTypes["UserMutation"] | undefined
 };
 	["UserMutation"]: {
-		sendStaticNotification: ModelTypes["SendStaticNotificationResult"],
-	sendPushNotificationToUsers: ModelTypes["SendStaticNotificationResult"],
-	sendPushNotificationToInterests: ModelTypes["SendStaticNotificationResult"],
-	getChannelAuthorization: ModelTypes["GetChannelAuthorizationResult"],
-	getBeamAuthorization: ModelTypes["GetChannelAuthorizationResult"]
-};
-	["PublicQuery"]: {
-		listNotificationGroups: ModelTypes["ListNotificationGroupsResult"]
-};
-	["NotificationGroupOps"]: {
-		/** if we adding or removing users, duplicates will be reduced */
-	addUserToGroup: ModelTypes["AddUserToGroupResult"],
-	removeUserFromGroup: ModelTypes["RemoveUserToGroupResult"],
-	editNotificationGroup?: ModelTypes["EditNotificationGroupResult"] | undefined,
-	deleteNotificationGroup: ModelTypes["DeleteNotificationGroupResult"]
+		sendStaticNotification: ModelTypes["SendNotificationResult"],
+	sendPushNotificationToUsers: ModelTypes["SendNotificationResult"],
+	sendPushNotificationToInterests: ModelTypes["SendNotificationResult"]
 };
 	["GeneratePushNotificationTokenResult"]: {
 		error?: ModelTypes["GlobalError"] | undefined,
-	token: string,
-	exp?: ModelTypes["Date"] | undefined
+	token: string
 };
 	["GetChannelAuthorizationInput"]: {
 	targetId: string,
@@ -1330,34 +998,6 @@ export type ModelTypes = {
 	auth?: string | undefined,
 	channel_data?: string | undefined,
 	shared_secret?: string | undefined
-};
-	["ListChannelsInput"]: {
-	page?: ModelTypes["PageOptionsInput"] | undefined
-};
-	["ListNotificationGroupsInput"]: {
-	page?: ModelTypes["PageOptionsInput"] | undefined,
-	filter?: ModelTypes["ListNotificationGroupsInputFilter"] | undefined
-};
-	["ListNotificationGroupsInputFilter"]: {
-	/** this is a regex searching */
-	name?: string | undefined,
-	/** if targetId is filled, this filter will return Notification groups that contains inside specific target */
-	targetId?: string | undefined,
-	sortDirection?: ModelTypes["SortDirection"] | undefined,
-	notificationType?: ModelTypes["NotificationType"] | undefined,
-	startDate?: ModelTypes["Date"] | undefined,
-	endDate?: ModelTypes["Date"] | undefined
-};
-	["ListNotificationsInput"]: {
-	filter?: ModelTypes["ListNotificationsInputFilter"] | undefined,
-	page?: ModelTypes["PageOptionsInput"] | undefined
-};
-	["ListNotificationsInputFilter"]: {
-	notificationType?: ModelTypes["NotificationType"] | undefined,
-	sortDirection?: ModelTypes["SortDirection"] | undefined,
-	isReaded?: boolean | undefined,
-	startDate?: ModelTypes["Date"] | undefined,
-	endDate?: ModelTypes["Date"] | undefined
 };
 	["SendStaticNotificationInput"]: {
 	channelsId: Array<string>,
@@ -1372,105 +1012,15 @@ export type ModelTypes = {
 	title: string,
 	body: string
 };
-	["ListChannelsResult"]: {
-		error?: ModelTypes["GlobalError"] | undefined,
-	result?: Array<ModelTypes["Channel"]> | undefined,
-	page?: ModelTypes["PageOptionsResult"] | undefined
-};
-	["DeleteNotificationGroupResult"]: {
+	["SendNotificationResult"]: {
 		error?: ModelTypes["GlobalError"] | undefined,
 	result?: boolean | undefined
-};
-	["SendStaticNotificationResult"]: {
-		error?: ModelTypes["GlobalError"] | undefined,
-	result?: boolean | undefined
-};
-	["EditNotificationGroupResult"]: {
-		error?: ModelTypes["GlobalError"] | undefined,
-	result?: boolean | undefined
-};
-	["EditNotificationGroupInput"]: {
-	name?: string | undefined,
-	users?: Array<string> | undefined
-};
-	["AddUserToGroupResult"]: {
-		result?: boolean | undefined,
-	error?: ModelTypes["GlobalError"] | undefined
-};
-	["RemoveUserToGroupResult"]: {
-		result?: boolean | undefined,
-	error?: ModelTypes["GlobalError"] | undefined
-};
-	["CreateNotificationGroupResult"]: {
-		error?: ModelTypes["GlobalError"] | undefined,
-	result?: boolean | undefined
-};
-	["CreateNotificationGroupInput"]: {
-	name: string,
-	users: Array<string>,
-	notificationType: ModelTypes["NotificationType"]
-};
-	["MarkNotificationReadedResult"]: {
-		error?: ModelTypes["GlobalError"] | undefined,
-	result?: boolean | undefined
-};
-	["MarkNotificationReadedInput"]: {
-	state: boolean,
-	notificationId: string
-};
-	["ListNotificationGroupsResult"]: {
-		error?: ModelTypes["GlobalError"] | undefined,
-	notificationGroup?: Array<ModelTypes["NotificationGroup"]> | undefined
-};
-	["ListNotificationsResult"]: {
-		error?: ModelTypes["GlobalError"] | undefined,
-	notification?: Array<ModelTypes["Notification"]> | undefined,
-	page?: ModelTypes["PageOptionsResult"] | undefined
 };
 	["GlobalError"]: {
 		message: string,
 	path: string
 };
-	["Notification"]: {
-		body: string,
-	targetIds: Array<string>,
-	_id: string,
-	createdAt: ModelTypes["Date"],
-	isReaded: boolean,
-	notificationType: ModelTypes["NotificationType"]
-};
-	["NotificationGroup"]: {
-		targets: Array<string>,
-	notificationType: ModelTypes["NotificationType"],
-	name: string,
-	_id: string,
-	createdAt: ModelTypes["Date"]
-};
-	["NotificationReaded"]: {
-		userId: string,
-	notificationId: string,
-	createdAt: ModelTypes["Date"]
-};
-	["Channel"]: {
-		channelId: string,
-	createdAt?: ModelTypes["Date"] | undefined
-};
-	["PageOptionsInput"]: {
-	/** default limit is 10 */
-	limit?: number | undefined,
-	/** count stating from 0 */
-	page?: number | undefined
-};
-	["PageOptionsResult"]: {
-		count?: number | undefined,
-	hasNext?: boolean | undefined
-};
-	["DbEssentials"]: ModelTypes["Notification"] | ModelTypes["NotificationGroup"];
-	["error"]: ModelTypes["AddUserToGroupResult"] | ModelTypes["RemoveUserToGroupResult"] | ModelTypes["CreateNotificationGroupResult"] | ModelTypes["ListNotificationGroupsResult"] | ModelTypes["ListNotificationsResult"];
-	["NotificationTargetType"]:NotificationTargetType;
-	["SortDirection"]:SortDirection;
-	["NotificationType"]:NotificationType;
-	["Date"]:any;
+	["error"]: never;
 	["schema"]: {
 	query?: ModelTypes["Query"] | undefined,
 	mutation?: ModelTypes["Mutation"] | undefined
@@ -1480,13 +1030,11 @@ export type ModelTypes = {
 export type GraphQLTypes = {
     ["Query"]: {
 	__typename: "Query",
-	userQuery?: GraphQLTypes["UserQuery"] | undefined,
-	publicQuery: GraphQLTypes["PublicQuery"]
+	userQuery?: GraphQLTypes["UserQuery"] | undefined
 };
 	["UserQuery"]: {
 	__typename: "UserQuery",
-	listNotifications: GraphQLTypes["ListNotificationsResult"],
-	listChannels: GraphQLTypes["ListChannelsResult"],
+	getChannelAuthorization: GraphQLTypes["GetChannelAuthorizationResult"],
 	generatePushNotificationToken: GraphQLTypes["GeneratePushNotificationTokenResult"]
 };
 	["Mutation"]: {
@@ -1495,29 +1043,14 @@ export type GraphQLTypes = {
 };
 	["UserMutation"]: {
 	__typename: "UserMutation",
-	sendStaticNotification: GraphQLTypes["SendStaticNotificationResult"],
-	sendPushNotificationToUsers: GraphQLTypes["SendStaticNotificationResult"],
-	sendPushNotificationToInterests: GraphQLTypes["SendStaticNotificationResult"],
-	getChannelAuthorization: GraphQLTypes["GetChannelAuthorizationResult"],
-	getBeamAuthorization: GraphQLTypes["GetChannelAuthorizationResult"]
-};
-	["PublicQuery"]: {
-	__typename: "PublicQuery",
-	listNotificationGroups: GraphQLTypes["ListNotificationGroupsResult"]
-};
-	["NotificationGroupOps"]: {
-	__typename: "NotificationGroupOps",
-	/** if we adding or removing users, duplicates will be reduced */
-	addUserToGroup: GraphQLTypes["AddUserToGroupResult"],
-	removeUserFromGroup: GraphQLTypes["RemoveUserToGroupResult"],
-	editNotificationGroup?: GraphQLTypes["EditNotificationGroupResult"] | undefined,
-	deleteNotificationGroup: GraphQLTypes["DeleteNotificationGroupResult"]
+	sendStaticNotification: GraphQLTypes["SendNotificationResult"],
+	sendPushNotificationToUsers: GraphQLTypes["SendNotificationResult"],
+	sendPushNotificationToInterests: GraphQLTypes["SendNotificationResult"]
 };
 	["GeneratePushNotificationTokenResult"]: {
 	__typename: "GeneratePushNotificationTokenResult",
 	error?: GraphQLTypes["GlobalError"] | undefined,
-	token: string,
-	exp?: GraphQLTypes["Date"] | undefined
+	token: string
 };
 	["GetChannelAuthorizationInput"]: {
 		targetId: string,
@@ -1529,34 +1062,6 @@ export type GraphQLTypes = {
 	auth?: string | undefined,
 	channel_data?: string | undefined,
 	shared_secret?: string | undefined
-};
-	["ListChannelsInput"]: {
-		page?: GraphQLTypes["PageOptionsInput"] | undefined
-};
-	["ListNotificationGroupsInput"]: {
-		page?: GraphQLTypes["PageOptionsInput"] | undefined,
-	filter?: GraphQLTypes["ListNotificationGroupsInputFilter"] | undefined
-};
-	["ListNotificationGroupsInputFilter"]: {
-		/** this is a regex searching */
-	name?: string | undefined,
-	/** if targetId is filled, this filter will return Notification groups that contains inside specific target */
-	targetId?: string | undefined,
-	sortDirection?: GraphQLTypes["SortDirection"] | undefined,
-	notificationType?: GraphQLTypes["NotificationType"] | undefined,
-	startDate?: GraphQLTypes["Date"] | undefined,
-	endDate?: GraphQLTypes["Date"] | undefined
-};
-	["ListNotificationsInput"]: {
-		filter?: GraphQLTypes["ListNotificationsInputFilter"] | undefined,
-	page?: GraphQLTypes["PageOptionsInput"] | undefined
-};
-	["ListNotificationsInputFilter"]: {
-		notificationType?: GraphQLTypes["NotificationType"] | undefined,
-	sortDirection?: GraphQLTypes["SortDirection"] | undefined,
-	isReaded?: boolean | undefined,
-	startDate?: GraphQLTypes["Date"] | undefined,
-	endDate?: GraphQLTypes["Date"] | undefined
 };
 	["SendStaticNotificationInput"]: {
 		channelsId: Array<string>,
@@ -1571,165 +1076,27 @@ export type GraphQLTypes = {
 		title: string,
 	body: string
 };
-	["ListChannelsResult"]: {
-	__typename: "ListChannelsResult",
-	error?: GraphQLTypes["GlobalError"] | undefined,
-	result?: Array<GraphQLTypes["Channel"]> | undefined,
-	page?: GraphQLTypes["PageOptionsResult"] | undefined
-};
-	["DeleteNotificationGroupResult"]: {
-	__typename: "DeleteNotificationGroupResult",
+	["SendNotificationResult"]: {
+	__typename: "SendNotificationResult",
 	error?: GraphQLTypes["GlobalError"] | undefined,
 	result?: boolean | undefined
-};
-	["SendStaticNotificationResult"]: {
-	__typename: "SendStaticNotificationResult",
-	error?: GraphQLTypes["GlobalError"] | undefined,
-	result?: boolean | undefined
-};
-	["EditNotificationGroupResult"]: {
-	__typename: "EditNotificationGroupResult",
-	error?: GraphQLTypes["GlobalError"] | undefined,
-	result?: boolean | undefined
-};
-	["EditNotificationGroupInput"]: {
-		name?: string | undefined,
-	users?: Array<string> | undefined
-};
-	["AddUserToGroupResult"]: {
-	__typename: "AddUserToGroupResult",
-	result?: boolean | undefined,
-	error?: GraphQLTypes["GlobalError"] | undefined
-};
-	["RemoveUserToGroupResult"]: {
-	__typename: "RemoveUserToGroupResult",
-	result?: boolean | undefined,
-	error?: GraphQLTypes["GlobalError"] | undefined
-};
-	["CreateNotificationGroupResult"]: {
-	__typename: "CreateNotificationGroupResult",
-	error?: GraphQLTypes["GlobalError"] | undefined,
-	result?: boolean | undefined
-};
-	["CreateNotificationGroupInput"]: {
-		name: string,
-	users: Array<string>,
-	notificationType: GraphQLTypes["NotificationType"]
-};
-	["MarkNotificationReadedResult"]: {
-	__typename: "MarkNotificationReadedResult",
-	error?: GraphQLTypes["GlobalError"] | undefined,
-	result?: boolean | undefined
-};
-	["MarkNotificationReadedInput"]: {
-		state: boolean,
-	notificationId: string
-};
-	["ListNotificationGroupsResult"]: {
-	__typename: "ListNotificationGroupsResult",
-	error?: GraphQLTypes["GlobalError"] | undefined,
-	notificationGroup?: Array<GraphQLTypes["NotificationGroup"]> | undefined
-};
-	["ListNotificationsResult"]: {
-	__typename: "ListNotificationsResult",
-	error?: GraphQLTypes["GlobalError"] | undefined,
-	notification?: Array<GraphQLTypes["Notification"]> | undefined,
-	page?: GraphQLTypes["PageOptionsResult"] | undefined
 };
 	["GlobalError"]: {
 	__typename: "GlobalError",
 	message: string,
 	path: string
 };
-	["Notification"]: {
-	__typename: "Notification",
-	body: string,
-	targetIds: Array<string>,
-	_id: string,
-	createdAt: GraphQLTypes["Date"],
-	isReaded: boolean,
-	notificationType: GraphQLTypes["NotificationType"]
-};
-	["NotificationGroup"]: {
-	__typename: "NotificationGroup",
-	targets: Array<string>,
-	notificationType: GraphQLTypes["NotificationType"],
-	name: string,
-	_id: string,
-	createdAt: GraphQLTypes["Date"]
-};
-	["NotificationReaded"]: {
-	__typename: "NotificationReaded",
-	userId: string,
-	notificationId: string,
-	createdAt: GraphQLTypes["Date"]
-};
-	["Channel"]: {
-	__typename: "Channel",
-	channelId: string,
-	createdAt?: GraphQLTypes["Date"] | undefined
-};
-	["PageOptionsInput"]: {
-		/** default limit is 10 */
-	limit?: number | undefined,
-	/** count stating from 0 */
-	page?: number | undefined
-};
-	["PageOptionsResult"]: {
-	__typename: "PageOptionsResult",
-	count?: number | undefined,
-	hasNext?: boolean | undefined
-};
-	["DbEssentials"]: {
-	__typename:"Notification" | "NotificationGroup",
-	_id: string,
-	createdAt: GraphQLTypes["Date"]
-	['...on Notification']: '__union' & GraphQLTypes["Notification"];
-	['...on NotificationGroup']: '__union' & GraphQLTypes["NotificationGroup"];
-};
 	["error"]: {
-	__typename:"AddUserToGroupResult" | "RemoveUserToGroupResult" | "CreateNotificationGroupResult" | "ListNotificationGroupsResult" | "ListNotificationsResult",
+	__typename:never,
 	error?: GraphQLTypes["GlobalError"] | undefined
-	['...on AddUserToGroupResult']: '__union' & GraphQLTypes["AddUserToGroupResult"];
-	['...on RemoveUserToGroupResult']: '__union' & GraphQLTypes["RemoveUserToGroupResult"];
-	['...on CreateNotificationGroupResult']: '__union' & GraphQLTypes["CreateNotificationGroupResult"];
-	['...on ListNotificationGroupsResult']: '__union' & GraphQLTypes["ListNotificationGroupsResult"];
-	['...on ListNotificationsResult']: '__union' & GraphQLTypes["ListNotificationsResult"];
-};
-	["NotificationTargetType"]: NotificationTargetType;
-	["SortDirection"]: SortDirection;
-	["NotificationType"]: NotificationType;
-	["Date"]: "scalar" & { name: "Date" }
+	
+}
     }
-export const enum NotificationTargetType {
-	USER = "USER",
-	GROUP = "GROUP"
-}
-export const enum SortDirection {
-	asc = "asc",
-	desc = "desc"
-}
-export const enum NotificationType {
-	STATIC = "STATIC",
-	PUSH = "PUSH"
-}
+
 
 type ZEUS_VARIABLES = {
 	["GetChannelAuthorizationInput"]: ValueTypes["GetChannelAuthorizationInput"];
-	["ListChannelsInput"]: ValueTypes["ListChannelsInput"];
-	["ListNotificationGroupsInput"]: ValueTypes["ListNotificationGroupsInput"];
-	["ListNotificationGroupsInputFilter"]: ValueTypes["ListNotificationGroupsInputFilter"];
-	["ListNotificationsInput"]: ValueTypes["ListNotificationsInput"];
-	["ListNotificationsInputFilter"]: ValueTypes["ListNotificationsInputFilter"];
 	["SendStaticNotificationInput"]: ValueTypes["SendStaticNotificationInput"];
 	["SendPushNotificationInput"]: ValueTypes["SendPushNotificationInput"];
 	["NotificationPayloadInput"]: ValueTypes["NotificationPayloadInput"];
-	["EditNotificationGroupInput"]: ValueTypes["EditNotificationGroupInput"];
-	["CreateNotificationGroupInput"]: ValueTypes["CreateNotificationGroupInput"];
-	["MarkNotificationReadedInput"]: ValueTypes["MarkNotificationReadedInput"];
-	["PageOptionsInput"]: ValueTypes["PageOptionsInput"];
-	["NotificationTargetType"]: ValueTypes["NotificationTargetType"];
-	["SortDirection"]: ValueTypes["SortDirection"];
-	["NotificationType"]: ValueTypes["NotificationType"];
-	["Date"]: ValueTypes["Date"];
 }
