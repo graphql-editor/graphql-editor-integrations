@@ -8,7 +8,7 @@ type UserQuery{
 	getChannelAuthorization(
 		input: GetChannelAuthorizationInput!
 	): GetChannelAuthorizationResult!
-	generatePushNotificationToken: GeneratePushNotificationTokenResult!
+	getPushNotificationToken: GetPushNotificationTokenResult!
 }
 
 type Mutation{
@@ -29,7 +29,7 @@ type UserMutation{
 	): SendNotificationResult!
 }
 
-type GeneratePushNotificationTokenResult{
+type GetPushNotificationTokenResult{
 	error: GlobalError
 	token: String!
 }

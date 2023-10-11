@@ -47,7 +47,7 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	UserQuery:{
 		getChannelAuthorization:"GetChannelAuthorizationResult",
-		generatePushNotificationToken:"GeneratePushNotificationTokenResult"
+		getPushNotificationToken:"GetPushNotificationTokenResult"
 	},
 	Mutation:{
 		userMutation:"UserMutation"
@@ -57,7 +57,7 @@ export const ReturnTypes: Record<string,any> = {
 		sendPushNotificationToUsers:"SendNotificationResult",
 		sendPushNotificationToInterests:"SendNotificationResult"
 	},
-	GeneratePushNotificationTokenResult:{
+	GetPushNotificationTokenResult:{
 		error:"GlobalError",
 		token:"String"
 	},

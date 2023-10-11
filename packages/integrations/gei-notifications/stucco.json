@@ -35,9 +35,9 @@
         "name": "lib/UserQuery/getChannelAuthorization"
       }
     },
-    "UserQuery.generatePushNotificationToken": {
+    "UserQuery.getPushNotificationToken": {
       "resolve": {
-        "name": "lib/UserQuery/generatePushNotificationToken"
+        "name": "lib/UserQuery/getPushNotificationToken"
       }
     }
   }

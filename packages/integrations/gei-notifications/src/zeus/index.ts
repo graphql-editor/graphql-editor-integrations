@@ -839,7 +839,7 @@ userQuery?: [{	userId: string | Variable<any, string>},ValueTypes["UserQuery"]],
 }>;
 	["UserQuery"]: AliasType<{
 getChannelAuthorization?: [{	input: ValueTypes["GetChannelAuthorizationInput"] | Variable<any, string>},ValueTypes["GetChannelAuthorizationResult"]],
-	generatePushNotificationToken?:ValueTypes["GeneratePushNotificationTokenResult"],
+	getPushNotificationToken?:ValueTypes["GetPushNotificationTokenResult"],
 		__typename?: boolean | `@${string}`
 }>;
 	["Mutation"]: AliasType<{
@@ -852,7 +852,7 @@ sendPushNotificationToUsers?: [{	input: ValueTypes["SendPushNotificationInput"] 
 sendPushNotificationToInterests?: [{	input: ValueTypes["SendPushNotificationInput"] | Variable<any, string>},ValueTypes["SendNotificationResult"]],
 		__typename?: boolean | `@${string}`
 }>;
-	["GeneratePushNotificationTokenResult"]: AliasType<{
+	["GetPushNotificationTokenResult"]: AliasType<{
 	error?:ValueTypes["GlobalError"],
 	token?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
@@ -905,7 +905,7 @@ userQuery?: [{	userId: string},ResolverInputTypes["UserQuery"]],
 }>;
 	["UserQuery"]: AliasType<{
 getChannelAuthorization?: [{	input: ResolverInputTypes["GetChannelAuthorizationInput"]},ResolverInputTypes["GetChannelAuthorizationResult"]],
-	generatePushNotificationToken?:ResolverInputTypes["GeneratePushNotificationTokenResult"],
+	getPushNotificationToken?:ResolverInputTypes["GetPushNotificationTokenResult"],
 		__typename?: boolean | `@${string}`
 }>;
 	["Mutation"]: AliasType<{
@@ -918,7 +918,7 @@ sendPushNotificationToUsers?: [{	input: ResolverInputTypes["SendPushNotification
 sendPushNotificationToInterests?: [{	input: ResolverInputTypes["SendPushNotificationInput"]},ResolverInputTypes["SendNotificationResult"]],
 		__typename?: boolean | `@${string}`
 }>;
-	["GeneratePushNotificationTokenResult"]: AliasType<{
+	["GetPushNotificationTokenResult"]: AliasType<{
 	error?:ResolverInputTypes["GlobalError"],
 	token?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
@@ -975,7 +975,7 @@ export type ModelTypes = {
 };
 	["UserQuery"]: {
 		getChannelAuthorization: ModelTypes["GetChannelAuthorizationResult"],
-	generatePushNotificationToken: ModelTypes["GeneratePushNotificationTokenResult"]
+	getPushNotificationToken: ModelTypes["GetPushNotificationTokenResult"]
 };
 	["Mutation"]: {
 		userMutation?: ModelTypes["UserMutation"] | undefined
@@ -985,7 +985,7 @@ export type ModelTypes = {
 	sendPushNotificationToUsers: ModelTypes["SendNotificationResult"],
 	sendPushNotificationToInterests: ModelTypes["SendNotificationResult"]
 };
-	["GeneratePushNotificationTokenResult"]: {
+	["GetPushNotificationTokenResult"]: {
 		error?: ModelTypes["GlobalError"] | undefined,
 	token: string
 };
@@ -1035,7 +1035,7 @@ export type GraphQLTypes = {
 	["UserQuery"]: {
 	__typename: "UserQuery",
 	getChannelAuthorization: GraphQLTypes["GetChannelAuthorizationResult"],
-	generatePushNotificationToken: GraphQLTypes["GeneratePushNotificationTokenResult"]
+	getPushNotificationToken: GraphQLTypes["GetPushNotificationTokenResult"]
 };
 	["Mutation"]: {
 	__typename: "Mutation",
@@ -1047,8 +1047,8 @@ export type GraphQLTypes = {
 	sendPushNotificationToUsers: GraphQLTypes["SendNotificationResult"],
 	sendPushNotificationToInterests: GraphQLTypes["SendNotificationResult"]
 };
-	["GeneratePushNotificationTokenResult"]: {
-	__typename: "GeneratePushNotificationTokenResult",
+	["GetPushNotificationTokenResult"]: {
+	__typename: "GetPushNotificationTokenResult",
 	error?: GraphQLTypes["GlobalError"] | undefined,
 	token: string
 };
