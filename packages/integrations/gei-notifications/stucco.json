@@ -1,0 +1,44 @@
+{
+  "resolvers": {
+    "Query.userQuery": {
+      "resolve": {
+        "name": "lib/Query/userQuery.js"
+      }
+    },
+    "Mutation.userMutation": {
+      "resolve": {
+        "name": "lib/Mutation/userMutation"
+      }
+    },
+    "UserMutation.sendStaticNotification": {
+      "resolve": {
+        "name": "lib/UserMutation/sendStaticNotification"
+      }
+    },
+    "UserMutation.getChannelAuthorization": {
+      "resolve": {
+        "name": "lib/UserMutation/getChannelAuthorization"
+      }
+    },
+    "UserMutation.sendPushNotificationToUsers": {
+      "resolve": {
+        "name": "lib/UserMutation/sendPushNotificationToUsers"
+      }
+    },
+    "UserMutation.sendPushNotificationToInterests": {
+      "resolve": {
+        "name": "lib/UserMutation/sendPushNotificationToInterests"
+      }
+    },
+    "UserQuery.getChannelAuthorization": {
+      "resolve": {
+        "name": "lib/UserQuery/getChannelAuthorization"
+      }
+    },
+    "UserQuery.getPushNotificationToken": {
+      "resolve": {
+        "name": "lib/UserQuery/getPushNotificationToken"
+      }
+    }
+  }
+}

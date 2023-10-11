@@ -1,0 +1,82 @@
+type Query{
+	userQuery(
+		userId: String!
+	): UserQuery
+}
+
+type UserQuery{
+	getChannelAuthorization(
+		input: GetChannelAuthorizationInput!
+	): GetChannelAuthorizationResult!
+	getPushNotificationToken: GetPushNotificationTokenResult!
+}
+
+type Mutation{
+	userMutation(
+		userId: String!
+	): UserMutation
+}
+
+type UserMutation{
+	sendStaticNotification(
+		input: SendStaticNotificationInput!
+	): SendNotificationResult!
+	sendPushNotificationToUsers(
+		input: SendPushNotificationInput!
+	): SendNotificationResult!
+	sendPushNotificationToInterests(
+		input: SendPushNotificationInput!
+	): SendNotificationResult!
+}
+
+type GetPushNotificationTokenResult{
+	error: GlobalError
+	token: String!
+}
+
+input GetChannelAuthorizationInput{
+	targetId: String!
+	socketId: String!
+}
+
+type GetChannelAuthorizationResult{
+	error: GlobalError
+	auth: String
+	channel_data: String
+	shared_secret: String
+}
+
+input SendStaticNotificationInput{
+	channelsId: [String!]!
+	message: String!
+	event: String!
+}
+
+input SendPushNotificationInput{
+	targets: [String!]!
+	notification: NotificationPayloadInput!
+}
+
+input NotificationPayloadInput{
+	title: String!
+	body: String!
+}
+
+type SendNotificationResult{
+	error: GlobalError
+	result: Boolean
+}
+
+type GlobalError{
+	message: String!
+	path: String!
+}
+
+interface error{
+	error: GlobalError
+}
+
+schema{
+	query: Query
+	mutation: Mutation
+}

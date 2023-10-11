@@ -1,0 +1,11 @@
+{
+    "namespace": "editor-integrations",
+    "project": "gei-notifications",
+    "projectVersion": "latest",
+    "typingsEnv": "node",
+    "typingsHost": "http://localhost:8080/",
+    "typingsDir": "./src",
+    "backendSrc": "./src",
+    "backendLib": "./lib",
+    "schemaDir": "./"
+}
