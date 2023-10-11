@@ -20,22 +20,19 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	UserMutation:{
-		markNotificationReaded:{
-			input:"MarkNotificationReadedInput"
-		},
 		sendStaticNotification:{
 			input:"SendStaticNotificationInput"
 		},
-		sendPushNotification:{
+		sendPushNotificationToUsers:{
+			input:"SendPushNotificationInput"
+		},
+		sendPushNotificationToInterests:{
 			input:"SendPushNotificationInput"
 		},
 		getChannelAuthorization:{
 			input:"GetChannelAuthorizationInput"
 		},
-		createNotificationGroup:{
-			input:"CreateNotificationGroupInput"
-		},
-		modifyNotifactionGroup:{
+		getBeamAuthorization:{
 
 		}
 	},
@@ -122,12 +119,11 @@ export const ReturnTypes: Record<string,any> = {
 		userMutation:"UserMutation"
 	},
 	UserMutation:{
-		markNotificationReaded:"MarkNotificationReadedResult",
 		sendStaticNotification:"SendStaticNotificationResult",
-		sendPushNotification:"SendStaticNotificationResult",
+		sendPushNotificationToUsers:"SendStaticNotificationResult",
+		sendPushNotificationToInterests:"SendStaticNotificationResult",
 		getChannelAuthorization:"GetChannelAuthorizationResult",
-		createNotificationGroup:"CreateNotificationGroupResult",
-		modifyNotifactionGroup:"NotificationGroupOps"
+		getBeamAuthorization:"GetChannelAuthorizationResult"
 	},
 	PublicQuery:{
 		listNotificationGroups:"ListNotificationGroupsResult"

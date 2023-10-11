@@ -22,24 +22,21 @@ type Mutation{
 }
 
 type UserMutation{
-	markNotificationReaded(
-		input: MarkNotificationReadedInput!
-	): MarkNotificationReadedResult!
 	sendStaticNotification(
 		input: SendStaticNotificationInput!
 	): SendStaticNotificationResult!
-	sendPushNotification(
+	sendPushNotificationToUsers(
+		input: SendPushNotificationInput!
+	): SendStaticNotificationResult!
+	sendPushNotificationToInterests(
 		input: SendPushNotificationInput!
 	): SendStaticNotificationResult!
 	getChannelAuthorization(
 		input: GetChannelAuthorizationInput!
 	): GetChannelAuthorizationResult!
-	createNotificationGroup(
-		input: CreateNotificationGroupInput!
-	): CreateNotificationGroupResult!
-	modifyNotifactionGroup(
-		groupId: String!
-	): NotificationGroupOps
+	getBeamAuthorization(
+		userId: String
+	): GetChannelAuthorizationResult!
 }
 
 type PublicQuery{

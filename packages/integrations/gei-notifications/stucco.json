@@ -54,6 +54,21 @@
             "resolve": {
                 "name": "lib/UserMutation/sendPushNotification"
             }
+        },
+        "UserMutation.getBeamAuthorization": {
+            "resolve": {
+                "name": "lib/UserMutation/getBeamAuthorization"
+            }
+        },
+        "UserMutation.sendPushNotificationToUsers": {
+            "resolve": {
+                "name": "lib/UserMutation/sendPushNotificationToUsers"
+            }
+        },
+        "UserMutation.sendPushNotificationToInterests": {
+            "resolve": {
+                "name": "lib/UserMutation/sendPushNotificationToInterests"
+            }
         }
     },
     "azureOpts": {

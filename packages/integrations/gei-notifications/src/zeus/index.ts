@@ -850,12 +850,11 @@ userMutation?: [{	userId: string | Variable<any, string>},ValueTypes["UserMutati
 		__typename?: boolean | `@${string}`
 }>;
 	["UserMutation"]: AliasType<{
-markNotificationReaded?: [{	input: ValueTypes["MarkNotificationReadedInput"] | Variable<any, string>},ValueTypes["MarkNotificationReadedResult"]],
 sendStaticNotification?: [{	input: ValueTypes["SendStaticNotificationInput"] | Variable<any, string>},ValueTypes["SendStaticNotificationResult"]],
-sendPushNotification?: [{	input: ValueTypes["SendPushNotificationInput"] | Variable<any, string>},ValueTypes["SendStaticNotificationResult"]],
+sendPushNotificationToUsers?: [{	input: ValueTypes["SendPushNotificationInput"] | Variable<any, string>},ValueTypes["SendStaticNotificationResult"]],
+sendPushNotificationToInterests?: [{	input: ValueTypes["SendPushNotificationInput"] | Variable<any, string>},ValueTypes["SendStaticNotificationResult"]],
 getChannelAuthorization?: [{	input: ValueTypes["GetChannelAuthorizationInput"] | Variable<any, string>},ValueTypes["GetChannelAuthorizationResult"]],
-createNotificationGroup?: [{	input: ValueTypes["CreateNotificationGroupInput"] | Variable<any, string>},ValueTypes["CreateNotificationGroupResult"]],
-modifyNotifactionGroup?: [{	groupId: string | Variable<any, string>},ValueTypes["NotificationGroupOps"]],
+getBeamAuthorization?: [{	userId?: string | undefined | null | Variable<any, string>},ValueTypes["GetChannelAuthorizationResult"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["PublicQuery"]: AliasType<{
@@ -1075,12 +1074,11 @@ userMutation?: [{	userId: string},ResolverInputTypes["UserMutation"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserMutation"]: AliasType<{
-markNotificationReaded?: [{	input: ResolverInputTypes["MarkNotificationReadedInput"]},ResolverInputTypes["MarkNotificationReadedResult"]],
 sendStaticNotification?: [{	input: ResolverInputTypes["SendStaticNotificationInput"]},ResolverInputTypes["SendStaticNotificationResult"]],
-sendPushNotification?: [{	input: ResolverInputTypes["SendPushNotificationInput"]},ResolverInputTypes["SendStaticNotificationResult"]],
+sendPushNotificationToUsers?: [{	input: ResolverInputTypes["SendPushNotificationInput"]},ResolverInputTypes["SendStaticNotificationResult"]],
+sendPushNotificationToInterests?: [{	input: ResolverInputTypes["SendPushNotificationInput"]},ResolverInputTypes["SendStaticNotificationResult"]],
 getChannelAuthorization?: [{	input: ResolverInputTypes["GetChannelAuthorizationInput"]},ResolverInputTypes["GetChannelAuthorizationResult"]],
-createNotificationGroup?: [{	input: ResolverInputTypes["CreateNotificationGroupInput"]},ResolverInputTypes["CreateNotificationGroupResult"]],
-modifyNotifactionGroup?: [{	groupId: string},ResolverInputTypes["NotificationGroupOps"]],
+getBeamAuthorization?: [{	userId?: string | undefined | null},ResolverInputTypes["GetChannelAuthorizationResult"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["PublicQuery"]: AliasType<{
@@ -1302,12 +1300,11 @@ export type ModelTypes = {
 		userMutation?: ModelTypes["UserMutation"] | undefined
 };
 	["UserMutation"]: {
-		markNotificationReaded: ModelTypes["MarkNotificationReadedResult"],
-	sendStaticNotification: ModelTypes["SendStaticNotificationResult"],
-	sendPushNotification: ModelTypes["SendStaticNotificationResult"],
+		sendStaticNotification: ModelTypes["SendStaticNotificationResult"],
+	sendPushNotificationToUsers: ModelTypes["SendStaticNotificationResult"],
+	sendPushNotificationToInterests: ModelTypes["SendStaticNotificationResult"],
 	getChannelAuthorization: ModelTypes["GetChannelAuthorizationResult"],
-	createNotificationGroup: ModelTypes["CreateNotificationGroupResult"],
-	modifyNotifactionGroup?: ModelTypes["NotificationGroupOps"] | undefined
+	getBeamAuthorization: ModelTypes["GetChannelAuthorizationResult"]
 };
 	["PublicQuery"]: {
 		listNotificationGroups: ModelTypes["ListNotificationGroupsResult"]
@@ -1498,12 +1495,11 @@ export type GraphQLTypes = {
 };
 	["UserMutation"]: {
 	__typename: "UserMutation",
-	markNotificationReaded: GraphQLTypes["MarkNotificationReadedResult"],
 	sendStaticNotification: GraphQLTypes["SendStaticNotificationResult"],
-	sendPushNotification: GraphQLTypes["SendStaticNotificationResult"],
+	sendPushNotificationToUsers: GraphQLTypes["SendStaticNotificationResult"],
+	sendPushNotificationToInterests: GraphQLTypes["SendStaticNotificationResult"],
 	getChannelAuthorization: GraphQLTypes["GetChannelAuthorizationResult"],
-	createNotificationGroup: GraphQLTypes["CreateNotificationGroupResult"],
-	modifyNotifactionGroup?: GraphQLTypes["NotificationGroupOps"] | undefined
+	getBeamAuthorization: GraphQLTypes["GetChannelAuthorizationResult"]
 };
 	["PublicQuery"]: {
 	__typename: "PublicQuery",

@@ -12,7 +12,32 @@ const beamsClient = new PushNotifications({
   secretKey: getEnv('PUSHER_BEAM_SECRET_KEY'),
 });
 
-export const sendPushNotification = async (
+export const sendPushNotificationToInterests = async (
+  targets: string[],
+  notification: NotificationPayload,
+): Promise<{ result: boolean }> => {
+  await beamsClient
+    .publishToInterests(targets, {
+      web: {
+        notification,
+      },
+      fcm: {
+        notification,
+      },
+      apns: {
+        aps: {
+          alert: notification,
+        },
+      },
+    })
+    .catch((err) => {
+      throw new GlobalError('Failed to send push notification: ' + err, import.meta.url);
+    });
+
+  return { result: true };
+};
+
+export const sendPushNotificationToUsers = async (
   targets: string[],
   notification: NotificationPayload,
 ): Promise<{ result: boolean }> => {
@@ -33,9 +58,8 @@ export const sendPushNotification = async (
     .catch((err) => {
       throw new GlobalError('Failed to send push notification: ' + err, import.meta.url);
     });
+
   return { result: true };
 };
 
-export const generateBeamToken = (userId: string) => {
-  beamsClient.generateToken(userId);
-};
+export const generateBeamToken = (userId: string) => beamsClient.generateToken(userId);
