@@ -1,6 +1,6 @@
 {
   "name": "gei-crud",
-  "version": "0.8.7",
+  "version": "0.8.8",
   "description": "GraphQL Editor integration for stucco. Allows basic crud operations and relations.",
   "main": "lib/index.js",
   "private": false,
@@ -38,7 +38,7 @@
   "dependencies": {
     "graphql-editor-cli": "^0.8.6",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^4.7.0",
+    "mongodb": "^6.2.0",
     "node-fetch": "^2.6.0",
     "stucco-js": "^0.9.16",
     "ws": "^8.8.0"
