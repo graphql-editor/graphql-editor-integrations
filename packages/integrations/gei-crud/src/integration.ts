@@ -14,6 +14,13 @@ type IntegrationSpecification = {
   };
 };
 
+export type ResolverInfoInput = {
+  model?: string;
+  sourceFilterParameter?: Array<string>;
+  sourceParameters?: Array<string>;
+  related?: Array<{ relatedModel: string; relatedField: string }>;
+};
+
 const model: IntegrationData = {
   name: 'Database model',
   description: 'Specify model name',

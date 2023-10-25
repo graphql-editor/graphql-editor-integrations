@@ -1,10 +1,13 @@
 import { FieldResolveInput } from 'stucco-js';
 import { prepareModel, prepare_id, prepareSourceParameters } from '../data.js';
 import { DB } from '../db/orm.js';
+import { ResolverInfoInput } from '../integration.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const handler = async (input: FieldResolveInput, info: ResolverInfoInput) =>
   DB().then(async (db) => {
-    const _id = prepare_id(input) || (prepareSourceParameters(input)._id as string);
+    console.log(input);
+    console.log(info);
+    const _id = prepare_id(input) || (prepareSourceParameters(input, info.sourceParameters)._id as string);
     if (!_id) throw new Error('_id not found');
     const entries = Object.entries(input.arguments || {});
     const reconstructedObject: Record<string, any> = {};
@@ -31,8 +34,8 @@ export const handler = async (input: FieldResolveInput) =>
         ? entriesWithOutId[0][1]
         : reconstructedObject;
     console.log(setter);
-    const filterInput: Record<string, any> = { _id, ...prepareSourceParameters(input) };
-    const res = await db(prepareModel(input)).collection.updateOne(filterInput, {
+    const filterInput: Record<string, any> = { _id, ...prepareSourceParameters(input, info.sourceParameters) };
+    const res = await db(info.model || prepareModel(input)).collection.updateOne(filterInput, {
       $set: { ...setter, updatedAt: new Date().toISOString() },
     });
     if (res.matchedCount < 1)

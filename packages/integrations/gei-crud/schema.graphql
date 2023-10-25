@@ -1,5 +1,3 @@
-
-
 type Object{
 	name: String!
 	content: String
@@ -11,28 +9,43 @@ type Object{
 }
 
 type Query{
-	objects(fieldFilter: FieldFilterInput,
-	fieldRegexFilter: FieldFilterInput,
-	dateFilter: DateFilterInput,
-	sortByField: SortInput): [Object!]
+	objects(
+		fieldFilter: FieldFilterInput
+		fieldRegexFilter: FieldFilterInput
+		dateFilter: DateFilterInput
+		sortByField: SortInput
+	): [Object!]
 	oneById(
 		_id: String!
 	): Object
 }
 
-
-
 type Mutation{
 	create(
+		info: ResolverInfoInput
 		object: Update!
 	): String
 	update(
+		info: ResolverInfoInput
 		_id: String
 		object: Update!
 	): Boolean
 	delete(
+		info: ResolverInfoInput
 		_id: String
 	): Boolean
+}
+
+input ResolverInfoInput{
+	model: String
+	sourceFilterParameter: [String]
+	sourceParameters: [String]
+	related: [ReladedInput]
+}
+
+input ReladedInput{
+	relatedModel: String!
+	relatedField: String
 }
 
 input Create{
@@ -41,44 +54,45 @@ input Create{
 	owner: String
 }
 
-input FieldFilterInput	{ 
-    name: String
+input FieldFilterInput{
+	name: String
 	content: String
 	owner: String
 	customFieldName: String
 }
 
-
-input SortInput {
-  field: SortField!
-  """
-  True for ASC, false for DESC
-  """
-  order: Boolean
+input SortInput{
+	field: SortField!
+	"""
+	True for ASC, false for DESC
+	"""
+	order: Boolean
 }
 
-input DateFilterInput { 
-	"""Basicly filter use createdAt,
-	 but you can to set other field"""
+input DateFilterInput{
+	"""
+	Basicly filter use createdAt,
+	but you can to set other field
+	"""
 	dateFieldName: String
-	from:String
+	from: String
 	to: String
 }
 
-enum SortField {
-  CREATED_AT
-  UPDATED_AT
-  NAME
-  CUSTOM_FIELD_NAME
+enum SortField{
+	CREATED_AT
+	UPDATED_AT
+	NAME
+	CUSTOM_FIELD_NAME
 }
-
 
 input Update{
 	name: String
 	content: String
 	owner: String
 }
+
 schema{
-	query: Query,
+	query: Query
 	mutation: Mutation
 }

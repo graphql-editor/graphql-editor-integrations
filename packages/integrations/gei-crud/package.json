@@ -8,7 +8,7 @@
     "start": "gecli dev",
     "build": "tsc",
     "watch": "tsc --watch",
-    "update": "gecli schema && gecli typings",
+    "update": "gecli schema pull && gecli typings",
     "temp-db": "docker run -p 27017:27017 --rm mongo",
     "integrate": "gecli gei integrate",
     "publish": "gecli gei publish"
@@ -39,6 +39,7 @@
     "graphql-editor-cli": "^0.8.6",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^6.2.0",
+    "i-graphql": "^0.1.2",
     "node-fetch": "^2.6.0",
     "stucco-js": "^0.9.16",
     "ws": "^8.8.0"

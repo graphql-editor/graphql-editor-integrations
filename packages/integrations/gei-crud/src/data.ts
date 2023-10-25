@@ -1,10 +1,12 @@
 import { FieldResolveInput } from 'stucco-js';
 import { getResolverData } from './shared.js';
 
-export const prepareSourceParameters = (input: FieldResolveInput) => {
+export const prepareSourceParameters = (input: FieldResolveInput, sourceParameters?: string[]) => {
   const source = input.source;
-  const { data } = getResolverData<{ sourceParameters?: string[]; sourceFilterParameters?: string[] }>(input);
-  const sourceParameters = data?.sourceParameters?.value || data?.sourceFilterParameters?.value;
+  if (!sourceParameters) {
+    const { data } = getResolverData<{ sourceParameters?: string[]; sourceFilterParameters?: string[] }>(input);
+    sourceParameters = data?.sourceParameters?.value || data?.sourceFilterParameters?.value;
+  }
   if (sourceParameters && sourceParameters.length > 0) {
     if (!source) {
       throw new Error(
@@ -71,9 +73,9 @@ export const prepare_id = (input: FieldResolveInput) => {
 };
 
 export const prepareRequired_id = (input: FieldResolveInput) => {
-  const _id = input.arguments?._id as string;
+  const _id = input.arguments?._id;
   if (!_id) {
     throw new Error(`"_id" parameter is required on this field`);
   }
-  return _id;
+  return _id as string;
 };

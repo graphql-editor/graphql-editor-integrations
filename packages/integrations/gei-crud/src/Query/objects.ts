@@ -1,8 +1,9 @@
 import { FieldResolveInput } from 'stucco-js';
 import { prepareModel, prepareSourceParameters } from '../data.js';
 import { DB } from '../db/orm.js';
+import { ResolverInfoInput } from '../integration.js';
 
-export const handler = async (input: FieldResolveInput) => {
+export const handler = async (input: FieldResolveInput, info: ResolverInfoInput) => {
   return DB().then((db) => {
     const sortArg = input.arguments?.sortByField || input.arguments?.sort;
     const sort = typeof sortArg === 'object' ? (sortArg as { field: string; order?: boolean }) : undefined;
@@ -20,13 +21,13 @@ export const handler = async (input: FieldResolveInput) => {
     if (fieldRegexFilter?.sort) delete fieldRegexFilter?.sort;
     if (fieldRegexFilter?.dateFilter) delete fieldRegexFilter?.dateFilter;
     const filterInput = {
-      ...prepareSourceParameters(input),
+      ...prepareSourceParameters(input, info.sourceParameters),
       ...convertDateFilter(dateFilter as QueryObject),
       ...ifValueIsArray(fieldFilter as QueryObject),
       ...convertObjectToRegexFormat(ifValueIsArray(fieldRegexFilter) as QueryObject),
     };
 
-    return db(prepareModel(input))
+    return db(info.model || prepareModel(input))
       .collection.find(filterInput)
       .sort(field ? { [field]: sort?.order === false ? -1 : 1 } : { _id: 1 })
       .toArray();
