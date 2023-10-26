@@ -17,6 +17,7 @@ export const handler = async (input: FieldResolveInput, info: ResolverInfoInput)
     }
     const creationInput = {
       ...(entries[0][1] as OptionalId<any>),
+      ...(info.addFields && createObjectFromAddFields(info.addFields)),
       ...prepareSourceParameters(input, info.sourceParameters),
       _id: new ObjectId().toHexString(),
       createdAt: new Date().toISOString(),
@@ -27,3 +28,14 @@ export const handler = async (input: FieldResolveInput, info: ResolverInfoInput)
       .collection.insertOne(creationInput)
       .then((result) => result.insertedId);
   });
+
+function createObjectFromAddFields(addFieldsArray: { name: string; value: unknown }[]) {
+  const result: { [key: string]: unknown } = {};
+
+  for (const field of addFieldsArray) {
+    const { name, value } = field;
+    result[name] = value;
+  }
+
+  return result;
+}

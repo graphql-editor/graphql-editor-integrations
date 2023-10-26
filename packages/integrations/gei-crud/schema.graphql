@@ -1,8 +1,12 @@
 type Object{
 	name: String!
 	content: String
-	oneToOne: Object
-	oneToMany: [Object]
+	oneToOne(
+		info: ResolverInfoInput
+	): Object
+	oneToMany(
+		info: ResolverInfoInput
+	): [Object]
 	_id: String!
 	createdAt: String
 	updatedAt: String
@@ -10,12 +14,14 @@ type Object{
 
 type Query{
 	objects(
+		info: ResolverInfoInput
 		fieldFilter: FieldFilterInput
 		fieldRegexFilter: FieldFilterInput
 		dateFilter: DateFilterInput
 		sortByField: SortInput
 	): [Object!]
 	oneById(
+		info: ResolverInfoInput
 		_id: String!
 	): Object
 }
@@ -38,9 +44,14 @@ type Mutation{
 
 input ResolverInfoInput{
 	model: String
-	sourceFilterParameter: [String]
 	sourceParameters: [String]
 	related: [ReladedInput]
+	addFields: [AddFieldsInput]
+}
+
+input AddFieldsInput{
+	name: String!
+	value: String!
 }
 
 input ReladedInput{

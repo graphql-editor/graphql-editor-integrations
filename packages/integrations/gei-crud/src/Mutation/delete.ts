@@ -16,7 +16,10 @@ export const handler = async (input: FieldResolveInput, info: ResolverInfoInput)
     throw new Error('Object with this _id not found');
   }
   const s = object as Record<string, any>;
-  const res = await db(model).collection.deleteOne({ _id, ...prepareSourceParameters(input, info.sourceParameters) });
+  const res = await db(model).collection.deleteOne({
+    _id,
+    ...prepareSourceParameters(input, info.sourceParameters),
+  });
   if (!res.deletedCount) {
     throw new Error(
       `Object not found. Please check parameters: ${JSON.stringify({
