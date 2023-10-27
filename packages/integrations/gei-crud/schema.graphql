@@ -1,109 +1,92 @@
-type Object{
-	name: String!
-	content: String
-	oneToOne(
-		info: ResolverInfoInput
-	): Object
-	oneToMany(
-		info: ResolverInfoInput
-	): [Object]
-	_id: String!
-	createdAt: String
-	updatedAt: String
+type Object {
+  name: String!
+  content: String
+  oneToOne(info: ResolverInfoInput): Object
+  oneToMany(info: ResolverInfoInput): [Object]
+  _id: String!
+  createdAt: String
+  updatedAt: String
 }
 
-type Query{
-	objects(
-		info: ResolverInfoInput
-		fieldFilter: FieldFilterInput
-		fieldRegexFilter: FieldFilterInput
-		dateFilter: DateFilterInput
-		sortByField: SortInput
-	): [Object!]
-	oneById(
-		info: ResolverInfoInput
-		_id: String!
-	): Object
+type Query {
+  objects(
+    info: ResolverInfoInput
+    fieldFilter: FieldFilterInput
+    fieldRegexFilter: FieldFilterInput
+    dateFilter: DateFilterInput
+    sortByField: SortInput
+  ): [Object!]
+  oneById(info: ResolverInfoInput, _id: String!): Object
 }
 
-type Mutation{
-	create(
-		info: ResolverInfoInput
-		object: Update!
-	): String
-	update(
-		info: ResolverInfoInput
-		_id: String
-		object: Update!
-	): Boolean
-	delete(
-		info: ResolverInfoInput
-		_id: String
-	): Boolean
+type Mutation {
+  create(info: ResolverInfoInput, object: Update!): String
+  update(info: ResolverInfoInput, _id: String, object: Update!): Boolean
+  delete(info: ResolverInfoInput, _id: String): Boolean
 }
 
-input ResolverInfoInput{
-	model: String
-	sourceParameters: [String]
-	related: [ReladedInput]
-	addFields: [AddFieldsInput]
+input ResolverInfoInput {
+  model: String
+  sourceParameters: [String]
+  related: [ReladedInput]
+  addFields: [AddFieldsInput]
 }
 
-input AddFieldsInput{
-	name: String!
-	value: String!
+input AddFieldsInput {
+  name: String!
+  value: any
 }
 
-input ReladedInput{
-	relatedModel: String!
-	relatedField: String
+input ReladedInput {
+  model: String!
+  field: String
 }
 
-input Create{
-	name: String!
-	content: String
-	owner: String
+input Create {
+  name: String!
+  content: String
+  owner: String
 }
 
-input FieldFilterInput{
-	name: String
-	content: String
-	owner: String
-	customFieldName: String
+input FieldFilterInput {
+  name: String
+  content: String
+  owner: String
+  customFieldName: String
 }
 
-input SortInput{
-	field: SortField!
-	"""
-	True for ASC, false for DESC
-	"""
-	order: Boolean
+input SortInput {
+  field: SortField!
+  """
+  True for ASC, false for DESC
+  """
+  order: Boolean
 }
 
-input DateFilterInput{
-	"""
-	Basicly filter use createdAt,
-	but you can to set other field
-	"""
-	dateFieldName: String
-	from: String
-	to: String
+input DateFilterInput {
+  """
+  Basicly filter use createdAt,
+  but you can to set other field
+  """
+  dateFieldName: String
+  from: String
+  to: String
 }
 
-enum SortField{
-	CREATED_AT
-	UPDATED_AT
-	NAME
-	CUSTOM_FIELD_NAME
+enum SortField {
+  CREATED_AT
+  UPDATED_AT
+  NAME
+  CUSTOM_FIELD_NAME
 }
 
-input Update{
-	name: String
-	content: String
-	owner: String
+input Update {
+  name: String
+  content: String
+  owner: String
 }
 
-schema{
-	query: Query
-	mutation: Mutation
+schema {
+  query: Query
+  mutation: Mutation
 }

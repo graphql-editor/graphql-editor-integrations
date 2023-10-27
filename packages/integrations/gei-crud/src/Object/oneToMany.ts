@@ -16,8 +16,8 @@ export const handler = async (input: FieldResolveInput, info: ResolverInfoInput)
     const s = source as Record<string, any>;
 
     if (info.related) {
-      const relateModel = info.related[0].relatedModel;
-      const prepareField = info.related[0].relatedField.split(':');
+      const relateModel = info.related[0].model;
+      const prepareField = info.related[0].field.split(':');
       const fieldForFounding = prepareField[0];
       const fieldWithArray = prepareField[1] ? prepareField[1] : undefined;
 

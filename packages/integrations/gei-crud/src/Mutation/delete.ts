@@ -31,25 +31,22 @@ export const handler = async (input: FieldResolveInput, info: ResolverInfoInput)
 
   if (info.related) {
     for (const rel of info.related) {
-      const relatedField = rel.relatedField?.split(':') || rel.relatedField?.split(':');
+      const relatedField = rel.field?.split(':') || rel.field?.split(':');
       if (relatedField) {
         const fieldForFounding = relatedField[0];
         const fieldWithIdOrArray = relatedField[1] || undefined;
 
         if (!fieldWithIdOrArray) {
-          await db(rel.relatedModel).collection.updateMany({}, { $pull: { [fieldForFounding]: s._id } });
-          await db(rel.relatedModel).collection.deleteMany({ [fieldForFounding]: s._id });
+          await db(rel.model).collection.updateMany({}, { $pull: { [fieldForFounding]: s._id } });
+          await db(rel.model).collection.deleteMany({ [fieldForFounding]: s._id });
         } else if (!s[fieldWithIdOrArray]?.length) {
           return !!res.deletedCount;
         } else {
           if (typeof s[fieldWithIdOrArray] === 'string') {
-            await db(rel.relatedModel).collection.updateMany(
-              {},
-              { $pull: { [fieldForFounding]: s[fieldWithIdOrArray] } },
-            );
-            await db(rel.relatedModel).collection.deleteMany({ [fieldForFounding]: s[fieldWithIdOrArray] });
+            await db(rel.model).collection.updateMany({}, { $pull: { [fieldForFounding]: s[fieldWithIdOrArray] } });
+            await db(rel.model).collection.deleteMany({ [fieldForFounding]: s[fieldWithIdOrArray] });
           } else {
-            await db(rel.relatedModel).collection.deleteMany({ [fieldForFounding]: { $in: s[fieldWithIdOrArray] } });
+            await db(rel.model).collection.deleteMany({ [fieldForFounding]: { $in: s[fieldWithIdOrArray] } });
           }
         }
       }

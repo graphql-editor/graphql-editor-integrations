@@ -17,7 +17,7 @@ type IntegrationSpecification = {
 export type ResolverInfoInput = {
   model?: string;
   sourceParameters?: Array<string>;
-  related?: Array<{ relatedModel: string; relatedField: string }>;
+  related?: Array<{ model: string; field: string }>;
   addFields?: Array<{ name: string; value: unknown }>;
 };
 
