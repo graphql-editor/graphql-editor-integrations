@@ -34,7 +34,7 @@ input ResolverInfoInput {
 
 input AddFieldsInput {
   name: String!
-  value: any
+  value: Anything
 }
 
 input ReladedInput {
@@ -85,6 +85,8 @@ input Update {
   content: String
   owner: String
 }
+
+scalar Anything
 
 schema {
   query: Query
