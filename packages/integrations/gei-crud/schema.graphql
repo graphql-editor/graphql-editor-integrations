@@ -1,8 +1,8 @@
 type Object {
   name: String!
   content: String
-  oneToOne(info: ResolverInfoInput): Object
-  oneToMany(info: ResolverInfoInput): [Object]
+  oneToOne(info: DataInput): Object
+  oneToMany(info: DataInput): [Object]
   _id: String!
   createdAt: String
   updatedAt: String
@@ -10,22 +10,22 @@ type Object {
 
 type Query {
   objects(
-    info: ResolverInfoInput
+    info: DataInput
     fieldFilter: FieldFilterInput
     fieldRegexFilter: FieldFilterInput
     dateFilter: DateFilterInput
     sortByField: SortInput
   ): [Object!]
-  oneById(info: ResolverInfoInput, _id: String!): Object
+  oneById(info: DataInput, _id: String!): Object
 }
 
 type Mutation {
-  create(info: ResolverInfoInput, object: Update!): String
-  update(info: ResolverInfoInput, _id: String, object: Update!): Boolean
-  delete(info: ResolverInfoInput, _id: String): Boolean
+  create(info: DataInput, object: Update!): String
+  update(info: DataInput, _id: String, object: Update!): Boolean
+  delete(info: DataInput, _id: String): Boolean
 }
 
-input ResolverInfoInput {
+input DataInput {
   model: String
   sourceParameters: [String]
   related: [ReladedInput]

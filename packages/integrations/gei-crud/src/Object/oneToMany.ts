@@ -1,9 +1,9 @@
 import { FieldResolveInput } from 'stucco-js';
 import { prepareRelatedField, prepareRelatedModel } from '../data.js';
 import { DB } from '../db/orm.js';
-import { ResolverInfoInput } from '../integration.js';
+import { DataInput } from '../integration.js';
 
-export const oneToMany = async (input: FieldResolveInput, info: ResolverInfoInput) => {
+export const oneToMany = async (input: FieldResolveInput & Partial<DataInput>) => {
   return DB().then(async (db) => {
     const source = input.source;
 
@@ -15,9 +15,9 @@ export const oneToMany = async (input: FieldResolveInput, info: ResolverInfoInpu
 
     const s = source as Record<string, any>;
 
-    if (info.related) {
-      const relateModel = info.related[0].model;
-      const prepareField = info.related[0].field.split(':');
+    if (input.data?.related) {
+      const relateModel = input.data.related[0].model;
+      const prepareField = input.data.related[0].field.split(':');
       const fieldForFounding = prepareField[0];
       const fieldWithArray = prepareField[1] ? prepareField[1] : undefined;
 

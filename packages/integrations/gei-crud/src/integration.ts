@@ -14,11 +14,13 @@ type IntegrationSpecification = {
   };
 };
 
-export type ResolverInfoInput = {
-  model?: string;
-  sourceParameters?: Array<string>;
-  related?: Array<{ model: string; field: string }>;
-  addFields?: Array<{ name: string; value: unknown }>;
+export type DataInput = {
+  data: {
+    model?: string;
+    sourceParameters?: Array<string>;
+    related?: Array<{ model: string; field: string }>;
+    addFields?: Array<{ name: string; value: unknown }>;
+  };
 };
 
 const model: IntegrationData = {

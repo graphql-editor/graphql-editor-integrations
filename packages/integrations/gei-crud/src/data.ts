@@ -1,8 +1,10 @@
 import { FieldResolveInput } from 'stucco-js';
+import { DataInput } from './integration.js';
 import { getResolverData } from './shared.js';
 
-export const prepareSourceParameters = (input: FieldResolveInput, sourceParameters?: string[]) => {
+export const prepareSourceParameters = (input: FieldResolveInput & Partial<DataInput>) => {
   const source = input.source;
+  let sourceParameters = input.data?.sourceParameters;
   if (!sourceParameters) {
     const { data } = getResolverData<{ sourceParameters?: string[]; sourceFilterParameters?: string[] }>(input);
     sourceParameters = data?.sourceParameters?.value || data?.sourceFilterParameters?.value;

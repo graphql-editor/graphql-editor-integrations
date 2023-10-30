@@ -1,14 +1,14 @@
 import { FieldResolveInput } from 'stucco-js';
 import { prepareModel, prepare_id, prepareSourceParameters, prepareRelatedField } from '../data.js';
 import { DB } from '../db/orm.js';
-import { ResolverInfoInput } from '../integration.js';
+import { DataInput } from '../integration.js';
 import { getResolverData } from '../shared.js';
 
-export const deleteById = async (input: FieldResolveInput, info: ResolverInfoInput) => {
+export const deleteById = async (input: FieldResolveInput & Partial<DataInput>) => {
   const db = await DB();
-  const model = info.model || prepareModel(input);
+  const model = input.data?.model || prepareModel(input);
 
-  const _id = prepare_id(input) || prepareSourceParameters(input, info.sourceParameters)._id;
+  const _id = prepare_id(input) || prepareSourceParameters(input)._id;
   if (!_id) throw new Error('_id not found');
 
   const object = await db(model).collection.findOne({ _id });
@@ -18,19 +18,19 @@ export const deleteById = async (input: FieldResolveInput, info: ResolverInfoInp
   const s = object as Record<string, any>;
   const res = await db(model).collection.deleteOne({
     _id,
-    ...prepareSourceParameters(input, info.sourceParameters),
+    ...prepareSourceParameters(input),
   });
   if (!res.deletedCount) {
     throw new Error(
       `Object not found. Please check parameters: ${JSON.stringify({
         _id,
-        ...prepareSourceParameters(input, info.sourceParameters),
+        ...prepareSourceParameters(input),
       })}`,
     );
   }
 
-  if (info.related) {
-    for (const rel of info.related) {
+  if (input.data?.related) {
+    for (const rel of input.data.related) {
       const relatedField = rel.field?.split(':') || rel.field?.split(':');
       if (relatedField) {
         const fieldForFounding = relatedField[0];

@@ -13,18 +13,19 @@ type RESTConfig = {
   method?: string;
   passedHeaders?: string[];
 };
+type DataInput = { data: RESTConfig };
 
-export const restProxy = async (input: FieldResolveInput, info: RESTConfig) => {
-  if (info) {
-    const urlVal = info?.url;
+export const restProxy = async (input: FieldResolveInput & Partial<DataInput>) => {
+  if (input.data) {
+    const urlVal = input.data?.url;
     if (!urlVal) {
       throw new Error('Invalid resolver data please provide url at least');
     }
-    const { method = 'GET' } = info || {};
-    const bodyVal = info.body;
+    const { method = 'GET' } = input.data || {};
+    const bodyVal = input.data.body;
     const methodValue = method;
-    const headersValue = info.headers;
-    const passedHeadersVal = info.passedHeaders;
+    const headersValue = input.data.headers;
+    const passedHeadersVal = input.data.passedHeaders;
 
     const headersComputed = headersValue?.map((v) => v.split(':')).reduce((a, b) => ({ ...a, [b[0]]: b[1] }), {}) || {};
     const inputHeaders = input.protocol?.headers;

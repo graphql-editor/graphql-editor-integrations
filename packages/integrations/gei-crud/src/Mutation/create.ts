@@ -2,10 +2,10 @@ import { ObjectId, OptionalId } from 'mongodb';
 import { FieldResolveInput } from 'stucco-js';
 import { prepareModel, prepareSourceParameters } from '../data.js';
 import { DB } from '../db/orm.js';
-import { ResolverInfoInput } from '../integration.js';
+import { DataInput } from '../integration.js';
 import { getReturnTypeName } from '../shared.js';
 
-export const create = async (input: FieldResolveInput, info: ResolverInfoInput) =>
+export const create = async (input: FieldResolveInput & Partial<DataInput>) =>
   DB().then((db) => {
     const rt = getReturnTypeName(input.info.returnType);
     if (rt !== 'String') {
@@ -17,16 +17,16 @@ export const create = async (input: FieldResolveInput, info: ResolverInfoInput) 
     }
     const creationInput = {
       ...(entries[0][1] as OptionalId<any>),
-      ...(info.addFields && createObjectFromAddFields(info.addFields)),
-      ...prepareSourceParameters(input, info.sourceParameters),
+      ...(input.data?.addFields && createObjectFromAddFields(input.data.addFields)),
+      ...prepareSourceParameters(input),
       _id: new ObjectId().toHexString(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
 
-    return db(info.model || prepareModel(input))
+    return db(input.data?.model || prepareModel(input))
       .collection.insertOne(creationInput)
-      .then((result) => result.insertedId);
+      .then((result: { insertedId: string }) => result.insertedId);
   });
 
 function createObjectFromAddFields(addFieldsArray: { name: string; value: unknown }[]) {
