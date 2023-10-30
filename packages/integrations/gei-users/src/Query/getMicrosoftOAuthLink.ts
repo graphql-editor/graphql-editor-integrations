@@ -2,7 +2,7 @@ import { FieldResolveInput } from 'stucco-js';
 import { getEnv } from '../envGuard.js';
 import { resolverFor } from '../zeus/index.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const getMicrosoftOAuthLink = async (input: FieldResolveInput) =>
   resolverFor('Query', 'getMicrosoftOAuthLink', async ({ setup }) => {
     let scopes = `&scope=openid%20profile%20email%20https%3A%2F%2Fgraph.microsoft.com%2Fuser.read`;
     if (Array.isArray(setup.scopes) && setup.scopes.length > 0) {
@@ -20,3 +20,4 @@ export const handler = async (input: FieldResolveInput) =>
       (setup.state ? '&state=' + setup.state : ``);
     return authUrl;
   })(input.arguments);
+export default getMicrosoftOAuthLink;

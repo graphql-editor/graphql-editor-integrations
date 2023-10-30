@@ -6,7 +6,7 @@ import { isPasswordEqualToSpecialParams } from './register.js';
 import { ChangePasswordWhenLoggedError, resolverFor } from '../zeus/index.js';
 import { orm } from '../db/orm.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const changePasswordWhenLogged = async (input: FieldResolveInput) =>
   resolverFor(
     'Mutation',
     'changePasswordWhenLogged',
@@ -29,3 +29,4 @@ export const handler = async (input: FieldResolveInput) =>
       return { result: true };
     },
   )(input.arguments);
+export default changePasswordWhenLogged;

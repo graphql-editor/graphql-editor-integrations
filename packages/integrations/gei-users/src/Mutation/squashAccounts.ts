@@ -53,7 +53,7 @@ export const changeMemberOfTeams = async (o: Awaited<ReturnType<typeof orm>>, el
     }),
   );
 
-export const handler = (input: FieldResolveInput) =>
+export const squashAccounts = (input: FieldResolveInput) =>
   resolverForUser('Mutation', 'squashAccounts', async ({ user, password }) => {
     const o = await orm();
     const username =
@@ -78,3 +78,4 @@ export const handler = (input: FieldResolveInput) =>
     ]);
     return { result: true };
   })(input.arguments, input);
+export default squashAccounts;

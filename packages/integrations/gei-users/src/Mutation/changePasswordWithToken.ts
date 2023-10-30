@@ -6,7 +6,7 @@ import { isPasswordEqualToSpecialParams } from './register.js';
 import crypto from 'crypto';
 import { passwordSha512 } from '../UserMiddleware.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const changePasswordWithToken = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'changePasswordWithToken', async ({ token: { forgotToken, newPassword, username } }) => {
     const o = await orm();
     const findAuthUser = await o(UserAuthorizationCollection).collection.findOne({ username });
@@ -24,3 +24,4 @@ export const handler = async (input: FieldResolveInput) =>
     );
     return { result: true };
   })(input.arguments);
+export default changePasswordWithToken;

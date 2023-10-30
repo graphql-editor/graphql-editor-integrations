@@ -1,12 +1,12 @@
 import { NewIntegration } from 'graphql-editor-cli';
-import { handler } from './rest.js';
+import restProxy from './restProxy.js';
 
 export const integration = NewIntegration({
   Query: {
     restProxy: {
       name: 'gei-rest',
       description: 'Proxy your rest endpoint to GraphQL Schema',
-      handler,
+      handler: restProxy,
       data: {
         passedHeaders: {
           name: 'Passed headers',

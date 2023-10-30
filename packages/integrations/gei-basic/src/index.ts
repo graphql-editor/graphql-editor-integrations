@@ -1,8 +1,8 @@
 import { NewIntegration } from 'graphql-editor-cli';
 
-import { handler as pipe } from './Query/pipe.js';
-import { handler as passSource } from './Query/passSource.js';
-import { handler as passSourceWithArgs } from './Query/passSourceWithArgs.js';
+import pipe from './Query/pipe.js';
+import passSource from './Query/passSource.js';
+import passSourceWithArgs from './Query/passSourceWithArgs.js';
 
 export const integration = NewIntegration({
   Query: {

@@ -3,7 +3,7 @@ import { prepareModel, prepareSourceParameters } from '../data.js';
 import { DB } from '../db/orm.js';
 import { ResolverInfoInput } from '../integration.js';
 
-export const handler = async (input: FieldResolveInput, info: ResolverInfoInput) => {
+export const objects = async (input: FieldResolveInput, info: ResolverInfoInput) => {
   return DB().then((db) => {
     const sortArg = input.arguments?.sortByField || input.arguments?.sort;
     const sort = typeof sortArg === 'object' ? (sortArg as { field: string; order?: boolean }) : undefined;
@@ -76,3 +76,4 @@ function convertDateFilter(obj: QueryObject): QueryObject | undefined {
     },
   };
 }
+export default objects;

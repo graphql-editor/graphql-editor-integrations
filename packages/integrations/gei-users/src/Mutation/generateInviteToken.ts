@@ -15,7 +15,7 @@ export const genRandomString = (length: number) =>
     .toString('hex')
     .slice(0, length);
 
-export const handler = async (input: FieldResolveInput) =>
+export const generateInviteToken = async (input: FieldResolveInput) =>
   resolverForUser('Mutation', 'generateInviteToken', async ({ user, tokenOptions: { expires, domain, teamId } }) => {
     const o = await orm();
     domain = domain || '';
@@ -51,3 +51,4 @@ export const handler = async (input: FieldResolveInput) =>
 
     return { result: generatedToken };
   })(input.arguments, input);
+export default generateInviteToken;

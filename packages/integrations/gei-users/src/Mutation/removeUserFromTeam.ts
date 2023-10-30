@@ -4,7 +4,7 @@ import { TeamCollection, TeamInvitationsCollection, UserCollection } from '../db
 import { orm } from '../db/orm.js';
 import { RemoveUserFromTeamError } from '../zeus/index.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const removeUserFromTeam = async (input: FieldResolveInput) =>
   resolverForUser('Mutation', 'removeUserFromTeam', async ({ user, data: { userId, teamId } }) => {
     const o = await orm();
     const team = await o(TeamCollection).collection.findOne({ owner: user._id, _id: teamId });
@@ -23,3 +23,4 @@ export const handler = async (input: FieldResolveInput) =>
     ]);
     return { result: true };
   })(input.arguments, input);
+export default removeUserFromTeam;

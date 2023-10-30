@@ -4,7 +4,7 @@ import { DB } from '../db/orm.js';
 import { ResolverInfoInput } from '../integration.js';
 import { getResolverData } from '../shared.js';
 
-export const handler = async (input: FieldResolveInput, info: ResolverInfoInput) => {
+export const deleteById = async (input: FieldResolveInput, info: ResolverInfoInput) => {
   const db = await DB();
   const model = info.model || prepareModel(input);
 
@@ -87,3 +87,4 @@ export const handler = async (input: FieldResolveInput, info: ResolverInfoInput)
   }
   return !!res.deletedCount;
 };
+export default deleteById;

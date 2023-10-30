@@ -5,7 +5,7 @@ import { getJwtAndRefreshToken } from '../ProviderLoginQuery/shared.js';
 import { comparePasswords } from '../UserMiddleware.js';
 import { LoginErrors, resolverFor } from '../zeus/index.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const password = async (input: FieldResolveInput) =>
   resolverFor('LoginQuery', 'password', async (args) => {
     const o = await orm();
     if (!args.user.password || !args.user.username) return { hasError: LoginErrors.INVALID_LOGIN_OR_PASSWORD };
@@ -62,3 +62,4 @@ export const handler = async (input: FieldResolveInput) =>
       };
     }
   })(input.arguments);
+export default password;

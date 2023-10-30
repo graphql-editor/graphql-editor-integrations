@@ -3,7 +3,7 @@ import { SocialKind, resolverFor, GenerateOAuthTokenError } from '../zeus/index.
 import { getEnv } from '../envGuard.js';
 import fetch from 'node-fetch';
 
-export const handler = async (input: FieldResolveInput) =>
+export const generateOAuthToken = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'generateOAuthToken', async ({ tokenData: { social, code } }) => {
     switch (social) {
       case SocialKind.Google:
@@ -47,3 +47,4 @@ export const handler = async (input: FieldResolveInput) =>
         return { result: appleResponse.access_token };
     }
   })(input.arguments);
+export default generateOAuthToken;

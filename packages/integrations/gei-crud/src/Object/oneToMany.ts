@@ -3,7 +3,7 @@ import { prepareRelatedField, prepareRelatedModel } from '../data.js';
 import { DB } from '../db/orm.js';
 import { ResolverInfoInput } from '../integration.js';
 
-export const handler = async (input: FieldResolveInput, info: ResolverInfoInput) => {
+export const oneToMany = async (input: FieldResolveInput, info: ResolverInfoInput) => {
   return DB().then(async (db) => {
     const source = input.source;
 
@@ -59,3 +59,4 @@ export const handler = async (input: FieldResolveInput, info: ResolverInfoInput)
       .toArray();
   });
 };
+export default oneToMany;

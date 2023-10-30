@@ -7,7 +7,7 @@ import { getEnv } from '../envGuard.js';
 import { ProviderErrors, resolverFor, SocialKind } from '../zeus/index.js';
 import { addUserAndConnectSocial, getJwtAndRefreshToken, ProviderLoginQuerySrc } from './shared.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const apple = async (input: FieldResolveInput) =>
   resolverFor('ProviderLoginQuery', 'apple', async (_, src: ProviderLoginQuerySrc) => {
     const o = await orm();
     if (!src.code) return { hasError: ProviderErrors.CODE_IS_NOT_EXIST_IN_ARGS };
@@ -51,3 +51,4 @@ export const handler = async (input: FieldResolveInput) =>
       },
     };
   })(input.arguments, input.source);
+export default apple;

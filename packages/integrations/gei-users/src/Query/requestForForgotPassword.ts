@@ -5,7 +5,7 @@ import { MailgunWrapper, formatForgotPassword } from '../mailgun.js';
 import crypto from 'crypto';
 import { orm } from '../db/orm.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const requestForForgotPassword = async (input: FieldResolveInput) =>
   resolverFor('Query', 'requestForForgotPassword', async ({ username }) => {
     const o = await orm();
     if (await o(UserAuthorizationCollection).collection.findOne({ username })) {
@@ -16,3 +16,4 @@ export const handler = async (input: FieldResolveInput) =>
     }
     return false;
   })(input.arguments);
+export default requestForForgotPassword;

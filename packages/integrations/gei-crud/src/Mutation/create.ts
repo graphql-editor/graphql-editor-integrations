@@ -5,7 +5,7 @@ import { DB } from '../db/orm.js';
 import { ResolverInfoInput } from '../integration.js';
 import { getReturnTypeName } from '../shared.js';
 
-export const handler = async (input: FieldResolveInput, info: ResolverInfoInput) =>
+export const create = async (input: FieldResolveInput, info: ResolverInfoInput) =>
   DB().then((db) => {
     const rt = getReturnTypeName(input.info.returnType);
     if (rt !== 'String') {
@@ -39,3 +39,4 @@ function createObjectFromAddFields(addFieldsArray: { name: string; value: unknow
 
   return result;
 }
+export default create;

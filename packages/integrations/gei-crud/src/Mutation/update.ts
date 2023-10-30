@@ -3,7 +3,7 @@ import { prepareModel, prepare_id, prepareSourceParameters } from '../data.js';
 import { DB } from '../db/orm.js';
 import { ResolverInfoInput } from '../integration.js';
 
-export const handler = async (input: FieldResolveInput, info: ResolverInfoInput) =>
+export const update = async (input: FieldResolveInput, info: ResolverInfoInput) =>
   DB().then(async (db) => {
     console.log(input);
     console.log(info);
@@ -42,3 +42,5 @@ export const handler = async (input: FieldResolveInput, info: ResolverInfoInput)
       throw new Error(`Object for update not found. Please check parameters: ${JSON.stringify(filterInput)}`);
     return res.modifiedCount >= 1;
   });
+
+export default update;

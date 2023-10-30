@@ -3,7 +3,7 @@ import { google } from 'googleapis';
 import { getEnv } from '../envGuard.js';
 import { resolverFor } from '../zeus/index.js';
 
-export const handler = (input: FieldResolveInput) =>
+export const getGoogleOAuthLink = (input: FieldResolveInput) =>
   resolverFor('Query', 'getGoogleOAuthLink', ({ setup }) => {
     const scopesWithPrefix = (setup.scopes || [])
       .filter((scope) => scope !== null && scope !== undefined)
@@ -23,3 +23,4 @@ export const handler = (input: FieldResolveInput) =>
     });
     return authorizationUrl;
   })(input.arguments, input.source);
+export default getGoogleOAuthLink;

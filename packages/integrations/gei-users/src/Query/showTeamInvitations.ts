@@ -5,7 +5,7 @@ import { resolverForUser } from '../UserMiddleware.js';
 import { MongoOrb } from '../db/orm.js';
 import { TeamModel } from '../models/TeamModel';
 
-export const handler = async (input: FieldResolveInput) =>
+export const showTeamInvitations = async (input: FieldResolveInput) =>
   resolverForUser('Query', 'showTeamInvitations', async ({ status, sentFromMyTeam }, input) => {
     const possibleSource = input.source as UserMemberModel | UserModel | TeamModel;
     if ('user' in possibleSource && 'team' in possibleSource) {
@@ -43,3 +43,4 @@ export const handler = async (input: FieldResolveInput) =>
     }
     return [];
   })(input.arguments, input);
+export default showTeamInvitations;

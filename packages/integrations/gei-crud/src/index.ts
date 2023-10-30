@@ -1,13 +1,13 @@
 import { NewIntegration } from 'graphql-editor-cli';
-import { handler as create } from './Mutation/create.js';
-import { handler as update } from './Mutation/update.js';
-import { handler as deleteObject } from './Mutation/delete.js';
+import create from './Mutation/create.js';
+import update from './Mutation/update.js';
+import deleteObject from './Mutation/deleteById.js';
 
-import { handler as objects } from './Query/objects.js';
-import { handler as oneById } from './Query/oneById.js';
+import objects from './Query/objects.js';
+import oneById from './Query/oneById.js';
 
-import { handler as oneToOne } from './Object/oneToOne.js';
-import { handler as oneToMany } from './Object/oneToMany.js';
+import oneToOne from './Object/oneToOne.js';
+import oneToMany from './Object/oneToMany.js';
 export const integration = NewIntegration({
   Query: {
     objects: {

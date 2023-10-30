@@ -4,7 +4,7 @@ import { TeamCollection, TeamInvitationsCollection, UserCollection } from '../db
 import { orm } from '../db/orm.js';
 import { InvitationTeamStatus, JoinToTeamError } from '../zeus/index.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const joinToTeam = async (input: FieldResolveInput) =>
   resolverForUser('Mutation', 'joinToTeam', async ({ user, teamId }) => {
     const o = await orm();
     const invitation = await o(TeamInvitationsCollection).collection.findOne({
@@ -34,3 +34,4 @@ export const handler = async (input: FieldResolveInput) =>
       response: { result: true },
     };
   })(input.arguments, input);
+export default joinToTeam;

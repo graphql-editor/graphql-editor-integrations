@@ -3,7 +3,7 @@ import { prepareRelatedField, prepareRelatedModel } from '../data.js';
 import { DB } from '../db/orm.js';
 import { ResolverInfoInput } from '../integration.js';
 
-export const handler = async (input: FieldResolveInput, info: ResolverInfoInput) =>
+export const oneToOne = async (input: FieldResolveInput, info: ResolverInfoInput) =>
   DB().then(async (db) => {
     const source = input.source;
     if (!source) {
@@ -28,3 +28,4 @@ export const handler = async (input: FieldResolveInput, info: ResolverInfoInput)
     if (objectField && typeof s[objectField] !== 'string') return objectField;
     return db(prepareRelatedModel(input)).collection.findOne({ [field]: objectField || s._id });
   });
+export default oneToOne;
