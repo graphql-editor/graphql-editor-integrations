@@ -22,7 +22,7 @@
     "form-data": "^4.0.0",
     "graphql-editor-cli": "^0.8.6",
     "i-graphql": "^0.1.2",
-    "mongodb": "^6.2.0",
+    "mongodb": "^5.1.0",
     "node-fetch": "^3.3.0",
     "stucco-js": "^0.10.18"
   }

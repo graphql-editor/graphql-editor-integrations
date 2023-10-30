@@ -41,7 +41,7 @@
     "i-graphql": "^0.1.2",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^4.0.0",
-    "mongodb": "^6.2.0",
+    "mongodb": "^5.1.0",
     "node-fetch": "^2.6.0",
     "stucco-js": "^0.9.16",
     "ws": "^8.8.0"

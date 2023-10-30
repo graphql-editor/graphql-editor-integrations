@@ -28,7 +28,7 @@
     "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^3.1.2",
     "mailgun.js": "^8.0.6",
-    "mongodb": "^6.2.0",
+    "mongodb": "^5.1.0",
     "node-fetch": "^3.3.0",
     "stripe": "^11.4.0",
     "stucco-js": "^0.10.18",
