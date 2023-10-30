@@ -3,7 +3,7 @@ import { resolverFor } from '../zeus/index.js';
 import { sourceContainUserIdOrThrow, errMiddleware } from '../utils/middleware.js';
 import { orm, preparePageOptions } from '../utils/db/orm.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const getBookingsForService = async (input: FieldResolveInput) =>
   resolverFor('UserQuery', 'getBookingsForService', async (args, src) =>
     errMiddleware(async () => {
       sourceContainUserIdOrThrow(src);
@@ -25,3 +25,4 @@ export const handler = async (input: FieldResolveInput) =>
       }));
     }),
   )(input.arguments, input.source);
+export default getBookingsForService;

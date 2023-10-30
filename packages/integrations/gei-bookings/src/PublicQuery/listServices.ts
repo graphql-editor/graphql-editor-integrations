@@ -5,7 +5,7 @@ import { orm, preparePageOptions } from '../utils/db/orm.js';
 import { ServicesCollection } from '../utils/db/collections.js';
 
 export const isScalarDate = (obj: unknown): boolean => typeof obj === 'string' && obj !== null && !!Date.parse(obj);
-export const handler = async (input: FieldResolveInput) =>
+export const listServices = async (input: FieldResolveInput) =>
   resolverFor('PublicQuery', 'listServices', async (args) =>
     errMiddleware(async () => {
       const po = preparePageOptions(args?.input?.page);
@@ -39,3 +39,4 @@ export const handler = async (input: FieldResolveInput) =>
       }));
     }),
   )(input.arguments);
+export default listServices;

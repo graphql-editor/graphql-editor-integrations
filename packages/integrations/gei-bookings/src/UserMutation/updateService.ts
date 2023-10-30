@@ -3,7 +3,7 @@ import { resolverFor } from '../zeus/index.js';
 import { errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
 import { orm } from '../utils/db/orm.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const updateService = async (input: FieldResolveInput) =>
   resolverFor('UserMutation', 'updateService', async (args, src) =>
     errMiddleware(
       async () => (
@@ -22,3 +22,4 @@ export const handler = async (input: FieldResolveInput) =>
       ),
     ),
   )(input.arguments, input.source);
+export default updateService;

@@ -3,7 +3,7 @@ import { BookStatus, resolverFor } from '../zeus/index.js';
 import { GlobalError, errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
 import { orm } from '../utils/db/orm.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const respondOnServiceRequest = async (input: FieldResolveInput) =>
   resolverFor('UserMutation', 'respondOnServiceRequest', async (args, src) =>
     errMiddleware(async () => {
       sourceContainUserIdOrThrow(src);
@@ -35,3 +35,4 @@ export const handler = async (input: FieldResolveInput) =>
       );
     }),
   )(input.arguments, input.source);
+export default respondOnServiceRequest;

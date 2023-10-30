@@ -3,7 +3,7 @@ import { resolverFor } from '../zeus/index.js';
 import { GlobalError, errMiddleware } from '../utils/middleware.js';
 import { orm } from '../utils/db/orm.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const getService = async (input: FieldResolveInput) =>
   resolverFor('PublicQuery', 'getService', async (args) =>
     errMiddleware(async () => {
       return await orm()
@@ -15,3 +15,4 @@ export const handler = async (input: FieldResolveInput) =>
         });
     }),
   )(input.arguments);
+export default getService;

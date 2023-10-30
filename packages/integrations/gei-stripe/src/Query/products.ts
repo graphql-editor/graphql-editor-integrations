@@ -1,14 +1,14 @@
 import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
-import { MongoOrb } from "../db/orm.js";
+import { MongoOrb } from '../db/orm.js';
 
-export const handler = async (input: FieldResolveInput) => 
-  resolverFor('Query','products',async (args) => {
+export const products = async (input: FieldResolveInput) =>
+  resolverFor('Query', 'products', async (args) => {
     let res;
-    if(!args || !args.filter){
+    if (!args || !args.filter) {
       res = await MongoOrb('StripeProductCollection').collection.find().toArray();
     } else {
-      let filter:any = {};
+      let filter: any = {};
       if (args.filter.active !== undefined) filter.active = args.filter.active;
       if (args.filter.created) {
         filter.created = {};
@@ -23,5 +23,6 @@ export const handler = async (input: FieldResolveInput) =>
 
       res = await MongoOrb('StripeProductCollection').collection.find(filter).toArray();
     }
-    return {products: res}
+    return { products: res };
   })(input.arguments);
+export default products;

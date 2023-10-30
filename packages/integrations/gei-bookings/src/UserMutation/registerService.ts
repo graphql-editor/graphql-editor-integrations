@@ -4,7 +4,7 @@ import { GlobalError, errMiddleware, sourceContainUserIdOrThrow } from '../utils
 import { mustFindOne, orm } from '../utils/db/orm.js';
 import { ServicesCollection } from '../utils/db/collections.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const registerService = async (input: FieldResolveInput) =>
   resolverFor('UserMutation', 'registerService', async (args, src) =>
     errMiddleware(async () => {
       sourceContainUserIdOrThrow(src);
@@ -30,3 +30,4 @@ export const handler = async (input: FieldResolveInput) =>
       };
     }),
   )(input.arguments, input.source);
+export default registerService;

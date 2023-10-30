@@ -2,7 +2,7 @@ import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
 import { newStripe } from '../utils/stripeInit.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const createConnectAccount = async (input: FieldResolveInput) =>
   resolverFor(
     'Mutation',
     'createConnectAccount',
@@ -33,3 +33,4 @@ export const handler = async (input: FieldResolveInput) =>
       return true;
     },
   )(input.arguments, input.source);
+export default createConnectAccount;

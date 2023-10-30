@@ -32,6 +32,6 @@
     "node-fetch": "^3.2.10",
     "stucco-js": "^0.10.18",
     "ws": "^8.12.0",
-    "graphql-editor-cli": "^0.7.6"
+    "graphql-editor-cli": "^0.9.0"
   }
 }
