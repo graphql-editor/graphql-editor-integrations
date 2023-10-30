@@ -33,7 +33,7 @@ export const update = async (input: FieldResolveInput & Partial<DataInput>) =>
         : reconstructedObject;
     console.log(setter);
     const filterInput: Record<string, any> = { _id, ...prepareSourceParameters(input) };
-    const res = await db(input.data.model || prepareModel(input)).collection.updateOne(filterInput, {
+    const res = await db(input.data?.model || prepareModel(input)).collection.updateOne(filterInput, {
       $set: { ...setter, updatedAt: new Date().toISOString() },
     });
     if (res.matchedCount < 1)

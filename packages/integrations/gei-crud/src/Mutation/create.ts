@@ -26,7 +26,7 @@ export const create = async (input: FieldResolveInput & Partial<DataInput>) =>
 
     return db(input.data?.model || prepareModel(input))
       .collection.insertOne(creationInput)
-      .then((result: { insertedId: string }) => result.insertedId);
+      .then((result) => result.insertedId);
   });
 
 function createObjectFromAddFields(addFieldsArray: { name: string; value: unknown }[]) {
