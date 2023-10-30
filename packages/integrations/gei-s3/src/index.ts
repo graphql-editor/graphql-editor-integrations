@@ -1,6 +1,6 @@
 import { NewIntegration } from 'graphql-editor-cli';
-import { handler as getFile } from './Query/getFile.js';
-import { handler as uploadFile } from './Mutation/uploadFile.js';
+import getFile from './Query/getFile.js';
+import uploadFile from './Mutation/uploadFile.js';
 
 export const integration = NewIntegration({
   Query: {
