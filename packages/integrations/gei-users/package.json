@@ -31,5 +31,8 @@
     "node-fetch": "^3.3.0",
     "stucco-js": "^0.10.18",
     "ws": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^4.0.7"
   }
 }
