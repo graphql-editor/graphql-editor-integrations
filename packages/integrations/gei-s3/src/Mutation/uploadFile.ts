@@ -9,9 +9,10 @@ const genRandomString = (length: number) =>
     .toString('hex')
     .slice(0, length);
 
-export const handler = async (input: FieldResolveInput) =>
+export const uploadFile = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'uploadFile', async ({ fileInput: { filename, contentType } }) => {
     const pureKey = `${genRandomString(16)}-${filename}`;
     const putObjectResponse = await putUrl({ fileKey: pureKey, contentType });
     return { fileKey: pureKey, putUrl: putObjectResponse.putUrl };
   })(input.arguments);
+export default uploadFile;

@@ -1,38 +1,62 @@
-
-
 type Object{
 	name: String!
 	content: String
-	oneToOne: Object
-	oneToMany: [Object]
+	oneToOne(
+		data: DataInput
+	): Object
+	oneToMany(
+		data: DataInput
+	): [Object]
 	_id: String!
 	createdAt: String
 	updatedAt: String
 }
 
 type Query{
-	objects(fieldFilter: FieldFilterInput,
-	fieldRegexFilter: FieldFilterInput,
-	dateFilter: DateFilterInput,
-	sortByField: SortInput): [Object!]
+	objects(
+		data: DataInput
+		fieldFilter: FieldFilterInput
+		fieldRegexFilter: FieldFilterInput
+		dateFilter: DateFilterInput
+		sortByField: SortInput
+	): [Object!]
 	oneById(
+		data: DataInput
 		_id: String!
 	): Object
 }
 
-
-
 type Mutation{
 	create(
+		data: DataInput
 		object: Update!
 	): String
 	update(
+		data: DataInput
 		_id: String
 		object: Update!
 	): Boolean
 	delete(
+		data: DataInput
 		_id: String
 	): Boolean
+}
+
+input DataInput{
+	model: String
+	sourceParameters: [String]
+	related: [ReladedInput]
+	addFields: [AddFieldsInput]
+}
+
+input AddFieldsInput{
+	name: String!
+	value: String
+}
+
+input ReladedInput{
+	model: String!
+	field: String
 }
 
 input Create{
@@ -41,44 +65,45 @@ input Create{
 	owner: String
 }
 
-input FieldFilterInput	{ 
-    name: String
+input FieldFilterInput{
+	name: String
 	content: String
 	owner: String
 	customFieldName: String
 }
 
-
-input SortInput {
-  field: SortField!
-  """
-  True for ASC, false for DESC
-  """
-  order: Boolean
+input SortInput{
+	field: SortField!
+	"""
+	True for ASC, false for DESC
+	"""
+	order: Boolean
 }
 
-input DateFilterInput { 
-	"""Basicly filter use createdAt,
-	 but you can to set other field"""
+input DateFilterInput{
+	"""
+	Basicly filter use createdAt,
+	but you can to set other field
+	"""
 	dateFieldName: String
-	from:String
+	from: String
 	to: String
 }
 
-enum SortField {
-  CREATED_AT
-  UPDATED_AT
-  NAME
-  CUSTOM_FIELD_NAME
+enum SortField{
+	CREATED_AT
+	UPDATED_AT
+	NAME
+	CUSTOM_FIELD_NAME
 }
-
 
 input Update{
 	name: String
 	content: String
 	owner: String
 }
+
 schema{
-	query: Query,
+	query: Query
 	mutation: Mutation
 }

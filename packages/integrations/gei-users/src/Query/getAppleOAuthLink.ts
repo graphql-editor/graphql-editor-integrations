@@ -2,7 +2,7 @@ import { FieldResolveInput } from 'stucco-js';
 import { getEnv } from '../envGuard.js';
 import { resolverFor } from '../zeus/index.js';
 
-export const handler = (input: FieldResolveInput) =>
+export const getAppleOAuthLink = (input: FieldResolveInput) =>
   resolverFor('Query', 'getAppleOAuthLink', ({ setup }): string => {
     const scopesWithPrefix = (setup.scopes || [])
       .filter((scope) => scope !== null && scope !== undefined)
@@ -15,3 +15,4 @@ export const handler = (input: FieldResolveInput) =>
     }${setup.state ? '&state=' + setup.state : ``}&client_id=${getEnv('APPLE_CLIENT_ID')}&scope=${allScopes.join(' ')}`;
     return authorizationUrl;
   })(input.arguments, input.source);
+export default getAppleOAuthLink;

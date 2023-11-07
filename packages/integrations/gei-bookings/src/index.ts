@@ -1,17 +1,17 @@
 import { NewIntegration } from 'graphql-editor-cli';
-import { handler as QueryUser } from './Query/user.js';
-import { handler as QueryPublic } from './Query/public.js';
-import { handler as MutationUser } from './Mutation/user.js';
-import { handler as PublicQueryListServices } from './PublicQuery/listServices.js';
-import { handler as PublicQueryGetService } from './PublicQuery/getService.js';
-import { handler as UserMutationRegisterService } from './UserMutation/registerService.js';
-import { handler as UserMutationUpdateService } from './UserMutation/updateService.js';
-import { handler as UserQueryGetSelfBooks } from './UserQuery/getSelfBooks.js';
-import { handler as UserMutationBookService } from './UserMutation/bookService.js';
-import { handler as UserMutationRespondOnServiceRequest } from './UserMutation/respondOnServiceRequest.js';
-import { handler as UserQueryGetBookingsForService } from './UserQuery/getBookingsForService.js';
-import { handler as UserMutationRemoveService } from './UserMutation/removeService.js';
-import { handler as UserQueryGetSelfServices } from './UserQuery/getSelfServices.js';
+import QueryUser from './Query/user.js';
+import QueryPublic from './Query/public.js';
+import MutationUser from './Mutation/user.js';
+import PublicQueryListServices from './PublicQuery/listServices.js';
+import PublicQueryGetService from './PublicQuery/getService.js';
+import UserMutationRegisterService from './UserMutation/registerService.js';
+import UserMutationUpdateService from './UserMutation/updateService.js';
+import UserQueryGetSelfBooks from './UserQuery/getSelfBooks.js';
+import UserMutationBookService from './UserMutation/bookService.js';
+import UserMutationRespondOnServiceRequest from './UserMutation/respondOnServiceRequest.js';
+import UserQueryGetBookingsForService from './UserQuery/getBookingsForService.js';
+import UserMutationRemoveService from './UserMutation/removeService.js';
+import UserQueryGetSelfServices from './UserQuery/getSelfServices.js';
 
 export const integration = NewIntegration({
   Query: {

@@ -3,7 +3,7 @@ import { resolverFor, VerifyEmailError } from '../zeus/index.js';
 import { UserAuthorizationCollection, UserCollection } from '../db/collections.js';
 import { orm } from '../db/orm.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const verifyEmail = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'verifyEmail', async ({ verifyData: { token } }) => {
     const o = await orm();
     const userToAuthorize = await o(UserAuthorizationCollection).collection.findOne({
@@ -21,3 +21,4 @@ export const handler = async (input: FieldResolveInput) =>
     ]);
     return { result: true };
   })(input.arguments);
+export default verifyEmail;

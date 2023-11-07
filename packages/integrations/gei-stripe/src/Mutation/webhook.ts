@@ -7,7 +7,11 @@ import {
   stripeSubscriptionUpdate,
 } from '../utils/webhookEvents/stripeSubscriptionEvents.js';
 import { resolverFor } from '../zeus/index.js';
-import { stripeProductDelete, stripeProductInsert, stripeProductUpdate } from '../utils/webhookEvents/stripeProductEvents.js';
+import {
+  stripeProductDelete,
+  stripeProductInsert,
+  stripeProductUpdate,
+} from '../utils/webhookEvents/stripeProductEvents.js';
 import { stripePriceDelete, stripePriceInsert, stripePriceUpdate } from '../utils/webhookEvents/stripePriceEvents.js';
 import { stripeCheckoutComplete } from '../utils/webhookEvents/checkoutSessionEvents.js';
 import {
@@ -36,10 +40,14 @@ import {
   externalAccountInsert,
   externalAccountUpdate,
 } from '../utils/webhookEvents/externalAccountEvents.js';
-import { paymentMethodAttached, paymentMethodDetached, paymentMethodUpdated } from '../utils/webhookEvents/paymentMethodEvents.js';
+import {
+  paymentMethodAttached,
+  paymentMethodDetached,
+  paymentMethodUpdated,
+} from '../utils/webhookEvents/paymentMethodEvents.js';
 import { ExternalAccount } from '../utils/customTypes/types.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const webhook = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'webhook', async (args) => {
     if (input.protocol?.body && input.protocol?.headers) {
       const stripe = newStripe();
@@ -120,3 +128,4 @@ export const handler = async (input: FieldResolveInput) =>
       }
     }
   })(input.arguments);
+export default webhook;

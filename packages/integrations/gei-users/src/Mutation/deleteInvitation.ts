@@ -3,7 +3,7 @@ import { orm } from './../db/orm.js';
 import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const deleteInvitation = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'deleteInvitation', async ({ id }, input) => {
     const o = await orm();
 
@@ -14,3 +14,4 @@ export const handler = async (input: FieldResolveInput) =>
         : await o('InviteTokenCollection').collection.deleteOne({ _id: id, teamId: input.source.team._id });
     return res.deletedCount === 1;
   })(input.arguments, input);
+export default deleteInvitation;

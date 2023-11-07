@@ -3,7 +3,7 @@ import { resolverFor } from '../zeus/index.js';
 import { MongoOrb } from '../db/orm.js';
 import { timestampMapping } from '../utils/customTypes/types.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const subscriptions = async (input: FieldResolveInput) =>
   resolverFor('Query', 'subscriptions', async (args) => {
     let res;
     if (!args.filter) {
@@ -39,3 +39,4 @@ export const handler = async (input: FieldResolveInput) =>
     }
     return res;
   })(input.arguments);
+export default subscriptions;

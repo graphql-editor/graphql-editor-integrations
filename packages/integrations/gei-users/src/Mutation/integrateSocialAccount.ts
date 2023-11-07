@@ -4,7 +4,7 @@ import { SocialCollection, UserAuthorizationCollection, UserCollection } from '.
 import { orm } from '../db/orm.js';
 import { IntegrateSocialAccountError } from '../zeus/index.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const integrateSocialAccount = async (input: FieldResolveInput) =>
   resolverForUser('Mutation', 'integrateSocialAccount', async ({ user, userData }) => {
     const o = await orm();
     const userInAuth = await o(UserAuthorizationCollection).collection.findOne({ username: userData.username });
@@ -30,3 +30,4 @@ export const handler = async (input: FieldResolveInput) =>
     ]);
     return { result: true };
   })(input.arguments, input);
+export default integrateSocialAccount;

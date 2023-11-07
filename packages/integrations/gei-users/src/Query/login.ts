@@ -1,5 +1,6 @@
-import { FieldResolveInput, FieldResolveOutput } from 'stucco-js';
+import { FieldResolveOutput } from 'stucco-js';
 
-export const handler = async (input: FieldResolveInput): Promise<FieldResolveOutput> => {
+export const login = async (): Promise<FieldResolveOutput> => {
   return {};
 };
+export default login;

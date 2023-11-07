@@ -3,7 +3,7 @@ import { resolverFor } from '../zeus/index.js';
 import { orm, preparePageOptions } from '../utils/db/orm.js';
 import { errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const getSelfBooks = async (input: FieldResolveInput) =>
   resolverFor('UserQuery', 'getSelfBooks', async (args, src) =>
     errMiddleware(async () => {
       sourceContainUserIdOrThrow(src);
@@ -19,3 +19,4 @@ export const handler = async (input: FieldResolveInput) =>
       }));
     }),
   )(input.arguments, input.source);
+export default getSelfBooks;

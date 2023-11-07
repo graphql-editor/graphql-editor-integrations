@@ -10,7 +10,7 @@ import {
 } from './shared.js';
 import fetch from 'node-fetch';
 
-export const handler = async (input: FieldResolveInput) =>
+export const microsoft = async (input: FieldResolveInput) =>
   resolverFor('ProviderLoginQuery', 'microsoft', async (_, src: ProviderLoginQuerySrc) => {
     const o = await orm();
 
@@ -55,3 +55,4 @@ export const handler = async (input: FieldResolveInput) =>
       },
     };
   })(input.arguments, input.source);
+export default microsoft;

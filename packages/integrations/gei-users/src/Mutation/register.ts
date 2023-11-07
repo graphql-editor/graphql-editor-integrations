@@ -14,7 +14,7 @@ import { orm } from '../db/orm.js';
 export const isPasswordEqualToSpecialParams = (password: string): boolean =>
   /[!@#$%^&*()+=._-]/.test(password) && /[a-z]/.test(password) && /[A-Z]/.test(password) && !/\s/.test(password);
 
-export const handler = async (input: FieldResolveInput) =>
+export const register = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'register', async ({ user: { username, password, invitationToken, fullName, ...rest } }) => {
     const o = await orm();
     if (password.length <= 6) {
@@ -109,3 +109,4 @@ export const handler = async (input: FieldResolveInput) =>
       throw error;
     }
   })(input.arguments);
+export default register;

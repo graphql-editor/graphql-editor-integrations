@@ -5,7 +5,7 @@ import { orm, preparePageOptions } from '../utils/db/orm.js';
 import { ServicesCollection } from '../utils/db/collections.js';
 import { isScalarDate } from '../PublicQuery/listServices.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const getSelfServices = async (input: FieldResolveInput) =>
   resolverFor('UserQuery', 'getSelfServices', async (args, src) =>
     errMiddleware(async () => {
       sourceContainUserIdOrThrow(src);
@@ -39,3 +39,4 @@ export const handler = async (input: FieldResolveInput) =>
       }));
     }),
   )(input.arguments, input.source);
+export default getSelfServices;

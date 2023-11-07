@@ -5,7 +5,7 @@ import { orm } from '../db/orm.js';
 import { InvitationTeamStatus, SendInvitationToTeamError } from '../zeus/index.js';
 import { MailgunWrapper, formatInvitationToTeam } from '../mailgun.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const sendInvitationToTeam = async (input: FieldResolveInput) =>
   resolverForUser('Mutation', 'sendInvitationToTeam', async ({ user, invitation: { username, teamId } }) => {
     const o = await orm();
     if (
@@ -39,3 +39,4 @@ export const handler = async (input: FieldResolveInput) =>
       },
     };
   })(input.arguments, input);
+export default sendInvitationToTeam;

@@ -5,7 +5,7 @@ import { getEnv } from '../envGuard.js';
 import { ProviderErrors, resolverFor, SocialKind } from '../zeus/index.js';
 import { addUserAndConnectSocial, getJwtAndRefreshToken, getUserInfo, ProviderLoginQuerySrc } from './shared.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const google = async (input: FieldResolveInput) =>
   resolverFor('ProviderLoginQuery', 'google', async (_, src: ProviderLoginQuerySrc) => {
     const o = await orm();
     const code = src.code.replace(/%2F/i, '/');
@@ -53,3 +53,4 @@ export const handler = async (input: FieldResolveInput) =>
       },
     };
   })(input.arguments, input.source);
+export default google;

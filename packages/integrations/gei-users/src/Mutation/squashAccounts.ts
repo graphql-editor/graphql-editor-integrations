@@ -53,7 +53,7 @@ export const changeMemberOfTeams = async (o: Awaited<ReturnType<typeof orm>>, el
     }),
   );
 
-export const handler = (input: FieldResolveInput) =>
+export const squashAccounts = (input: FieldResolveInput) =>
   resolverForUser('Mutation', 'squashAccounts', async ({ user, password }) => {
     const o = await orm();
     const username =
@@ -65,10 +65,10 @@ export const handler = (input: FieldResolveInput) =>
     await o(UserCollection).collection.updateOne({ _id: replace_id || undefined }, { $set: { username: username } });
     const usersToSquash = await o(UserCollection).collection.find({ username: username }).toArray();
     if (usersToSquash.length === 1) return { hasError: SquashAccountsError.YOU_HAVE_ONLY_ONE_ACCOUNT };
-    if (usersToSquash.find((user) => user.emailConfirmed === false))
+    if (usersToSquash.find((user: UserModel) => user.emailConfirmed === false))
       return { hasError: SquashAccountsError.YOUR_ACCOUNTS_DO_NOT_HAVE_CONFIRMED_EMAIL };
     await Promise.all(
-      usersToSquash.slice(1).map(async (user) => o(UserCollection).collection.deleteOne({ _id: user._id })),
+      usersToSquash.slice(1).map(async (user: UserModel) => o(UserCollection).collection.deleteOne({ _id: user._id })),
     );
     await Promise.all([
       replaceAllElementsAsElementWithValuesOnFirstIndex(o, usersToSquash, SocialCollection),
@@ -78,3 +78,4 @@ export const handler = (input: FieldResolveInput) =>
     ]);
     return { result: true };
   })(input.arguments, input);
+export default squashAccounts;

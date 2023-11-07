@@ -4,7 +4,7 @@ import { orm } from '../db/orm.js';
 import { resolverForUser } from '../UserMiddleware.js';
 import { JoinToTeamWithInvitationTokenError } from '../zeus/index.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const joinToTeamWithInvitationToken = async (input: FieldResolveInput) =>
   resolverForUser('Mutation', 'joinToTeamWithInvitationToken', async ({ user, token }) => {
     const o = await orm();
     const inviteToken = await o(InviteTokenCollection).collection.findOne({
@@ -37,3 +37,4 @@ export const handler = async (input: FieldResolveInput) =>
       response: { result: true },
     };
   })(input.arguments, input);
+export default joinToTeamWithInvitationToken;

@@ -7,7 +7,7 @@ import { getEnv } from '../envGuard.js';
 import { decodeRefreshToken } from '../UserMiddleware.js';
 import { resolverFor } from '../zeus/index.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const refreshToken = async (input: FieldResolveInput) =>
   resolverFor('LoginQuery', 'refreshToken', async ({ refreshToken }) => {
     const o = await orm();
     const { sub, tokenId } = decodeRefreshToken(refreshToken);
@@ -22,3 +22,4 @@ export const handler = async (input: FieldResolveInput) =>
       response: sign({ userId: refreshTokenObject.userId }, jwtSecret, { expiresIn }),
     };
   })(input.arguments);
+export default refreshToken;

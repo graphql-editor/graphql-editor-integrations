@@ -2,9 +2,10 @@ import { ObjectId, OptionalId } from 'mongodb';
 import { FieldResolveInput } from 'stucco-js';
 import { prepareModel, prepareSourceParameters } from '../data.js';
 import { DB } from '../db/orm.js';
+import { DataInput } from '../integration.js';
 import { getReturnTypeName } from '../shared.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const create = async (input: FieldResolveInput & Partial<DataInput>) =>
   DB().then((db) => {
     const rt = getReturnTypeName(input.info.returnType);
     if (rt !== 'String') {
@@ -16,13 +17,26 @@ export const handler = async (input: FieldResolveInput) =>
     }
     const creationInput = {
       ...(entries[0][1] as OptionalId<any>),
+      ...(input.data?.addFields && createObjectFromAddFields(input.data.addFields)),
       ...prepareSourceParameters(input),
       _id: new ObjectId().toHexString(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
 
-    return db(prepareModel(input))
+    return db(input.data?.model || prepareModel(input))
       .collection.insertOne(creationInput)
       .then((result) => result.insertedId);
   });
+
+function createObjectFromAddFields(addFieldsArray: { name: string; value: unknown }[]) {
+  const result: { [key: string]: unknown } = {};
+
+  for (const field of addFieldsArray) {
+    const { name, value } = field;
+    result[name] = value;
+  }
+
+  return result;
+}
+export default create;

@@ -1,8 +1,16 @@
 
 
 type Query{
-	restProxy: Anything
+	restProxy(info: RESTConfig): Anything
 }
+
+type RESTConfig = {
+  headers?: string[];
+  url: string;
+  body?: string;
+  method?: string;
+  passedHeaders?: string[];
+};
 
 scalar Anything
 schema{

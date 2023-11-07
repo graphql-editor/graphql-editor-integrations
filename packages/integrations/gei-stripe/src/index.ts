@@ -1,20 +1,20 @@
 import { NewIntegration } from 'graphql-editor-cli';
-import { handler as initStripeCustomerHandler } from './Mutation/initStripeCustomer.js';
-import { handler as webhookHandler } from './Mutation/webhook.js';
-import { handler as createCustomerPortalHandler } from './Mutation/createCustomerPortal.js';
-import { handler as createCheckoutSessionHandler } from './Mutation/createCheckoutSession.js';
-import { handler as createNewUserCheckoutSessionHandler } from './Mutation/createNewUserCheckoutSession.js';
-import { handler as productsHandler } from './Query/products.js';
-import { handler as productDefaultPriceHandler } from './Product/default_price.js';
-import { handler as productPricesHandler } from './Product/prices.js';
-import { handler as subscriptionsHandler } from './Query/subscriptions.js';
-import { handler as attachPaymentMethodHandler } from './Mutation/attachPaymentMethod.js';
-import { handler as createConnectAccountHandler } from './Mutation/createConnectAccount.js';
-import { handler as setDefaultPaymentMethodHandler } from './Mutation/setDefaultPaymentMethod.js';
-import { handler as paymentIntentsHandler } from './Query/paymentIntents.js';
-import { handler as invoicesHandler } from './Query/invoices.js';
-import { handler as customerHandler } from './Query/customer.js';
-import { handler as paymentMethodHandler } from './Customer/paymentMethods.js';
+import initStripeCustomerHandler from './Mutation/initStripeCustomer.js';
+import webhookHandler from './Mutation/webhook.js';
+import createCustomerPortalHandler from './Mutation/createCustomerPortal.js';
+import createCheckoutSessionHandler from './Mutation/createCheckoutSession.js';
+import createNewUserCheckoutSessionHandler from './Mutation/createNewUserCheckoutSession.js';
+import productsHandler from './Query/products.js';
+import productDefaultPriceHandler from './Product/default_price.js';
+import productPricesHandler from './Product/prices.js';
+import subscriptionsHandler from './Query/subscriptions.js';
+import attachPaymentMethodHandler from './Mutation/attachPaymentMethod.js';
+import createConnectAccountHandler from './Mutation/createConnectAccount.js';
+import setDefaultPaymentMethodHandler from './Mutation/setDefaultPaymentMethod.js';
+import paymentIntentsHandler from './Query/paymentIntents.js';
+import invoicesHandler from './Query/invoices.js';
+import customerHandler from './Query/customer.js';
+import paymentMethodHandler from './Customer/paymentMethods.js';
 
 export const integration = NewIntegration({
   Query: {
@@ -42,7 +42,7 @@ export const integration = NewIntegration({
       name: 'customer',
       description: 'Show stripe customer object with payment methods',
       handler: customerHandler,
-    }
+    },
   },
   Mutation: {
     attachPaymentMethod: {
@@ -57,7 +57,8 @@ export const integration = NewIntegration({
     },
     createConnectAccount: {
       name: 'createConnectAccount',
-      description: 'Creates stripe connect account for specific payments design with application fees or custom withdrawals',
+      description:
+        'Creates stripe connect account for specific payments design with application fees or custom withdrawals',
       handler: createConnectAccountHandler,
     },
     createCustomerPortal: {
@@ -84,7 +85,7 @@ export const integration = NewIntegration({
       name: 'webhook',
       description: 'Stripe webhook for managing mongo data',
       handler: webhookHandler,
-    }
+    },
   },
   Product: {
     default_price: {
@@ -104,7 +105,7 @@ export const integration = NewIntegration({
       description: 'Resolver for querying customer payment methods',
       handler: paymentMethodHandler,
     },
-  }
+  },
 });
 
 export default integration;

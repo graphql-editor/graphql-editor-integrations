@@ -3,7 +3,7 @@ import { resolverFor } from '../zeus/index.js';
 import { orm } from '../utils/db/orm.js';
 import { sourceContainUserIdOrThrow } from '../utils/middleware.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const removeService = async (input: FieldResolveInput) =>
   resolverFor(
     'UserMutation',
     'removeService',
@@ -19,3 +19,4 @@ export const handler = async (input: FieldResolveInput) =>
         .then((r) => ({ removed: r.modifiedCount !== 0 }))
     ),
   )(input.arguments, input.source);
+export default removeService;

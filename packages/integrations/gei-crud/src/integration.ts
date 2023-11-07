@@ -14,6 +14,15 @@ type IntegrationSpecification = {
   };
 };
 
+export type DataInput = {
+  data: {
+    model?: string;
+    sourceParameters?: Array<string>;
+    related?: Array<{ model: string; field: string }>;
+    addFields?: Array<{ name: string; value: unknown }>;
+  };
+};
+
 const model: IntegrationData = {
   name: 'Database model',
   description: 'Specify model name',

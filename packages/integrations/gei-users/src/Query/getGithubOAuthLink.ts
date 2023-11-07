@@ -2,7 +2,7 @@ import { FieldResolveInput } from 'stucco-js';
 import { getEnv } from '../envGuard.js';
 import { resolverFor } from '../zeus/index.js';
 
-export const handler = (input: FieldResolveInput) =>
+export const getGithubOAuthLink = (input: FieldResolveInput) =>
   resolverFor('Query', 'getGithubOAuthLink', ({ setup }) => {
     let authorizationUrl = 'https://github.com/login/oauth/authorize?scope=user:email%20read:user';
     if (Array.isArray(setup.scopes) && setup.scopes.length > 0) {
@@ -17,3 +17,4 @@ export const handler = (input: FieldResolveInput) =>
       }`
     );
   })(input.arguments, input.source);
+export default getGithubOAuthLink;

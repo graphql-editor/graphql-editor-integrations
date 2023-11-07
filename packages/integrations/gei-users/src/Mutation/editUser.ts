@@ -2,7 +2,7 @@ import { FieldResolveInput } from 'stucco-js';
 import { orm } from '../db/orm.js';
 import { EditUserError, resolverFor } from '../zeus/index.js';
 
-export const handler = async (input: FieldResolveInput) =>
+export const editUser = async (input: FieldResolveInput) =>
   resolverFor('Mutation', 'editUser', async ({ updatedUser }) => {
     const o = await orm();
     const { userId, username, fullName } = updatedUser;
@@ -31,5 +31,6 @@ export const handler = async (input: FieldResolveInput) =>
     if (res.modifiedCount === 0) {
       return { hasError: EditUserError.FAILED_MONGO_UPDATE };
     }
-    return { result: true }
+    return { result: true };
   })(input.arguments);
+export default editUser;
