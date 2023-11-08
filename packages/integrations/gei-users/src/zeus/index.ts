@@ -1437,6 +1437,11 @@ improvise, adapt, overcome, frontend! */
 	register?:boolean | `@${string}`,
 	hasError?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
+}>;
+	["schema"]: AliasType<{
+	query?:ResolverInputTypes["Query"],
+	mutation?:ResolverInputTypes["Mutation"],
+		__typename?: boolean | `@${string}`
 }>
   }
 
@@ -1701,6 +1706,10 @@ improvise, adapt, overcome, frontend! */
 	/** field describes whether this is first login attempt for this username */
 	register?: boolean | undefined,
 	hasError?: ModelTypes["ProviderErrors"] | undefined
+};
+	["schema"]: {
+	query?: ModelTypes["Query"] | undefined,
+	mutation?: ModelTypes["Mutation"] | undefined
 }
     }
 
@@ -2043,7 +2052,8 @@ export const enum SendInvitationToTeamError {
 	YOU_CANNOT_SEND_INVITATION_TO_YOURSELF = "YOU_CANNOT_SEND_INVITATION_TO_YOURSELF",
 	USER_IS_NOT_OWNER_OF_THE_TEAM = "USER_IS_NOT_OWNER_OF_THE_TEAM",
 	CANNOT_FIND_USER = "CANNOT_FIND_USER",
-	USERNAME_IS_TOO_AMBIGUOUS = "USERNAME_IS_TOO_AMBIGUOUS"
+	USERNAME_IS_TOO_AMBIGUOUS = "USERNAME_IS_TOO_AMBIGUOUS",
+	USER_ALREADY_EXISTS_IN_THE_TEAM = "USER_ALREADY_EXISTS_IN_THE_TEAM"
 }
 export const enum JoinToTeamError {
 	TEAM_INVITATION_DOES_NOT_EXIST_OR_CAPTURED = "TEAM_INVITATION_DOES_NOT_EXIST_OR_CAPTURED",
