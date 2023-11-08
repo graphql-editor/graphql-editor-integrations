@@ -24,6 +24,9 @@ export const sendInvitationToTeam = async (input: FieldResolveInput) =>
     const recipientUser = await o(UserCollection).collection.find({ username }).toArray();
     if (recipientUser.length === 0) return { hasError: SendInvitationToTeamError.CANNOT_FIND_USER };
     if (recipientUser.length >= 2) return { hasError: SendInvitationToTeamError.USERNAME_IS_TOO_AMBIGUOUS };
+
+    if (teamById.members.includes(recipientUser[0]._id))
+      return { hasError: SendInvitationToTeamError.USER_ALREADY_HAS_YOUR_INVITATION };
     const result = await o(TeamInvitationsCollection).createWithAutoFields('_id')({
       teamId: teamById._id,
       teamName: teamById.name,
