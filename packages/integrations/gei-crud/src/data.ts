@@ -81,3 +81,16 @@ export const prepareRequired_id = (input: FieldResolveInput) => {
   }
   return _id as string;
 };
+
+
+
+export function createObjectFromAddFields(addFieldsArray: { name: string; value: unknown }[]) {
+  const result: { [key: string]: unknown } = {};
+
+  for (const field of addFieldsArray) {
+    const { name, value } = field;
+    result[name] = value;
+  }
+
+  return result;
+}

@@ -1,5 +1,5 @@
 import { FieldResolveInput } from 'stucco-js';
-import { prepareModel, prepare_id, prepareSourceParameters } from '../data.js';
+import { prepareModel, prepare_id, prepareSourceParameters, createObjectFromAddFields } from '../data.js';
 import { DB } from '../db/orm.js';
 import { DataInput } from '../integration.js';
 
@@ -34,7 +34,7 @@ export const update = async (input: FieldResolveInput & Partial<DataInput>) =>
     console.log(setter);
     const filterInput: Record<string, any> = { _id, ...prepareSourceParameters(input) };
     const res = await db(input.data?.model || prepareModel(input)).collection.updateOne(filterInput, {
-      $set: { ...setter, updatedAt: new Date().toISOString() },
+      $set: { ...setter,  ...(input.data?.addFields && createObjectFromAddFields(input.data.addFields)), updatedAt: new Date().toISOString() },
     });
     if (res.matchedCount < 1)
       throw new Error(`Object for update not found. Please check parameters: ${JSON.stringify(filterInput)}`);

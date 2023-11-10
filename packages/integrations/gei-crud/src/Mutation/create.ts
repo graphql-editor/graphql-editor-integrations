@@ -1,6 +1,6 @@
 import { ObjectId, OptionalId } from 'mongodb';
 import { FieldResolveInput } from 'stucco-js';
-import { prepareModel, prepareSourceParameters } from '../data.js';
+import { createObjectFromAddFields, prepareModel, prepareSourceParameters } from '../data.js';
 import { DB } from '../db/orm.js';
 import { DataInput } from '../integration.js';
 import { getReturnTypeName } from '../shared.js';
@@ -29,14 +29,5 @@ export const create = async (input: FieldResolveInput & Partial<DataInput>) =>
       .then((result) => result.insertedId);
   });
 
-function createObjectFromAddFields(addFieldsArray: { name: string; value: unknown }[]) {
-  const result: { [key: string]: unknown } = {};
 
-  for (const field of addFieldsArray) {
-    const { name, value } = field;
-    result[name] = value;
-  }
-
-  return result;
-}
 export default create;
