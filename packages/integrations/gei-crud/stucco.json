@@ -150,6 +150,13 @@
       "resolve": {
         "name": "Object.oneToMany.handler"
       }
+    },
+    "Query.fieldValueIsUnique": {
+      "name": "Value is unique",
+      "description": "Make sure that team name or other field is unique for collection",
+      "resolve": {
+        "name": "lib/Query/fieldValueIsUnique"
+      }
     }
   }
 }
