@@ -7,7 +7,8 @@ import { CreateTeamError } from '../zeus/index.js';
 export const createTeam = async (input: FieldResolveInput) =>
   resolverForUser('Mutation', 'createTeam', async ({ user, teamName }) => {
     const o = await orm();
-    if (await o(TeamCollection).collection.findOne({ name: teamName })) return { result: false };
+    if (await o(TeamCollection).collection.findOne({ name: teamName }))
+      return { hasError: CreateTeamError.TEAM_EXISTS };
     const team = await o(TeamCollection).createWithAutoFields(
       '_id',
       'createdAt',
