@@ -18,6 +18,7 @@ export const registerService = async (input: FieldResolveInput) =>
         )({
           startDate: new Date(String(args.input.startDate)),
           name: args.input.name,
+          neededAccept: args.input.neededAccept || true,
           description: args.input.description,
           ownerId: src.userId,
           active: true,
