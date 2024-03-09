@@ -24,6 +24,12 @@ type Query{
 		data: DataInput
 		_id: String!
 	): Object
+	fieldValueIsUnique(
+		fieldValue: String!
+		collection: String!
+		fieldName: String
+		caseInsensitive: Boolean
+	): Boolean!
 }
 
 type Mutation{
