@@ -11,7 +11,7 @@ export const getBookingsForService = async (input: FieldResolveInput) =>
 
       const ownedServices = await orm().then((o) =>
         o('Services')
-          .collection.find({ ownerId: src.userId })
+          .collection.find({ ownerId: src.userId || src._id })
           .toArray()
           .then((s) => s.map((ss) => ss._id)),
       );

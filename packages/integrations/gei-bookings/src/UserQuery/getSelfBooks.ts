@@ -10,7 +10,7 @@ export const getSelfBooks = async (input: FieldResolveInput) =>
       const po = preparePageOptions(args?.input?.page);
       return await orm().then((o) => ({
         books: o('Bookings')
-          .collection.find({ bookerId: src.userId })
+          .collection.find({ bookerId: src.userId || src._id })
           .skip(po.skip)
           .limit(po.limit)
           .sort('createdAt', -1)

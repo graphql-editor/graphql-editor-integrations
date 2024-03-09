@@ -12,7 +12,7 @@ export const removeService = async (input: FieldResolveInput) =>
       orm()
         .then((o) =>
           o('Services').collection.updateOne(
-            { _id: args.serviceId, ownerId: src.userId, active: { $ne: true }, taken: { $ne: true } },
+            { _id: args.serviceId, ownerId: src.userId || src._id, active: { $ne: true }, taken: { $ne: true } },
             { $set: { active: false } },
           ),
         )

@@ -72,7 +72,7 @@ export const AllTypesProps: Record<string,any> = {
 
 	},
 	RegisterServiceInput:{
-		startDate:"Date"
+		startDates:"Date"
 	},
 	UpdateServiceInput:{
 		startDate:"Date"

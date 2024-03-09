@@ -30,7 +30,7 @@ export const getSelfServices = async (input: FieldResolveInput) =>
             ...(args?.input?.filters?.description && {
               description: { $regex: args?.input.filters.description, $options: 'i' },
             }),
-            ownerId: src.userId,
+            ownerId: src.userId || src._id,
           })
           .limit(po.limit)
           .skip(po.skip)

@@ -25,7 +25,7 @@ export const errMiddleware = async <T>(handler: () => Promise<T>): Promise<T | {
 export const typeGuard = <T extends object>(source: Record<string, any>, key: keyof T): source is T => key in source;
 
 export const sourceContainUserIdOrThrow = (source: any) => {
-  if (!typeGuard<SourceWithUserId>(source, 'userId') || typeof source.userId !== 'string') {
+  if ((!typeGuard<SourceWithUserId>(source, 'userId') || typeof source.userId !== 'string') && typeof source._id !== 'string') {
     throw new GlobalError('input source is malformed', import.meta.url);
   }
 };

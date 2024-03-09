@@ -864,7 +864,7 @@ getService?: [{	serviceId: string | Variable<any, string>},ValueTypes["GetServic
 }>;
 	["UserMutation"]: AliasType<{
 registerService?: [{	input: ValueTypes["RegisterServiceInput"] | Variable<any, string>},ValueTypes["RegisterServiceRespond"]],
-updateService?: [{	input: ValueTypes["UpdateServiceInput"] | Variable<any, string>,	serviceId: string | Variable<any, string>},ValueTypes["UpdateServiceRespond"]],
+updateService?: [{	input: Array<ValueTypes["UpdateServiceInput"]> | Variable<any, string>,	serviceId: string | Variable<any, string>},ValueTypes["UpdateServiceRespond"]],
 removeService?: [{	serviceId: string | Variable<any, string>},ValueTypes["RemoveServiceRespond"]],
 bookService?: [{	input: ValueTypes["BookServiceInput"] | Variable<any, string>,	serviceId: string | Variable<any, string>},ValueTypes["BookServiceRespond"]],
 respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] | Variable<any, string>},ValueTypes["RespondOnServiceRequestRespond"]],
@@ -946,7 +946,7 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 	["RegisterServiceInput"]: {
 	name: string | Variable<any, string>,
 	description: string | Variable<any, string>,
-	startDate: ValueTypes["Date"] | Variable<any, string>,
+	startDates: Array<ValueTypes["Date"]> | Variable<any, string>,
 	time: number | Variable<any, string>,
 	neededAccept?: boolean | undefined | null | Variable<any, string>,
 	active?: boolean | undefined | null | Variable<any, string>
@@ -1078,7 +1078,7 @@ getService?: [{	serviceId: string},ResolverInputTypes["GetServiceRespond"]],
 }>;
 	["UserMutation"]: AliasType<{
 registerService?: [{	input: ResolverInputTypes["RegisterServiceInput"]},ResolverInputTypes["RegisterServiceRespond"]],
-updateService?: [{	input: ResolverInputTypes["UpdateServiceInput"],	serviceId: string},ResolverInputTypes["UpdateServiceRespond"]],
+updateService?: [{	input: Array<ResolverInputTypes["UpdateServiceInput"]>,	serviceId: string},ResolverInputTypes["UpdateServiceRespond"]],
 removeService?: [{	serviceId: string},ResolverInputTypes["RemoveServiceRespond"]],
 bookService?: [{	input: ResolverInputTypes["BookServiceInput"],	serviceId: string},ResolverInputTypes["BookServiceRespond"]],
 respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestInput"]},ResolverInputTypes["RespondOnServiceRequestRespond"]],
@@ -1160,7 +1160,7 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 	["RegisterServiceInput"]: {
 	name: string,
 	description: string,
-	startDate: ResolverInputTypes["Date"],
+	startDates: Array<ResolverInputTypes["Date"]>,
 	time: number,
 	neededAccept?: boolean | undefined | null,
 	active?: boolean | undefined | null
@@ -1371,13 +1371,13 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	["RegisterServiceInput"]: {
 	name: string,
 	description: string,
-	startDate: ModelTypes["Date"],
+	startDates: Array<ModelTypes["Date"]>,
 	time: number,
 	neededAccept?: boolean | undefined,
 	active?: boolean | undefined
 };
 	["RegisterServiceRespond"]: {
-		service?: ModelTypes["Service"] | undefined,
+		service?: Array<ModelTypes["Service"] | undefined> | undefined,
 	error?: ModelTypes["GlobalError"] | undefined
 };
 	["UpdateServiceInput"]: {
@@ -1389,7 +1389,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	neededAccept?: boolean | undefined
 };
 	["UpdateServiceRespond"]: {
-		service?: ModelTypes["Service"] | undefined,
+		service?: Array<ModelTypes["Service"] | undefined> | undefined,
 	error?: ModelTypes["GlobalError"] | undefined
 };
 	["RemoveServiceRespond"]: {
@@ -1578,14 +1578,14 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	["RegisterServiceInput"]: {
 		name: string,
 	description: string,
-	startDate: GraphQLTypes["Date"],
+	startDates: Array<GraphQLTypes["Date"]>,
 	time: number,
 	neededAccept?: boolean | undefined,
 	active?: boolean | undefined
 };
 	["RegisterServiceRespond"]: {
 	__typename: "RegisterServiceRespond",
-	service?: GraphQLTypes["Service"] | undefined,
+	service?: Array<GraphQLTypes["Service"] | undefined> | undefined,
 	error?: GraphQLTypes["GlobalError"] | undefined
 };
 	["UpdateServiceInput"]: {
@@ -1598,7 +1598,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["UpdateServiceRespond"]: {
 	__typename: "UpdateServiceRespond",
-	service?: GraphQLTypes["Service"] | undefined,
+	service?: Array<GraphQLTypes["Service"] | undefined> | undefined,
 	error?: GraphQLTypes["GlobalError"] | undefined
 };
 	["RemoveServiceRespond"]: {

@@ -18,7 +18,7 @@ export const respondOnServiceRequest = async (input: FieldResolveInput) =>
             throw new GlobalError(`cannot find book with id: ${args.input.bookId}`, import.meta.url);
           }
           await o('Services')
-            .collection.findOne({ _id: b.service, ownerId: src.userId })
+            .collection.findOne({ _id: b.service, ownerId: src.userId || src._id})
             .then((r) => {
               if (!r) {
                 throw new GlobalError('you can answer only on yours services', import.meta.url);
