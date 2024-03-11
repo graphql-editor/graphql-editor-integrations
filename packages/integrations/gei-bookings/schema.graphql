@@ -55,14 +55,12 @@ type UserMutation{
 	): RegisterServiceRespond
 	updateService(
 		input: [UpdateServiceInput!]!
-		serviceId: String!
 	): UpdateServiceRespond!
 	removeService(
 		serviceId: String!
 	): RemoveServiceRespond!
 	bookService(
 		input: BookServiceInput!
-		serviceId: String!
 	): BookServiceRespond!
 	respondOnServiceRequest(
 		input: RespondOnServiceRequestInput!
@@ -87,7 +85,7 @@ type GetBookingsForServiceRespond{
 }
 
 input RespondOnServiceRequestInput{
-	bookId: String!
+	bookIds: [String!]!
 	"""
 	answer field cannot be PENDING, otherwise it will throw error
 	"""
@@ -167,21 +165,22 @@ input RegisterServiceInput{
 }
 
 type RegisterServiceRespond{
-	service: [Service]
+	service: [Service!]
 	error: GlobalError
 }
 
 input UpdateServiceInput{
+	serviceId: String!
 	name: String
 	description: String
 	startDate: Date
-	time: Int!
+	time: Int
 	active: Boolean
 	neededAccept: Boolean
 }
 
 type UpdateServiceRespond{
-	service: [Service]
+	service: [Service!]
 	error: GlobalError
 }
 
@@ -191,12 +190,12 @@ type RemoveServiceRespond{
 }
 
 input BookServiceInput{
-	serviceId: String!
+	serviceIds: [String!]!
 	comments: String
 }
 
 type BookServiceRespond{
-	book: BookingRecord
+	books: [BookingRecord!]
 	error: GlobalError
 }
 
@@ -207,7 +206,7 @@ type UserServiceRespond{
 
 type Service implements dbEssentials{
 	name: String!
-	description: String!
+	description: String
 	ownerId: String!
 	"""
 	this field capture time, system does not recognize units, so be consent with your behavior

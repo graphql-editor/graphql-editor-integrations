@@ -21,7 +21,6 @@ export const orm = async () => {
     async (db) => {
       return Promise.all([
         db.createIndex('Services', { ownerId: 1 }),
-        db.createIndex('Services', { description: 'text' }),
       ]);
     },
   );
@@ -49,7 +48,7 @@ export const mustFindAny = async (
       .collection.find(filter ? filter : {}, options ? options : {})
       .toArray()
       .catch(() => {
-        throw new GlobalError('mustFindOne returns null', import.meta.url);
+        throw new GlobalError('mustFindAny returns null', import.meta.url);
       }),
   );
 };

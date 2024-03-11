@@ -864,9 +864,9 @@ getService?: [{	serviceId: string | Variable<any, string>},ValueTypes["GetServic
 }>;
 	["UserMutation"]: AliasType<{
 registerService?: [{	input: ValueTypes["RegisterServiceInput"] | Variable<any, string>},ValueTypes["RegisterServiceRespond"]],
-updateService?: [{	input: Array<ValueTypes["UpdateServiceInput"]> | Variable<any, string>,	serviceId: string | Variable<any, string>},ValueTypes["UpdateServiceRespond"]],
+updateService?: [{	input: Array<ValueTypes["UpdateServiceInput"]> | Variable<any, string>},ValueTypes["UpdateServiceRespond"]],
 removeService?: [{	serviceId: string | Variable<any, string>},ValueTypes["RemoveServiceRespond"]],
-bookService?: [{	input: ValueTypes["BookServiceInput"] | Variable<any, string>,	serviceId: string | Variable<any, string>},ValueTypes["BookServiceRespond"]],
+bookService?: [{	input: ValueTypes["BookServiceInput"] | Variable<any, string>},ValueTypes["BookServiceRespond"]],
 respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] | Variable<any, string>},ValueTypes["RespondOnServiceRequestRespond"]],
 		__typename?: boolean | `@${string}`
 }>;
@@ -886,7 +886,7 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 		__typename?: boolean | `@${string}`
 }>;
 	["RespondOnServiceRequestInput"]: {
-	bookId: string | Variable<any, string>,
+	bookIds: Array<string> | Variable<any, string>,
 	/** answer field cannot be PENDING, otherwise it will throw error */
 	answer: ValueTypes["BookStatus"] | Variable<any, string>
 };
@@ -957,10 +957,11 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 		__typename?: boolean | `@${string}`
 }>;
 	["UpdateServiceInput"]: {
+	serviceId: string | Variable<any, string>,
 	name?: string | undefined | null | Variable<any, string>,
 	description?: string | undefined | null | Variable<any, string>,
 	startDate?: ValueTypes["Date"] | undefined | null | Variable<any, string>,
-	time: number | Variable<any, string>,
+	time?: number | undefined | null | Variable<any, string>,
 	active?: boolean | undefined | null | Variable<any, string>,
 	neededAccept?: boolean | undefined | null | Variable<any, string>
 };
@@ -975,11 +976,11 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 		__typename?: boolean | `@${string}`
 }>;
 	["BookServiceInput"]: {
-	serviceId: string | Variable<any, string>,
+	serviceIds: Array<string> | Variable<any, string>,
 	comments?: string | undefined | null | Variable<any, string>
 };
 	["BookServiceRespond"]: AliasType<{
-	book?:ValueTypes["BookingRecord"],
+	books?:ValueTypes["BookingRecord"],
 	error?:ValueTypes["GlobalError"],
 		__typename?: boolean | `@${string}`
 }>;
@@ -1078,9 +1079,9 @@ getService?: [{	serviceId: string},ResolverInputTypes["GetServiceRespond"]],
 }>;
 	["UserMutation"]: AliasType<{
 registerService?: [{	input: ResolverInputTypes["RegisterServiceInput"]},ResolverInputTypes["RegisterServiceRespond"]],
-updateService?: [{	input: Array<ResolverInputTypes["UpdateServiceInput"]>,	serviceId: string},ResolverInputTypes["UpdateServiceRespond"]],
+updateService?: [{	input: Array<ResolverInputTypes["UpdateServiceInput"]>},ResolverInputTypes["UpdateServiceRespond"]],
 removeService?: [{	serviceId: string},ResolverInputTypes["RemoveServiceRespond"]],
-bookService?: [{	input: ResolverInputTypes["BookServiceInput"],	serviceId: string},ResolverInputTypes["BookServiceRespond"]],
+bookService?: [{	input: ResolverInputTypes["BookServiceInput"]},ResolverInputTypes["BookServiceRespond"]],
 respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestInput"]},ResolverInputTypes["RespondOnServiceRequestRespond"]],
 		__typename?: boolean | `@${string}`
 }>;
@@ -1100,7 +1101,7 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 		__typename?: boolean | `@${string}`
 }>;
 	["RespondOnServiceRequestInput"]: {
-	bookId: string,
+	bookIds: Array<string>,
 	/** answer field cannot be PENDING, otherwise it will throw error */
 	answer: ResolverInputTypes["BookStatus"]
 };
@@ -1171,10 +1172,11 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 		__typename?: boolean | `@${string}`
 }>;
 	["UpdateServiceInput"]: {
+	serviceId: string,
 	name?: string | undefined | null,
 	description?: string | undefined | null,
 	startDate?: ResolverInputTypes["Date"] | undefined | null,
-	time: number,
+	time?: number | undefined | null,
 	active?: boolean | undefined | null,
 	neededAccept?: boolean | undefined | null
 };
@@ -1189,11 +1191,11 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 		__typename?: boolean | `@${string}`
 }>;
 	["BookServiceInput"]: {
-	serviceId: string,
+	serviceIds: Array<string>,
 	comments?: string | undefined | null
 };
 	["BookServiceRespond"]: AliasType<{
-	book?:ResolverInputTypes["BookingRecord"],
+	books?:ResolverInputTypes["BookingRecord"],
 	error?:ResolverInputTypes["GlobalError"],
 		__typename?: boolean | `@${string}`
 }>;
@@ -1316,7 +1318,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	error?: ModelTypes["GlobalError"] | undefined
 };
 	["RespondOnServiceRequestInput"]: {
-	bookId: string,
+	bookIds: Array<string>,
 	/** answer field cannot be PENDING, otherwise it will throw error */
 	answer: ModelTypes["BookStatus"]
 };
@@ -1377,19 +1379,20 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	active?: boolean | undefined
 };
 	["RegisterServiceRespond"]: {
-		service?: Array<ModelTypes["Service"] | undefined> | undefined,
+		service?: Array<ModelTypes["Service"]> | undefined,
 	error?: ModelTypes["GlobalError"] | undefined
 };
 	["UpdateServiceInput"]: {
+	serviceId: string,
 	name?: string | undefined,
 	description?: string | undefined,
 	startDate?: ModelTypes["Date"] | undefined,
-	time: number,
+	time?: number | undefined,
 	active?: boolean | undefined,
 	neededAccept?: boolean | undefined
 };
 	["UpdateServiceRespond"]: {
-		service?: Array<ModelTypes["Service"] | undefined> | undefined,
+		service?: Array<ModelTypes["Service"]> | undefined,
 	error?: ModelTypes["GlobalError"] | undefined
 };
 	["RemoveServiceRespond"]: {
@@ -1397,11 +1400,11 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	error?: ModelTypes["GlobalError"] | undefined
 };
 	["BookServiceInput"]: {
-	serviceId: string,
+	serviceIds: Array<string>,
 	comments?: string | undefined
 };
 	["BookServiceRespond"]: {
-		book?: ModelTypes["BookingRecord"] | undefined,
+		books?: Array<ModelTypes["BookingRecord"]> | undefined,
 	error?: ModelTypes["GlobalError"] | undefined
 };
 	["UserServiceRespond"]: {
@@ -1410,7 +1413,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["Service"]: {
 		name: string,
-	description: string,
+	description?: string | undefined,
 	ownerId: string,
 	/** this field capture time, system does not recognize units, so be consent with your behavior */
 	time?: number | undefined,
@@ -1518,7 +1521,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	error?: GraphQLTypes["GlobalError"] | undefined
 };
 	["RespondOnServiceRequestInput"]: {
-		bookId: string,
+		bookIds: Array<string>,
 	/** answer field cannot be PENDING, otherwise it will throw error */
 	answer: GraphQLTypes["BookStatus"]
 };
@@ -1585,20 +1588,21 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["RegisterServiceRespond"]: {
 	__typename: "RegisterServiceRespond",
-	service?: Array<GraphQLTypes["Service"] | undefined> | undefined,
+	service?: Array<GraphQLTypes["Service"]> | undefined,
 	error?: GraphQLTypes["GlobalError"] | undefined
 };
 	["UpdateServiceInput"]: {
-		name?: string | undefined,
+		serviceId: string,
+	name?: string | undefined,
 	description?: string | undefined,
 	startDate?: GraphQLTypes["Date"] | undefined,
-	time: number,
+	time?: number | undefined,
 	active?: boolean | undefined,
 	neededAccept?: boolean | undefined
 };
 	["UpdateServiceRespond"]: {
 	__typename: "UpdateServiceRespond",
-	service?: Array<GraphQLTypes["Service"] | undefined> | undefined,
+	service?: Array<GraphQLTypes["Service"]> | undefined,
 	error?: GraphQLTypes["GlobalError"] | undefined
 };
 	["RemoveServiceRespond"]: {
@@ -1607,12 +1611,12 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	error?: GraphQLTypes["GlobalError"] | undefined
 };
 	["BookServiceInput"]: {
-		serviceId: string,
+		serviceIds: Array<string>,
 	comments?: string | undefined
 };
 	["BookServiceRespond"]: {
 	__typename: "BookServiceRespond",
-	book?: GraphQLTypes["BookingRecord"] | undefined,
+	books?: Array<GraphQLTypes["BookingRecord"]> | undefined,
 	error?: GraphQLTypes["GlobalError"] | undefined
 };
 	["UserServiceRespond"]: {
@@ -1623,7 +1627,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	["Service"]: {
 	__typename: "Service",
 	name: string,
-	description: string,
+	description?: string | undefined,
 	ownerId: string,
 	/** this field capture time, system does not recognize units, so be consent with your behavior */
 	time?: number | undefined,

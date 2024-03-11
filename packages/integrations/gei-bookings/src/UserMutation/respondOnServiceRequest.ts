@@ -12,23 +12,23 @@ export const respondOnServiceRequest = async (input: FieldResolveInput) =>
       }
       const o = await orm();
       await o('Bookings')
-        .collection.findOne({ _id: args.input.bookId, answeredAt: { $exists: false } })
+        .collection.find({ _id: { $in: args.input.bookIds }, answeredAt: { $exists: false } }).toArray()
         .then(async (b) => {
-          if (!b) {
-            throw new GlobalError(`cannot find book with id: ${args.input.bookId}`, import.meta.url);
+          if (!b || b.length < 1) {
+            throw new GlobalError(`cannot find anyone books for id: ${ args.input.bookIds }`, import.meta.url);
           }
           await o('Services')
-            .collection.findOne({ _id: b.service, ownerId: src.userId || src._id})
+            .collection.findOne({ _id: {$in: b.map((b) => b.service)}, ownerId: src.userId || src._id})
             .then((r) => {
-              if (!r) {
+              if (!r || b.length < 1) {
                 throw new GlobalError('you can answer only on yours services', import.meta.url);
               }
             });
         });
       return await orm().then((o) =>
         o('Bookings')
-          .collection.updateOne(
-            { _id: args.input.bookId },
+          .collection.updateMany(
+            { _id: { $in: args.input.bookIds} },
             { $set: { answeredAt: new Date(), status: args.input.answer } },
           )
           .then((r) => ({ status: r.modifiedCount !== 0 })),

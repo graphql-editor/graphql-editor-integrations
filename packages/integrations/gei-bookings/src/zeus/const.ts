@@ -153,7 +153,7 @@ export const ReturnTypes: Record<string,any> = {
 		error:"GlobalError"
 	},
 	BookServiceRespond:{
-		book:"BookingRecord",
+		books:"BookingRecord",
 		error:"GlobalError"
 	},
 	UserServiceRespond:{

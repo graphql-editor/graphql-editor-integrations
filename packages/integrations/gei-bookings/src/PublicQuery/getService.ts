@@ -1,6 +1,6 @@
 import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
-import { GlobalError, errMiddleware } from '../utils/middleware.js';
+import { GlobalError, convertDatedObjToString, errMiddleware } from '../utils/middleware.js';
 import { orm } from '../utils/db/orm.js';
 
 export const getService = async (input: FieldResolveInput) =>
@@ -8,7 +8,7 @@ export const getService = async (input: FieldResolveInput) =>
     errMiddleware(async () => {
       return await orm()
         .then(async (o) => ({
-          service: await o('Services').collection.findOne({ _id: args.serviceId, active: { $ne: false } }),
+          service: convertDatedObjToString(await o('Services').collection.findOne({ _id: args.serviceId, active: { $ne: false } })),
         }))
         .catch((r) => {
           throw new GlobalError(r, import.meta.url);

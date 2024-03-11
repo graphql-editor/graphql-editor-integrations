@@ -33,3 +33,12 @@ export const sourceContainUserIdOrThrow = (source: any) => {
 export type SourceWithUserId = {
   userId: string;
 };
+
+type ConvertDates = { createdAt?: Date; startDate?: Date, updatedAt?: Date }
+export const convertDateObjToStringForArray = <T extends ConvertDates>(arr: T[]) => arr.map((obj) => convertDatedObjToString<T>(obj));
+export const convertDatedObjToString = <T extends ConvertDates>(obj: T | null) => ({
+  ...obj,
+  createdAt: obj?.createdAt?.toISOString() || null,
+  updatedAt: obj?.updatedAt?.toISOString() || null,
+  startDate: obj?.startDate?.toISOString() || null,
+});

@@ -7,6 +7,7 @@
     "start": "gecli dev",
     "build": "tsc",
     "watch": "tsc --watch",
+    "lint:fix": "npm run lint -ws --if-present -- --fix",
     "update": "gecli codegen models && gecli schema pull && gecli codegen typings",
     "integrate": "gecli gei integrate",
     "publish": "gecli gei publish",
@@ -24,6 +25,10 @@
     "i-graphql": "^0.1.2",
     "mongodb": "^5.1.0",
     "node-fetch": "^3.3.0",
-    "stucco-js": "^0.10.18"
+    "stucco-js": "^0.10.18",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.10"
   }
 }
