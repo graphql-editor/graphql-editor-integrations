@@ -4,6 +4,7 @@ import webhookHandler from './Mutation/webhook.js';
 import createCustomerPortalHandler from './Mutation/createCustomerPortal.js';
 import createCheckoutSessionHandler from './Mutation/createCheckoutSession.js';
 import createNewUserCheckoutSessionHandler from './Mutation/createNewUserCheckoutSession.js';
+import createPayoutForConnectedAccountHandler from './Mutation/createPayoutForConnectedAccount.js';
 import productsHandler from './Query/products.js';
 import productDefaultPriceHandler from './Product/default_price.js';
 import productPricesHandler from './Product/prices.js';
@@ -75,6 +76,11 @@ export const integration = NewIntegration({
       name: 'createNewUserCheckoutSession',
       description: 'Creates payment session for user that is not yet registered',
       handler: createNewUserCheckoutSessionHandler,
+    },
+    createPayoutForConnectedAccount: {
+      name: 'createPayoutForConnectedAccount',
+      description: 'Creates payout for one payment to connection account',
+      handler: createPayoutForConnectedAccountHandler,
     },
     setDefaultPaymentMethod: {
       name: 'setDefaultPaymentMethod',

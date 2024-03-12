@@ -1,21 +1,21 @@
-import Stripe from 'stripe';
+import { newStripe } from "../utils/stripeInit.js";
 import { resolverFor } from '../zeus/index.js';
 import { FieldResolveInput } from 'stucco-js';
 
-const stripe = new Stripe('YOUR_STRIPE_SECRET_KEY', {
-  apiVersion: '2020-08-27',
-});
+
 
 export const createPayoutForConnectedAccount = async (input: FieldResolveInput) =>
   resolverFor(
     'Mutation',
     'createPayoutForConnectedAccount',
-    async ({ payload: { accountId, amount, currency} }) => {
+    async ({ payload: { accountId, amount, currency } }) => {
         try {
-        const payout = await stripe.payouts.create({
+        const stripe_account = process.env.STRIPE_ACCOUNT_ID || accountId
+        if (!stripe_account) throw new Error('missing accountId');
+        const payout = await newStripe().payouts.create({
             amount,
             currency,
-            stripe_account: accountId,
+            destination: stripe_account,
           });
     
           if (payout) {
@@ -26,7 +26,8 @@ export const createPayoutForConnectedAccount = async (input: FieldResolveInput) 
         } catch (error) {
             throw new Error('Error creating payout:' + JSON.stringify(error));
         }
-
     })(input.arguments, input.source)
+
+export default createPayoutForConnectedAccount;
 
 

@@ -63,6 +63,13 @@
                 "name": "Mutation.createConnectAccount.handler"
             }
         },
+        "Mutation.createPayoutForConnectedAccount": {
+            "name": "createPayoutForConnectedAccount",
+            "description": "Creates payout for one payment to connection account",
+            "resolve": {
+                "name": "Mutation.createPayoutForConnectedAccount.handler"
+            }
+        },
         "Product.default_price": {
             "name": "default_price",
             "description": "Resolver for querying default price object",
