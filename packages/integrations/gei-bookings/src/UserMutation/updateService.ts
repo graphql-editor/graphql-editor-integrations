@@ -9,20 +9,34 @@ export const updateService = async (input: FieldResolveInput) =>
     errMiddleware(
       async () => (
         sourceContainUserIdOrThrow(src),
-        Promise.all(args.input.map(async (updateSet) => 
-        await orm().then((o) =>
+        Promise.all(args.input.map(async (updateSet) => {
+          const entries = Object.entries(updateSet || {});
+const reconstructedObject: Record<string, any> = {};
+
+const entriesWithOutId = entries.filter(([key, value]) => key !== 'serviceId' && value !== undefined && value !== null);
+if (!entriesWithOutId) {
+  throw new Error(`You need update input argument for this resolver to work`);
+}
+
+entriesWithOutId.forEach((entry) => {
+  const [key, value] = entry;
+  reconstructedObject[key] = value;
+});
+       return await orm().then((o) =>
           o('Services')
             .collection.updateOne(
-              { _id: updateSet.serviceId, ownerId: src.userId || src._id, taken: { $ne: true }, active: { $ne: true } },
-              {$set:
+              { _id: updateSet.serviceId, ownerId: src.userId || src._id, taken: { $ne: true } },
+              { $set:
                 {
-                ...Object.fromEntries(Object.entries({...updateSet, startDate: updateSet.startDate?  new Date(updateSet.startDate as string) : undefined }).filter((e) => e !== null)),       
-                updatedAt: new Date,
-              }},
+                  ...reconstructedObject,
+                  startDate: updateSet.startDate ? new Date(updateSet.startDate as string) : undefined,
+                  updatedAt: new Date(),
+                },
+              },
             )
-
-        )
-      )).then(async (u) => u && { service: convertDateObjToStringForArray(await mustFindAny(ServicesCollection, { _id: { $in: args.input.map((up)=>up.serviceId) } })) })
+          )
+        }
+      )).then(async (u) => u && { service: convertDateObjToStringForArray(await mustFindAny(ServicesCollection, { _id: { $in: args.input.map((up)=> up.serviceId) }})) })
       ),
     ),
  

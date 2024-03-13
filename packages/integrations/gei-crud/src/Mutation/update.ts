@@ -31,7 +31,6 @@ export const update = async (input: FieldResolveInput & Partial<DataInput>) =>
       typeof entriesWithOutId[0][1] === 'object' && !Array.isArray(entriesWithOutId[0][1])
         ? entriesWithOutId[0][1]
         : reconstructedObject;
-    console.log(setter);
     const filterInput: Record<string, any> = { _id, ...prepareSourceParameters(input) };
     const res = await db(input.data?.model || prepareModel(input)).collection.updateOne(filterInput, {
       $set: { ...setter,  ...(input.data?.addFields && createObjectFromAddFields(input.data.addFields)), updatedAt: new Date().toISOString() },

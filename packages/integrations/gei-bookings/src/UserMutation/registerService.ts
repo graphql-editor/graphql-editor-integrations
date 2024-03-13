@@ -15,6 +15,7 @@ resolverFor('UserMutation', 'registerService', async (args, src) =>
       throw new GlobalError('start date cannot start in past', import.meta.url);
     }
       return {
+        ...args.input,
         _id: new ObjectId().toHexString(),
         createdAt: new Date(),
         startDate: new Date(String(startDate)),
