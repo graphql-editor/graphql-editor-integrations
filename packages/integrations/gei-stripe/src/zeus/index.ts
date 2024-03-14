@@ -861,7 +861,9 @@ createPayoutForConnectedAccount?: [{	payload: ValueTypes["createPayoutForConnect
 	amount: number | Variable<any, string>,
 	currency: string | Variable<any, string>,
 	successUrl: string | Variable<any, string>,
-	cancelUrl: string | Variable<any, string>
+	cancelUrl: string | Variable<any, string>,
+	/** Default payment use type 'card' and 'blik' */
+	payment_types?: Array<string> | undefined | null | Variable<any, string>
 };
 	["createPayoutForConnectedAccountInput"]: {
 	/** If accountId is not specified, the default connected account is used. */
@@ -1297,7 +1299,9 @@ createPayoutForConnectedAccount?: [{	payload: ResolverInputTypes["createPayoutFo
 	amount: number,
 	currency: string,
 	successUrl: string,
-	cancelUrl: string
+	cancelUrl: string,
+	/** Default payment use type 'card' and 'blik' */
+	payment_types?: Array<string> | undefined | null
 };
 	["createPayoutForConnectedAccountInput"]: {
 	/** If accountId is not specified, the default connected account is used. */
@@ -1744,7 +1748,9 @@ export type ModelTypes = {
 	amount: number,
 	currency: string,
 	successUrl: string,
-	cancelUrl: string
+	cancelUrl: string,
+	/** Default payment use type 'card' and 'blik' */
+	payment_types?: Array<string> | undefined
 };
 	["createPayoutForConnectedAccountInput"]: {
 	/** If accountId is not specified, the default connected account is used. */
@@ -2170,7 +2176,9 @@ export type GraphQLTypes = {
 		amount: number,
 	currency: string,
 	successUrl: string,
-	cancelUrl: string
+	cancelUrl: string,
+	/** Default payment use type 'card' and 'blik' */
+	payment_types?: Array<string> | undefined
 };
 	["createPayoutForConnectedAccountInput"]: {
 		/** If accountId is not specified, the default connected account is used. */

@@ -8,7 +8,7 @@ export const createPaymentSession = async (input: FieldResolveInput) =>
     cancelUrl, amount, currency } }) => {
     try {
       const session = await newStripe().checkout.sessions.create({
-        payment_method_types: ['card'],
+        payment_method_types: ['card', 'blik'],
         line_items: [
           {
             price_data: {

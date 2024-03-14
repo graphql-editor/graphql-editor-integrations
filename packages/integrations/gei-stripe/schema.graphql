@@ -79,6 +79,10 @@ input CreatePaymentSessionInput{
 	currency: String!
 	successUrl: String!
 	cancelUrl: String!
+	"""
+	Default payment use type 'card' and 'blik'
+	"""
+	payment_types: [String!]
 }
 
 input createPayoutForConnectedAccountInput{
