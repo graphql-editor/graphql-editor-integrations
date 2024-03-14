@@ -844,6 +844,7 @@ customer?: [{	customerId: string | Variable<any, string>},ValueTypes["Customer"]
 		__typename?: boolean | `@${string}`
 }>;
 	["Mutation"]: AliasType<{
+createPaymentSession?: [{	payload: ValueTypes["CreatePaymentSessionInput"] | Variable<any, string>},boolean | `@${string}`],
 initStripeCustomer?: [{	initStripeCustomerInput: ValueTypes["InitStripeCustomerInput"] | Variable<any, string>},boolean | `@${string}`],
 createCheckoutSession?: [{	payload: ValueTypes["CreateCheckoutSessionInput"] | Variable<any, string>},boolean | `@${string}`],
 createNewUserCheckoutSession?: [{	payload: ValueTypes["CreateNewUserCheckoutSessionInput"] | Variable<any, string>},boolean | `@${string}`],
@@ -856,8 +857,15 @@ createPayoutForConnectedAccount?: [{	payload: ValueTypes["createPayoutForConnect
 	webhook?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	["CreatePaymentSessionInput"]: {
+	amount: number | Variable<any, string>,
+	currency: string | Variable<any, string>,
+	successUrl: string | Variable<any, string>,
+	cancelUrl: string | Variable<any, string>
+};
 	["createPayoutForConnectedAccountInput"]: {
-	accountId: string | Variable<any, string>,
+	/** If accountId is not specified, the default connected account is used. */
+	accountId?: string | undefined | null | Variable<any, string>,
 	amount: number | Variable<any, string>,
 	currency: string | Variable<any, string>
 };
@@ -1272,6 +1280,7 @@ customer?: [{	customerId: string},ResolverInputTypes["Customer"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["Mutation"]: AliasType<{
+createPaymentSession?: [{	payload: ResolverInputTypes["CreatePaymentSessionInput"]},boolean | `@${string}`],
 initStripeCustomer?: [{	initStripeCustomerInput: ResolverInputTypes["InitStripeCustomerInput"]},boolean | `@${string}`],
 createCheckoutSession?: [{	payload: ResolverInputTypes["CreateCheckoutSessionInput"]},boolean | `@${string}`],
 createNewUserCheckoutSession?: [{	payload: ResolverInputTypes["CreateNewUserCheckoutSessionInput"]},boolean | `@${string}`],
@@ -1284,8 +1293,15 @@ createPayoutForConnectedAccount?: [{	payload: ResolverInputTypes["createPayoutFo
 	webhook?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	["CreatePaymentSessionInput"]: {
+	amount: number,
+	currency: string,
+	successUrl: string,
+	cancelUrl: string
+};
 	["createPayoutForConnectedAccountInput"]: {
-	accountId: string,
+	/** If accountId is not specified, the default connected account is used. */
+	accountId?: string | undefined | null,
 	amount: number,
 	currency: string
 };
@@ -1687,6 +1703,11 @@ createPayoutForConnectedAccount?: [{	payload: ResolverInputTypes["createPayoutFo
 	startingAfter?:boolean | `@${string}`,
 	endingBefore?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
+}>;
+	["schema"]: AliasType<{
+	mutation?:ResolverInputTypes["Mutation"],
+	query?:ResolverInputTypes["Query"],
+		__typename?: boolean | `@${string}`
 }>
   }
 
@@ -1699,7 +1720,9 @@ export type ModelTypes = {
 	customer?: ModelTypes["Customer"] | undefined
 };
 	["Mutation"]: {
-		/** Creates stripe customer for further purchases, links with user "email" field in UserCollection */
+		/** create session for simply payment */
+	createPaymentSession: string,
+	/** Creates stripe customer for further purchases, links with user "email" field in UserCollection */
 	initStripeCustomer: boolean,
 	/** Creates checkout for existing user (returns checkout url) */
 	createCheckoutSession: string,
@@ -1712,12 +1735,20 @@ export type ModelTypes = {
 	/** Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements */
 	attachPaymentMethod: boolean,
 	setDefaultPaymentMethod: boolean,
+	/** Payment from stripe account to connected bank account */
 	createPayoutForConnectedAccount: boolean,
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
 };
+	["CreatePaymentSessionInput"]: {
+	amount: number,
+	currency: string,
+	successUrl: string,
+	cancelUrl: string
+};
 	["createPayoutForConnectedAccountInput"]: {
-	accountId: string,
+	/** If accountId is not specified, the default connected account is used. */
+	accountId?: string | undefined,
 	amount: number,
 	currency: string
 };
@@ -2097,6 +2128,10 @@ export type ModelTypes = {
 		products?: Array<ModelTypes["Product"]> | undefined,
 	startingAfter?: string | undefined,
 	endingBefore?: string | undefined
+};
+	["schema"]: {
+	mutation?: ModelTypes["Mutation"] | undefined,
+	query?: ModelTypes["Query"] | undefined
 }
     }
 
@@ -2111,6 +2146,8 @@ export type GraphQLTypes = {
 };
 	["Mutation"]: {
 	__typename: "Mutation",
+	/** create session for simply payment */
+	createPaymentSession: string,
 	/** Creates stripe customer for further purchases, links with user "email" field in UserCollection */
 	initStripeCustomer: boolean,
 	/** Creates checkout for existing user (returns checkout url) */
@@ -2124,12 +2161,20 @@ export type GraphQLTypes = {
 	/** Gather payment method id using Stripe.js or a pre-built solution like Stripe Elements */
 	attachPaymentMethod: boolean,
 	setDefaultPaymentMethod: boolean,
+	/** Payment from stripe account to connected bank account */
 	createPayoutForConnectedAccount: boolean,
 	/** entry point for Weebhooks. */
 	webhook?: string | undefined
 };
+	["CreatePaymentSessionInput"]: {
+		amount: number,
+	currency: string,
+	successUrl: string,
+	cancelUrl: string
+};
 	["createPayoutForConnectedAccountInput"]: {
-		accountId: string,
+		/** If accountId is not specified, the default connected account is used. */
+	accountId?: string | undefined,
 	amount: number,
 	currency: string
 };
@@ -2655,6 +2700,7 @@ export const enum Type {
 }
 
 type ZEUS_VARIABLES = {
+	["CreatePaymentSessionInput"]: ValueTypes["CreatePaymentSessionInput"];
 	["createPayoutForConnectedAccountInput"]: ValueTypes["createPayoutForConnectedAccountInput"];
 	["PaymentIntentStatus"]: ValueTypes["PaymentIntentStatus"];
 	["InvoiceStatus"]: ValueTypes["InvoiceStatus"];

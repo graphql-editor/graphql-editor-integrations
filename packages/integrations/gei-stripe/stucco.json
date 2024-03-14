@@ -118,6 +118,13 @@
             "resolve": {
                 "name": "Customer.paymentMethods.handler"
             }
+        },
+        "Mutation.createPaymentSession": {
+            "name": "createPaymentSession",
+            "description": "Resolver to create a simply payment",
+            "resolve": {
+                "name": "Mutation.createPaymentSession.handler"
+            }
         }
     },
     "azureOpts": {

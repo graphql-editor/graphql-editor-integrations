@@ -2,6 +2,7 @@ import { NewIntegration } from 'graphql-editor-cli';
 import initStripeCustomerHandler from './Mutation/initStripeCustomer.js';
 import webhookHandler from './Mutation/webhook.js';
 import createCustomerPortalHandler from './Mutation/createCustomerPortal.js';
+import createPaymentSessionHandler from './Mutation/createPaymentSession.js';
 import createCheckoutSessionHandler from './Mutation/createCheckoutSession.js';
 import createNewUserCheckoutSessionHandler from './Mutation/createNewUserCheckoutSession.js';
 import createPayoutForConnectedAccountHandler from './Mutation/createPayoutForConnectedAccount.js';
@@ -81,6 +82,11 @@ export const integration = NewIntegration({
       name: 'createPayoutForConnectedAccount',
       description: 'Creates payout for one payment to connection account',
       handler: createPayoutForConnectedAccountHandler,
+    },
+    createPaymentSession: {
+      name: 'createPaymentSession',
+      description: 'Resolver to create a simply payment',
+      handler: createPaymentSessionHandler,
     },
     setDefaultPaymentMethod: {
       name: 'setDefaultPaymentMethod',

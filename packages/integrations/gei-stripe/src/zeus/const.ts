@@ -19,6 +19,9 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	Mutation:{
+		createPaymentSession:{
+			payload:"CreatePaymentSessionInput"
+		},
 		initStripeCustomer:{
 			initStripeCustomerInput:"InitStripeCustomerInput"
 		},
@@ -43,6 +46,9 @@ export const AllTypesProps: Record<string,any> = {
 		createPayoutForConnectedAccount:{
 			payload:"createPayoutForConnectedAccountInput"
 		}
+	},
+	CreatePaymentSessionInput:{
+
 	},
 	createPayoutForConnectedAccountInput:{
 
@@ -143,6 +149,7 @@ export const ReturnTypes: Record<string,any> = {
 		customer:"Customer"
 	},
 	Mutation:{
+		createPaymentSession:"String",
 		initStripeCustomer:"Boolean",
 		createCheckoutSession:"String",
 		createNewUserCheckoutSession:"String",
@@ -375,7 +382,6 @@ export const ReturnTypes: Record<string,any> = {
 }
 
 export const Ops = {
-query: "Query" as const,
-	mutation: "Mutation" as const,
-	subscription: "Subscription" as const
+mutation: "Mutation" as const,
+	query: "Query" as const
 }

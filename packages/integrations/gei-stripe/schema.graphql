@@ -1,13 +1,8 @@
-
-
-
-
-
 type Query{
 	products(
 		filter: ProductFilter
 	): ProductsPage
-	subscriptions(  
+	subscriptions(
 		filter: SubscriptionFilter
 	): [Subscription!]
 	paymentIntents(
@@ -18,10 +13,16 @@ type Query{
 	): [Invoice!]
 	customer(
 		customerId: String!
-	):Customer
+	): Customer
 }
 
 type Mutation{
+	"""
+	create session for simply payment
+	"""
+	createPaymentSession(
+		payload: CreatePaymentSessionInput!
+	): String!
 	"""
 	Creates stripe customer for further purchases, links with user "email" field in UserCollection
 	"""
@@ -61,6 +62,9 @@ type Mutation{
 	setDefaultPaymentMethod(
 		payload: setDefaultPaymentMethodInput!
 	): Boolean!
+	"""
+	Payment from stripe account to connected bank account
+	"""
 	createPayoutForConnectedAccount(
 		payload: createPayoutForConnectedAccountInput!
 	): Boolean!
@@ -70,13 +74,23 @@ type Mutation{
 	webhook: String
 }
 
-input createPayoutForConnectedAccountInput {
-	accountId: String!
+input CreatePaymentSessionInput{
+	amount: Int!
+	currency: String!
+	successUrl: String!
+	cancelUrl: String!
+}
+
+input createPayoutForConnectedAccountInput{
+	"""
+	If accountId is not specified, the default connected account is used.
+	"""
+	accountId: String
 	amount: Int!
 	currency: String!
 }
 
-enum PaymentIntentStatus {
+enum PaymentIntentStatus{
 	requires_payment_method
 	requires_confirmation
 	requires_action
@@ -86,7 +100,7 @@ enum PaymentIntentStatus {
 	succeeded
 }
 
-type Invoice {
+type Invoice{
 	id: String!
 	account_country: String!
 	account_name: String!
@@ -123,7 +137,7 @@ type Invoice {
 	total: Int!
 }
 
-enum InvoiceStatus {
+enum InvoiceStatus{
 	draft
 	open
 	paid
@@ -131,7 +145,7 @@ enum InvoiceStatus {
 	void
 }
 
-enum InvoiceCollectionMethod {
+enum InvoiceCollectionMethod{
 	charge_automatically
 	"""
 	Email payment instructions to the customer.
@@ -139,7 +153,7 @@ enum InvoiceCollectionMethod {
 	send_invoice
 }
 
-type PaymentIntent {
+type PaymentIntent{
 	id: String!
 	client_secret: String!
 	"""
@@ -187,7 +201,7 @@ type PaymentIntent {
 	on_behalf_of: String
 }
 
-type PaymentIntentLastPaymentError {
+type PaymentIntentLastPaymentError{
 	type: String!
 	"""
 	For card errors, the ID of the failed charge.
@@ -204,7 +218,7 @@ type PaymentIntentLastPaymentError {
 	payment_method_type: String
 }
 
-enum PaymentIntentSetupFutureUsage {
+enum PaymentIntentSetupFutureUsage{
 	"""
 	Use on_session if you intend to only reuse the payment method when your customer is present in your checkout flow.
 	"""
@@ -215,12 +229,12 @@ enum PaymentIntentSetupFutureUsage {
 	off_session
 }
 
-input InvoiceFilter {
+input InvoiceFilter{
 	customerId: String!
 	status: InvoiceStatus
 }
 
-input PaymentIntentFilter {
+input PaymentIntentFilter{
 	customerId: String!
 	status: PaymentIntentStatus
 }
@@ -230,12 +244,12 @@ input setDefaultPaymentMethodInput{
 	customerId: String!
 }
 
-input AttachPaymentMethodInput {
+input AttachPaymentMethodInput{
 	paymentMethodId: String!
 	customerId: String!
 }
 
-input CreateConnectAccountInput {
+input CreateConnectAccountInput{
 	type: ConnectAccountType!
 	country: String!
 	email: String!
@@ -250,13 +264,13 @@ enum ConnectAccountBusinessType{
 	non_profit
 }
 
-enum ConnectAccountType {
+enum ConnectAccountType{
 	standard
 	express
 	custom
 }
 
-input BankAccountInput {
+input BankAccountInput{
 	country: String!
 	"""
 	Required supported currency for the country https://stripe.com/docs/payouts
@@ -273,12 +287,12 @@ input BankAccountInput {
 	account_holder_type: BankAccountHolderType!
 }
 
-enum BankAccountHolderType {
+enum BankAccountHolderType{
 	individual
 	company
 }
 
-input SubscriptionFilter {
+input SubscriptionFilter{
 	id: String
 	cancel_at_period_end: Boolean
 	current_period_end: TimestampFilter
@@ -290,7 +304,7 @@ input SubscriptionFilter {
 	status: SubStatus
 }
 
-type Subscription {
+type Subscription{
 	id: String!
 	cancel_at_period_end: Boolean!
 	current_period_end: Timestamp!
@@ -312,7 +326,7 @@ enum SubStatus{
 	unpaid
 }
 
-type SubscriptionItems {
+type SubscriptionItems{
 	data: [Item!]!
 	has_more: Boolean!
 	total_count: Int!
@@ -320,7 +334,7 @@ type SubscriptionItems {
 	object: String!
 }
 
-type Item {
+type Item{
 	id: String!
 	created: Timestamp!
 	metadata: AnyObject
@@ -368,7 +382,7 @@ input CreateCheckoutSessionInput{
 	applicationFee: ApplicationFeeInput
 }
 
-input ApplicationFeeInput {
+input ApplicationFeeInput{
 	"""
 	Value from 0-100
 	"""
@@ -426,10 +440,11 @@ type Customer{
 	invoicePrefix: String
 	paymentMethods: [PaymentMethod!]
 }
+
 """
 https://stripe.com/docs/api/payment_methods/object
 """
-type PaymentMethod {
+type PaymentMethod{
 	id: String!
 	billing_details: PaymentBillingDetails!
 	customer: String!
@@ -440,7 +455,7 @@ type PaymentMethod {
 	card: Card
 }
 
-type Card {
+type Card{
 	brand: Card!
 	checks: CardChecks!
 	country: String!
@@ -453,22 +468,22 @@ type Card {
 	three_d_secure_usage: CardThreeDSecureUsage!
 }
 
-type CardThreeDSecureUsage {
+type CardThreeDSecureUsage{
 	supported: Boolean!
 }
 
-type CardNetworks {
+type CardNetworks{
 	preferred: String
-	available : [String!]
+	available: [String!]
 }
 
-type CardChecks {
+type CardChecks{
 	address_line1_check: String!
 	address_postal_code_check: String!
 	cvc_check: String!
 }
 
-enum PaymentMethodType {
+enum PaymentMethodType{
 	acss_debit
 	affirm
 	afterpay_clearpay
@@ -504,7 +519,7 @@ enum PaymentMethodType {
 	zip
 }
 
-type PaymentBillingDetails {
+type PaymentBillingDetails{
 	address: Address
 	email: String!
 	name: String!
@@ -682,7 +697,6 @@ type ProductsPage{
 	startingAfter: ID
 	endingBefore: ID
 }
-
 
 schema{
 	mutation: Mutation

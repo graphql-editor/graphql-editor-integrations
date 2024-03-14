@@ -10,12 +10,11 @@ export const createPayoutForConnectedAccount = async (input: FieldResolveInput) 
     'createPayoutForConnectedAccount',
     async ({ payload: { accountId, amount, currency } }) => {
         try {
-        const stripe_account = process.env.STRIPE_ACCOUNT_ID || accountId
-        if (!stripe_account) throw new Error('missing accountId');
         const payout = await newStripe().payouts.create({
             amount,
             currency,
-            destination: stripe_account,
+            destination: accountId || undefined,
+            source_type: 'bank_account',
           });
     
           if (payout) {
