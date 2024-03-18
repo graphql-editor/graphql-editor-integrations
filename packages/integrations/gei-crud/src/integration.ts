@@ -20,6 +20,11 @@ export type DataInput = {
     sourceParameters?: Array<string>;
     related?: Array<{ model: string; field: string }>;
     addFields?: Array<{ name: string; value: unknown }>;
+    sort?:  { field: string; order?: boolean };
+    paginate?: {
+      limit?: number | null | undefined;
+      cursorId?: string | null | undefined;
+  } | null | undefined;
   };
 };
 

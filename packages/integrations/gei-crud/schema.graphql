@@ -20,6 +20,14 @@ type Query{
 		dateFilter: DateFilterInput
 		sortByField: SortInput
 	): [Object!]
+	paginatedObjects(
+		data: DataInput
+		fieldFilter: FieldFilterInput
+		fieldRegexFilter: FieldFilterInput
+		dateFilter: DateFilterInput
+		sortByField: SortInput
+		paginate: PageOptions
+	): PaginatedObjects!
 	oneById(
 		data: DataInput
 		_id: String!
@@ -107,6 +115,19 @@ input Update{
 	name: String
 	content: String
 	owner: String
+}
+
+input PageOptions{
+	"""
+	default is 10
+	"""
+	limit: Int
+	cursorId: String
+}
+
+type PaginatedObjects{
+	cursorId: String
+	objects: [Object!]
 }
 
 schema{

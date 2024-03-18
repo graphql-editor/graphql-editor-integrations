@@ -2,13 +2,14 @@ import { FieldResolveInput } from 'stucco-js';
 import { prepareModel, prepareSourceParameters } from '../data.js';
 import { DB } from '../db/orm.js';
 import { DataInput } from '../integration.js';
-import { QueryObject, checkStringFields, ifValueIsArray, snakeCaseToCamelCase, convertDateFilter, convertObjectToRegexFormat } from '../utils.js';
+import { ObjectId, Sort, SortDirection } from 'mongodb';
+import { QueryObject, checkStringFields, getPaginationOpts, ifValueIsArray, paginateObjects, preparedSort, skipCursorForSortByField, convertObjectToRegexFormat, convertDateFilter } from '../utils.js';
 
 export const objects = async (input: FieldResolveInput & Partial<DataInput>) => {
-  return DB().then((db) => {
-    const sortArg = input.arguments?.sortByField || input.arguments?.sort;
-    const sort = typeof sortArg === 'object' ? (sortArg as { field: string; order?: boolean }) : undefined;
-    const field = snakeCaseToCamelCase(sort?.field as unknown as string);
+    const paginate = getPaginationOpts(input.arguments?.paginate || input.data?.paginate)
+    const db = await DB()
+    const sortArg = input.arguments?.sortByField || input.arguments?.sort || input.data?.sort;
+   
     const fieldFilter = input.arguments?.fieldFilter;
     const dateFilter = input.arguments?.dateFilter;
     const fieldRegexFilter: any = input.arguments?.fieldRegexFilter
@@ -28,10 +29,16 @@ export const objects = async (input: FieldResolveInput & Partial<DataInput>) => 
       ...convertObjectToRegexFormat(ifValueIsArray(fieldRegexFilter) as QueryObject),
     };
 
-    return db(input.data?.model || prepareModel(input))
-      .collection.find(filterInput)
-      .sort(field ? { [field]: sort?.order === false ? -1 : 1 } : { _id: 1 })
+    const objects = await db(input.data?.model || prepareModel(input))
+      .collection.find(filterInput, 
+        { 
+            sort: preparedSort(sortArg),
+            ...(paginate?.limit && { limit: paginate?.limit }),
+            ...((sortArg as [string, SortDirection])[0] !== '_id' && paginate?.cursorId && { skip: parseInt(paginate?.cursorId) })
+         }
+    )
       .toArray();
-  });
-};
-export default objects;
+
+    return paginateObjects(objects, paginate.limit, 'objects', skipCursorForSortByField(input.data || input.arguments))
+  }
+
