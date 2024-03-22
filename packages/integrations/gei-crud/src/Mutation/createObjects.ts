@@ -22,7 +22,7 @@ export const createObjects = async (input: FieldResolveInput & Partial<DataInput
       }
     }
    
-    const objects = objectsToUpdate?.map(async (object) => {
+    const objects = objectsToUpdate?.map((object) => {
    
     return {
       ...object,
