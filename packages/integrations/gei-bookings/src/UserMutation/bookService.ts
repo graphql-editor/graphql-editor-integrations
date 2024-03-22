@@ -19,11 +19,9 @@ export const bookService = async (input: FieldResolveInput) =>
       if (!service.value) {
         throw new GlobalError(`service is already taken: ${serviceId}`, import.meta.url);
       }
-      console.log(service);
-      
+     
       return service.value 
     }))
-    console.log(services);
     
       const books = await o('Bookings')
         .collection.insertMany(services.map((service) =>(
@@ -39,7 +37,6 @@ export const bookService = async (input: FieldResolveInput) =>
       if (!books) {
         throw new GlobalError('inserted document is null', import.meta.url);
       }
-      console.log(books);
       return { books: await o('Bookings').composeRelated(books, 'service', 'Services', '_id') };
     }),
   )(input.arguments, input.source);

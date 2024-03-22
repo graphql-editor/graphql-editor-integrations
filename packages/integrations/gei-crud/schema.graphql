@@ -42,13 +42,25 @@ type Query{
 
 type Mutation{
 	create(
-		data: DataInput
-		object: Update!
+		object: CreateInput!
 	): String
 	update(
-		data: DataInput
 		_id: String
 		object: Update!
+	): Boolean
+	createObjects(
+		"""
+		Provide the collection name if you haven't defined it in code.
+		"""
+		collectionName: String
+		objects: [CreateInput!]!
+	): String
+	updateObjects(
+		"""
+		Provide the collection name if you haven't defined it in code.
+		"""
+		collectionName: String
+		objects: [UpdateInput!]!
 	): Boolean
 	delete(
 		data: DataInput
@@ -71,12 +83,6 @@ input AddFieldsInput{
 input ReladedInput{
 	model: String!
 	field: String
-}
-
-input Create{
-	name: String!
-	content: String
-	owner: String
 }
 
 input FieldFilterInput{
@@ -112,6 +118,19 @@ enum SortField{
 }
 
 input Update{
+	name: String
+	content: String
+	owner: String
+}
+
+input UpdateInput{
+	_id: String
+	name: String
+	content: String
+	owner: String
+}
+
+input CreateInput{
 	name: String
 	content: String
 	owner: String

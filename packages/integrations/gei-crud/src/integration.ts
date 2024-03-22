@@ -67,6 +67,17 @@ const integration: IntegrationSpecification = {
       name: 'lib/Query/objects',
     },
   },
+  'Query.paginatedObjects': {
+    name: 'List paginatedObjects',
+    description: 'List objects stored in database',
+    data: {
+      model,
+      sourceFilterParameters,
+    },
+    resolve: {
+      name: 'lib/Query/paginatedObjects',
+    },
+  },
   'Query.oneById': {
     name: 'Get object by _id',
     description: 'Get object by _id value',
@@ -105,6 +116,35 @@ const integration: IntegrationSpecification = {
     },
     resolve: {
       name: 'lib/Mutation/update',
+    },
+  },
+  'Mutation.createObjects': {
+    name: 'Create objectObjects',
+    description:
+      'Create objects from GraphQL Input. Connect this integration to field with one input param which holds creation data.',
+    data: {
+      model,
+      sourceParameters: {
+        name: 'Get parameters from source',
+        description:
+          'Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys',
+        value: [],
+      },
+    },
+    resolve: {
+      name: 'lib/Mutation/createObjects',
+    },
+  },
+  'Mutation.updateObjects': {
+    name: 'Update objectObjects',
+    description:
+      'Update objects stored in database. This resolver requires "_id" parameter on field and one "input" type parameter with optional fields',
+    data: {
+      model,
+      sourceFilterParameters,
+    },
+    resolve: {
+      name: 'lib/Mutation/updateObjects',
     },
   },
   'Mutation.delete': {

@@ -1,6 +1,6 @@
 {
   "name": "gei-crud",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "GraphQL Editor integration for stucco. Allows basic crud operations and relations.",
   "main": "lib/index.js",
   "private": false,
@@ -9,7 +9,7 @@
     "build": "tsc",
     "lint:fix": "npm run lint -ws --if-present -- --fix",
     "watch": "tsc --watch",
-    "update": "gecli schema pull && gecli typings",
+    "update": "gecli schema pull && gecli codegen typings",
     "temp-db": "docker run -p 27017:27017 --rm mongo",
     "integrate": "gecli gei integrate",
     "publish": "gecli gei publish"
@@ -45,6 +45,6 @@
     "mongodb": "^5.1.0",
     "node-fetch": "^2.6.0",
     "stucco-js": "^0.9.16",
-    "ws": "^8.8.0"
+    "ws": "^8.16.0"
   }
 }

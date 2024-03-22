@@ -1,9 +1,12 @@
 import { NewIntegration } from 'graphql-editor-cli';
 import create from './Mutation/create.js';
 import update from './Mutation/update.js';
+import createObjects from './Mutation/createObjects.js';
+import updateObjects from './Mutation/updateObjects.js';
 import deleteObject from './Mutation/deleteById.js';
 
 import objects from './Query/objects.js';
+import paginatedObjects from './Query/paginatedObjects.js';
 import oneById from './Query/oneById.js';
 
 import oneToOne from './Object/oneToOne.js';
@@ -28,6 +31,25 @@ export const integration = NewIntegration({
         },
       },
       handler: objects,
+    },
+    paginatedObjects: {
+      name: 'List paginated Objects',
+      description: 'List objects stored in database',
+      data: {
+        model: {
+          name: 'Database model',
+          description: 'Specify model name',
+          value: 'Object',
+          required: true,
+        },
+        sourceFilterParameters: {
+          name: 'Get only owned objects by parameters from source',
+          description:
+            'Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys in format "teamId: team._id"',
+          value: [],
+        },
+      },
+      handler: paginatedObjects,
     },
     oneById: {
       name: 'Get object by _id',
@@ -70,6 +92,26 @@ export const integration = NewIntegration({
       },
       handler: create,
     },
+    createObjects: {
+      name: 'Create objectObjects',
+      description:
+        'Create objectObjects from GraphQL Input. Connect this integration to field with one input param which holds creation data.',
+      data: {
+        model: {
+          name: 'Database model',
+          description: 'Specify model name',
+          value: 'Object',
+          required: true,
+        },
+        sourceParameters: {
+          name: 'Get parameters from source',
+          description:
+            'Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys',
+          value: [],
+        },
+      },
+      handler: createObjects,
+    },
     update: {
       name: 'Update object',
       description:
@@ -89,6 +131,26 @@ export const integration = NewIntegration({
         },
       },
       handler: update,
+    },
+    updateObjects: {
+      name: 'Update objectObjects',
+      description:
+        'Update objectObjects stored in database. This resolver requires "_id" parameter on field and one "input" type parameter with optional fields',
+      data: {
+        model: {
+          name: 'Database model',
+          description: 'Specify model name',
+          value: 'Object',
+          required: true,
+        },
+        sourceFilterParameters: {
+          name: 'Get only owned objects by parameters from source',
+          description:
+            'Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys',
+          value: [],
+        },
+      },
+      handler: updateObjects,
     },
     delete: {
       name: 'Delete object',

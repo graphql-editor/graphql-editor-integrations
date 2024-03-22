@@ -2,10 +2,10 @@ import { FieldResolveInput } from 'stucco-js';
 import { prepareModel, prepareSourceParameters } from '../data.js';
 import { DB } from '../db/orm.js';
 import { DataInput } from '../integration.js';
-import { ObjectId, Sort, SortDirection } from 'mongodb';
+import { SortDirection } from 'mongodb';
 import { QueryObject, checkStringFields, getPaginationOpts, ifValueIsArray, paginateObjects, preparedSort, skipCursorForSortByField, convertObjectToRegexFormat, convertDateFilter } from '../utils.js';
 
-export const objects = async (input: FieldResolveInput & Partial<DataInput>) => {
+export const paginatedObjects = async (input: FieldResolveInput & Partial<DataInput>) => {
     const paginate = getPaginationOpts(input.arguments?.paginate || input.data?.paginate)
     const db = await DB()
     const sortArg = input.arguments?.sortByField || input.arguments?.sort || input.data?.sort;
@@ -42,3 +42,4 @@ export const objects = async (input: FieldResolveInput & Partial<DataInput>) => 
     return paginateObjects(objects, paginate.limit, 'objects', skipCursorForSortByField(input.data || input.arguments))
   }
 
+  export default paginatedObjects;

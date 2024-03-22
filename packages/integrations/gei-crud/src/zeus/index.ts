@@ -1,12 +1,45 @@
 /* eslint-disable */
 
+
 import { AllTypesProps, ReturnTypes, Ops } from './const.js';
 import fetch, { Response } from 'node-fetch';
 import WebSocket from 'ws';
-export const HOST = 'http://localhost:8080/';
+export const HOST = "http://localhost:8080/"
 
-export const HEADERS = {};
 
+export const HEADERS = {}
+export const apiSubscription = (options: chainOptions) => (query: string) => {
+  try {
+    const queryString = options[0] + '?query=' + encodeURIComponent(query);
+    const wsString = queryString.replace('http', 'ws');
+    const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
+    const webSocketOptions = options[1]?.websocket || [host];
+    const ws = new WebSocket(...webSocketOptions);
+    return {
+      ws,
+      on: (e: (args: any) => void) => {
+        ws.onmessage = (event: any) => {
+          if (event.data) {
+            const parsed = JSON.parse(event.data);
+            const data = parsed.data;
+            return e(data);
+          }
+        };
+      },
+      off: (e: (args: any) => void) => {
+        ws.onclose = e;
+      },
+      error: (e: (args: any) => void) => {
+        ws.onerror = e;
+      },
+      open: (e: () => void) => {
+        ws.onopen = e;
+      },
+    };
+  } catch {
+    throw new Error('No websockets implemented');
+  }
+};
 const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   if (!response.ok) {
     return new Promise((_, reject) => {
@@ -55,39 +88,6 @@ export const apiFetch =
         return response.data;
       });
   };
-
-export const apiSubscription = (options: chainOptions) => (query: string) => {
-  try {
-    const queryString = options[0] + '?query=' + encodeURIComponent(query);
-    const wsString = queryString.replace('http', 'ws');
-    const host = (options.length > 1 && options[1]?.websocket?.[0]) || wsString;
-    const webSocketOptions = options[1]?.websocket || [host];
-    const ws = new WebSocket(...webSocketOptions);
-    return {
-      ws,
-      on: (e: (args: any) => void) => {
-        ws.onmessage = (event: any) => {
-          if (event.data) {
-            const parsed = JSON.parse(event.data);
-            const data = parsed.data;
-            return e(data);
-          }
-        };
-      },
-      off: (e: (args: any) => void) => {
-        ws.onclose = e;
-      },
-      error: (e: (args: any) => void) => {
-        ws.onerror = e;
-      },
-      open: (e: () => void) => {
-        ws.onopen = e;
-      },
-    };
-  } catch {
-    throw new Error('No websockets implemented');
-  }
-};
 
 export const InternalsBuildQuery = ({
   ops,
@@ -201,9 +201,10 @@ export const SubscriptionThunder =
         scalars: graphqlOptions?.scalars,
       }),
     ) as SubscriptionToGraphQL<Z, GraphQLTypes[R], SCLR>;
-    if (returnedFunction?.on) {
+    if (returnedFunction?.on && graphqlOptions?.scalars) {
+      const wrapped = returnedFunction.on;
       returnedFunction.on = (fnToCall: (args: InputType<GraphQLTypes[R], Z, SCLR>) => void) =>
-        returnedFunction.on((data: InputType<GraphQLTypes[R], Z, SCLR>) => {
+        wrapped((data: InputType<GraphQLTypes[R], Z, SCLR>) => {
           if (graphqlOptions?.scalars) {
             return fnToCall(
               decodeScalarsInResponse({
@@ -282,7 +283,7 @@ export const decodeScalarsInResponse = <O extends Operations>({
 
   const scalarPaths = builder(initialOp as string, ops[initialOp], initialZeusQuery);
   if (scalarPaths) {
-    const r = traverseResponse({ scalarPaths, resolvers: scalars })('Query', response, ['Query']);
+    const r = traverseResponse({ scalarPaths, resolvers: scalars })(initialOp as string, response, [ops[initialOp]]);
     return r;
   }
   return response;
@@ -301,6 +302,9 @@ export const traverseResponse = ({
     if (Array.isArray(o)) {
       return o.map((eachO) => ibb(k, eachO, p));
     }
+    if (o == null) {
+      return o;
+    }
     const scalarPathString = p.join(SEPARATOR);
     const currentScalarString = scalarPaths[scalarPathString];
     if (currentScalarString) {
@@ -312,7 +316,12 @@ export const traverseResponse = ({
     if (typeof o === 'boolean' || typeof o === 'number' || typeof o === 'string' || !o) {
       return o;
     }
-    return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, ibb(k, v, [...p, purifyGraphQLKey(k)])]));
+    const entries = Object.entries(o).map(([k, v]) => [k, ibb(k, v, [...p, purifyGraphQLKey(k)])] as const);
+    const objectFromEntries = entries.reduce<Record<string, unknown>>((a, [k, v]) => {
+      a[k] = v;
+      return a;
+    }, {});
+    return objectFromEntries;
   };
   return ibb;
 };
@@ -396,7 +405,7 @@ export class GraphQLError extends Error {
     return 'GraphQL Response Error';
   }
 }
-export type GenericOperation<O> = O extends keyof typeof Ops ? (typeof Ops)[O] : never;
+export type GenericOperation<O> = O extends keyof typeof Ops ? typeof Ops[O] : never;
 export type ThunderGraphQLOptions<SCLR extends ScalarDefinition> = {
   scalars?: SCLR | ScalarCoders;
 };
@@ -463,9 +472,18 @@ export const PrepareScalarPaths = ({ ops, returns }: { returns: ReturnTypesType;
     const keyName = root ? ops[k] : k;
     return Object.entries(o)
       .filter(([k]) => k !== '__directives')
-      .map(([k, v]) =>
-        ibb(k, k, v, [...p, purifyGraphQLKey(keyName || k)], [...pOriginals, purifyGraphQLKey(originalKey)], false),
-      )
+      .map(([k, v]) => {
+        // Inline fragments shouldn't be added to the path as they aren't a field
+        const isInlineFragment = originalKey.match(/^...\s*on/) != null;
+        return ibb(
+          k,
+          k,
+          v,
+          isInlineFragment ? p : [...p, purifyGraphQLKey(keyName || k)],
+          isInlineFragment ? pOriginals : [...pOriginals, purifyGraphQLKey(originalKey)],
+          false,
+        );
+      })
       .reduce((a, b) => ({
         ...a,
         ...b,
@@ -538,6 +556,7 @@ export const ResolveFromPath = (props: AllTypesPropsType, returns: ReturnTypesTy
     const oKey = ops[mappedParts[0].v];
     const returnP1 = oKey ? returns[oKey] : returns[mappedParts[0].v];
     if (typeof returnP1 === 'object') {
+      if (mappedParts.length < 2) return 'not';
       const returnP2 = returnP1[mappedParts[1].v];
       if (returnP2) {
         return rpp(
@@ -638,8 +657,8 @@ export const resolverFor = <X, T extends keyof ResolverInputTypes, Z extends key
   fn: (
     args: Required<ResolverInputTypes[T]>[Z] extends [infer Input, any] ? Input : any,
     source: any,
-  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> | X : any,
-) => fn as (args?: any, source?: any) => any;
+  ) => Z extends keyof ModelTypes[T] ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> | X : never,
+) => fn as (args?: any, source?: any) => ReturnType<typeof fn>;
 
 export type UnwrapPromise<T> = T extends Promise<infer R> ? R : T;
 export type ZeusState<T extends (...args: any[]) => Promise<any>> = NonNullable<UnwrapPromise<ReturnType<T>>>;
@@ -681,9 +700,9 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST, SCLR extends ScalarDefinition
       [P in keyof SRC]: SRC[P] extends '__union' & infer R
         ? P extends keyof DST
           ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P], SCLR>
-          : Record<string, unknown>
+          : IsArray<R, '__typename' extends keyof DST ? { __typename: true } : never, SCLR>
         : never;
-    }[keyof DST] & {
+    }[keyof SRC] & {
       [P in keyof Omit<
         Pick<
           SRC,
@@ -808,140 +827,384 @@ export const GRAPHQL_TYPE_SEPARATOR = `__$GRAPHQL__`;
 export const $ = <Type extends GraphQLVariableType, Name extends string>(name: Name, graphqlType: Type) => {
   return (START_VAR_NAME + name + GRAPHQL_TYPE_SEPARATOR + graphqlType) as unknown as Variable<Type, Name>;
 };
-
-type ZEUS_INTERFACES = never;
-export type ScalarCoders = {};
-type ZEUS_UNIONS = never;
+type ZEUS_INTERFACES = never
+export type ScalarCoders = {
+}
+type ZEUS_UNIONS = never
 
 export type ValueTypes = {
-  ['Object']: AliasType<{
-    name?: boolean | `@${string}`;
-    content?: boolean | `@${string}`;
-    oneToOne?: ValueTypes['Object'];
-    oneToMany?: ValueTypes['Object'];
-    _id?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  ['Query']: AliasType<{
-    objects?: ValueTypes['Object'];
-    oneById?: [{ _id: string | Variable<any, string> }, ValueTypes['Object']];
-    __typename?: boolean | `@${string}`;
-  }>;
-  ['Mutation']: AliasType<{
-    create?: [{ object: ValueTypes['Update'] | Variable<any, string> }, boolean | `@${string}`];
-    update?: [
-      { _id: string | Variable<any, string>; object: ValueTypes['Update'] | Variable<any, string> },
-      boolean | `@${string}`,
-    ];
-    delete?: [{ _id: string | Variable<any, string> }, boolean | `@${string}`];
-    __typename?: boolean | `@${string}`;
-  }>;
-  ['Create']: {
-    name: string | Variable<any, string>;
-    content?: string | undefined | null | Variable<any, string>;
-    owner?: string | undefined | null | Variable<any, string>;
-  };
-  ['Update']: {
-    name?: string | undefined | null | Variable<any, string>;
-    content?: string | undefined | null | Variable<any, string>;
-    owner?: string | undefined | null | Variable<any, string>;
-  };
+    ["Object"]: AliasType<{
+	name?:boolean | `@${string}`,
+	content?:boolean | `@${string}`,
+oneToOne?: [{	data?: ValueTypes["DataInput"] | undefined | null | Variable<any, string>},ValueTypes["Object"]],
+oneToMany?: [{	data?: ValueTypes["DataInput"] | undefined | null | Variable<any, string>},ValueTypes["Object"]],
+	_id?:boolean | `@${string}`,
+	createdAt?:boolean | `@${string}`,
+	updatedAt?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["Query"]: AliasType<{
+objects?: [{	data?: ValueTypes["DataInput"] | undefined | null | Variable<any, string>,	fieldFilter?: ValueTypes["FieldFilterInput"] | undefined | null | Variable<any, string>,	fieldRegexFilter?: ValueTypes["FieldFilterInput"] | undefined | null | Variable<any, string>,	dateFilter?: ValueTypes["DateFilterInput"] | undefined | null | Variable<any, string>,	sortByField?: ValueTypes["SortInput"] | undefined | null | Variable<any, string>},ValueTypes["Object"]],
+paginatedObjects?: [{	data?: ValueTypes["DataInput"] | undefined | null | Variable<any, string>,	fieldFilter?: ValueTypes["FieldFilterInput"] | undefined | null | Variable<any, string>,	fieldRegexFilter?: ValueTypes["FieldFilterInput"] | undefined | null | Variable<any, string>,	dateFilter?: ValueTypes["DateFilterInput"] | undefined | null | Variable<any, string>,	sortByField?: ValueTypes["SortInput"] | undefined | null | Variable<any, string>,	paginate?: ValueTypes["PageOptions"] | undefined | null | Variable<any, string>},ValueTypes["PaginatedObjects"]],
+oneById?: [{	data?: ValueTypes["DataInput"] | undefined | null | Variable<any, string>,	_id: string | Variable<any, string>},ValueTypes["Object"]],
+fieldValueIsUnique?: [{	fieldValue: string | Variable<any, string>,	collection: string | Variable<any, string>,	fieldName?: string | undefined | null | Variable<any, string>,	caseInsensitive?: boolean | undefined | null | Variable<any, string>},boolean | `@${string}`],
+		__typename?: boolean | `@${string}`
+}>;
+	["Mutation"]: AliasType<{
+create?: [{	object: ValueTypes["CreateInput"] | Variable<any, string>},boolean | `@${string}`],
+update?: [{	_id?: string | undefined | null | Variable<any, string>,	object: ValueTypes["Update"] | Variable<any, string>},boolean | `@${string}`],
+createObjects?: [{	/** Provide the collection name if you haven't defined it in code. */
+	collectionName?: string | undefined | null | Variable<any, string>,	objects: Array<ValueTypes["CreateInput"]> | Variable<any, string>},boolean | `@${string}`],
+updateObjects?: [{	/** Provide the collection name if you haven't defined it in code. */
+	collectionName?: string | undefined | null | Variable<any, string>,	objects: Array<ValueTypes["UpdateInput"]> | Variable<any, string>},boolean | `@${string}`],
+delete?: [{	data?: ValueTypes["DataInput"] | undefined | null | Variable<any, string>,	_id?: string | undefined | null | Variable<any, string>},boolean | `@${string}`],
+		__typename?: boolean | `@${string}`
+}>;
+	["DataInput"]: {
+	model?: string | undefined | null | Variable<any, string>,
+	sourceParameters?: Array<string | undefined | null> | undefined | null | Variable<any, string>,
+	related?: Array<ValueTypes["ReladedInput"] | undefined | null> | undefined | null | Variable<any, string>,
+	addFields?: Array<ValueTypes["AddFieldsInput"] | undefined | null> | undefined | null | Variable<any, string>
 };
+	["AddFieldsInput"]: {
+	name: string | Variable<any, string>,
+	value?: string | undefined | null | Variable<any, string>
+};
+	["ReladedInput"]: {
+	model: string | Variable<any, string>,
+	field?: string | undefined | null | Variable<any, string>
+};
+	["FieldFilterInput"]: {
+	name?: string | undefined | null | Variable<any, string>,
+	content?: string | undefined | null | Variable<any, string>,
+	owner?: string | undefined | null | Variable<any, string>,
+	customFieldName?: string | undefined | null | Variable<any, string>
+};
+	["SortInput"]: {
+	field: ValueTypes["SortField"] | Variable<any, string>,
+	/** True for ASC, false for DESC */
+	order?: boolean | undefined | null | Variable<any, string>
+};
+	["DateFilterInput"]: {
+	/** Basicly filter use createdAt,
+but you can to set other field */
+	dateFieldName?: string | undefined | null | Variable<any, string>,
+	from?: string | undefined | null | Variable<any, string>,
+	to?: string | undefined | null | Variable<any, string>
+};
+	["SortField"]:SortField;
+	["Update"]: {
+	name?: string | undefined | null | Variable<any, string>,
+	content?: string | undefined | null | Variable<any, string>,
+	owner?: string | undefined | null | Variable<any, string>
+};
+	["UpdateInput"]: {
+	_id?: string | undefined | null | Variable<any, string>,
+	name?: string | undefined | null | Variable<any, string>,
+	content?: string | undefined | null | Variable<any, string>,
+	owner?: string | undefined | null | Variable<any, string>
+};
+	["CreateInput"]: {
+	name?: string | undefined | null | Variable<any, string>,
+	content?: string | undefined | null | Variable<any, string>,
+	owner?: string | undefined | null | Variable<any, string>
+};
+	["PageOptions"]: {
+	/** default is 10 */
+	limit?: number | undefined | null | Variable<any, string>,
+	cursorId?: string | undefined | null | Variable<any, string>
+};
+	["PaginatedObjects"]: AliasType<{
+	cursorId?:boolean | `@${string}`,
+	objects?:ValueTypes["Object"],
+		__typename?: boolean | `@${string}`
+}>
+  }
 
 export type ResolverInputTypes = {
-  ['Object']: AliasType<{
-    name?: boolean | `@${string}`;
-    content?: boolean | `@${string}`;
-    oneToOne?: ResolverInputTypes['Object'];
-    oneToMany?: ResolverInputTypes['Object'];
-    _id?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  ['Query']: AliasType<{
-    objects?: ResolverInputTypes['Object'];
-    oneById?: [{ _id: string }, ResolverInputTypes['Object']];
-    __typename?: boolean | `@${string}`;
-  }>;
-  ['Mutation']: AliasType<{
-    create?: [{ object: ResolverInputTypes['Update'] }, boolean | `@${string}`];
-    update?: [{ _id: string; object: ResolverInputTypes['Update'] }, boolean | `@${string}`];
-    delete?: [{ _id: string }, boolean | `@${string}`];
-    __typename?: boolean | `@${string}`;
-  }>;
-  ['Create']: {
-    name: string;
-    content?: string | undefined | null;
-    owner?: string | undefined | null;
-  };
-  ['Update']: {
-    name?: string | undefined | null;
-    content?: string | undefined | null;
-    owner?: string | undefined | null;
-  };
+    ["Object"]: AliasType<{
+	name?:boolean | `@${string}`,
+	content?:boolean | `@${string}`,
+oneToOne?: [{	data?: ResolverInputTypes["DataInput"] | undefined | null},ResolverInputTypes["Object"]],
+oneToMany?: [{	data?: ResolverInputTypes["DataInput"] | undefined | null},ResolverInputTypes["Object"]],
+	_id?:boolean | `@${string}`,
+	createdAt?:boolean | `@${string}`,
+	updatedAt?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["Query"]: AliasType<{
+objects?: [{	data?: ResolverInputTypes["DataInput"] | undefined | null,	fieldFilter?: ResolverInputTypes["FieldFilterInput"] | undefined | null,	fieldRegexFilter?: ResolverInputTypes["FieldFilterInput"] | undefined | null,	dateFilter?: ResolverInputTypes["DateFilterInput"] | undefined | null,	sortByField?: ResolverInputTypes["SortInput"] | undefined | null},ResolverInputTypes["Object"]],
+paginatedObjects?: [{	data?: ResolverInputTypes["DataInput"] | undefined | null,	fieldFilter?: ResolverInputTypes["FieldFilterInput"] | undefined | null,	fieldRegexFilter?: ResolverInputTypes["FieldFilterInput"] | undefined | null,	dateFilter?: ResolverInputTypes["DateFilterInput"] | undefined | null,	sortByField?: ResolverInputTypes["SortInput"] | undefined | null,	paginate?: ResolverInputTypes["PageOptions"] | undefined | null},ResolverInputTypes["PaginatedObjects"]],
+oneById?: [{	data?: ResolverInputTypes["DataInput"] | undefined | null,	_id: string},ResolverInputTypes["Object"]],
+fieldValueIsUnique?: [{	fieldValue: string,	collection: string,	fieldName?: string | undefined | null,	caseInsensitive?: boolean | undefined | null},boolean | `@${string}`],
+		__typename?: boolean | `@${string}`
+}>;
+	["Mutation"]: AliasType<{
+create?: [{	object: ResolverInputTypes["CreateInput"]},boolean | `@${string}`],
+update?: [{	_id?: string | undefined | null,	object: ResolverInputTypes["Update"]},boolean | `@${string}`],
+createObjects?: [{	/** Provide the collection name if you haven't defined it in code. */
+	collectionName?: string | undefined | null,	objects: Array<ResolverInputTypes["CreateInput"]>},boolean | `@${string}`],
+updateObjects?: [{	/** Provide the collection name if you haven't defined it in code. */
+	collectionName?: string | undefined | null,	objects: Array<ResolverInputTypes["UpdateInput"]>},boolean | `@${string}`],
+delete?: [{	data?: ResolverInputTypes["DataInput"] | undefined | null,	_id?: string | undefined | null},boolean | `@${string}`],
+		__typename?: boolean | `@${string}`
+}>;
+	["DataInput"]: {
+	model?: string | undefined | null,
+	sourceParameters?: Array<string | undefined | null> | undefined | null,
+	related?: Array<ResolverInputTypes["ReladedInput"] | undefined | null> | undefined | null,
+	addFields?: Array<ResolverInputTypes["AddFieldsInput"] | undefined | null> | undefined | null
 };
+	["AddFieldsInput"]: {
+	name: string,
+	value?: string | undefined | null
+};
+	["ReladedInput"]: {
+	model: string,
+	field?: string | undefined | null
+};
+	["FieldFilterInput"]: {
+	name?: string | undefined | null,
+	content?: string | undefined | null,
+	owner?: string | undefined | null,
+	customFieldName?: string | undefined | null
+};
+	["SortInput"]: {
+	field: ResolverInputTypes["SortField"],
+	/** True for ASC, false for DESC */
+	order?: boolean | undefined | null
+};
+	["DateFilterInput"]: {
+	/** Basicly filter use createdAt,
+but you can to set other field */
+	dateFieldName?: string | undefined | null,
+	from?: string | undefined | null,
+	to?: string | undefined | null
+};
+	["SortField"]:SortField;
+	["Update"]: {
+	name?: string | undefined | null,
+	content?: string | undefined | null,
+	owner?: string | undefined | null
+};
+	["UpdateInput"]: {
+	_id?: string | undefined | null,
+	name?: string | undefined | null,
+	content?: string | undefined | null,
+	owner?: string | undefined | null
+};
+	["CreateInput"]: {
+	name?: string | undefined | null,
+	content?: string | undefined | null,
+	owner?: string | undefined | null
+};
+	["PageOptions"]: {
+	/** default is 10 */
+	limit?: number | undefined | null,
+	cursorId?: string | undefined | null
+};
+	["PaginatedObjects"]: AliasType<{
+	cursorId?:boolean | `@${string}`,
+	objects?:ResolverInputTypes["Object"],
+		__typename?: boolean | `@${string}`
+}>;
+	["schema"]: AliasType<{
+	query?:ResolverInputTypes["Query"],
+	mutation?:ResolverInputTypes["Mutation"],
+		__typename?: boolean | `@${string}`
+}>
+  }
 
 export type ModelTypes = {
-  ['Object']: {
-    name: string;
-    content?: string | undefined;
-    oneToOne?: ModelTypes['Object'] | undefined;
-    oneToMany?: Array<ModelTypes['Object'] | undefined> | undefined;
-    _id: string;
-  };
-  ['Query']: {
-    objects?: Array<ModelTypes['Object']> | undefined;
-    oneById?: ModelTypes['Object'] | undefined;
-  };
-  ['Mutation']: {
-    create?: string | undefined;
-    update?: boolean | undefined;
-    delete?: boolean | undefined;
-  };
-  ['Create']: {
-    name: string;
-    content?: string | undefined;
-    owner?: string | undefined;
-  };
-  ['Update']: {
-    name?: string | undefined;
-    content?: string | undefined;
-    owner?: string | undefined;
-  };
+    ["Object"]: {
+		name: string,
+	content?: string | undefined,
+	oneToOne?: ModelTypes["Object"] | undefined,
+	oneToMany?: Array<ModelTypes["Object"] | undefined> | undefined,
+	_id: string,
+	createdAt?: string | undefined,
+	updatedAt?: string | undefined
 };
+	["Query"]: {
+		objects?: Array<ModelTypes["Object"]> | undefined,
+	paginatedObjects: ModelTypes["PaginatedObjects"],
+	oneById?: ModelTypes["Object"] | undefined,
+	fieldValueIsUnique: boolean
+};
+	["Mutation"]: {
+		create?: string | undefined,
+	update?: boolean | undefined,
+	createObjects?: string | undefined,
+	updateObjects?: boolean | undefined,
+	delete?: boolean | undefined
+};
+	["DataInput"]: {
+	model?: string | undefined,
+	sourceParameters?: Array<string | undefined> | undefined,
+	related?: Array<ModelTypes["ReladedInput"] | undefined> | undefined,
+	addFields?: Array<ModelTypes["AddFieldsInput"] | undefined> | undefined
+};
+	["AddFieldsInput"]: {
+	name: string,
+	value?: string | undefined
+};
+	["ReladedInput"]: {
+	model: string,
+	field?: string | undefined
+};
+	["FieldFilterInput"]: {
+	name?: string | undefined,
+	content?: string | undefined,
+	owner?: string | undefined,
+	customFieldName?: string | undefined
+};
+	["SortInput"]: {
+	field: ModelTypes["SortField"],
+	/** True for ASC, false for DESC */
+	order?: boolean | undefined
+};
+	["DateFilterInput"]: {
+	/** Basicly filter use createdAt,
+but you can to set other field */
+	dateFieldName?: string | undefined,
+	from?: string | undefined,
+	to?: string | undefined
+};
+	["SortField"]:SortField;
+	["Update"]: {
+	name?: string | undefined,
+	content?: string | undefined,
+	owner?: string | undefined
+};
+	["UpdateInput"]: {
+	_id?: string | undefined,
+	name?: string | undefined,
+	content?: string | undefined,
+	owner?: string | undefined
+};
+	["CreateInput"]: {
+	name?: string | undefined,
+	content?: string | undefined,
+	owner?: string | undefined
+};
+	["PageOptions"]: {
+	/** default is 10 */
+	limit?: number | undefined,
+	cursorId?: string | undefined
+};
+	["PaginatedObjects"]: {
+		cursorId?: string | undefined,
+	objects?: Array<ModelTypes["Object"]> | undefined
+};
+	["schema"]: {
+	query?: ModelTypes["Query"] | undefined,
+	mutation?: ModelTypes["Mutation"] | undefined
+}
+    }
 
 export type GraphQLTypes = {
-  ['Object']: {
-    __typename: 'Object';
-    name: string;
-    content?: string | undefined;
-    oneToOne?: GraphQLTypes['Object'] | undefined;
-    oneToMany?: Array<GraphQLTypes['Object'] | undefined> | undefined;
-    _id: string;
-  };
-  ['Query']: {
-    __typename: 'Query';
-    objects?: Array<GraphQLTypes['Object']> | undefined;
-    oneById?: GraphQLTypes['Object'] | undefined;
-  };
-  ['Mutation']: {
-    __typename: 'Mutation';
-    create?: string | undefined;
-    update?: boolean | undefined;
-    delete?: boolean | undefined;
-  };
-  ['Create']: {
-    name: string;
-    content?: string | undefined;
-    owner?: string | undefined;
-  };
-  ['Update']: {
-    name?: string | undefined;
-    content?: string | undefined;
-    owner?: string | undefined;
-  };
+    ["Object"]: {
+	__typename: "Object",
+	name: string,
+	content?: string | undefined,
+	oneToOne?: GraphQLTypes["Object"] | undefined,
+	oneToMany?: Array<GraphQLTypes["Object"] | undefined> | undefined,
+	_id: string,
+	createdAt?: string | undefined,
+	updatedAt?: string | undefined
 };
+	["Query"]: {
+	__typename: "Query",
+	objects?: Array<GraphQLTypes["Object"]> | undefined,
+	paginatedObjects: GraphQLTypes["PaginatedObjects"],
+	oneById?: GraphQLTypes["Object"] | undefined,
+	fieldValueIsUnique: boolean
+};
+	["Mutation"]: {
+	__typename: "Mutation",
+	create?: string | undefined,
+	update?: boolean | undefined,
+	createObjects?: string | undefined,
+	updateObjects?: boolean | undefined,
+	delete?: boolean | undefined
+};
+	["DataInput"]: {
+		model?: string | undefined,
+	sourceParameters?: Array<string | undefined> | undefined,
+	related?: Array<GraphQLTypes["ReladedInput"] | undefined> | undefined,
+	addFields?: Array<GraphQLTypes["AddFieldsInput"] | undefined> | undefined
+};
+	["AddFieldsInput"]: {
+		name: string,
+	value?: string | undefined
+};
+	["ReladedInput"]: {
+		model: string,
+	field?: string | undefined
+};
+	["FieldFilterInput"]: {
+		name?: string | undefined,
+	content?: string | undefined,
+	owner?: string | undefined,
+	customFieldName?: string | undefined
+};
+	["SortInput"]: {
+		field: GraphQLTypes["SortField"],
+	/** True for ASC, false for DESC */
+	order?: boolean | undefined
+};
+	["DateFilterInput"]: {
+		/** Basicly filter use createdAt,
+but you can to set other field */
+	dateFieldName?: string | undefined,
+	from?: string | undefined,
+	to?: string | undefined
+};
+	["SortField"]: SortField;
+	["Update"]: {
+		name?: string | undefined,
+	content?: string | undefined,
+	owner?: string | undefined
+};
+	["UpdateInput"]: {
+		_id?: string | undefined,
+	name?: string | undefined,
+	content?: string | undefined,
+	owner?: string | undefined
+};
+	["CreateInput"]: {
+		name?: string | undefined,
+	content?: string | undefined,
+	owner?: string | undefined
+};
+	["PageOptions"]: {
+		/** default is 10 */
+	limit?: number | undefined,
+	cursorId?: string | undefined
+};
+	["PaginatedObjects"]: {
+	__typename: "PaginatedObjects",
+	cursorId?: string | undefined,
+	objects?: Array<GraphQLTypes["Object"]> | undefined
+}
+    }
+export const enum SortField {
+	CREATED_AT = "CREATED_AT",
+	UPDATED_AT = "UPDATED_AT",
+	NAME = "NAME",
+	CUSTOM_FIELD_NAME = "CUSTOM_FIELD_NAME"
+}
 
 type ZEUS_VARIABLES = {
-  ['Create']: ValueTypes['Create'];
-  ['Update']: ValueTypes['Update'];
-};
+	["DataInput"]: ValueTypes["DataInput"];
+	["AddFieldsInput"]: ValueTypes["AddFieldsInput"];
+	["ReladedInput"]: ValueTypes["ReladedInput"];
+	["FieldFilterInput"]: ValueTypes["FieldFilterInput"];
+	["SortInput"]: ValueTypes["SortInput"];
+	["DateFilterInput"]: ValueTypes["DateFilterInput"];
+	["SortField"]: ValueTypes["SortField"];
+	["Update"]: ValueTypes["Update"];
+	["UpdateInput"]: ValueTypes["UpdateInput"];
+	["CreateInput"]: ValueTypes["CreateInput"];
+	["PageOptions"]: ValueTypes["PageOptions"];
+}

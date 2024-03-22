@@ -1,162 +1,207 @@
 {
-  "resolvers": {
-    "Query.objects": {
-      "name": "List objects",
-      "description": "List objects stored in database",
-      "data": {
-        "model": {
-          "name": "Database model",
-          "description": "Specify model name",
-          "value": "Object",
-          "required": true
+    "resolvers": {
+        "Query.objects": {
+            "name": "List objects",
+            "description": "List objects stored in database",
+            "data": {
+                "model": {
+                    "name": "Database model",
+                    "description": "Specify model name",
+                    "value": "Object",
+                    "required": true
+                },
+                "sourceFilterParameters": {
+                    "name": "Get only owned objects by parameters from source",
+                    "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
+                    "value": []
+                }
+            },
+            "resolve": {
+                "name": "Query.objects.handler"
+            }
         },
-        "sourceFilterParameters": {
-          "name": "Get only owned objects by parameters from source",
-          "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
-          "value": []
-        }
+        "Query.paginatedObjects": {
+          "name": "List objects with pagination",
+          "description": "List objects stored in database",
+          "data": {
+              "model": {
+                  "name": "Database model",
+                  "description": "Specify model name",
+                  "value": "Object",
+                  "required": true
+              },
+              "sourceFilterParameters": {
+                  "name": "Get only owned objects by parameters from source",
+                  "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
+                  "value": []
+              }
+          },
+          "resolve": {
+              "name": "Query.paginatedObjects.handler"
+          }
       },
-      "resolve": {
-        "name": "Query.objects.handler"
-      }
-    },
-    "Query.oneById": {
-      "name": "Get object by _id",
-      "description": "Get object by _id value",
-      "data": {
-        "model": {
-          "name": "Database model",
-          "description": "Specify model name",
-          "value": "Object",
-          "required": true
+        "Query.oneById": {
+            "name": "Get object by _id",
+            "description": "Get object by _id value",
+            "data": {
+                "model": {
+                    "name": "Database model",
+                    "description": "Specify model name",
+                    "value": "Object",
+                    "required": true
+                },
+                "sourceFilterParameters": {
+                    "name": "Get only owned objects by parameters from source",
+                    "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
+                    "value": []
+                }
+            },
+            "resolve": {
+                "name": "Query.oneById.handler"
+            }
         },
-        "sourceFilterParameters": {
-          "name": "Get only owned objects by parameters from source",
-          "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
-          "value": []
+        "Mutation.create": {
+            "name": "Create object",
+            "description": "Create object from GraphQL Input. Connect this integration to field with one input param which holds creation data.",
+            "data": {
+                "model": {
+                    "name": "Database model",
+                    "description": "Specify model name",
+                    "value": "Object",
+                    "required": true
+                },
+                "sourceParameters": {
+                    "name": "Get parameters from source",
+                    "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
+                    "value": []
+                }
+            },
+            "resolve": {
+                "name": "Mutation.create.handler"
+            }
+        },
+        "Mutation.update": {
+            "name": "Update object",
+            "description": "Update object stored in database. This resolver requires \"_id\" parameter on field and one \"input\" type parameter with optional fields",
+            "data": {
+                "model": {
+                    "name": "Database model",
+                    "description": "Specify model name",
+                    "value": "Object",
+                    "required": true
+                },
+                "sourceFilterParameters": {
+                    "name": "Get only owned objects by parameters from source",
+                    "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
+                    "value": []
+                }
+            },
+            "resolve": {
+                "name": "Mutation.update.handler"
+            }
+        },
+        "Mutation.createObjects": {
+            "name": "Create objectObjects",
+            "description": "Create objectObjects from GraphQL Input. Connect this integration to field with one input param which holds creation data.",
+            "data": {
+                "model": {
+                    "name": "Database model",
+                    "description": "Specify model name",
+                    "value": "Object",
+                    "required": true
+                },
+                "sourceParameters": {
+                    "name": "Get parameters from source",
+                    "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
+                    "value": []
+                }
+            },
+            "resolve": {
+                "name": "Mutation.createObjects.handler"
+            }
+        },
+        "Mutation.updateObjects": {
+            "resolve": {
+                "name": "lib/Mutation/updateObjects"
+            }
+        },
+        "Mutation.delete": {
+            "name": "Delete object",
+            "description": "Delete object stored in database. This resolver requires \"_id\" parameter.",
+            "data": {
+                "model": {
+                    "name": "Database model",
+                    "description": "Specify model name",
+                    "value": "Object",
+                    "required": true
+                },
+                "sourceParameters": {
+                    "name": "Get parameters from source",
+                    "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
+                    "value": []
+                },
+                "relatedModel": {
+                    "name": "Related models for delete objects",
+                    "description": "You can delete related objects, or pull _id from all arrays in this collection. If you want to use more than one model, you can use a comma, but note that in this case you also need to use a comma for related fields.",
+                    "value": "Object",
+                    "required": true
+                },
+                "relatedField": {
+                    "name": "Name of the field on related objects",
+                    "description": "Define here the field name for relate objects by _id of the remove object. If this field is an array, owner _id will be removed from it. If this field in the object is a string with the same value as owner _id, the entire object will be deleted. If you want to use a relation not by _id but by a other field from a remove object, you can write something like '_id:project' and this will remove all objects from the related collection that have an _id value of 'object.project'. For example, if you want to delete a team and write 'owner: members' here,  this will remove all objects from relate collection that has an 'owner' field with a value from the 'team.members' array.",
+                    "value": "owner"
+                }
+            },
+            "resolve": {
+                "name": "Mutation.delete.handler"
+            }
+        },
+        "Object.oneToOne": {
+            "name": "One to One relation",
+            "description": "Resolve one to one relation. So if you have a field \"objectB\" with type \"ObjectB\" it will unfold \"ObjectB\"",
+            "data": {
+                "relatedModel": {
+                    "name": "Related model",
+                    "description": "Specify related model name",
+                    "value": "Object",
+                    "required": true
+                },
+                "relatedField": {
+                    "name": "Name of the field on related objects",
+                    "description": "Related object has this field as an owner id",
+                    "value": "owner"
+                }
+            },
+            "resolve": {
+                "name": "Object.oneToOne.handler"
+            }
+        },
+        "Object.oneToMany": {
+            "name": "One to Many relation",
+            "description": "Resolve one to many relation. So if you have a field \"objectsB\" with type \"[ObjectB]\" it will unfold \"ObjectB\"",
+            "data": {
+                "relatedModel": {
+                    "name": "Related model",
+                    "description": "Specify related model name",
+                    "value": "Object",
+                    "required": true
+                },
+                "relatedField": {
+                    "name": "Name of the field on related objects",
+                    "description": "Related object has this field as an owner id",
+                    "value": "owner"
+                }
+            },
+            "resolve": {
+                "name": "Object.oneToMany.handler"
+            }
+        },
+        "Query.fieldValueIsUnique": {
+            "name": "Value is unique",
+            "description": "Make sure that team name or other field is unique for collection",
+            "resolve": {
+                "name": "lib/Query/fieldValueIsUnique"
+            }
         }
-      },
-      "resolve": {
-        "name": "Query.oneById.handler"
-      }
-    },
-    "Mutation.create": {
-      "name": "Create object",
-      "description": "Create object from GraphQL Input. Connect this integration to field with one input param which holds creation data.",
-      "data": {
-        "model": {
-          "name": "Database model",
-          "description": "Specify model name",
-          "value": "Object",
-          "required": true
-        },
-        "sourceParameters": {
-          "name": "Get parameters from source",
-          "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
-          "value": []
-        }
-      },
-      "resolve": {
-        "name": "Mutation.create.handler"
-      }
-    },
-    "Mutation.update": {
-      "name": "Update object",
-      "description": "Update object stored in database. This resolver requires \"_id\" parameter on field and one \"input\" type parameter with optional fields",
-      "data": {
-        "model": {
-          "name": "Database model",
-          "description": "Specify model name",
-          "value": "Object",
-          "required": true
-        },
-        "sourceFilterParameters": {
-          "name": "Get only owned objects by parameters from source",
-          "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
-          "value": []
-        }
-      },
-      "resolve": {
-        "name": "Mutation.update.handler"
-      }
-    },
-    "Mutation.delete": {
-      "name": "Delete object",
-      "description": "Delete object stored in database. This resolver requires \"_id\" parameter.",
-      "data": {
-        "model": {
-          "name": "Database model",
-          "description": "Specify model name",
-          "value": "Object",
-          "required": true
-        },
-        "sourceParameters": {
-          "name": "Get parameters from source",
-          "description": "Specify parameters that comes as source from previous resolver. Source must be an object, please specify its keys",
-          "value": []
-        },
-        "relatedModel": {
-          "name": "Related models for delete objects",
-          "description": "You can delete related objects, or pull _id from all arrays in this collection. If you want to use more than one model, you can use a comma, but note that in this case you also need to use a comma for related fields.",
-          "value": "Object",
-          "required": true
-        },
-        "relatedField": {
-          "name": "Name of the field on related objects",
-          "description": "Define here the field name for relate objects by _id of the remove object. If this field is an array, owner _id will be removed from it. If this field in the object is a string with the same value as owner _id, the entire object will be deleted. If you want to use a relation not by _id but by a other field from a remove object, you can write something like '_id:project' and this will remove all objects from the related collection that have an _id value of 'object.project'. For example, if you want to delete a team and write 'owner: members' here,  this will remove all objects from relate collection that has an 'owner' field with a value from the 'team.members' array.",
-          "value": "owner"
-        }
-      },
-      "resolve": {
-        "name": "Mutation.delete.handler"
-      }
-    },
-    "Object.oneToOne": {
-      "name": "One to One relation",
-      "description": "Resolve one to one relation. So if you have a field \"objectB\" with type \"ObjectB\" it will unfold \"ObjectB\"",
-      "data": {
-        "relatedModel": {
-          "name": "Related model",
-          "description": "Specify related model name",
-          "value": "Object",
-          "required": true
-        },
-        "relatedField": {
-          "name": "Name of the field on related objects",
-          "description": "Related object has this field as an owner id",
-          "value": "owner"
-        }
-      },
-      "resolve": {
-        "name": "Object.oneToOne.handler"
-      }
-    },
-    "Object.oneToMany": {
-      "name": "One to Many relation",
-      "description": "Resolve one to many relation. So if you have a field \"objectsB\" with type \"[ObjectB]\" it will unfold \"ObjectB\"",
-      "data": {
-        "relatedModel": {
-          "name": "Related model",
-          "description": "Specify related model name",
-          "value": "Object",
-          "required": true
-        },
-        "relatedField": {
-          "name": "Name of the field on related objects",
-          "description": "Related object has this field as an owner id",
-          "value": "owner"
-        }
-      },
-      "resolve": {
-        "name": "Object.oneToMany.handler"
-      }
-    },
-    "Query.fieldValueIsUnique": {
-      "name": "Value is unique",
-      "description": "Make sure that team name or other field is unique for collection",
-      "resolve": {
-        "name": "lib/Query/fieldValueIsUnique"
-      }
     }
-  }
 }
