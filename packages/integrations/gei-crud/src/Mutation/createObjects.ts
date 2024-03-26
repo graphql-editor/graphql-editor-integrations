@@ -12,7 +12,7 @@ export const createObjects = async (input: FieldResolveInput & Partial<DataInput
     const rt = getReturnTypeName(input.info.returnType);
     const sourceParameters = prepareSourceParameters(input)
     const addFields = input.data?.addFields ? createObjectFromAddFields(input.data?.addFields) : undefined
-   
+     
     let objectsToUpdate: any[] = [];
 
     for (const key in args) {
@@ -36,7 +36,8 @@ export const createObjects = async (input: FieldResolveInput & Partial<DataInput
    
     const result = await db(args.collectionName || input.data?.model || prepareModel(input))
       .collection.insertMany(objects)
-      return rt === 'String' ? `Created ${result?.insertedCount} objects` : rt === 'Object' ? result.insertedIds : result.insertedCount > 0
+      
+      return rt === 'String' ? `Created ${result?.insertedCount} objects` : rt === 'Boolean' ? result.insertedCount > 0 : Object.values(result.insertedIds)
   }))(input.arguments);
 
 

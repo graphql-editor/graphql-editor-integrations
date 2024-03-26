@@ -5,7 +5,7 @@ import { getResolverData } from './shared.js';
 export const prepareSourceParameters = (input: FieldResolveInput & Partial<DataInput>) => {
   const source = input.source;
   let sourceParameters = input.data?.sourceParameters;
-  if (!sourceParameters) {
+  if (!sourceParameters && (input.arguments?.sourceParameters || input.arguments?.sourceFilterParameters)) {
     const { data } = getResolverData<{ sourceParameters?: string[]; sourceFilterParameters?: string[] }>(input);
     sourceParameters = data?.sourceParameters?.value || data?.sourceFilterParameters?.value;
   }
