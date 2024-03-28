@@ -23,7 +23,7 @@ export const getBookingsForService = async (input: FieldResolveInput) =>
           .sort('createdAt', -1)
           .toArray()
 
-    return { books: convertDateObjToStringForArray<BookingRecordModel>(await o('Bookings').composeRelated(bookings, 'service', 'Services', '_id')) }
+    return { books: convertDateObjToStringForArray<BookingRecordModel>(await o('Bookings').composeRelated(bookings, 'services', 'Services', '_id')) }
     }),
   )(input.arguments, input.source);
 export default getBookingsForService;

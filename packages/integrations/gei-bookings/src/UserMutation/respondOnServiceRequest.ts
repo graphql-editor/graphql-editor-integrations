@@ -13,14 +13,14 @@ export const respondOnServiceRequest = async (input: FieldResolveInput) =>
       const o = await orm();
       await o('Bookings')
         .collection.find({ _id: { $in: args.input.bookIds }, answeredAt: { $exists: false } }).toArray()
-        .then(async (b) => {
-          if (!b || b.length < 1) {
+        .then(async (books) => {
+          if (!books || books.length < 1) {
             throw new GlobalError(`cannot find anyone books for id: ${ args.input.bookIds }`, import.meta.url);
           }
           await o('Services')
-            .collection.findOne({ _id: {$in: b.map((b) => b.service)}, ownerId: src.userId || src._id})
-            .then((r) => {
-              if (!r || b.length < 1) {
+            .collection.find({ _id: { $in:  books.map((b)=> b.services ).flatMap(innerArray => innerArray) }, ownerId: src.userId || src._id})
+            .toArray().then((r) => {
+              if (!r || r.length < 1) {
                 throw new GlobalError('you can answer only on yours services', import.meta.url);
               }
             });

@@ -29,15 +29,15 @@ export const bookService = async (input: FieldResolveInput) =>
             _id: new ObjectId().toHexString(),
           createdAt: new Date(),
           bookerId: src.userId,
-          serviceIds: args.input.serviceIds,
+          services: args.input.serviceIds,
           comments: args.input.comments ? args.input.comments : undefined,
           status: services[0].neededAccept ? BookStatus.PENDING : BookStatus.ACCEPTED,
         })
-        .then(async (c) => o('Bookings').collection.find({ _id: c.insertId } )?.toArray());
+        .then(async (c) => o('Bookings').collection.findOne({ _id: c.insertedId } ));
       if (!book) {
         throw new GlobalError('inserted document is null', import.meta.url);
       }
-      return { book: { ...(await o('Bookings')).findOne({ _id: book.insertId }), services: services }};
+      return { book: { ...book, services: services }};
     }),
   )(input.arguments, input.source);
 export default bookService;
