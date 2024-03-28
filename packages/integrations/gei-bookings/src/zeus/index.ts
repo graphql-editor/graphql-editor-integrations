@@ -165,7 +165,10 @@ export const Thunder =
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions & { variables?: Record<string, unknown> }) =>
+  <Z extends ValueTypes[R]>(
+    o: (Z & ValueTypes[R]) | ValueTypes[R],
+    ops?: OperationOptions & { variables?: Record<string, unknown> },
+  ) =>
     fn(
       Zeus(operation, o, {
         operationOptions: ops,
@@ -194,7 +197,10 @@ export const SubscriptionThunder =
     operation: O,
     graphqlOptions?: ThunderGraphQLOptions<SCLR>,
   ) =>
-  <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions & { variables?: ExtractVariables<Z> }) => {
+  <Z extends ValueTypes[R]>(
+    o: (Z & ValueTypes[R]) | ValueTypes[R],
+    ops?: OperationOptions & { variables?: ExtractVariables<Z> },
+  ) => {
     const returnedFunction = fn(
       Zeus(operation, o, {
         operationOptions: ops,
@@ -230,7 +236,7 @@ export const Zeus = <
   R extends keyof ValueTypes = GenericOperation<O>,
 >(
   operation: O,
-  o: Z | ValueTypes[R],
+  o: (Z & ValueTypes[R]) | ValueTypes[R],
   ops?: {
     operationOptions?: OperationOptions;
     scalars?: ScalarDefinition;
@@ -700,7 +706,7 @@ type IsInterfaced<SRC extends DeepAnify<DST>, DST, SCLR extends ScalarDefinition
       [P in keyof SRC]: SRC[P] extends '__union' & infer R
         ? P extends keyof DST
           ? IsArray<R, '__typename' extends keyof DST ? DST[P] & { __typename: true } : DST[P], SCLR>
-          : IsArray<R, '__typename' extends keyof DST ? { __typename: true } : never, SCLR>
+          : IsArray<R, '__typename' extends keyof DST ? { __typename: true } : Record<string, never>, SCLR>
         : never;
     }[keyof SRC] & {
       [P in keyof Omit<
@@ -810,11 +816,18 @@ export type Variable<T extends GraphQLVariableType, Name extends string> = {
   ' __zeus_type': T;
 };
 
+export type ExtractVariablesDeep<Query> = Query extends Variable<infer VType, infer VName>
+  ? { [key in VName]: GetVariableType<VType> }
+  : Query extends string | number | boolean | Array<string | number | boolean>
+  ? // eslint-disable-next-line @typescript-eslint/ban-types
+    {}
+  : UnionToIntersection<{ [K in keyof Query]: WithOptionalNullables<ExtractVariablesDeep<Query[K]>> }[keyof Query]>;
+
 export type ExtractVariables<Query> = Query extends Variable<infer VType, infer VName>
   ? { [key in VName]: GetVariableType<VType> }
   : Query extends [infer Inputs, infer Outputs]
-  ? ExtractVariables<Inputs> & ExtractVariables<Outputs>
-  : Query extends string | number | boolean
+  ? ExtractVariablesDeep<Inputs> & ExtractVariables<Outputs>
+  : Query extends string | number | boolean | Array<string | number | boolean>
   ? // eslint-disable-next-line @typescript-eslint/ban-types
     {}
   : UnionToIntersection<{ [K in keyof Query]: WithOptionalNullables<ExtractVariables<Query[K]>> }[keyof Query]>;
@@ -867,9 +880,16 @@ registerService?: [{	input: ValueTypes["RegisterServiceInput"] | Variable<any, s
 updateService?: [{	input: Array<ValueTypes["UpdateServiceInput"]> | Variable<any, string>},ValueTypes["UpdateServiceRespond"]],
 removeService?: [{	serviceId: string | Variable<any, string>},ValueTypes["RemoveServiceRespond"]],
 bookService?: [{	input: ValueTypes["BookServiceInput"] | Variable<any, string>},ValueTypes["BookServiceRespond"]],
+send?: [{	mailgunData: ValueTypes["MailgunData"] | Variable<any, string>},boolean | `@${string}`],
 respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] | Variable<any, string>},ValueTypes["RespondOnServiceRequestRespond"]],
 		__typename?: boolean | `@${string}`
 }>;
+	["MailgunData"]: {
+	to: string | Variable<any, string>,
+	subject: string | Variable<any, string>,
+	message: string | Variable<any, string>,
+	from?: string | undefined | null | Variable<any, string>
+};
 	["GetBookingsForServiceInput"]: {
 	page?: ValueTypes["PageOptionsInput"] | undefined | null | Variable<any, string>,
 	filters?: ValueTypes["GetBookingsForServiceFiltersInput"] | undefined | null | Variable<any, string>
@@ -980,7 +1000,7 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 	comments?: string | undefined | null | Variable<any, string>
 };
 	["BookServiceRespond"]: AliasType<{
-	books?:ValueTypes["BookingRecord"],
+	book?:ValueTypes["BookingRecord"],
 	error?:ValueTypes["GlobalError"],
 		__typename?: boolean | `@${string}`
 }>;
@@ -1006,7 +1026,7 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 }>;
 	["BookingRecord"]: AliasType<{
 	bookerId?:boolean | `@${string}`,
-	service?:ValueTypes["Service"],
+	services?:ValueTypes["Service"],
 	comments?:boolean | `@${string}`,
 	_id?:boolean | `@${string}`,
 	createdAt?:boolean | `@${string}`,
@@ -1082,9 +1102,16 @@ registerService?: [{	input: ResolverInputTypes["RegisterServiceInput"]},Resolver
 updateService?: [{	input: Array<ResolverInputTypes["UpdateServiceInput"]>},ResolverInputTypes["UpdateServiceRespond"]],
 removeService?: [{	serviceId: string},ResolverInputTypes["RemoveServiceRespond"]],
 bookService?: [{	input: ResolverInputTypes["BookServiceInput"]},ResolverInputTypes["BookServiceRespond"]],
+send?: [{	mailgunData: ResolverInputTypes["MailgunData"]},boolean | `@${string}`],
 respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestInput"]},ResolverInputTypes["RespondOnServiceRequestRespond"]],
 		__typename?: boolean | `@${string}`
 }>;
+	["MailgunData"]: {
+	to: string,
+	subject: string,
+	message: string,
+	from?: string | undefined | null
+};
 	["GetBookingsForServiceInput"]: {
 	page?: ResolverInputTypes["PageOptionsInput"] | undefined | null,
 	filters?: ResolverInputTypes["GetBookingsForServiceFiltersInput"] | undefined | null
@@ -1195,7 +1222,7 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 	comments?: string | undefined | null
 };
 	["BookServiceRespond"]: AliasType<{
-	books?:ResolverInputTypes["BookingRecord"],
+	book?:ResolverInputTypes["BookingRecord"],
 	error?:ResolverInputTypes["GlobalError"],
 		__typename?: boolean | `@${string}`
 }>;
@@ -1221,7 +1248,7 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 }>;
 	["BookingRecord"]: AliasType<{
 	bookerId?:boolean | `@${string}`,
-	service?:ResolverInputTypes["Service"],
+	services?:ResolverInputTypes["Service"],
 	comments?:boolean | `@${string}`,
 	_id?:boolean | `@${string}`,
 	createdAt?:boolean | `@${string}`,
@@ -1301,7 +1328,14 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	updateService: ModelTypes["UpdateServiceRespond"],
 	removeService: ModelTypes["RemoveServiceRespond"],
 	bookService: ModelTypes["BookServiceRespond"],
+	send?: string | undefined,
 	respondOnServiceRequest: ModelTypes["RespondOnServiceRequestRespond"]
+};
+	["MailgunData"]: {
+	to: string,
+	subject: string,
+	message: string,
+	from?: string | undefined
 };
 	["GetBookingsForServiceInput"]: {
 	page?: ModelTypes["PageOptionsInput"] | undefined,
@@ -1404,7 +1438,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	comments?: string | undefined
 };
 	["BookServiceRespond"]: {
-		books?: Array<ModelTypes["BookingRecord"]> | undefined,
+		book: ModelTypes["BookingRecord"],
 	error?: ModelTypes["GlobalError"] | undefined
 };
 	["UserServiceRespond"]: {
@@ -1427,7 +1461,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["BookingRecord"]: {
 		bookerId: string,
-	service: ModelTypes["Service"],
+	services?: Array<ModelTypes["Service"]> | undefined,
 	comments?: string | undefined,
 	_id: string,
 	createdAt: ModelTypes["Date"],
@@ -1503,7 +1537,14 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	updateService: GraphQLTypes["UpdateServiceRespond"],
 	removeService: GraphQLTypes["RemoveServiceRespond"],
 	bookService: GraphQLTypes["BookServiceRespond"],
+	send?: string | undefined,
 	respondOnServiceRequest: GraphQLTypes["RespondOnServiceRequestRespond"]
+};
+	["MailgunData"]: {
+		to: string,
+	subject: string,
+	message: string,
+	from?: string | undefined
 };
 	["GetBookingsForServiceInput"]: {
 		page?: GraphQLTypes["PageOptionsInput"] | undefined,
@@ -1616,7 +1657,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["BookServiceRespond"]: {
 	__typename: "BookServiceRespond",
-	books?: Array<GraphQLTypes["BookingRecord"]> | undefined,
+	book: GraphQLTypes["BookingRecord"],
 	error?: GraphQLTypes["GlobalError"] | undefined
 };
 	["UserServiceRespond"]: {
@@ -1642,7 +1683,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	["BookingRecord"]: {
 	__typename: "BookingRecord",
 	bookerId: string,
-	service: GraphQLTypes["Service"],
+	services?: Array<GraphQLTypes["Service"]> | undefined,
 	comments?: string | undefined,
 	_id: string,
 	createdAt: GraphQLTypes["Date"],
@@ -1693,6 +1734,7 @@ export const enum ServiceType {
 }
 
 type ZEUS_VARIABLES = {
+	["MailgunData"]: ValueTypes["MailgunData"];
 	["GetBookingsForServiceInput"]: ValueTypes["GetBookingsForServiceInput"];
 	["GetBookingsForServiceFiltersInput"]: ValueTypes["GetBookingsForServiceFiltersInput"];
 	["RespondOnServiceRequestInput"]: ValueTypes["RespondOnServiceRequestInput"];

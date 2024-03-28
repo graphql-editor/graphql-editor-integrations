@@ -23,21 +23,21 @@ export const bookService = async (input: FieldResolveInput) =>
       return service.value 
     }))
     
-      const books = await o('Bookings')
-        .collection.insertMany(services.map((service) =>(
+      const book = await o('Bookings')
+        .collection.insertOne(
           {
             _id: new ObjectId().toHexString(),
           createdAt: new Date(),
           bookerId: src.userId,
-          service: service._id ,
+          serviceIds: args.input.serviceIds,
           comments: args.input.comments ? args.input.comments : undefined,
-          status: service.neededAccept ? BookStatus.PENDING : BookStatus.ACCEPTED,
-        })))
-        .then(async (c) => o('Bookings').collection.find({ _id: { $in: Object.values(c.insertedIds)} })?.toArray());
-      if (!books) {
+          status: services[0].neededAccept ? BookStatus.PENDING : BookStatus.ACCEPTED,
+        })
+        .then(async (c) => o('Bookings').collection.find({ _id: c.insertId } )?.toArray());
+      if (!book) {
         throw new GlobalError('inserted document is null', import.meta.url);
       }
-      return { books: await o('Bookings').composeRelated(books, 'service', 'Services', '_id') };
+      return { book: { ...(await o('Bookings')).findOne({ _id: book.insertId }), services: services }};
     }),
   )(input.arguments, input.source);
 export default bookService;

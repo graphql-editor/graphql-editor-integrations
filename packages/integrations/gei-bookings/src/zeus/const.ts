@@ -33,9 +33,15 @@ export const AllTypesProps: Record<string,any> = {
 		bookService:{
 			input:"BookServiceInput"
 		},
+		send:{
+			mailgunData:"MailgunData"
+		},
 		respondOnServiceRequest:{
 			input:"RespondOnServiceRequestInput"
 		}
+	},
+	MailgunData:{
+
 	},
 	GetBookingsForServiceInput:{
 		page:"PageOptionsInput",
@@ -114,6 +120,7 @@ export const ReturnTypes: Record<string,any> = {
 		updateService:"UpdateServiceRespond",
 		removeService:"RemoveServiceRespond",
 		bookService:"BookServiceRespond",
+		send:"String",
 		respondOnServiceRequest:"RespondOnServiceRequestRespond"
 	},
 	GetBookingsForServiceRespond:{
@@ -153,7 +160,7 @@ export const ReturnTypes: Record<string,any> = {
 		error:"GlobalError"
 	},
 	BookServiceRespond:{
-		books:"BookingRecord",
+		book:"BookingRecord",
 		error:"GlobalError"
 	},
 	UserServiceRespond:{
@@ -175,7 +182,7 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	BookingRecord:{
 		bookerId:"String",
-		service:"Service",
+		services:"Service",
 		comments:"String",
 		_id:"String",
 		createdAt:"Date",

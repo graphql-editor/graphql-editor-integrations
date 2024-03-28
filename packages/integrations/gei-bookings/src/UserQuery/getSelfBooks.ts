@@ -15,7 +15,7 @@ export const getSelfBooks = async (input: FieldResolveInput) =>
           .limit(po.limit)
           .sort('createdAt', -1)
           .toArray()
-          .then(async (b) => await orm().then((o) => o('Bookings').composeRelated(b, 'service', 'Services', '_id')))),
+          .then(async (b) => await orm().then((o) => o('Bookings').composeRelated(b, 'services', 'Services', '_id')))),
       }));
     }),
   )(input.arguments, input.source);

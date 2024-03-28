@@ -62,9 +62,19 @@ type UserMutation{
 	bookService(
 		input: BookServiceInput!
 	): BookServiceRespond!
+	send(
+		mailgunData: MailgunData!
+	): String
 	respondOnServiceRequest(
 		input: RespondOnServiceRequestInput!
 	): RespondOnServiceRequestRespond!
+}
+
+input MailgunData{
+	to: String!
+	subject: String!
+	message: String!
+	from: String
 }
 
 input GetBookingsForServiceInput{
@@ -195,7 +205,7 @@ input BookServiceInput{
 }
 
 type BookServiceRespond{
-	books: [BookingRecord!]
+	book: BookingRecord!
 	error: GlobalError
 }
 
@@ -223,7 +233,7 @@ type Service implements dbEssentials{
 
 type BookingRecord implements dbEssentials{
 	bookerId: String!
-	service: Service!
+	services: [Service!]
 	comments: String
 	_id: String!
 	createdAt: Date!
