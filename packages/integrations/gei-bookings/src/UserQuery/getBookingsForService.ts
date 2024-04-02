@@ -17,7 +17,7 @@ export const getBookingsForService = async (input: FieldResolveInput) =>
           .then((s) => s.map((ss) => ss._id))
 
       const bookings =  await o('Bookings')
-          .collection.find({ service: { $in: ownedServices } })
+          .collection.find({ services: { $in: ownedServices } })
           .limit(po.limit)
           .skip(po.skip)
           .sort('createdAt', -1)
