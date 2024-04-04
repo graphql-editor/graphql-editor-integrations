@@ -27,16 +27,15 @@ export const bookService = async (input: FieldResolveInput) =>
       bookServices.filter((s): s is WithId<ServiceModel>  => typeof s !== 'string'),
       bookServices.filter((s): s is string => typeof s === 'string')
   ];
-    bookServices.forEach(async (s) => {
-      if (typeof s === 'string') {
+    
+      if (busy[0]) {
         await o('Services').collection.updateMany(
           { _id: { $in: bookedServices.map((s: any) => s._id) } },
           { $set: { taken: false } },
         );
-        throw new GlobalError(`Service is already taken: ${s}`, import.meta.url);
+        throw new GlobalError(`Service is already taken: ${busy}`, import.meta.url);
       }
-      return s._id;
-    });
+  
 
 
       const book = await o('Bookings')
