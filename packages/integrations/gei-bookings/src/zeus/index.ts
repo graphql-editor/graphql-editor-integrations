@@ -952,9 +952,9 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 };
 	["RegisterServiceInput"]: {
 	name: string | Variable<any, string>,
-	description: string | Variable<any, string>,
+	description?: string | undefined | null | Variable<any, string>,
 	startDates: Array<ValueTypes["Date"]> | Variable<any, string>,
-	time: number | Variable<any, string>,
+	time?: number | undefined | null | Variable<any, string>,
 	neededAccept?: boolean | undefined | null | Variable<any, string>,
 	active?: boolean | undefined | null | Variable<any, string>
 };
@@ -978,6 +978,11 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 		__typename?: boolean | `@${string}`
 }>;
 	["RemoveServiceRespond"]: AliasType<{
+	removed?:boolean | `@${string}`,
+	error?:ValueTypes["GlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["RemoveBookingRespond"]: AliasType<{
 	removed?:boolean | `@${string}`,
 	error?:ValueTypes["GlobalError"],
 		__typename?: boolean | `@${string}`
@@ -1174,9 +1179,9 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 };
 	["RegisterServiceInput"]: {
 	name: string,
-	description: string,
+	description?: string | undefined | null,
 	startDates: Array<ResolverInputTypes["Date"]>,
-	time: number,
+	time?: number | undefined | null,
 	neededAccept?: boolean | undefined | null,
 	active?: boolean | undefined | null
 };
@@ -1200,6 +1205,11 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 		__typename?: boolean | `@${string}`
 }>;
 	["RemoveServiceRespond"]: AliasType<{
+	removed?:boolean | `@${string}`,
+	error?:ResolverInputTypes["GlobalError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["RemoveBookingRespond"]: AliasType<{
 	removed?:boolean | `@${string}`,
 	error?:ResolverInputTypes["GlobalError"],
 		__typename?: boolean | `@${string}`
@@ -1393,9 +1403,9 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["RegisterServiceInput"]: {
 	name: string,
-	description: string,
+	description?: string | undefined,
 	startDates: Array<ModelTypes["Date"]>,
-	time: number,
+	time?: number | undefined,
 	neededAccept?: boolean | undefined,
 	active?: boolean | undefined
 };
@@ -1420,12 +1430,16 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 		removed?: boolean | undefined,
 	error?: ModelTypes["GlobalError"] | undefined
 };
+	["RemoveBookingRespond"]: {
+		removed?: boolean | undefined,
+	error?: ModelTypes["GlobalError"] | undefined
+};
 	["BookServiceInput"]: {
 	serviceIds: Array<string>,
 	comments?: string | undefined
 };
 	["BookServiceRespond"]: {
-		book: ModelTypes["BookingRecord"],
+		book?: ModelTypes["BookingRecord"] | undefined,
 	error?: ModelTypes["GlobalError"] | undefined
 };
 	["UserServiceRespond"]: {
@@ -1608,9 +1622,9 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["RegisterServiceInput"]: {
 		name: string,
-	description: string,
+	description?: string | undefined,
 	startDates: Array<GraphQLTypes["Date"]>,
-	time: number,
+	time?: number | undefined,
 	neededAccept?: boolean | undefined,
 	active?: boolean | undefined
 };
@@ -1638,13 +1652,18 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	removed?: boolean | undefined,
 	error?: GraphQLTypes["GlobalError"] | undefined
 };
+	["RemoveBookingRespond"]: {
+	__typename: "RemoveBookingRespond",
+	removed?: boolean | undefined,
+	error?: GraphQLTypes["GlobalError"] | undefined
+};
 	["BookServiceInput"]: {
 		serviceIds: Array<string>,
 	comments?: string | undefined
 };
 	["BookServiceRespond"]: {
 	__typename: "BookServiceRespond",
-	book: GraphQLTypes["BookingRecord"],
+	book?: GraphQLTypes["BookingRecord"] | undefined,
 	error?: GraphQLTypes["GlobalError"] | undefined
 };
 	["UserServiceRespond"]: {

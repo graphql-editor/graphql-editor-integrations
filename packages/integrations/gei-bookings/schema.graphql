@@ -167,9 +167,9 @@ input RegisterUserInput{
 
 input RegisterServiceInput{
 	name: String!
-	description: String!
+	description: String
 	startDates: [Date!]!
-	time: Int!
+	time: Int
 	neededAccept: Boolean
 	active: Boolean
 }
@@ -199,13 +199,18 @@ type RemoveServiceRespond{
 	error: GlobalError
 }
 
+type RemoveBookingRespond{
+	removed: Boolean
+	error: GlobalError
+}
+
 input BookServiceInput{
 	serviceIds: [String!]!
 	comments: String
 }
 
 type BookServiceRespond{
-	book: BookingRecord!
+	book: BookingRecord
 	error: GlobalError
 }
 

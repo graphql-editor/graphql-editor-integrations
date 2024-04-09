@@ -159,6 +159,10 @@ export const ReturnTypes: Record<string,any> = {
 		removed:"Boolean",
 		error:"GlobalError"
 	},
+	RemoveBookingRespond:{
+		removed:"Boolean",
+		error:"GlobalError"
+	},
 	BookServiceRespond:{
 		book:"BookingRecord",
 		error:"GlobalError"
