@@ -3,7 +3,6 @@ import { resolverFor } from '../zeus/index.js';
 import { GlobalError, convertDateObjToStringForArray, errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
 import { mustFindAny, orm } from '../utils/db/orm.js';
 import { ServicesCollection } from '../utils/db/collections.js';
-import { ServiceModel } from '../models/ServiceModel.js';
 import { ObjectId } from 'mongodb';
 
 export const registerService = async (input: FieldResolveInput) =>
@@ -21,10 +20,10 @@ resolverFor('UserMutation', 'registerService', async (args, src) =>
         startDate: new Date(String(startDate)),
         name: args.input.name,
         neededAccept: args.input.neededAccept === false ? false : true,
-        description: args.input.description,
+        description: args.input.description || undefined,
         ownerId: src.userId || src._id,
         active: true,
-        time: args.input.time,
+        time: args.input.time || undefined,
     }
   })
     const insert = await orm().then((o) =>
