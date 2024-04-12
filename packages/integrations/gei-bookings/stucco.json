@@ -63,6 +63,20 @@
                 "name": "UserMutation.bookService.handler"
             }
         },
+        "UserMutation.updateBooking": {
+            "name": "updateBooking",
+            "description": "Update booking",
+            "resolve": {
+                "name": "UserMutation.updateBooking.handler"
+            }
+        },
+        "UserMutation.removeBooking": {
+            "name": "removeBooking",
+            "description": "Remove booking",
+            "resolve": {
+                "name": "UserMutation.removeBooking.handler"
+            }
+        },
         "UserMutation.respondOnServiceRequest": {
             "name": "respondOnServiceRequest",
             "description": "Respond to a service request",

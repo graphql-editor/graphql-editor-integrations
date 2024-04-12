@@ -1,7 +1,7 @@
 import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
 import { convertDateObjToStringForArray, errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
-import { mustFindAny, orm } from '../utils/db/orm.js';
+import { mustFindAny, MongoOrb } from '../utils/db/orm.js';
 import { ServicesCollection } from '../utils/db/collections.js';
 
 export const updateService = async (input: FieldResolveInput) =>
@@ -22,8 +22,7 @@ entriesWithOutId.forEach((entry) => {
   const [key, value] = entry;
   reconstructedObject[key] = value;
 });
-       return await orm().then((o) =>
-          o('Services')
+       return MongoOrb('Services')
             .collection.updateOne(
               { _id: updateSet.serviceId, ownerId: src.userId || src._id, taken: { $ne: true } },
               { $set:
@@ -34,7 +33,6 @@ entriesWithOutId.forEach((entry) => {
                 },
               },
             )
-          )
         }
       )).then(async (u) => u && { service: convertDateObjToStringForArray(await mustFindAny(ServicesCollection, { _id: { $in: args.input.map((up)=> up.serviceId) }})) })
       ),

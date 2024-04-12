@@ -62,12 +62,40 @@ type UserMutation{
 	bookService(
 		input: BookServiceInput!
 	): BookServiceRespond!
+	updateBooking(
+		input: UpdateBookingInput!
+	): BookServiceRespond!
+	removeBooking(
+		_id: String!
+	): RemoveServiceRespond!
 	send(
 		mailgunData: MailgunData!
 	): String
 	respondOnServiceRequest(
 		input: RespondOnServiceRequestInput!
 	): RespondOnServiceRequestRespond!
+}
+
+input UpdateBookingInput{
+	_id: String!
+	addServiceIds: [String!]
+	removeServiceIds: [String!]
+	comments: UpdateReservationInfoInput
+}
+
+input UserInput{
+	name: String!
+	secondName: String
+	phone: String
+	email: String
+}
+
+input UpdateUserInput{
+	name: String
+	bookerId: String
+	secondName: String
+	phone: String
+	email: String
 }
 
 input MailgunData{
@@ -174,6 +202,49 @@ input RegisterServiceInput{
 	active: Boolean
 }
 
+input UpdateReservationInfoInput{
+	user: UpdateUserInput
+	comments: String
+	numberOfGuests: Int
+	numberOfKids: Int
+	animals: Boolean
+	lateCheckIn: Boolean
+	from: Date
+	to: Date
+	price: Int
+}
+
+input ReservationInfoInput{
+	user: UserInput
+	comments: String
+	numberOfGuests: Int
+	numberOfKids: Int
+	animals: Boolean
+	lateCheckIn: Boolean
+	from: Date
+	to: Date
+	price: Int
+}
+
+type Comments{
+	user: User
+	comments: String
+	numberOfGuests: Int
+	numberOfKids: Int
+	animals: Boolean
+	lateCheckIn: Boolean
+	from: Date
+	to: Date
+	price: Int
+}
+
+type User{
+	name: String!
+	secondName: String
+	phone: String
+	email: String
+}
+
 type RegisterServiceRespond{
 	service: [Service!]
 	error: GlobalError
@@ -206,7 +277,7 @@ type RemoveBookingRespond{
 
 input BookServiceInput{
 	serviceIds: [String!]!
-	comments: String
+	comments: ReservationInfoInput
 }
 
 type BookServiceRespond{
@@ -239,7 +310,7 @@ type Service implements dbEssentials{
 type BookingRecord implements dbEssentials{
 	bookerId: String!
 	services: [Service!]
-	comments: String
+	comments: Comments
 	_id: String!
 	createdAt: Date!
 	status: BookStatus!

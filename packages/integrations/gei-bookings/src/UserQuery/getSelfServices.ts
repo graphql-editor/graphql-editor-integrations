@@ -1,7 +1,7 @@
 import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
 import { convertDateObjToStringForArray, errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
-import { orm, preparePageOptions } from '../utils/db/orm.js';
+import { MongoOrb, preparePageOptions } from '../utils/db/orm.js';
 import { ServicesCollection } from '../utils/db/collections.js';
 import { isScalarDate } from '../PublicQuery/listServices.js';
 import { ServiceModel } from '../models/ServiceModel.js';
@@ -22,8 +22,7 @@ export const getSelfServices = async (input: FieldResolveInput) =>
       const toDate = isScalarDate(args?.input?.filters?.toDate)
         ? isScalarDate(args?.input?.filters?.toDate)
         : undefined;
-      const selfServices = await orm().then(async (o) => 
-         o(ServicesCollection)
+      const selfServices = await MongoOrb(ServicesCollection)
           .collection.find({
             ...pa,
             ...(fromDate && { createdAt: { $gte: new Date(args?.input?.filters?.fromDate as string) } }),
@@ -37,8 +36,7 @@ export const getSelfServices = async (input: FieldResolveInput) =>
           .limit(po.limit)
           .skip(po.skip)
           .sort('createdAt', -1)
-          .toArray(),
-      );
+          .toArray();
       return { service: convertDateObjToStringForArray<WithId<ServiceModel>>(selfServices) }
     }),
   )(input.arguments, input.source);
