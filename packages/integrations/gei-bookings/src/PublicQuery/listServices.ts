@@ -11,7 +11,7 @@ export const listServices = async (input: FieldResolveInput) =>
       const po = preparePageOptions(args?.input?.page);
       const pa =
         args?.input?.filters &&
-        Object.fromEntries(Object.entries(args?.input?.filters).filter((v) => v !== null && v !== undefined));
+        Object.fromEntries(Object.entries(args?.input?.filters).filter((v) => v !== null && v !== undefined && v[0] !== 'fromDate' && v[0] !== 'toDate'));
       const fromDate = isScalarDate(args?.input?.filters?.fromDate)
         ? isScalarDate(args?.input?.filters?.fromDate)
         : undefined;
