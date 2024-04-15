@@ -1,6 +1,6 @@
 import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
-import { MongoOrb, preparePageOptions } from '../utils/db/orm.js';
+import { MongoOrb, inputBooksFiltersSet, preparePageOptions } from '../utils/db/orm.js';
 import { convertDateObjToStringForArray, errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
 
 export const getSelfBooks = async (input: FieldResolveInput) =>
@@ -8,9 +8,11 @@ export const getSelfBooks = async (input: FieldResolveInput) =>
     errMiddleware(async () => {
       sourceContainUserIdOrThrow(src);
       const po = preparePageOptions(args?.input?.page);
+      const inputFilters = inputBooksFiltersSet(args.input?.filters)
+
       return {
         books: convertDateObjToStringForArray(await MongoOrb('Bookings')
-          .collection.find({ bookerId: src.userId || src._id })
+          .collection.find({ ...inputFilters, bookerId: src.userId || src._id })
           .skip(po.skip)
           .limit(po.limit)
           .sort('createdAt', -1)

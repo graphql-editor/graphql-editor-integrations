@@ -11,7 +11,6 @@ export const getService = async (input: FieldResolveInput) =>
             throw new GlobalError(r, import.meta.url);
           }))
         })
-        
     }),
   )(input.arguments);
 export default getService;
