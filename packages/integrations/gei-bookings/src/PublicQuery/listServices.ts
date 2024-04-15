@@ -23,8 +23,8 @@ export const listServices = async (input: FieldResolveInput) =>
         services: convertDateObjToStringForArray(await MongoOrb(ServicesCollection)
           .collection.find({
             ...pa,
-            ...(fromDate && { createdAt: { $gte: new Date(args?.input?.filters?.fromDate as string) } }),
-            ...(toDate && { createdAt: { $lte: new Date(args?.input?.filters?.toDate as string) } }),
+            ...(fromDate && { startDate: { $gte: new Date(args?.input?.filters?.fromDate as string) } }),
+            ...(toDate && { startDate: { $lte: new Date(args?.input?.filters?.toDate as string) } }),
             ...(args?.input?.filters?.name && { name: { $regex: args?.input.filters.name, $options: 'i' } }),
             ...(args?.input?.filters?.description && {
               description: { $regex: args?.input.filters.description, $options: 'i' },

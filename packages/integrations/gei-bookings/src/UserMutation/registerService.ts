@@ -15,6 +15,7 @@ resolverFor('UserMutation', 'registerService', async (args, src) =>
     }
       return {
         ...args.input,
+        startDates: undefined,
         _id: new ObjectId().toHexString(),
         createdAt: new Date(),
         startDate: new Date(String(startDate)),
