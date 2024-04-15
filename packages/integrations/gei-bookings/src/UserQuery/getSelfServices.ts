@@ -14,7 +14,7 @@ export const getSelfServices = async (input: FieldResolveInput) =>
       const po = preparePageOptions(args?.input?.page);
       const pa =
         args?.input?.filters &&
-        Object.fromEntries(Object.entries(args?.input?.filters).filter((v) => v !== null && v !== undefined));
+        Object.fromEntries(Object.entries(args?.input?.filters).filter((v) => v !== null && v !== undefined && v[0] !== 'fromDate' && v[0] !== 'toDate'));
       const fromDate = isScalarDate(args?.input?.filters?.fromDate)
         ? isScalarDate(args?.input?.filters?.fromDate)
         : undefined;
@@ -25,8 +25,8 @@ export const getSelfServices = async (input: FieldResolveInput) =>
       const selfServices = await MongoOrb(ServicesCollection)
           .collection.find({
             ...pa,
-            ...(fromDate && { createdAt: { $gte: new Date(args?.input?.filters?.fromDate as string) } }),
-            ...(toDate && { createdAt: { $lte: new Date(args?.input?.filters?.toDate as string) } }),
+            ...(fromDate && { startDate: { $gte: new Date(args?.input?.filters?.fromDate as string) } }),
+            ...(toDate && { startDate: { $lte: new Date(args?.input?.filters?.toDate as string) } }),
             ...(args?.input?.filters?.name && { name: { $regex: args?.input.filters.name, $options: 'i' } }),
             ...(args?.input?.filters?.description && {
               description: { $regex: args?.input.filters.description, $options: 'i' },
