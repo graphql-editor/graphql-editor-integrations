@@ -1,7 +1,7 @@
 import { FieldResolveInput } from 'stucco-js';
 import { resolverFor } from '../zeus/index.js';
 import { GlobalError, convertDateObjToStringForArray, errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
-import { mustFindAny, orm } from '../utils/db/orm.js';
+import { mustFindAny, MongoOrb } from '../utils/db/orm.js';
 import { ServicesCollection } from '../utils/db/collections.js';
 import { ObjectId } from 'mongodb';
 
@@ -27,9 +27,7 @@ resolverFor('UserMutation', 'registerService', async (args, src) =>
         time: args.input.time || undefined,
     }
   })
-    const insert = await orm().then((o) =>
-      o(ServicesCollection).collection.insertMany(services),
-    );
+    const insert = await MongoOrb(ServicesCollection).collection.insertMany(services);
     const insertedIdsArray = Object.values(insert.insertedIds);
     const createdServices =  await mustFindAny(ServicesCollection, { _id: {$in: insertedIdsArray} });
     return { service: convertDateObjToStringForArray(createdServices) };

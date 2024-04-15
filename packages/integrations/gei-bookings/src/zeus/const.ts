@@ -33,12 +33,27 @@ export const AllTypesProps: Record<string,any> = {
 		bookService:{
 			input:"BookServiceInput"
 		},
+		updateBooking:{
+			input:"UpdateBookingInput"
+		},
+		removeBooking:{
+
+		},
 		send:{
 			mailgunData:"MailgunData"
 		},
 		respondOnServiceRequest:{
 			input:"RespondOnServiceRequestInput"
 		}
+	},
+	UpdateBookingInput:{
+		comments:"UpdateReservationInfoInput"
+	},
+	UserInput:{
+
+	},
+	UpdateUserInput:{
+
 	},
 	MailgunData:{
 
@@ -80,11 +95,21 @@ export const AllTypesProps: Record<string,any> = {
 	RegisterServiceInput:{
 		startDates:"Date"
 	},
+	UpdateReservationInfoInput:{
+		user:"UpdateUserInput",
+		from:"Date",
+		to:"Date"
+	},
+	ReservationInfoInput:{
+		user:"UserInput",
+		from:"Date",
+		to:"Date"
+	},
 	UpdateServiceInput:{
 		startDate:"Date"
 	},
 	BookServiceInput:{
-
+		comments:"ReservationInfoInput"
 	},
 	PageOptionsInput:{
 
@@ -120,6 +145,8 @@ export const ReturnTypes: Record<string,any> = {
 		updateService:"UpdateServiceRespond",
 		removeService:"RemoveServiceRespond",
 		bookService:"BookServiceRespond",
+		updateBooking:"BookServiceRespond",
+		removeBooking:"RemoveServiceRespond",
 		send:"String",
 		respondOnServiceRequest:"RespondOnServiceRequestRespond"
 	},
@@ -146,6 +173,23 @@ export const ReturnTypes: Record<string,any> = {
 	GetServiceRespond:{
 		service:"Service",
 		error:"GlobalError"
+	},
+	Comments:{
+		user:"User",
+		comments:"String",
+		numberOfGuests:"Int",
+		numberOfKids:"Int",
+		animals:"Boolean",
+		lateCheckIn:"Boolean",
+		from:"Date",
+		to:"Date",
+		price:"Int"
+	},
+	User:{
+		name:"String",
+		secondName:"String",
+		phone:"String",
+		email:"String"
 	},
 	RegisterServiceRespond:{
 		service:"Service",
@@ -187,7 +231,7 @@ export const ReturnTypes: Record<string,any> = {
 	BookingRecord:{
 		bookerId:"String",
 		services:"Service",
-		comments:"String",
+		comments:"Comments",
 		_id:"String",
 		createdAt:"Date",
 		status:"BookStatus",

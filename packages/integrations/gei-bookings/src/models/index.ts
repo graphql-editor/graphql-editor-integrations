@@ -9,6 +9,8 @@ import { RespondOnServiceRequestRespondModel } from './RespondOnServiceRequestRe
 import { GetBooksRepsondModel } from './GetBooksRepsondModel.js'
 import { ListServicesRespondModel } from './ListServicesRespondModel.js'
 import { GetServiceRespondModel } from './GetServiceRespondModel.js'
+import { CommentsModel } from './CommentsModel.js'
+import { UserModel } from './UserModel.js'
 import { RegisterServiceRespondModel } from './RegisterServiceRespondModel.js'
 import { UpdateServiceRespondModel } from './UpdateServiceRespondModel.js'
 import { RemoveServiceRespondModel } from './RemoveServiceRespondModel.js'
@@ -32,6 +34,8 @@ export type Models = {
 	GetBooksRepsondModel: GetBooksRepsondModel;
 	ListServicesRespondModel: ListServicesRespondModel;
 	GetServiceRespondModel: GetServiceRespondModel;
+	CommentsModel: CommentsModel;
+	UserModel: UserModel;
 	RegisterServiceRespondModel: RegisterServiceRespondModel;
 	UpdateServiceRespondModel: UpdateServiceRespondModel;
 	RemoveServiceRespondModel: RemoveServiceRespondModel;

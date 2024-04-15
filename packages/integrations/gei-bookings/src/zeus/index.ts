@@ -867,10 +867,31 @@ registerService?: [{	input: ValueTypes["RegisterServiceInput"] | Variable<any, s
 updateService?: [{	input: Array<ValueTypes["UpdateServiceInput"]> | Variable<any, string>},ValueTypes["UpdateServiceRespond"]],
 removeService?: [{	serviceId: string | Variable<any, string>},ValueTypes["RemoveServiceRespond"]],
 bookService?: [{	input: ValueTypes["BookServiceInput"] | Variable<any, string>},ValueTypes["BookServiceRespond"]],
+updateBooking?: [{	input: ValueTypes["UpdateBookingInput"] | Variable<any, string>},ValueTypes["BookServiceRespond"]],
+removeBooking?: [{	_id: string | Variable<any, string>},ValueTypes["RemoveServiceRespond"]],
 send?: [{	mailgunData: ValueTypes["MailgunData"] | Variable<any, string>},boolean | `@${string}`],
 respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] | Variable<any, string>},ValueTypes["RespondOnServiceRequestRespond"]],
 		__typename?: boolean | `@${string}`
 }>;
+	["UpdateBookingInput"]: {
+	_id: string | Variable<any, string>,
+	addServiceIds?: Array<string> | undefined | null | Variable<any, string>,
+	removeServiceIds?: Array<string> | undefined | null | Variable<any, string>,
+	comments?: ValueTypes["UpdateReservationInfoInput"] | undefined | null | Variable<any, string>
+};
+	["UserInput"]: {
+	name: string | Variable<any, string>,
+	secondName?: string | undefined | null | Variable<any, string>,
+	phone?: string | undefined | null | Variable<any, string>,
+	email?: string | undefined | null | Variable<any, string>
+};
+	["UpdateUserInput"]: {
+	name?: string | undefined | null | Variable<any, string>,
+	bookerId?: string | undefined | null | Variable<any, string>,
+	secondName?: string | undefined | null | Variable<any, string>,
+	phone?: string | undefined | null | Variable<any, string>,
+	email?: string | undefined | null | Variable<any, string>
+};
 	["MailgunData"]: {
 	to: string | Variable<any, string>,
 	subject: string | Variable<any, string>,
@@ -958,6 +979,47 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 	neededAccept?: boolean | undefined | null | Variable<any, string>,
 	active?: boolean | undefined | null | Variable<any, string>
 };
+	["UpdateReservationInfoInput"]: {
+	user?: ValueTypes["UpdateUserInput"] | undefined | null | Variable<any, string>,
+	comments?: string | undefined | null | Variable<any, string>,
+	numberOfGuests?: number | undefined | null | Variable<any, string>,
+	numberOfKids?: number | undefined | null | Variable<any, string>,
+	animals?: boolean | undefined | null | Variable<any, string>,
+	lateCheckIn?: boolean | undefined | null | Variable<any, string>,
+	from?: ValueTypes["Date"] | undefined | null | Variable<any, string>,
+	to?: ValueTypes["Date"] | undefined | null | Variable<any, string>,
+	price?: number | undefined | null | Variable<any, string>
+};
+	["ReservationInfoInput"]: {
+	user?: ValueTypes["UserInput"] | undefined | null | Variable<any, string>,
+	comments?: string | undefined | null | Variable<any, string>,
+	numberOfGuests?: number | undefined | null | Variable<any, string>,
+	numberOfKids?: number | undefined | null | Variable<any, string>,
+	animals?: boolean | undefined | null | Variable<any, string>,
+	lateCheckIn?: boolean | undefined | null | Variable<any, string>,
+	from?: ValueTypes["Date"] | undefined | null | Variable<any, string>,
+	to?: ValueTypes["Date"] | undefined | null | Variable<any, string>,
+	price?: number | undefined | null | Variable<any, string>
+};
+	["Comments"]: AliasType<{
+	user?:ValueTypes["User"],
+	comments?:boolean | `@${string}`,
+	numberOfGuests?:boolean | `@${string}`,
+	numberOfKids?:boolean | `@${string}`,
+	animals?:boolean | `@${string}`,
+	lateCheckIn?:boolean | `@${string}`,
+	from?:boolean | `@${string}`,
+	to?:boolean | `@${string}`,
+	price?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["User"]: AliasType<{
+	name?:boolean | `@${string}`,
+	secondName?:boolean | `@${string}`,
+	phone?:boolean | `@${string}`,
+	email?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["RegisterServiceRespond"]: AliasType<{
 	service?:ValueTypes["Service"],
 	error?:ValueTypes["GlobalError"],
@@ -989,7 +1051,7 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 }>;
 	["BookServiceInput"]: {
 	serviceIds: Array<string> | Variable<any, string>,
-	comments?: string | undefined | null | Variable<any, string>
+	comments?: ValueTypes["ReservationInfoInput"] | undefined | null | Variable<any, string>
 };
 	["BookServiceRespond"]: AliasType<{
 	book?:ValueTypes["BookingRecord"],
@@ -1019,7 +1081,7 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 	["BookingRecord"]: AliasType<{
 	bookerId?:boolean | `@${string}`,
 	services?:ValueTypes["Service"],
-	comments?:boolean | `@${string}`,
+	comments?:ValueTypes["Comments"],
 	_id?:boolean | `@${string}`,
 	createdAt?:boolean | `@${string}`,
 	status?:boolean | `@${string}`,
@@ -1094,10 +1156,31 @@ registerService?: [{	input: ResolverInputTypes["RegisterServiceInput"]},Resolver
 updateService?: [{	input: Array<ResolverInputTypes["UpdateServiceInput"]>},ResolverInputTypes["UpdateServiceRespond"]],
 removeService?: [{	serviceId: string},ResolverInputTypes["RemoveServiceRespond"]],
 bookService?: [{	input: ResolverInputTypes["BookServiceInput"]},ResolverInputTypes["BookServiceRespond"]],
+updateBooking?: [{	input: ResolverInputTypes["UpdateBookingInput"]},ResolverInputTypes["BookServiceRespond"]],
+removeBooking?: [{	_id: string},ResolverInputTypes["RemoveServiceRespond"]],
 send?: [{	mailgunData: ResolverInputTypes["MailgunData"]},boolean | `@${string}`],
 respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestInput"]},ResolverInputTypes["RespondOnServiceRequestRespond"]],
 		__typename?: boolean | `@${string}`
 }>;
+	["UpdateBookingInput"]: {
+	_id: string,
+	addServiceIds?: Array<string> | undefined | null,
+	removeServiceIds?: Array<string> | undefined | null,
+	comments?: ResolverInputTypes["UpdateReservationInfoInput"] | undefined | null
+};
+	["UserInput"]: {
+	name: string,
+	secondName?: string | undefined | null,
+	phone?: string | undefined | null,
+	email?: string | undefined | null
+};
+	["UpdateUserInput"]: {
+	name?: string | undefined | null,
+	bookerId?: string | undefined | null,
+	secondName?: string | undefined | null,
+	phone?: string | undefined | null,
+	email?: string | undefined | null
+};
 	["MailgunData"]: {
 	to: string,
 	subject: string,
@@ -1185,6 +1268,47 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 	neededAccept?: boolean | undefined | null,
 	active?: boolean | undefined | null
 };
+	["UpdateReservationInfoInput"]: {
+	user?: ResolverInputTypes["UpdateUserInput"] | undefined | null,
+	comments?: string | undefined | null,
+	numberOfGuests?: number | undefined | null,
+	numberOfKids?: number | undefined | null,
+	animals?: boolean | undefined | null,
+	lateCheckIn?: boolean | undefined | null,
+	from?: ResolverInputTypes["Date"] | undefined | null,
+	to?: ResolverInputTypes["Date"] | undefined | null,
+	price?: number | undefined | null
+};
+	["ReservationInfoInput"]: {
+	user?: ResolverInputTypes["UserInput"] | undefined | null,
+	comments?: string | undefined | null,
+	numberOfGuests?: number | undefined | null,
+	numberOfKids?: number | undefined | null,
+	animals?: boolean | undefined | null,
+	lateCheckIn?: boolean | undefined | null,
+	from?: ResolverInputTypes["Date"] | undefined | null,
+	to?: ResolverInputTypes["Date"] | undefined | null,
+	price?: number | undefined | null
+};
+	["Comments"]: AliasType<{
+	user?:ResolverInputTypes["User"],
+	comments?:boolean | `@${string}`,
+	numberOfGuests?:boolean | `@${string}`,
+	numberOfKids?:boolean | `@${string}`,
+	animals?:boolean | `@${string}`,
+	lateCheckIn?:boolean | `@${string}`,
+	from?:boolean | `@${string}`,
+	to?:boolean | `@${string}`,
+	price?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["User"]: AliasType<{
+	name?:boolean | `@${string}`,
+	secondName?:boolean | `@${string}`,
+	phone?:boolean | `@${string}`,
+	email?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["RegisterServiceRespond"]: AliasType<{
 	service?:ResolverInputTypes["Service"],
 	error?:ResolverInputTypes["GlobalError"],
@@ -1216,7 +1340,7 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 }>;
 	["BookServiceInput"]: {
 	serviceIds: Array<string>,
-	comments?: string | undefined | null
+	comments?: ResolverInputTypes["ReservationInfoInput"] | undefined | null
 };
 	["BookServiceRespond"]: AliasType<{
 	book?:ResolverInputTypes["BookingRecord"],
@@ -1246,7 +1370,7 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 	["BookingRecord"]: AliasType<{
 	bookerId?:boolean | `@${string}`,
 	services?:ResolverInputTypes["Service"],
-	comments?:boolean | `@${string}`,
+	comments?:ResolverInputTypes["Comments"],
 	_id?:boolean | `@${string}`,
 	createdAt?:boolean | `@${string}`,
 	status?:boolean | `@${string}`,
@@ -1325,8 +1449,29 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	updateService: ModelTypes["UpdateServiceRespond"],
 	removeService: ModelTypes["RemoveServiceRespond"],
 	bookService: ModelTypes["BookServiceRespond"],
+	updateBooking: ModelTypes["BookServiceRespond"],
+	removeBooking: ModelTypes["RemoveServiceRespond"],
 	send?: string | undefined,
 	respondOnServiceRequest: ModelTypes["RespondOnServiceRequestRespond"]
+};
+	["UpdateBookingInput"]: {
+	_id: string,
+	addServiceIds?: Array<string> | undefined,
+	removeServiceIds?: Array<string> | undefined,
+	comments?: ModelTypes["UpdateReservationInfoInput"] | undefined
+};
+	["UserInput"]: {
+	name: string,
+	secondName?: string | undefined,
+	phone?: string | undefined,
+	email?: string | undefined
+};
+	["UpdateUserInput"]: {
+	name?: string | undefined,
+	bookerId?: string | undefined,
+	secondName?: string | undefined,
+	phone?: string | undefined,
+	email?: string | undefined
 };
 	["MailgunData"]: {
 	to: string,
@@ -1409,6 +1554,45 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	neededAccept?: boolean | undefined,
 	active?: boolean | undefined
 };
+	["UpdateReservationInfoInput"]: {
+	user?: ModelTypes["UpdateUserInput"] | undefined,
+	comments?: string | undefined,
+	numberOfGuests?: number | undefined,
+	numberOfKids?: number | undefined,
+	animals?: boolean | undefined,
+	lateCheckIn?: boolean | undefined,
+	from?: ModelTypes["Date"] | undefined,
+	to?: ModelTypes["Date"] | undefined,
+	price?: number | undefined
+};
+	["ReservationInfoInput"]: {
+	user?: ModelTypes["UserInput"] | undefined,
+	comments?: string | undefined,
+	numberOfGuests?: number | undefined,
+	numberOfKids?: number | undefined,
+	animals?: boolean | undefined,
+	lateCheckIn?: boolean | undefined,
+	from?: ModelTypes["Date"] | undefined,
+	to?: ModelTypes["Date"] | undefined,
+	price?: number | undefined
+};
+	["Comments"]: {
+		user?: ModelTypes["User"] | undefined,
+	comments?: string | undefined,
+	numberOfGuests?: number | undefined,
+	numberOfKids?: number | undefined,
+	animals?: boolean | undefined,
+	lateCheckIn?: boolean | undefined,
+	from?: ModelTypes["Date"] | undefined,
+	to?: ModelTypes["Date"] | undefined,
+	price?: number | undefined
+};
+	["User"]: {
+		name: string,
+	secondName?: string | undefined,
+	phone?: string | undefined,
+	email?: string | undefined
+};
 	["RegisterServiceRespond"]: {
 		service?: Array<ModelTypes["Service"]> | undefined,
 	error?: ModelTypes["GlobalError"] | undefined
@@ -1436,7 +1620,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["BookServiceInput"]: {
 	serviceIds: Array<string>,
-	comments?: string | undefined
+	comments?: ModelTypes["ReservationInfoInput"] | undefined
 };
 	["BookServiceRespond"]: {
 		book?: ModelTypes["BookingRecord"] | undefined,
@@ -1463,7 +1647,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	["BookingRecord"]: {
 		bookerId: string,
 	services?: Array<ModelTypes["Service"]> | undefined,
-	comments?: string | undefined,
+	comments?: ModelTypes["Comments"] | undefined,
 	_id: string,
 	createdAt: ModelTypes["Date"],
 	status: ModelTypes["BookStatus"],
@@ -1538,8 +1722,29 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	updateService: GraphQLTypes["UpdateServiceRespond"],
 	removeService: GraphQLTypes["RemoveServiceRespond"],
 	bookService: GraphQLTypes["BookServiceRespond"],
+	updateBooking: GraphQLTypes["BookServiceRespond"],
+	removeBooking: GraphQLTypes["RemoveServiceRespond"],
 	send?: string | undefined,
 	respondOnServiceRequest: GraphQLTypes["RespondOnServiceRequestRespond"]
+};
+	["UpdateBookingInput"]: {
+		_id: string,
+	addServiceIds?: Array<string> | undefined,
+	removeServiceIds?: Array<string> | undefined,
+	comments?: GraphQLTypes["UpdateReservationInfoInput"] | undefined
+};
+	["UserInput"]: {
+		name: string,
+	secondName?: string | undefined,
+	phone?: string | undefined,
+	email?: string | undefined
+};
+	["UpdateUserInput"]: {
+		name?: string | undefined,
+	bookerId?: string | undefined,
+	secondName?: string | undefined,
+	phone?: string | undefined,
+	email?: string | undefined
 };
 	["MailgunData"]: {
 		to: string,
@@ -1628,6 +1833,47 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	neededAccept?: boolean | undefined,
 	active?: boolean | undefined
 };
+	["UpdateReservationInfoInput"]: {
+		user?: GraphQLTypes["UpdateUserInput"] | undefined,
+	comments?: string | undefined,
+	numberOfGuests?: number | undefined,
+	numberOfKids?: number | undefined,
+	animals?: boolean | undefined,
+	lateCheckIn?: boolean | undefined,
+	from?: GraphQLTypes["Date"] | undefined,
+	to?: GraphQLTypes["Date"] | undefined,
+	price?: number | undefined
+};
+	["ReservationInfoInput"]: {
+		user?: GraphQLTypes["UserInput"] | undefined,
+	comments?: string | undefined,
+	numberOfGuests?: number | undefined,
+	numberOfKids?: number | undefined,
+	animals?: boolean | undefined,
+	lateCheckIn?: boolean | undefined,
+	from?: GraphQLTypes["Date"] | undefined,
+	to?: GraphQLTypes["Date"] | undefined,
+	price?: number | undefined
+};
+	["Comments"]: {
+	__typename: "Comments",
+	user?: GraphQLTypes["User"] | undefined,
+	comments?: string | undefined,
+	numberOfGuests?: number | undefined,
+	numberOfKids?: number | undefined,
+	animals?: boolean | undefined,
+	lateCheckIn?: boolean | undefined,
+	from?: GraphQLTypes["Date"] | undefined,
+	to?: GraphQLTypes["Date"] | undefined,
+	price?: number | undefined
+};
+	["User"]: {
+	__typename: "User",
+	name: string,
+	secondName?: string | undefined,
+	phone?: string | undefined,
+	email?: string | undefined
+};
 	["RegisterServiceRespond"]: {
 	__typename: "RegisterServiceRespond",
 	service?: Array<GraphQLTypes["Service"]> | undefined,
@@ -1659,7 +1905,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["BookServiceInput"]: {
 		serviceIds: Array<string>,
-	comments?: string | undefined
+	comments?: GraphQLTypes["ReservationInfoInput"] | undefined
 };
 	["BookServiceRespond"]: {
 	__typename: "BookServiceRespond",
@@ -1690,7 +1936,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	__typename: "BookingRecord",
 	bookerId: string,
 	services?: Array<GraphQLTypes["Service"]> | undefined,
-	comments?: string | undefined,
+	comments?: GraphQLTypes["Comments"] | undefined,
 	_id: string,
 	createdAt: GraphQLTypes["Date"],
 	status: GraphQLTypes["BookStatus"],
@@ -1740,6 +1986,9 @@ export const enum ServiceType {
 }
 
 type ZEUS_VARIABLES = {
+	["UpdateBookingInput"]: ValueTypes["UpdateBookingInput"];
+	["UserInput"]: ValueTypes["UserInput"];
+	["UpdateUserInput"]: ValueTypes["UpdateUserInput"];
 	["MailgunData"]: ValueTypes["MailgunData"];
 	["GetBookingsForServiceInput"]: ValueTypes["GetBookingsForServiceInput"];
 	["GetBookingsForServiceFiltersInput"]: ValueTypes["GetBookingsForServiceFiltersInput"];
@@ -1751,6 +2000,8 @@ type ZEUS_VARIABLES = {
 	["ListServicesInput"]: ValueTypes["ListServicesInput"];
 	["RegisterUserInput"]: ValueTypes["RegisterUserInput"];
 	["RegisterServiceInput"]: ValueTypes["RegisterServiceInput"];
+	["UpdateReservationInfoInput"]: ValueTypes["UpdateReservationInfoInput"];
+	["ReservationInfoInput"]: ValueTypes["ReservationInfoInput"];
 	["UpdateServiceInput"]: ValueTypes["UpdateServiceInput"];
 	["BookServiceInput"]: ValueTypes["BookServiceInput"];
 	["PageOptionsInput"]: ValueTypes["PageOptionsInput"];

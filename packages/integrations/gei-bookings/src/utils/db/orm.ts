@@ -26,7 +26,7 @@ export const orm = async () => {
   );
 };
 
-export const MongOrb = await orm();
+export const MongoOrb = await orm();
 
 export const mustFindOne = async (col: 'Services' | 'Bookings', filter: {}, options: {} | null = null) => {
   return orm().then((o) =>
@@ -68,3 +68,27 @@ export const preparePageOptions = (page?: { limit?: number | null; page?: number
     skip: lim * sk,
   };
 };
+
+
+export function updateNestedFields(inputObject: Record<string, any>, nestedObjectName: string) {
+  let updateObject: Record<string, any> = {};
+  for (const field in inputObject) {
+    if (
+      typeof inputObject[field] === 'object' &&
+      !Array.isArray(inputObject[field]) &&
+      !(inputObject[field] instanceof Date)
+    ) {
+      const updateNestedObject: Record<string, any> = {};
+      const updateNestedObjectSet = updateNestedFields(inputObject[field], field);
+      for (const nestedField in updateNestedObjectSet) {
+        const fieldName = `${field}.${nestedField}`;
+        updateNestedObject[fieldName] = updateNestedObjectSet[field];
+      }
+      updateObject = { ...updateObject, ...updateNestedObject };
+    } else {
+    const fieldName = `${nestedObjectName}.${field}`;
+    updateObject[fieldName] = inputObject[field];
+    }
+  }
+  return updateObject;
+}

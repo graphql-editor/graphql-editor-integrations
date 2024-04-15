@@ -8,6 +8,8 @@ import UserMutationRegisterService from './UserMutation/registerService.js';
 import UserMutationUpdateService from './UserMutation/updateService.js';
 import UserQueryGetSelfBooks from './UserQuery/getSelfBooks.js';
 import UserMutationBookService from './UserMutation/bookService.js';
+import UserMutationUpdateBooking from './UserMutation/updateBooking.js';
+import UserMutationRemoveBooking from './UserMutation/removeBooking.js';
 import UserMutationRespondOnServiceRequest from './UserMutation/respondOnServiceRequest.js';
 import UserQueryGetBookingsForService from './UserQuery/getBookingsForService.js';
 import UserMutationRemoveService from './UserMutation/removeService.js';
@@ -60,6 +62,16 @@ export const integration = NewIntegration({
       name: 'bookService',
       description: 'Book a service',
       handler: UserMutationBookService,
+    },
+    updateBooking: {
+      name: 'bookService',
+      description: 'update a booking',
+      handler: UserMutationUpdateBooking,
+    },
+    removeBooking: {
+      name: 'removeBooking',
+      description: 'Remove a booking',
+      handler: UserMutationRemoveBooking,
     },
     respondOnServiceRequest: {
       name: 'respondOnServiceRequest',
