@@ -83,7 +83,9 @@ export const AllTypesProps: Record<string,any> = {
 		filters:"GetBooksFiltersInput"
 	},
 	GetBooksFiltersInput:{
-
+		fromDate:"Date",
+		toDate:"Date",
+		status:"BookStatus"
 	},
 	ListServicesInput:{
 		page:"PageOptionsInput",

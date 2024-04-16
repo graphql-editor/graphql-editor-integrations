@@ -945,7 +945,9 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 	filters?: ValueTypes["GetBooksFiltersInput"] | undefined | null | Variable<any, string>
 };
 	["GetBooksFiltersInput"]: {
-	startDate: string | Variable<any, string>
+	fromDate?: ValueTypes["Date"] | undefined | null | Variable<any, string>,
+	toDate?: ValueTypes["Date"] | undefined | null | Variable<any, string>,
+	status?: ValueTypes["BookStatus"] | undefined | null | Variable<any, string>
 };
 	["ListServicesInput"]: {
 	page?: ValueTypes["PageOptionsInput"] | undefined | null | Variable<any, string>,
@@ -991,7 +993,7 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 	price?: number | undefined | null | Variable<any, string>
 };
 	["ReservationInfoInput"]: {
-	user?: ValueTypes["UserInput"] | undefined | null | Variable<any, string>,
+	user: ValueTypes["UserInput"] | Variable<any, string>,
 	comments?: string | undefined | null | Variable<any, string>,
 	numberOfGuests?: number | undefined | null | Variable<any, string>,
 	numberOfKids?: number | undefined | null | Variable<any, string>,
@@ -1234,7 +1236,9 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 	filters?: ResolverInputTypes["GetBooksFiltersInput"] | undefined | null
 };
 	["GetBooksFiltersInput"]: {
-	startDate: string
+	fromDate?: ResolverInputTypes["Date"] | undefined | null,
+	toDate?: ResolverInputTypes["Date"] | undefined | null,
+	status?: ResolverInputTypes["BookStatus"] | undefined | null
 };
 	["ListServicesInput"]: {
 	page?: ResolverInputTypes["PageOptionsInput"] | undefined | null,
@@ -1280,7 +1284,7 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 	price?: number | undefined | null
 };
 	["ReservationInfoInput"]: {
-	user?: ResolverInputTypes["UserInput"] | undefined | null,
+	user: ResolverInputTypes["UserInput"],
 	comments?: string | undefined | null,
 	numberOfGuests?: number | undefined | null,
 	numberOfKids?: number | undefined | null,
@@ -1523,7 +1527,9 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	filters?: ModelTypes["GetBooksFiltersInput"] | undefined
 };
 	["GetBooksFiltersInput"]: {
-	startDate: string
+	fromDate?: ModelTypes["Date"] | undefined,
+	toDate?: ModelTypes["Date"] | undefined,
+	status?: ModelTypes["BookStatus"] | undefined
 };
 	["ListServicesInput"]: {
 	page?: ModelTypes["PageOptionsInput"] | undefined,
@@ -1566,7 +1572,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	price?: number | undefined
 };
 	["ReservationInfoInput"]: {
-	user?: ModelTypes["UserInput"] | undefined,
+	user: ModelTypes["UserInput"],
 	comments?: string | undefined,
 	numberOfGuests?: number | undefined,
 	numberOfKids?: number | undefined,
@@ -1799,7 +1805,9 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	filters?: GraphQLTypes["GetBooksFiltersInput"] | undefined
 };
 	["GetBooksFiltersInput"]: {
-		startDate: string
+		fromDate?: GraphQLTypes["Date"] | undefined,
+	toDate?: GraphQLTypes["Date"] | undefined,
+	status?: GraphQLTypes["BookStatus"] | undefined
 };
 	["ListServicesInput"]: {
 		page?: GraphQLTypes["PageOptionsInput"] | undefined,
@@ -1845,7 +1853,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	price?: number | undefined
 };
 	["ReservationInfoInput"]: {
-		user?: GraphQLTypes["UserInput"] | undefined,
+		user: GraphQLTypes["UserInput"],
 	comments?: string | undefined,
 	numberOfGuests?: number | undefined,
 	numberOfKids?: number | undefined,

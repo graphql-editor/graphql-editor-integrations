@@ -164,7 +164,9 @@ input GetBooksInput{
 }
 
 input GetBooksFiltersInput{
-	startDate: String!
+	fromDate: Date
+	toDate: Date
+	status: BookStatus
 }
 
 input ListServicesInput{
@@ -215,7 +217,7 @@ input UpdateReservationInfoInput{
 }
 
 input ReservationInfoInput{
-	user: UserInput
+	user: UserInput!
 	comments: String
 	numberOfGuests: Int
 	numberOfKids: Int

@@ -93,26 +93,26 @@ export function updateNestedFields(inputObject: Record<string, any>, nestedObjec
 
 export const isScalarDate = (obj: unknown): boolean => typeof obj === 'string' && obj !== null && !!Date.parse(obj);
 
-export const inputDateFilter = (filters: Record<string, any>) => {
+export const inputDateFilter = (filters: Record<string, any>, dateType?: boolean) => {
   const fromDate = isScalarDate(filters.fromDate)
   const toDate = isScalarDate(filters.toDate)
   const dateFilter: { $gte?: string | undefined, $lte?: string | undefined } = {};
   if (fromDate) {
-    dateFilter.$gte = filters.fromDate as string;
+    dateFilter.$gte = dateType ? new Date(filters.fromDate) : filters.fromDate;
   }
   if (toDate) {
-    dateFilter.$lte = filters.toDate as string;
+    dateFilter.$lte = dateType ? new Date(filters.toDate) : filters.toDate;
   }      
   return dateFilter
   }
-  
+
 export const simpleFieldsFilter = (filters: Record<string, any>) =>
 filters &&
 Object.fromEntries(Object.entries(filters).filter((v) => v !== null && v !== undefined && v[0] !== 'fromDate' && v[0] !== 'toDate'));
 
 export const inputServiceFiltersSet = (filters: Record<string, any> | null | undefined) => {
   if (!filters) return {}
-  const dateFilter = inputDateFilter(filters)
+  const dateFilter = inputDateFilter(filters, true)
   return {...simpleFieldsFilter(filters), ...((dateFilter.$gte || dateFilter.$lte) && { startDate: dateFilter }), ...(filters?.name && { name: { $regex: filters.name, $options: 'i' } }),
   ...(filters?.description && {
     description: { $regex: filters.description, $options: 'i' },
