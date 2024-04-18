@@ -13,7 +13,7 @@ export const getSelfServices = async (input: FieldResolveInput) =>
       sourceContainUserIdOrThrow(src);
       const po = preparePageOptions(args?.input?.page);
       
-      const inputFilters = inputServiceFiltersSet(args.input?.filters)
+      const inputFilters = inputServiceFiltersSet(args?.input?.filters)
       
       const selfServices = await MongoOrb(ServicesCollection)
           .collection.find({

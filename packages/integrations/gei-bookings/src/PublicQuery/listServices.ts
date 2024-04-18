@@ -9,7 +9,7 @@ export const listServices = async (input: FieldResolveInput) =>
   resolverFor('PublicQuery', 'listServices', async (args) =>
     errMiddleware(async () => {
       const po = preparePageOptions(args?.input?.page);
-      const inputFilters = inputServiceFiltersSet(args.input?.filters)
+      const inputFilters = inputServiceFiltersSet(args?.input?.filters)
         return {
         services: convertDateObjToStringForArray(await MongoOrb(ServicesCollection)
           .collection.find({

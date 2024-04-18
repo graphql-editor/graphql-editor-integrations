@@ -8,7 +8,7 @@ export const getSelfBooks = async (input: FieldResolveInput) =>
     errMiddleware(async () => {
       sourceContainUserIdOrThrow(src);
       const po = preparePageOptions(args?.input?.page);
-      const inputFilters = inputBooksFiltersSet(args.input?.filters)
+      const inputFilters = inputBooksFiltersSet(args?.input?.filters)
 
       return {
         books: convertDateObjToStringForArray(await MongoOrb('Bookings')
