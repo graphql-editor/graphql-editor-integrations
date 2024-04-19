@@ -17,14 +17,23 @@ export const getBookingsForService = async (input: FieldResolveInput) =>
           .toArray()
           .then((s) => s.map((ss) => ss._id))
 
-      const bookings =  await MongoOrb('Bookings')
-          .collection.find({ ...inputFilters, services: { $in: ownedServices } })
-          .limit(po.limit)
-          .skip(po.skip)
-          .sort('createdAt', -1)
-          .toArray()
 
-    return { books: convertDateObjToStringForArray<BookingRecordModel>(await MongoOrb('Bookings').composeRelated(bookings, 'services', 'Services', '_id')) }
+      const bookingsCursor = MongoOrb('Bookings')
+      .collection.find({ ...inputFilters, services: { $in: ownedServices } })
+      const paginatedBookings = await (po.limit < 1 ? 
+        bookingsCursor
+      : bookingsCursor.limit(po.limit + 1).skip(po.skip)
+      ).sort('createdAt', -1)
+       .toArray()
+        const hasNext = paginatedBookings.length === po.limit + 1
+    if(hasNext) paginatedBookings.pop();
+    
+    
+
+    return { 
+      books: convertDateObjToStringForArray<BookingRecordModel>(await MongoOrb('Bookings').composeRelated(paginatedBookings, 'services', 'Services', '_id')),
+      hasNextPage: hasNext
+     }
     }),
   )(input.arguments, input.source);
 export default getBookingsForService;

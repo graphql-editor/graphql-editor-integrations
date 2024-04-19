@@ -10,18 +10,24 @@ export const listServices = async (input: FieldResolveInput) =>
     errMiddleware(async () => {
       const po = preparePageOptions(args?.input?.page);
       const inputFilters = inputServiceFiltersSet(args?.input?.filters)
-        return {
-        services: convertDateObjToStringForArray(await MongoOrb(ServicesCollection)
-          .collection.find({
-            ...inputFilters,
-            active: { $ne: false },
-            taken: { $ne: true },
-          })
-          .limit(po.limit)
-          .skip(po.skip)
-          .sort('createdAt', -1)
-          .toArray(),
-    )};
-    }),
+      const servicesCursor = MongoOrb(ServicesCollection)
+      .collection.find({
+      ...inputFilters,
+      active: { $ne: false },
+      taken: { $ne: true },
+      })
+  const paginatedServices = await (po.limit < 1 ? 
+      servicesCursor
+  : servicesCursor.limit(po.limit + 1).skip(po.skip)
+  ).sort('createdAt', -1)
+   .toArray()
+    const hasNext = paginatedServices.length === po.limit + 1
+if(hasNext) paginatedServices.pop();
+
+return {
+   services: convertDateObjToStringForArray(paginatedServices),
+   hasNextPage: hasNext
+};
+  }),
   )(input.arguments);
 export default listServices;
