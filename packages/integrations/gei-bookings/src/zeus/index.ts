@@ -911,6 +911,7 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 	["GetBookingsForServiceRespond"]: AliasType<{
 	books?:ValueTypes["BookingRecord"],
 	error?:ValueTypes["GlobalError"],
+	hasNextPage?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["RespondOnServiceRequestInput"]: {
@@ -933,6 +934,7 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 	["GetSelfServicesRespond"]: AliasType<{
 	service?:ValueTypes["Service"],
 	error?:ValueTypes["GlobalError"],
+	hasNextPage?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["RespondOnServiceRequestRespond"]: AliasType<{
@@ -956,11 +958,13 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 	["GetBooksRepsond"]: AliasType<{
 	books?:ValueTypes["BookingRecord"],
 	error?:ValueTypes["GlobalError"],
+	hasNextPage?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["ListServicesRespond"]: AliasType<{
 	services?:ValueTypes["Service"],
 	error?:ValueTypes["GlobalError"],
+	hasNextPage?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["GetServiceRespond"]: AliasType<{
@@ -1202,6 +1206,7 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 	["GetBookingsForServiceRespond"]: AliasType<{
 	books?:ResolverInputTypes["BookingRecord"],
 	error?:ResolverInputTypes["GlobalError"],
+	hasNextPage?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["RespondOnServiceRequestInput"]: {
@@ -1224,6 +1229,7 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 	["GetSelfServicesRespond"]: AliasType<{
 	service?:ResolverInputTypes["Service"],
 	error?:ResolverInputTypes["GlobalError"],
+	hasNextPage?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["RespondOnServiceRequestRespond"]: AliasType<{
@@ -1247,11 +1253,13 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 	["GetBooksRepsond"]: AliasType<{
 	books?:ResolverInputTypes["BookingRecord"],
 	error?:ResolverInputTypes["GlobalError"],
+	hasNextPage?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["ListServicesRespond"]: AliasType<{
 	services?:ResolverInputTypes["Service"],
 	error?:ResolverInputTypes["GlobalError"],
+	hasNextPage?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["GetServiceRespond"]: AliasType<{
@@ -1495,7 +1503,8 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["GetBookingsForServiceRespond"]: {
 		books?: Array<ModelTypes["BookingRecord"]> | undefined,
-	error?: ModelTypes["GlobalError"] | undefined
+	error?: ModelTypes["GlobalError"] | undefined,
+	hasNextPage?: boolean | undefined
 };
 	["RespondOnServiceRequestInput"]: {
 	bookIds: Array<string>,
@@ -1516,7 +1525,8 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["GetSelfServicesRespond"]: {
 		service?: Array<ModelTypes["Service"]> | undefined,
-	error?: ModelTypes["GlobalError"] | undefined
+	error?: ModelTypes["GlobalError"] | undefined,
+	hasNextPage?: boolean | undefined
 };
 	["RespondOnServiceRequestRespond"]: {
 		status: boolean,
@@ -1537,11 +1547,13 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["GetBooksRepsond"]: {
 		books?: Array<ModelTypes["BookingRecord"]> | undefined,
-	error?: ModelTypes["GlobalError"] | undefined
+	error?: ModelTypes["GlobalError"] | undefined,
+	hasNextPage?: boolean | undefined
 };
 	["ListServicesRespond"]: {
 		services?: Array<ModelTypes["Service"]> | undefined,
-	error?: ModelTypes["GlobalError"] | undefined
+	error?: ModelTypes["GlobalError"] | undefined,
+	hasNextPage?: boolean | undefined
 };
 	["GetServiceRespond"]: {
 		service?: ModelTypes["Service"] | undefined,
@@ -1771,7 +1783,8 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	["GetBookingsForServiceRespond"]: {
 	__typename: "GetBookingsForServiceRespond",
 	books?: Array<GraphQLTypes["BookingRecord"]> | undefined,
-	error?: GraphQLTypes["GlobalError"] | undefined
+	error?: GraphQLTypes["GlobalError"] | undefined,
+	hasNextPage?: boolean | undefined
 };
 	["RespondOnServiceRequestInput"]: {
 		bookIds: Array<string>,
@@ -1793,7 +1806,8 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	["GetSelfServicesRespond"]: {
 	__typename: "GetSelfServicesRespond",
 	service?: Array<GraphQLTypes["Service"]> | undefined,
-	error?: GraphQLTypes["GlobalError"] | undefined
+	error?: GraphQLTypes["GlobalError"] | undefined,
+	hasNextPage?: boolean | undefined
 };
 	["RespondOnServiceRequestRespond"]: {
 	__typename: "RespondOnServiceRequestRespond",
@@ -1816,12 +1830,14 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	["GetBooksRepsond"]: {
 	__typename: "GetBooksRepsond",
 	books?: Array<GraphQLTypes["BookingRecord"]> | undefined,
-	error?: GraphQLTypes["GlobalError"] | undefined
+	error?: GraphQLTypes["GlobalError"] | undefined,
+	hasNextPage?: boolean | undefined
 };
 	["ListServicesRespond"]: {
 	__typename: "ListServicesRespond",
 	services?: Array<GraphQLTypes["Service"]> | undefined,
-	error?: GraphQLTypes["GlobalError"] | undefined
+	error?: GraphQLTypes["GlobalError"] | undefined,
+	hasNextPage?: boolean | undefined
 };
 	["GetServiceRespond"]: {
 	__typename: "GetServiceRespond",

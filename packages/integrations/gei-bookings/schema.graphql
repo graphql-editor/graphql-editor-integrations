@@ -120,6 +120,7 @@ input GetBookingsForServiceFiltersInput{
 type GetBookingsForServiceRespond{
 	books: [BookingRecord!]
 	error: GlobalError
+	hasNextPage: Boolean
 }
 
 input RespondOnServiceRequestInput{
@@ -151,6 +152,7 @@ input GetSelfServicesFiltersInput{
 type GetSelfServicesRespond{
 	service: [Service!]
 	error: GlobalError
+	hasNextPage: Boolean
 }
 
 type RespondOnServiceRequestRespond{
@@ -177,11 +179,13 @@ input ListServicesInput{
 type GetBooksRepsond{
 	books: [BookingRecord!]
 	error: GlobalError
+	hasNextPage: Boolean
 }
 
 type ListServicesRespond{
 	services: [Service!]
 	error: GlobalError
+	hasNextPage: Boolean
 }
 
 type GetServiceRespond{

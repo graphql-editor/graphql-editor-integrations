@@ -154,11 +154,13 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	GetBookingsForServiceRespond:{
 		books:"BookingRecord",
-		error:"GlobalError"
+		error:"GlobalError",
+		hasNextPage:"Boolean"
 	},
 	GetSelfServicesRespond:{
 		service:"Service",
-		error:"GlobalError"
+		error:"GlobalError",
+		hasNextPage:"Boolean"
 	},
 	RespondOnServiceRequestRespond:{
 		status:"Boolean",
@@ -166,11 +168,13 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	GetBooksRepsond:{
 		books:"BookingRecord",
-		error:"GlobalError"
+		error:"GlobalError",
+		hasNextPage:"Boolean"
 	},
 	ListServicesRespond:{
 		services:"Service",
-		error:"GlobalError"
+		error:"GlobalError",
+		hasNextPage:"Boolean"
 	},
 	GetServiceRespond:{
 		service:"Service",
