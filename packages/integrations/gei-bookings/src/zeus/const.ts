@@ -158,7 +158,7 @@ export const ReturnTypes: Record<string,any> = {
 		hasNextPage:"Boolean"
 	},
 	GetSelfServicesRespond:{
-		service:"Service",
+		services:"Service",
 		error:"GlobalError",
 		hasNextPage:"Boolean"
 	},

@@ -932,7 +932,7 @@ respondOnServiceRequest?: [{	input: ValueTypes["RespondOnServiceRequestInput"] |
 	toDate?: ValueTypes["Date"] | undefined | null | Variable<any, string>
 };
 	["GetSelfServicesRespond"]: AliasType<{
-	service?:ValueTypes["Service"],
+	services?:ValueTypes["Service"],
 	error?:ValueTypes["GlobalError"],
 	hasNextPage?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
@@ -1227,7 +1227,7 @@ respondOnServiceRequest?: [{	input: ResolverInputTypes["RespondOnServiceRequestI
 	toDate?: ResolverInputTypes["Date"] | undefined | null
 };
 	["GetSelfServicesRespond"]: AliasType<{
-	service?:ResolverInputTypes["Service"],
+	services?:ResolverInputTypes["Service"],
 	error?:ResolverInputTypes["GlobalError"],
 	hasNextPage?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
@@ -1524,7 +1524,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 	toDate?: ModelTypes["Date"] | undefined
 };
 	["GetSelfServicesRespond"]: {
-		service?: Array<ModelTypes["Service"]> | undefined,
+		services?: Array<ModelTypes["Service"]> | undefined,
 	error?: ModelTypes["GlobalError"] | undefined,
 	hasNextPage?: boolean | undefined
 };
@@ -1805,7 +1805,7 @@ in otherwise any endpoint in UserMutation will throw error about malformed sourc
 };
 	["GetSelfServicesRespond"]: {
 	__typename: "GetSelfServicesRespond",
-	service?: Array<GraphQLTypes["Service"]> | undefined,
+	services?: Array<GraphQLTypes["Service"]> | undefined,
 	error?: GraphQLTypes["GlobalError"] | undefined,
 	hasNextPage?: boolean | undefined
 };
