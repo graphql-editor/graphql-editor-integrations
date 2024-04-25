@@ -12,7 +12,7 @@ export const updateBooking = async (input: FieldResolveInput) =>
         if (args.input.addServiceIds){
             const bookServices = await Promise.all(
               args.input.addServiceIds?.map(
-                async (serviceId: string) =>
+                async (serviceId) =>
                   (
                     await MongoOrb('Services').collection.findOneAndUpdate(
                       { _id: serviceId, taken: { $ne: true } },
@@ -31,7 +31,7 @@ export const updateBooking = async (input: FieldResolveInput) =>
             if (busy[0]) {
               if(bookedServices[0]){
               await MongoOrb('Services').collection.updateMany(
-                { _id: { $in: bookedServices.map((s: any) => s._id) } },
+                { _id: { $in: bookedServices.map((s) => s._id) } },
                 { $set: { taken: false } },
               );
             }
@@ -41,7 +41,7 @@ export const updateBooking = async (input: FieldResolveInput) =>
           if (args.input.removeServiceIds){
             const unlockServices = await Promise.all(
               args.input.removeServiceIds.map(
-                async (serviceId: string) =>
+                async (serviceId) =>
                   (
                     await MongoOrb('Services').collection.findOneAndUpdate(
                       { _id: serviceId, taken: { $ne: false } },
@@ -59,7 +59,7 @@ export const updateBooking = async (input: FieldResolveInput) =>
             if (alreadyFree[0] ) {
               if(unlockedServices[0]){
               await MongoOrb('Services').collection.updateMany(
-                { _id: { $in: unlockedServices.map((s: any) => s._id) } },
+                { _id: { $in: unlockedServices.map((s) => s._id) } },
                 { $set: { taken: true } },
               );
               }

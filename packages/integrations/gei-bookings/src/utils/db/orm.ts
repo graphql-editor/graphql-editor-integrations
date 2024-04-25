@@ -70,8 +70,9 @@ export const preparePageOptions = (page?: { limit?: number | null; page?: number
 };
 
 
-export function updateNestedFields(inputObject: Record<string, any>, nestedObjectName: string) {
-  let updateObject: Record<string, any> = {};
+export function updateNestedFields(inputObject: Record<string, any> | null | undefined , nestedObjectName: string) {
+  if (!inputObject) return {};
+  const updateObject: Record<string, any> = {};
   for (const field in inputObject) {
     if (
       typeof inputObject[field] === 'object' &&
