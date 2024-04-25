@@ -1,8 +1,7 @@
 import { FieldResolveInput } from 'stucco-js';
-import { BookStatus, resolverFor } from '../zeus/index.js';
+import { resolverFor } from '../zeus/index.js';
 import { MongoOrb, updateNestedFields } from '../utils/db/orm.js';
 import { GlobalError, errMiddleware, sourceContainUserIdOrThrow } from '../utils/middleware.js';
-import { ObjectId, WithId } from 'mongodb';
 import { ServiceModel } from '../models/ServiceModel.js';
 
 export const updateBooking = async (input: FieldResolveInput) =>
